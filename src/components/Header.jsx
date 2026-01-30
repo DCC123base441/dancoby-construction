@@ -42,7 +42,15 @@ export default function Header() {
             ))}
           </nav>
 
-
+          {/* Right Side */}
+          <div className="hidden md:flex items-center gap-4">
+            <Button 
+              asChild
+              className="bg-gray-900 hover:bg-gray-800 text-white text-xs uppercase tracking-wider px-6 h-10"
+            >
+              <Link to={createPageUrl('Contact')}>Contact</Link>
+            </Button>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -66,7 +74,14 @@ export default function Header() {
                 {link.name}
               </Link>
             ))}
-
+            <Button 
+              asChild
+              className="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs uppercase tracking-wider mt-4"
+            >
+              <Link to={createPageUrl('Contact')} onClick={() => setMobileMenuOpen(false)}>
+                Contact
+              </Link>
+            </Button>
           </nav>
         )}
       </div>
