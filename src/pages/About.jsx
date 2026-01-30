@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { Target, Heart, Shield, Award } from 'lucide-react';
-
+import EstimatorButton from '../components/EstimatorButton';
 
 export default function About() {
   return (
@@ -118,7 +118,7 @@ export default function About() {
               asChild
               className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg mt-6"
             >
-              <Link to={createPageUrl('Contact')}>Request Estimate</Link>
+              <Link to={createPageUrl('Contact')}>Contact</Link>
             </Button>
           </div>
         </div>
@@ -188,12 +188,7 @@ export default function About() {
           <p className="text-xl text-gray-300 mb-12">
             Let's work together to create the space of your dreams
           </p>
-          <Button 
-            asChild
-            className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg"
-          >
-            <Link to={createPageUrl('Contact')}>Request Estimate</Link>
-          </Button>
+          <EstimatorButton size="large" />
         </div>
       </section>
     </div>
