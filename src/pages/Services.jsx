@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { ArrowRight } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 export default function Services() {
   const fadeIn = {
@@ -45,7 +46,12 @@ export default function Services() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white">
+      <SEOHead 
+        title="Renovation Services | Kitchen, Bath, Brownstone Restoration"
+        description="Full-service home renovation in NYC. Kitchen & bath remodeling, brownstone restorations, townhouse renovations, interior transformations. Licensed & insured contractors."
+        keywords="kitchen remodeling Brooklyn, bathroom renovation NYC, brownstone restoration Brooklyn, townhouse renovation, interior design contractor, home improvement NYC"
+      />
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
         <div 
@@ -138,6 +144,6 @@ export default function Services() {
           </motion.div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

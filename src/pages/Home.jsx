@@ -7,6 +7,7 @@ import { createPageUrl } from '../utils';
 import EstimatorButton from '../components/EstimatorButton';
 import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
+import SEOHead from '../components/SEOHead';
 
 export default function Home() {
 
@@ -18,7 +19,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white">
+      <SEOHead 
+        title="Dancoby Construction Company | NYC Home Renovation Experts"
+        description="NYC's premier home renovation contractor. Kitchen & bath remodeling, brownstone restorations, interior renovations. 20+ years experience, 500+ projects, 5-year warranty. Brooklyn & Long Island."
+        keywords="home renovation Brooklyn, kitchen remodeling NYC, bathroom renovation New York, brownstone restoration, interior renovation contractor, construction company Brooklyn, NYC general contractor"
+      />
       {/* Hero Section */}
               <section className="relative h-screen overflow-hidden">
                 <div 
@@ -541,6 +547,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
