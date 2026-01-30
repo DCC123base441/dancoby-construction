@@ -50,31 +50,22 @@ export default function Home() {
               </section>
 
       {/* Who We Are Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeIn} className="mb-20">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Who We Are</h2>
-            <p className="text-gray-700 text-base leading-relaxed max-w-2xl">
-              With over twenty years of experience and a dedication to customer satisfaction, we work with you, your budget, and your style to turn your renovation dreams into realities.
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Left Image */}
-            <motion.div {...fadeIn} className="group">
-              <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
-                <img 
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
-                  alt="Living Room"
-                  className="w-full h-auto object-contain transition-transform group-hover:scale-105"
-                />
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Text Content */}
+            <motion.div {...fadeIn} className="space-y-8">
+              <div>
+                <h2 className="text-sm font-bold uppercase tracking-widest text-red-600 mb-3">Who We Are</h2>
+                <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                  Home is where the heart is.
+                </h3>
               </div>
-            </motion.div>
-
-            {/* Center Text */}
-            <motion.div {...fadeIn} className="space-y-6 flex flex-col justify-center">
-              <h3 className="text-4xl font-bold text-gray-900 leading-tight">Home is where the heart is.</h3>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
+              
+              <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
+                <p>
+                  With over twenty years of experience and a dedication to customer satisfaction, we work with you, your budget, and your style to turn your renovation dreams into realities.
+                </p>
                 <p>
                   Which is why your space should promote cozy relaxation and evoke your unique personality and taste.
                 </p>
@@ -84,14 +75,23 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right Image */}
-            <motion.div {...fadeIn} className="group self-end">
-              <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
-                <img 
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
-                  alt="Kitchen"
-                  className="w-full h-auto object-contain transition-transform group-hover:scale-105"
-                />
+            {/* Images */}
+            <motion.div {...fadeIn} className="relative">
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-6">
+                  <img 
+                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
+                    alt="Living Room"
+                    className="w-full rounded-lg shadow-xl object-cover aspect-[3/4]"
+                  />
+                </div>
+                <div className="space-y-6 pt-12">
+                  <img 
+                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
+                    alt="Kitchen"
+                    className="w-full rounded-lg shadow-xl object-cover aspect-[3/4]"
+                  />
+                </div>
               </div>
             </motion.div>
           </div>
