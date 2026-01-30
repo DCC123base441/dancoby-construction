@@ -6,11 +6,12 @@ import { ExternalLink, Calendar } from 'lucide-react';
 export default function Press() {
   const articles = [
     {
+      source: "Brownstoner",
       title: "The Insider: Park Slope Reno Yields Airy, Clutter-Free Apartment",
       excerpt: "A rethink of a prewar walkup leveled ceilings and floors and created built-in storage for its minimalist occupants. by Cara Greenberg",
       date: "Aug 1, 2025",
       readTime: "3 min read",
-      link: "https://www.brownstoner.com/interiors-renovation/park-slope-renovation-dancoby-architecture-open-plan/",
+      link: "https://www.brownstoner.com/interiors-renovation/park-slope-prewar-apartment-renovation-studio8-storage-minimalist/",
       image: "https://static.wixstatic.com/media/c1b522_ef142567bb894db394ca2e7f4fadca32~mv2.webp/v1/fill/w_980,h_429,al_c,q_90,enc_avif,quality_auto/c1b522_ef142567bb894db394ca2e7f4fadca32~mv2.webp"
     }
   ];
@@ -48,12 +49,14 @@ export default function Press() {
                   </div>
                   <div className="p-12 flex flex-col justify-center">
                     <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                      {article.source && (
+                        <span className="font-semibold text-red-600 uppercase tracking-wider">{article.source}</span>
+                      )}
+                      <span>•</span>
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
                         <span>{article.date}</span>
                       </div>
-                      <span>•</span>
-                      <span>{article.readTime}</span>
                     </div>
                     <h2 className="text-3xl font-bold text-gray-900 mb-4 leading-tight">
                       {article.title}
