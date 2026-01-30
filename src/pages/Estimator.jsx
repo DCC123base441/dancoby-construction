@@ -25,23 +25,85 @@ export default function Estimator() {
       options: [
         'Kitchen Renovation',
         'Bathroom Remodeling',
-        'Interior Renovations',
+        'Whole Home Renovation',
+        'Basement Remodel',
         'Brownstone Restoration',
-        'Townhouse & Apartment',
-        'Full House Renovation'
+        'Addition/Extension'
+      ]
+    },
+    {
+      id: 'propertyType',
+      question: 'What type of property do you have?',
+      type: 'multiChoice',
+      options: [
+        'Single-Family Home',
+        'Townhouse',
+        'Brownstone',
+        'Condo/Apartment',
+        'Multi-Family',
+        'Other'
+      ]
+    },
+    {
+      id: 'squareFootage',
+      question: 'What\'s the approximate square footage of the space?',
+      type: 'multiChoice',
+      subtitle: 'Estimate the area you want to renovate',
+      options: [
+        'Under 100 sq ft',
+        '100-250 sq ft',
+        '250-500 sq ft',
+        '500-1,000 sq ft',
+        '1,000-2,000 sq ft',
+        '2,000+ sq ft'
       ]
     },
     {
       id: 'photo',
-      question: 'Upload a photo of your space',
+      question: 'Upload a photo of your current space',
       type: 'photo',
-      subtitle: 'This helps us estimate square footage and provide accurate pricing'
+      subtitle: 'Our AI will analyze your space and generate a visualization of the renovation'
+    },
+    {
+      id: 'priority',
+      question: 'What\'s your top priority for this project?',
+      type: 'multiChoice',
+      options: [
+        'Functionality & Layout',
+        'Luxury Finishes & Design',
+        'Expanding Space',
+        'Energy Efficiency',
+        'Boosting Home Value',
+        'Complete Modernization'
+      ]
+    },
+    {
+      id: 'finishLevel',
+      question: 'What level of finishes do you want?',
+      type: 'multiChoice',
+      subtitle: 'This significantly affects the overall cost',
+      options: [
+        'Standard / Builder-grade',
+        'Mid-range / Custom',
+        'High-End / Luxury'
+      ]
     },
     {
       id: 'finishes',
-      question: 'Select your preferred finishes',
+      question: 'Select your specific finish preferences',
       type: 'finishes',
-      subtitle: 'Different finishes affect the overall cost'
+      subtitle: 'Choose materials and styles for each category'
+    },
+    {
+      id: 'currentCondition',
+      question: 'What\'s the current condition of the space?',
+      type: 'multiChoice',
+      options: [
+        'Good - Minor updates needed',
+        'Fair - Moderate work required',
+        'Poor - Major renovation needed',
+        'Gutted/Empty - Full build-out'
+      ]
     },
     {
       id: 'timeline',
@@ -52,7 +114,34 @@ export default function Estimator() {
         '1-3 months',
         '3-6 months',
         '6-12 months',
-        'Flexible'
+        'Just Researching'
+      ]
+    },
+    {
+      id: 'budget',
+      question: 'Do you have a budget range in mind?',
+      type: 'multiChoice',
+      subtitle: 'This helps us tailor recommendations',
+      options: [
+        'Under $25,000',
+        '$25,000 - $50,000',
+        '$50,000 - $100,000',
+        '$100,000 - $250,000',
+        '$250,000+',
+        'Not sure yet'
+      ]
+    },
+    {
+      id: 'location',
+      question: 'Where is your property located?',
+      type: 'multiChoice',
+      options: [
+        'Brooklyn, NY',
+        'Manhattan, NY',
+        'Queens, NY',
+        'Bronx, NY',
+        'Staten Island, NY',
+        'Other NYC Area'
       ]
     },
     {
@@ -65,13 +154,15 @@ export default function Estimator() {
       id: 'email',
       question: 'What\'s your email?',
       type: 'text',
-      placeholder: 'your@email.com'
+      placeholder: 'your@email.com',
+      subtitle: 'We\'ll send your detailed estimate here'
     },
     {
       id: 'phone',
       question: 'What\'s your phone number?',
       type: 'text',
-      placeholder: '(555) 000-0000'
+      placeholder: '(555) 000-0000',
+      subtitle: 'For a follow-up consultation (optional)'
     }
   ];
 
