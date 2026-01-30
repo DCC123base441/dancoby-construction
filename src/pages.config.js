@@ -62,6 +62,7 @@ import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
+import HiringApplication from './pages/HiringApplication';
 import __Layout from './Layout.jsx';
 
 
@@ -81,6 +82,7 @@ export const PAGES = {
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
     "TermsOfService": TermsOfService,
+    "HiringApplication": HiringApplication,
 }
 
 export const pagesConfig = {

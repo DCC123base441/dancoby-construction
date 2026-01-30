@@ -426,7 +426,7 @@ export default function Hiring() {
           <h2 className="text-3xl font-light text-gray-900 mb-4">Ready to Join Our Team?</h2>
           <p className="text-gray-600 mb-8">Apply today and start your career with Dancoby Construction</p>
           <Button asChild size="lg" className="bg-red-600 hover:bg-red-700 text-white px-10 py-6 text-lg">
-            <Link to={createPageUrl('Contact')}>Apply Now</Link>
+            <Link to={createPageUrl('HiringApplication')}>Apply Now</Link>
           </Button>
         </motion.section>
       </div>
