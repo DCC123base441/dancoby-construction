@@ -44,74 +44,15 @@ export default function Estimator() {
       subtitle: 'Different finishes affect the overall cost'
     },
     {
-      id: 'budget',
-      question: 'What\'s your estimated budget range?',
-      options: [
-        'Under $25K',
-        '$25K - $50K',
-        '$50K - $100K',
-        '$100K - $250K',
-        'Over $250K',
-        'Not sure yet'
-      ]
-    },
-    {
       id: 'timeline',
       question: 'When are you hoping to start?',
+      type: 'multiChoice',
       options: [
         'ASAP (Next 30 days)',
         '1-3 months',
         '3-6 months',
         '6-12 months',
-        '1+ years',
         'Flexible'
-      ]
-    },
-    {
-      id: 'style',
-      question: 'What\'s your preferred design style?',
-      options: [
-        'Modern',
-        'Contemporary',
-        'Classic/Traditional',
-        'Rustic',
-        'Industrial',
-        'Mixed/Unsure'
-      ]
-    },
-    {
-      id: 'location',
-      question: 'What\'s your property location?',
-      options: [
-        'Brooklyn, NY',
-        'Manhattan, NY',
-        'Outer boroughs',
-        'Long Island',
-        'Westchester',
-        'Other'
-      ]
-    },
-    {
-      id: 'mainConcern',
-      question: 'What\'s your main renovation concern?',
-      options: [
-        'Aesthetic upgrade',
-        'Functionality improvement',
-        'Both equally',
-        'Structural repairs',
-        'Energy efficiency',
-        'Overall modernization'
-      ]
-    },
-    {
-      id: 'experience',
-      question: 'Have you renovated before?',
-      options: [
-        'First time',
-        'Once before',
-        'Multiple projects',
-        'Currently renovating',
-        'Not applicable'
       ]
     },
     {
