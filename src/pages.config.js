@@ -49,7 +49,6 @@
  */
 import About from './pages/About';
 import Contact from './pages/Contact';
-import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
 import Home from './pages/Home';
 import Press from './pages/Press';
@@ -63,13 +62,13 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
 import HiringApplication from './pages/HiringApplication';
+import Estimator from './pages/Estimator';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "About": About,
     "Contact": Contact,
-    "Estimator": Estimator,
     "Hiring": Hiring,
     "Home": Home,
     "Press": Press,
@@ -83,6 +82,7 @@ export const PAGES = {
     "Services": Services,
     "TermsOfService": TermsOfService,
     "HiringApplication": HiringApplication,
+    "Estimator": Estimator,
 }
 
 export const pagesConfig = {

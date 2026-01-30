@@ -185,9 +185,13 @@ export default function About() {
       <section className="py-24 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Start Your Project?</h2>
-          <p className="text-xl text-gray-300 mb-12">
-            Let's work together to create the space of your dreams
-          </p>
+          <p className="text-xl text-gray-300 mb-4">
+                            Let's work together to create the space of your dreams
+                          </p>
+                          <p className="text-lg text-gray-400 mb-12">
+                            Answer a few quick questions to get a preliminary budget range for your renovation project.<br />
+                            Upload a photo to see an AI mockup of your transformed space!
+                          </p>
           <EstimatorButton size="large" />
         </div>
       </section>
