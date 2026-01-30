@@ -50,7 +50,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-gray-50">
       <style>{`
-        .success-message { display: none; background: #6b665e; color: white; padding: 16px; border-radius: 8px; margin-bottom: 24px; animation: slideIn 0.3s; align-items: flex-start; gap: 12px; }
+        .success-message { display: none; background: #dc2626; color: white; padding: 16px; border-radius: 8px; margin-bottom: 24px; animation: slideIn 0.3s; align-items: flex-start; gap: 12px; }
         .success-message.show { display: flex; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -58,11 +58,11 @@ export default function Contact() {
         .jtwf .label-text { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px; display: block; }
         .jtwf .required { color: #dc2626; }
         .jtwf input, .jtwf select, .jtwf textarea { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-family: inherit; transition: all 0.2s; background: white; }
-        .jtwf input:focus, .jtwf select:focus, .jtwf textarea:focus { outline: none; border-color: #6b665e; box-shadow: 0 0 0 3px rgba(107,102,94,0.1); }
+        .jtwf input:focus, .jtwf select:focus, .jtwf textarea:focus { outline: none; border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
         .jtwf textarea { resize: vertical; min-height: 100px; }
         .jtwf .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .jtwf .form-row label { margin-bottom: 0; }
-        .jtwf button[type="submit"] { width: 100%; background: #6b665e; color: white; padding: 16px 32px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+        .jtwf button[type="submit"] { width: 100%; background: #dc2626; color: white; padding: 16px 32px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
         .jtwf button[type="submit"]:hover { filter: brightness(1.1); }
         
         @media (max-width: 968px) {
@@ -91,9 +91,9 @@ export default function Contact() {
               <p className="text-gray-600 mb-8 leading-relaxed">Have questions? Want to discuss your project? We're here to help. Reach out by phone, text, or fill out our form.</p>
             </div>
 
-            <a href="tel:+15166849766" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-[#6b665e] transition-all group">
-              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-[#6b665e] transition-all">
-                <Phone className="w-5 h-5 text-[#6b665e] group-hover:text-white transition-all" />
+            <a href="tel:+15166849766" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-red-600 transition-all group">
+              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-all">
+                <Phone className="w-5 h-5 text-red-600 group-hover:text-white transition-all" />
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Call Us</h3>
@@ -102,9 +102,9 @@ export default function Contact() {
               </div>
             </a>
 
-            <a href="sms:+16464238283" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-[#6b665e] transition-all group">
-              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-[#6b665e] transition-all">
-                <MessageSquare className="w-5 h-5 text-[#6b665e] group-hover:text-white transition-all" />
+            <a href="sms:+16464238283" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-red-600 transition-all group">
+              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-all">
+                <MessageSquare className="w-5 h-5 text-red-600 group-hover:text-white transition-all" />
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Text Us</h3>
@@ -113,9 +113,9 @@ export default function Contact() {
               </div>
             </a>
 
-            <a href="mailto:info@dancoby.com" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-[#6b665e] transition-all group">
-              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-[#6b665e] transition-all">
-                <Mail className="w-5 h-5 text-[#6b665e] group-hover:text-white transition-all" />
+            <a href="mailto:info@dancoby.com" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-red-600 transition-all group">
+              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-all">
+                <Mail className="w-5 h-5 text-red-600 group-hover:text-white transition-all" />
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Email Us</h3>
@@ -126,7 +126,7 @@ export default function Contact() {
 
             <div className="bg-white border border-gray-200 rounded-xl p-6 mt-4">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-3">
-                <Clock className="w-5 h-5 text-[#6b665e]" />
+                <Clock className="w-5 h-5 text-red-600" />
                 Business Hours
               </h3>
               <p className="text-gray-600 text-sm mb-2">Mon–Fri 8am–8pm</p>
@@ -135,7 +135,7 @@ export default function Contact() {
 
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-3">
-                <MapPin className="w-5 h-5 text-[#6b665e]" />
+                <MapPin className="w-5 h-5 text-red-600" />
                 Service Area
               </h3>
               <p className="text-gray-600 text-sm mb-3">Proudly serving the New York area:</p>
@@ -242,11 +242,11 @@ export default function Contact() {
 
               <div className="flex gap-8 justify-center items-center text-sm text-gray-400 mt-4">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="w-4 h-4 text-[#6b665e]" />
+                  <Shield className="w-4 h-4 text-red-600" />
                   No obligation
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-[#6b665e]" />
+                  <Check className="w-4 h-4 text-red-600" />
                   Response in 24hrs
                 </span>
               </div>
