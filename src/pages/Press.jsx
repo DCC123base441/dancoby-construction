@@ -10,6 +10,7 @@ export default function Press() {
       excerpt: "A rethink of a prewar walkup leveled ceilings and floors and created built-in storage for its minimalist occupants. by Cara Greenberg",
       date: "Aug 1, 2025",
       readTime: "3 min read",
+      link: "https://www.brownstoner.com/interiors-renovation/park-slope-renovation-dancoby-architecture-open-plan/",
       image: "https://static.wixstatic.com/media/c1b522_ef142567bb894db394ca2e7f4fadca32~mv2.webp/v1/fill/w_980,h_429,al_c,q_90,enc_avif,quality_auto/c1b522_ef142567bb894db394ca2e7f4fadca32~mv2.webp"
     }
   ];
@@ -60,9 +61,11 @@ export default function Press() {
                     <p className="text-gray-600 leading-relaxed mb-8">
                       {article.excerpt}
                     </p>
-                    <Button className="bg-gray-900 hover:bg-gray-800 text-white w-fit">
-                      Read Full Article
-                      <ExternalLink className="w-4 h-4 ml-2" />
+                    <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white w-fit">
+                      <a href={article.link} target="_blank" rel="noopener noreferrer">
+                        Read Full Article
+                        <ExternalLink className="w-4 h-4 ml-2" />
+                      </a>
                     </Button>
                   </div>
                 </div>
