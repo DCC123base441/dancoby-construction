@@ -139,13 +139,13 @@ export default function HiringApplication() {
               </div>
             </a>
 
-            <a href="mailto:careers@dancoby.com" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-red-600 transition-all group">
+            <a href="mailto:info@dancoby.com" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-red-600 transition-all group">
               <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-all">
                 <Mail className="w-5 h-5 text-red-600 group-hover:text-white transition-all" />
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Email Us</h3>
-                <div className="text-lg text-[#6b665e] font-semibold mb-0.5">careers@dancoby.com</div>
+                <div className="text-lg text-[#6b665e] font-semibold mb-0.5">info@dancoby.com</div>
                 <div className="text-sm text-gray-400">Send your resume directly</div>
               </div>
             </a>
