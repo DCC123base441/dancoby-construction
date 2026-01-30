@@ -73,7 +73,7 @@ export default function Projects() {
           transition={{ duration: 0.8 }}
           className="relative z-10 text-center text-white"
         >
-          <h1 className="text-6xl md:text-7xl font-light tracking-wide">Projects</h1>
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight">Projects</h1>
         </motion.div>
       </section>
 
