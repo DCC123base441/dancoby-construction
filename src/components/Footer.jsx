@@ -76,9 +76,15 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Company</h4>
             <ul className="space-y-3">
-              <li>
+              <li className="flex items-center gap-4">
                 <Link to={createPageUrl('Home')} className="text-white/50 hover:text-white text-sm transition-colors">
                   Home
+                </Link>
+                <Link to={createPageUrl('Press')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  Press
+                </Link>
+                <Link to={createPageUrl('Hiring')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  Hiring
                 </Link>
               </li>
               <li>
@@ -94,18 +100,6 @@ export default function Footer() {
               <li>
                 <Link to={createPageUrl('About')} className="text-white/50 hover:text-white text-sm transition-colors">
                   About
-                </Link>
-              </li>
-            </ul>
-            <ul className="flex gap-4 mt-4">
-              <li>
-                <Link to={createPageUrl('Press')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  Press
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('Hiring')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  Hiring
                 </Link>
               </li>
             </ul>
