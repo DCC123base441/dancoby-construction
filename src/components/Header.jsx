@@ -40,7 +40,7 @@ export default function Header() {
                                   key={link.name}
                                   to={createPageUrl(link.path)}
                                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                                  className="text-gray-600 hover:text-gray-900 transition-colors text-xs uppercase tracking-widest font-medium"
+                                  className="text-gray-600 hover:text-red-600 transition-colors text-xs uppercase tracking-widest font-medium"
                                 >
                                   {link.name}
                                 </Link>
