@@ -260,15 +260,9 @@ export default function Home() {
       <section className="py-16 bg-red-600">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center">
-            <p className="text-white/90 text-sm uppercase tracking-wider mb-3">
-              Award-Winning Excellence
-            </p>
-            <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h3 className="text-4xl md:text-5xl font-bold text-white">
               5-Year Warranty on All Projects
             </h3>
-            <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-red-600 transition-all">
-              Read More
-            </Button>
           </motion.div>
         </div>
       </section>
