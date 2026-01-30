@@ -91,9 +91,11 @@ export default function Projects() {
               <p className="text-gray-500">No projects found in this category.</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {filteredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+                <div key={project.id} className="flex">
+                  <ProjectCard project={project} />
+                </div>
               ))}
             </div>
           )}
