@@ -142,17 +142,17 @@ export default function Home() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      className="group"
-                      >
-                      <div className="block h-full">
-                          <img 
-                            src={service.image}
-                            alt={service.title}
-                            className="w-full mb-6 aspect-[3/4] object-cover"
-                          />
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{service.title}</h4>
-                          <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
-                        </div>
+                      className="group cursor-pointer"
+                    >
+                      <Link to={createPageUrl(service.page)} className="block h-full">
+                        <img 
+                          src={service.image}
+                          alt={service.title}
+                          className="w-full mb-6 aspect-[3/4] object-cover group-hover:opacity-80 transition-opacity"
+                        />
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 group-hover:text-gray-600 transition-colors">{service.title}</h4>
+                        <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-900 transition-colors">{service.description}</p>
+                      </Link>
                     </motion.div>
                   ))}
                 </div>
@@ -221,7 +221,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { id: 1, title: "Master bathroom renovation with heated marble floors and custom vanity cabinetry", logo: "Luxury Bath Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/449a129a6_Screenshot2026-01-30120655.png" },
+              { id: 1, title: "Master bathroom renovation with heated marble floors and custom vanity cabinetry", logo: "Luxury Bath Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/8a9f4b028_Dancoby_PenthouseFinished_Shot1.jpg" },
               { id: 2, title: "Open-concept kitchen and living space with custom millwork and premium finishes", logo: "Kitchen + Living Renovation", image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg", beforeImage: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/76e000574_Dancoby_92ConklinBathroomBeforePhoto_011.jpg" },
               { id: 3, title: "Complete brownstone interior transformation with custom architectural details", logo: "Brownstone Restoration", image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg" },
               { id: 4, title: "Penthouse renovation featuring floor-to-ceiling windows and custom design elements", logo: "Penthouse Upgrade", image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg" }
