@@ -336,10 +336,18 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
             <motion.div {...fadeIn}>
               <div className="bg-gradient-to-br from-[#f8f7f6] to-[#f0efed] rounded-2xl p-8 shadow-lg">
-                <img 
+                <motion.img 
                   src="https://www.jobtread.com/images/videos/jobtread-in-five-minutes.webp"
                   alt="JobTread Dashboard"
                   className="w-full rounded-lg shadow-md"
+                  animate={{ 
+                    y: [0, -8, 0],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
                 />
               </div>
             </motion.div>
