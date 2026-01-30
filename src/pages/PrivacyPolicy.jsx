@@ -60,11 +60,11 @@ export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section */}
-      <div className="relative bg-slate-900 overflow-hidden">
+      <div className="relative bg-[#3d3d3d] overflow-hidden">
         {/* Decorative Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-amber-500 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-500 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
         </div>
         
         {/* Grid Pattern */}
@@ -82,20 +82,20 @@ export default function PrivacyPolicy() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-500/30 rounded-full px-4 py-2 mb-6">
-              <Building2 className="w-4 h-4 text-amber-400" />
-              <span className="text-amber-300 text-sm font-medium tracking-wide">DANCOBY CONSTRUCTION</span>
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 mb-6">
+              <Building2 className="w-4 h-4 text-white/80" />
+              <span className="text-white/80 text-sm font-medium tracking-wide">DANCOBY CONSTRUCTION COMPANY</span>
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-              Privacy <span className="text-amber-400">Policy</span>
+              Privacy <span className="text-white/90">Policy</span>
             </h1>
             
-            <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-              Building trust through transparency. Your privacy is the foundation of our relationship.
+            <p className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+              Sophisticated-Customer Centric-Transformations
             </p>
             
-            <div className="mt-8 flex items-center justify-center gap-2 text-slate-500 text-sm">
+            <div className="mt-8 flex items-center justify-center gap-2 text-white/50 text-sm">
               <FileText className="w-4 h-4" />
               <span>Last Updated: January 2025</span>
             </div>
@@ -103,7 +103,7 @@ export default function PrivacyPolicy() {
         </div>
 
         {/* Bottom Border Accent */}
-        <div className="h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
+        <div className="h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
       </div>
 
       {/* Main Content */}
@@ -118,9 +118,9 @@ export default function PrivacyPolicy() {
             className="lg:w-72 flex-shrink-0"
           >
             <div className="lg:sticky lg:top-8">
-              <Card className="p-2 bg-white/80 backdrop-blur border-slate-200/60 shadow-lg shadow-slate-200/50">
-                <div className="p-4 border-b border-slate-100">
-                  <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quick Navigation</h3>
+              <Card className="p-2 bg-white/80 backdrop-blur border-gray-200/60 shadow-lg shadow-gray-200/50">
+                <div className="p-4 border-b border-gray-100">
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Quick Navigation</h3>
                 </div>
                 <nav className="p-2">
                   {sections.map((section, index) => {
@@ -133,16 +133,16 @@ export default function PrivacyPolicy() {
                         onClick={() => scrollToSection(section.id)}
                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 group ${
                           isActive 
-                            ? 'bg-slate-900 text-white shadow-md' 
-                            : 'text-slate-600 hover:bg-slate-50'
+                            ? 'bg-[#3d3d3d] text-white shadow-md' 
+                            : 'text-gray-600 hover:bg-gray-50'
                         }`}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
                       >
-                        <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-amber-400' : 'text-slate-400 group-hover:text-amber-500'}`} />
+                        <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-white/80' : 'text-gray-400 group-hover:text-gray-600'}`} />
                         <span className="text-sm font-medium">{section.title}</span>
-                        <ChevronRight className={`w-4 h-4 ml-auto transition-transform ${isActive ? 'text-amber-400' : 'text-slate-300'} ${isActive ? 'translate-x-0' : '-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`} />
+                        <ChevronRight className={`w-4 h-4 ml-auto transition-transform ${isActive ? 'text-white/80' : 'text-gray-300'} ${isActive ? 'translate-x-0' : '-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`} />
                       </motion.button>
                     );
                   })}
@@ -163,15 +163,15 @@ export default function PrivacyPolicy() {
               {/* Overview */}
               <section id="overview" className="scroll-mt-24">
                 <SectionHeader icon={Shield} title="Overview" />
-                <Card className="p-8 bg-white border-slate-200/60 shadow-sm">
-                  <p className="text-slate-600 leading-relaxed mb-4">
-                    At Dancoby Construction, we understand that your privacy is important to you. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our construction services.
+                <Card className="p-8 bg-white border-gray-200/60 shadow-sm">
+                  <p className="text-gray-600 leading-relaxed mb-4">
+                    At Dancoby Construction Company, we understand that your privacy is important to you. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our construction services. With over twenty years of experience providing sophisticated, customer-centric transformations, we are equally committed to protecting your personal information.
                   </p>
-                  <p className="text-slate-600 leading-relaxed mb-4">
+                  <p className="text-gray-600 leading-relaxed mb-4">
                     We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice or our practices, please contact us.
                   </p>
-                  <div className="mt-6 p-4 bg-amber-50 border border-amber-100 rounded-lg">
-                    <p className="text-amber-800 text-sm">
+                  <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p className="text-gray-700 text-sm">
                       <strong>Please read this policy carefully.</strong> By using our services, you agree to the collection and use of information in accordance with this policy.
                     </p>
                   </div>
@@ -195,7 +195,7 @@ export default function PrivacyPolicy() {
                       'Engage with us on social media platforms'
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-slate-600">
-                        <div className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-gray-600 mt-2 flex-shrink-0" />
                         {item}
                       </li>
                     ))}
@@ -237,13 +237,13 @@ export default function PrivacyPolicy() {
                       { title: 'Legal Compliance', desc: 'To comply with applicable laws, regulations, and legal processes' },
                       { title: 'Safety & Security', desc: 'To protect our business, employees, and customers from fraud or security threats' }
                     ].map((item, i) => (
-                      <div key={i} className="flex items-start gap-4 p-4 rounded-lg hover:bg-slate-50 transition-colors">
-                        <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center flex-shrink-0">
-                          <span className="text-amber-400 font-semibold text-sm">{i + 1}</span>
+                      <div key={i} className="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="w-8 h-8 rounded-full bg-[#3d3d3d] flex items-center justify-center flex-shrink-0">
+                          <span className="text-white font-semibold text-sm">{i + 1}</span>
                         </div>
                         <div>
-                          <h5 className="font-semibold text-slate-800 mb-1">{item.title}</h5>
-                          <p className="text-slate-600 text-sm">{item.desc}</p>
+                          <h5 className="font-semibold text-gray-800 mb-1">{item.title}</h5>
+                          <p className="text-gray-600 text-sm">{item.desc}</p>
                         </div>
                       </div>
                     ))}
@@ -265,9 +265,9 @@ export default function PrivacyPolicy() {
                       { title: 'Legal Requirements', desc: 'When required by law or to respond to legal process, or to protect our rights, privacy, safety, or property' },
                       { title: 'Business Transfers', desc: 'In connection with a merger, acquisition, or sale of assets, your information may be transferred' }
                     ].map((item, i) => (
-                      <div key={i} className="border-l-4 border-amber-400 pl-4 py-2">
-                        <h5 className="font-semibold text-slate-800 mb-1">{item.title}</h5>
-                        <p className="text-slate-600 text-sm">{item.desc}</p>
+                      <div key={i} className="border-l-4 border-gray-500 pl-4 py-2">
+                        <h5 className="font-semibold text-gray-800 mb-1">{item.title}</h5>
+                        <p className="text-gray-600 text-sm">{item.desc}</p>
                       </div>
                     ))}
                   </div>
@@ -323,12 +323,12 @@ export default function PrivacyPolicy() {
                     ].map((item, i) => {
                       const Icon = item.icon;
                       return (
-                        <div key={i} className="text-center p-6 bg-slate-900 rounded-xl">
-                          <div className="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Icon className="w-6 h-6 text-amber-400" />
+                        <div key={i} className="text-center p-6 bg-[#3d3d3d] rounded-xl">
+                          <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Icon className="w-6 h-6 text-white/80" />
                           </div>
                           <h5 className="font-semibold text-white mb-2">{item.title}</h5>
-                          <p className="text-slate-400 text-sm">{item.desc}</p>
+                          <p className="text-white/60 text-sm">{item.desc}</p>
                         </div>
                       );
                     })}
@@ -357,8 +357,8 @@ export default function PrivacyPolicy() {
                       { title: 'Portability', desc: 'Request transfer of your data' },
                       { title: 'Withdraw Consent', desc: 'Withdraw previously given consent' }
                     ].map((right, i) => (
-                      <div key={i} className="flex items-center gap-3 p-4 border border-slate-200 rounded-lg hover:border-amber-300 hover:shadow-sm transition-all">
-                        <div className="w-2 h-2 rounded-full bg-amber-500" />
+                      <div key={i} className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-gray-400 hover:shadow-sm transition-all">
+                        <div className="w-2 h-2 rounded-full bg-gray-600" />
                         <div>
                           <span className="font-medium text-slate-800">{right.title}:</span>
                           <span className="text-slate-600 ml-1">{right.desc}</span>
@@ -367,8 +367,8 @@ export default function PrivacyPolicy() {
                     ))}
                   </div>
 
-                  <div className="mt-6 p-4 bg-amber-50 border border-amber-100 rounded-lg">
-                    <p className="text-amber-800 text-sm">
+                  <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p className="text-gray-700 text-sm">
                       To exercise any of these rights, please contact us using the information provided below. We will respond to your request within the timeframe required by applicable law.
                     </p>
                   </div>
@@ -378,49 +378,49 @@ export default function PrivacyPolicy() {
               {/* Contact Us */}
               <section id="contact" className="scroll-mt-24">
                 <SectionHeader icon={Mail} title="Contact Us" />
-                <Card className="p-8 bg-gradient-to-br from-slate-900 to-slate-800 border-0 shadow-xl">
-                  <p className="text-slate-300 leading-relaxed mb-8">
+                <Card className="p-8 bg-gradient-to-br from-[#3d3d3d] to-[#2d2d2d] border-0 shadow-xl">
+                  <p className="text-white/70 leading-relaxed mb-8">
                     If you have any questions about this Privacy Policy or our data practices, please don't hesitate to reach out:
                   </p>
                   
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Building2 className="w-6 h-6 text-amber-400" />
+                      <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Building2 className="w-6 h-6 text-white/80" />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-white mb-1">Dancoby Construction</h5>
-                        <p className="text-slate-400 text-sm">123 Builder's Way<br />Construction City, CC 12345</p>
+                        <h5 className="font-semibold text-white mb-1">Dancoby Construction Company</h5>
+                        <p className="text-white/60 text-sm">Brooklyn, NY</p>
                       </div>
                     </div>
                     
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Mail className="w-6 h-6 text-amber-400" />
+                      <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Mail className="w-6 h-6 text-white/80" />
                       </div>
                       <div>
                         <h5 className="font-semibold text-white mb-1">Email Us</h5>
-                        <p className="text-amber-400 text-sm">privacy@dancobyconstruction.com</p>
+                        <p className="text-white/80 text-sm">info@dancobyconstruction.com</p>
                       </div>
                     </div>
                     
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Phone className="w-6 h-6 text-amber-400" />
+                      <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Phone className="w-6 h-6 text-white/80" />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-white mb-1">Call Us</h5>
-                        <p className="text-slate-400 text-sm">(555) 123-4567</p>
+                        <h5 className="font-semibold text-white mb-1">Get in Touch</h5>
+                        <p className="text-white/60 text-sm">Visit our website for contact details</p>
                       </div>
                     </div>
                     
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <HardHat className="w-6 h-6 text-amber-400" />
+                      <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <HardHat className="w-6 h-6 text-white/80" />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-white mb-1">Business Hours</h5>
-                        <p className="text-slate-400 text-sm">Mon - Fri: 8am - 6pm<br />Sat: 9am - 2pm</p>
+                        <h5 className="font-semibold text-white mb-1">Our Services</h5>
+                        <p className="text-white/60 text-sm">Interior Renovations<br />Kitchen & Bath Remodeling<br />Brownstone Restorations</p>
                       </div>
                     </div>
                   </div>
@@ -428,11 +428,11 @@ export default function PrivacyPolicy() {
               </section>
 
               {/* Footer Note */}
-              <div className="text-center py-8 border-t border-slate-200">
-                <p className="text-slate-400 text-sm">
-                  © {new Date().getFullYear()} Dancoby Construction. All rights reserved.
+              <div className="text-center py-8 border-t border-gray-200">
+                <p className="text-gray-500 text-sm">
+                  © {new Date().getFullYear()} Dancoby Construction Company. All rights reserved.
                 </p>
-                <p className="text-slate-400 text-xs mt-2">
+                <p className="text-gray-400 text-xs mt-2">
                   This privacy policy was last updated in January 2025.
                 </p>
               </div>
@@ -448,10 +448,10 @@ export default function PrivacyPolicy() {
 function SectionHeader({ icon: Icon, title }) {
   return (
     <div className="flex items-center gap-3 mb-6">
-      <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
-        <Icon className="w-5 h-5 text-amber-600" />
+      <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
+        <Icon className="w-5 h-5 text-gray-600" />
       </div>
-      <h3 className="text-2xl font-bold text-slate-800">{title}</h3>
+      <h3 className="text-2xl font-bold text-gray-800">{title}</h3>
     </div>
   );
 }
