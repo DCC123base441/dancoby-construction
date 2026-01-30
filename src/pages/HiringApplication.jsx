@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Phone, Mail, Clock, MapPin, Shield, Check, Briefcase, FileText, User } from 'lucide-react';
+import { createPageUrl } from '../utils';
 
 export default function HiringApplication() {
   useEffect(() => {
@@ -295,6 +296,13 @@ export default function HiringApplication() {
                   </select>
                 </label>
               </div>
+
+              <a 
+                href={createPageUrl('About')} 
+                className="block w-full text-center bg-gray-900 hover:bg-gray-800 text-white py-4 px-8 rounded-lg font-semibold transition-all mb-3"
+              >
+                Check Out Our Standards
+              </a>
 
               <button type="submit" data-submit-button="true">Submit Application</button>
 
