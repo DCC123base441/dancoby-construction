@@ -327,6 +327,85 @@ export default function Home() {
         </div>
       </section>
 
+      {/* What We're Up To Section */}
+      <section className="bg-white border-b border-[#d6cec3]">
+        <div className="max-w-7xl mx-auto px-6 py-16">
+          <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Current Projects</p>
+          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">What We're Up To</h2>
+          <p className="text-lg text-[#78716b] max-w-2xl font-light">A glimpse into our active construction sites where craftsmanship meets innovation.</p>
+        </div>
+      </section>
+
+      <section className="py-16 bg-[#f5f5f0]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-12">
+            {[
+              {
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/78deec984_Photo12.jpg",
+                status: "50% Complete",
+                title: "Entire Home",
+                location: "Hewlett Harbor, NY",
+                description: "Full-scale renovation featuring custom millwork, marble bathrooms, and smart home integration."
+              },
+              {
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/2c339618d_Photo9.jpg",
+                status: "60% Complete",
+                title: "Townhouse Renovation",
+                location: "Greenpoint, Brooklyn",
+                description: "Contemporary kitchen design with premium custom cabinetry."
+              },
+              {
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/b3aa5d359_Photo5.jpg",
+                status: "95% Complete",
+                title: "Mudroom Addition",
+                location: "Woodmere, NY",
+                description: "Mudroom addition and powder room."
+              },
+              {
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/bd8398692_Photo51.jpg",
+                status: "25% Complete",
+                title: "Entire Home",
+                location: "Hewlett, NY",
+                description: "Full home renovation featuring luxury baths."
+              }
+            ].map((project, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="group"
+              >
+                <div className="relative mb-6 overflow-hidden bg-[#d6cec3] aspect-[4/3]">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute top-4 right-4 bg-white/95 px-4 py-2 text-xs tracking-wider text-[#292522] uppercase">
+                    {project.status}
+                  </div>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">{project.title}</h3>
+                <p className="text-sm text-[#78716b] mb-4 tracking-wider uppercase">{project.location}</p>
+                <p className="text-[#5b5854] leading-relaxed">{project.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#1c1917] text-white text-center py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-xs tracking-[2px] text-[#78716b] uppercase mb-4">Interested in working with us?</p>
+          <h2 className="text-3xl md:text-4xl font-light mb-8">Let's Build Something Beautiful</h2>
+          <Button asChild variant="outline" className="border border-white bg-transparent text-white hover:bg-white hover:text-[#1c1917] px-8 py-3 text-sm tracking-wider uppercase">
+            <Link to={createPageUrl('Contact')}>Get In Touch</Link>
+          </Button>
+        </div>
+      </section>
+
       {/* Stats Section */}
       <section className="py-24 bg-white border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
