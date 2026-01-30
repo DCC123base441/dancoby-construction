@@ -24,7 +24,15 @@ const projectsData = [
     id: 2,
     title: "Open-concept kitchen and living space with custom millwork and premium finishes",
     logo: "Kitchen + Living Renovation",
-    image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg",
+    image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a456ccc4_Dancoby_92ConklinKitchen_091.jpg",
+    images: [
+      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a456ccc4_Dancoby_92ConklinKitchen_091.jpg",
+      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/c7315d418_Dancoby_ConklinBathroom_Shot2_V3_1.jpg",
+      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/294eb6f07_Dancoby_ConklinBathroom_Shot3_V2.jpg",
+      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/0d3ef38ea_Dancoby_ConklinBathroom_Shot4.jpg",
+      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/553eb3b1d_Dancoby_ConklinBathroom_Shot5.jpg",
+      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/0c9031cef_Dancoby_ConklinBathroom_Shot6.jpg"
+    ],
     description: "A comprehensive kitchen and living space renovation that seamlessly integrates modern open-concept design with custom millwork and premium finishes throughout.",
     details: [
       "Open-concept floor plan",
