@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Building2, Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -9,11 +9,10 @@ export default function Footer() {
           
           {/* Company Info */}
           <div>
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3461e0b81_Logo.png" 
-              alt="Dancoby Construction Company" 
-              className="h-20 w-auto brightness-0 invert mb-4"
-            />
+            <div className="flex items-center gap-2 mb-4">
+              <Building2 className="w-6 h-6" />
+              <h3 className="text-xl font-bold">Dancoby Construction</h3>
+            </div>
             <p className="text-white/70 text-sm leading-relaxed mb-4">
               Sophisticated-Customer Centric-Transformations
             </p>
