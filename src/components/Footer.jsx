@@ -105,7 +105,7 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Hiring')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('HiringApplication')} className="text-white/50 hover:text-white text-sm transition-colors">
                     Careers
                   </Link>
                 </li>
