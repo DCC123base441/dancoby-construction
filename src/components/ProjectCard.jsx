@@ -13,6 +13,7 @@ export default function ProjectCard({ project }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       className="group flex flex-col h-full"
+      style={{ minHeight: '100%' }}
     >
       <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5]">
         <img 
@@ -23,7 +24,7 @@ export default function ProjectCard({ project }) {
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
       </div>
 
-      <div className="flex flex-col flex-grow">
+      <div className="flex flex-col flex-1">
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
             {project.category}
@@ -35,11 +36,11 @@ export default function ProjectCard({ project }) {
           {project.title}
         </h3>
         
-        <p className="text-sm text-gray-600 line-clamp-2 flex-grow">
+        <p className="text-sm text-gray-600 line-clamp-2 mb-4">
           {project.description}
         </p>
 
-        <div className="pt-4">
+        <div className="mt-auto pt-2">
           <Button 
             asChild 
             className="bg-gray-900 hover:bg-gray-800 text-white h-auto py-2 px-4 text-xs uppercase tracking-wider group-hover:gap-2"
