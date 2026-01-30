@@ -224,9 +224,18 @@ export default function Estimator() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12 flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 text-red-600 animate-spin mx-auto mb-4" />
-          <p className="text-lg text-gray-600">Generating your detailed estimate...</p>
+        <div className="text-center max-w-md mx-auto px-6">
+          <div className="relative mb-6">
+            <Loader2 className="w-16 h-16 text-red-600 animate-spin mx-auto" />
+            <Sparkles className="w-6 h-6 text-amber-500 absolute top-0 right-1/3 animate-pulse" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">AI is analyzing your project...</h3>
+          <p className="text-gray-600 mb-4">Generating your detailed cost estimate and renovation visualization</p>
+          <div className="flex justify-center gap-2 text-sm text-gray-500">
+            <span className="flex items-center gap-1"><ImageIcon className="w-4 h-4" /> Analyzing photos</span>
+            <span>•</span>
+            <span>Calculating costs</span>
+          </div>
         </div>
       </div>
     );
