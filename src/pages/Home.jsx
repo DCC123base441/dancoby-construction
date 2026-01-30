@@ -104,7 +104,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="mb-20">
             <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Who We Are</h2>
-            <p className="text-gray-900 text-2xl leading-relaxed max-w-2xl">
+            <p className="text-gray-700 text-base leading-relaxed max-w-2xl">
               With over twenty years of experience and a dedication to customer satisfaction, we work with you, your budget, and your style to turn your renovation dreams into realities.
             </p>
           </motion.div>
