@@ -402,9 +402,7 @@ export default function Estimator() {
             Get Your Online Estimate
           </h1>
           <p className="text-lg text-gray-600">
-            Answer a few quick questions to get a preliminary budget range for your renovation project.
-            <br />
-            Upload a photo to see an AI mockup of your transformed space!
+            Answer a few quick questions to get a preliminary budget range for your renovation project. Upload a photo to see an AI mockup of your transformed space!
           </p>
         </motion.div>
 
