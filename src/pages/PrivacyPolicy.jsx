@@ -50,11 +50,9 @@ export default function PrivacyPolicy() {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({
-        top: elementPosition - 100,
-        behavior: 'smooth'
-      });
+      const yOffset = -100;
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
