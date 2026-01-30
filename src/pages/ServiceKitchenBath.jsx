@@ -149,7 +149,7 @@ export default function ServiceKitchenBath() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className="group"
+                  className="group flex flex-col h-full"
                 >
                   <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5]">
                     <img 
@@ -158,16 +158,20 @@ export default function ServiceKitchenBath() {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">{project.title}</h3>
-                  <p className="text-sm text-gray-600 mb-4 line-clamp-2">{project.description}</p>
-                  <Button 
-                    asChild 
-                    className="bg-gray-900 hover:bg-gray-800 text-white h-auto py-2 px-4 text-xs uppercase tracking-wider"
-                  >
-                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-                      View Project <ArrowRight className="w-3 h-3 ml-2" />
-                    </Link>
-                  </Button>
+                  <div className="flex flex-col flex-1">
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">{project.title}</h3>
+                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">{project.description}</p>
+                    <div className="mt-auto">
+                      <Button 
+                        asChild 
+                        className="bg-gray-900 hover:bg-gray-800 text-white h-auto py-2 px-4 text-xs uppercase tracking-wider"
+                      >
+                        <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
+                          View Project <ArrowRight className="w-3 h-3 ml-2" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
