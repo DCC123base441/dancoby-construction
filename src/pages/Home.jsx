@@ -294,20 +294,20 @@ export default function Home() {
                                       {project.beforeImage ? (
                                         <div className="relative w-full h-96">
                                                                   <img 
-                                                                    src={project.beforeImage}
-                                                                    alt={`${project.logo} - Before`}
+                                                                    src={project.image}
+                                                                    alt={project.logo}
                                                                     className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
                                                                   />
                                                                   <img 
-                                                                                              src={project.image}
-                                                                                              alt={project.logo}
-                                                                                              className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                                                                                            />
+                                                                    src={project.beforeImage}
+                                                                    alt={`${project.logo} - Before`}
+                                                                    className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                                                                  />
                                                                   <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 text-sm font-medium rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                                    After
+                                                                    Before
                                                                   </div>
                                                                   <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 text-sm font-medium rounded group-hover:opacity-0 transition-opacity duration-300">
-                                                                    Before
+                                                                    After
                                                                   </div>
                                                                 </div>
                                       ) : (
