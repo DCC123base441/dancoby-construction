@@ -82,13 +82,18 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to={createPageUrl('About')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  About Us
+                <Link to={createPageUrl('Services')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  Services
                 </Link>
               </li>
               <li>
                 <Link to={createPageUrl('Projects')} className="text-white/50 hover:text-white text-sm transition-colors">
                   Projects
+                </Link>
+              </li>
+              <li>
+                <Link to={createPageUrl('About')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  About
                 </Link>
               </li>
               <li>
@@ -98,7 +103,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link to={createPageUrl('Hiring')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  Careers
+                  Hiring
                 </Link>
               </li>
             </ul>
