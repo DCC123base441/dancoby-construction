@@ -146,65 +146,94 @@ The image should show:
 
     // Complexity multipliers
     const complexityMultiplier = {
-      low: 0.8,
+      low: 0.85,
       medium: 1.0,
-      high: 1.3
+      high: 1.35
     };
 
-    // Condition adjustment
+    // Condition adjustment from user input
+    const conditionFromUser = {
+      'Good - Minor updates needed': 0.85,
+      'Fair - Moderate work required': 1.0,
+      'Poor - Major renovation needed': 1.25,
+      'Gutted/Empty - Full build-out': 1.4
+    };
+
+    // AI condition mapping
     const conditionMultiplier = {
       good: 0.9,
       fair: 1.0,
-      poor: 1.3
+      poor: 1.25
     };
 
-    const costs = costDatabase[roomType] || costDatabase['Interior Renovations'];
+    const costs = costDatabase[roomType] || costDatabase['Whole Home Renovation'];
     const sqft = sqftEstimate.squareFootage || 200;
     const complexFactor = complexityMultiplier[sqftEstimate.complexity] || 1.0;
-    const conditionFactor = conditionMultiplier[sqftEstimate.condition] || 1.0;
+    const conditionFactor = conditionFromUser[currentCondition] || conditionMultiplier[sqftEstimate.condition] || 1.0;
+    const finishFactor = finishLevelMultiplier[finishLevel] || 1.0;
+    const locationFactor = locationMultiplier[location] || 1.0;
 
-    // Calculate costs
-    const materialsCost = Math.round((costs.materials.perSqft * sqft + costs.materials.base) * complexFactor * conditionFactor);
-    const laborCost = Math.round((costs.labor.perSqft * sqft + costs.labor.base) * complexFactor * conditionFactor);
+    // Calculate costs with all factors
+    const materialsCost = Math.round((costs.materials.perSqft * sqft + costs.materials.base) * complexFactor * conditionFactor * finishFactor * locationFactor);
+    const laborCost = Math.round((costs.labor.perSqft * sqft + costs.labor.base) * complexFactor * conditionFactor * locationFactor);
     const permitsCost = Math.round(costs.permits.base * conditionFactor);
-    const contingency = Math.round((materialsCost + laborCost + permitsCost) * 0.15); // 15% contingency
+    const designCost = Math.round((costs.design?.base || 2000) * finishFactor);
+    const contingency = Math.round((materialsCost + laborCost + permitsCost + designCost) * 0.15);
 
-    const totalMin = materialsCost + laborCost + permitsCost;
-    const totalMax = Math.round(totalMin * 1.25); // 25% variance for unknowns
-
-    // Finish adjustments
+    // Finish adjustments for specific selections
     let finishAdjustment = 0;
     if (selectedFinishes) {
       const finishCosts = {
-        'Premium': 5000,
-        'High-End': 8000,
-        'Standard': 0,
-        'Budget': -2000
+        'Premium Quartz': 3000,
+        'Marble': 8000,
+        'Granite': 4000,
+        'Butcher Block': 1500,
+        'Custom Hardwood': 6000,
+        'Engineered Hardwood': 3000,
+        'Luxury Vinyl': 1500,
+        'Porcelain Tile': 2500,
+        'Custom Cabinets': 10000,
+        'Semi-Custom Cabinets': 5000,
+        'Designer Fixtures': 4000,
+        'Premium Fixtures': 2500,
+        'Standard': 0
       };
       Object.values(selectedFinishes).forEach(finish => {
         finishAdjustment += finishCosts[finish] || 0;
       });
     }
 
+    const subtotal = materialsCost + laborCost + permitsCost + designCost + finishAdjustment;
+    const totalWithContingency = subtotal + contingency;
+    const totalMin = subtotal;
+    const totalMax = Math.round(totalWithContingency * 1.2);
+
     return Response.json({
       squareFootage: sqft,
       complexity: sqftEstimate.complexity,
       condition: sqftEstimate.condition,
+      estimatedWeeks: sqftEstimate.estimatedWeeks || Math.ceil(sqft / 100) + 4,
+      visualizationUrl,
       costBreakdown: {
         materials: {
           label: 'Materials & Finishes',
           cost: materialsCost + finishAdjustment,
-          percentage: Math.round((materialsCost + finishAdjustment) / (totalMin + finishAdjustment) * 100)
+          percentage: Math.round((materialsCost + finishAdjustment) / totalWithContingency * 100)
         },
         labor: {
           label: 'Labor & Installation',
           cost: laborCost,
-          percentage: Math.round(laborCost / (totalMin + finishAdjustment) * 100)
+          percentage: Math.round(laborCost / totalWithContingency * 100)
+        },
+        design: {
+          label: 'Design & Planning',
+          cost: designCost,
+          percentage: Math.round(designCost / totalWithContingency * 100)
         },
         permits: {
           label: 'Permits & Inspections',
           cost: permitsCost,
-          percentage: Math.round(permitsCost / (totalMin + finishAdjustment) * 100)
+          percentage: Math.round(permitsCost / totalWithContingency * 100)
         },
         contingency: {
           label: 'Contingency (15%)',
@@ -212,9 +241,16 @@ The image should show:
           percentage: 15
         }
       },
-      totalMin: totalMin + finishAdjustment,
-      totalMax: totalMax + finishAdjustment,
-      notes: sqftEstimate.notes
+      totalMin,
+      totalMax,
+      notes: sqftEstimate.notes,
+      projectDetails: {
+        roomType,
+        propertyType,
+        finishLevel,
+        location,
+        priority
+      }
     });
   } catch (error) {
     console.error('Error:', error);
