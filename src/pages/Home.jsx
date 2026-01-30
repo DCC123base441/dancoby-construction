@@ -541,10 +541,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12">
             {[
-              { number: "#1", label: "RETAIL CONTRACTOR", sublabel: "by ENR East in 2025" },
-              { number: "#32", label: "BEST PLACES TO WORK", sublabel: "by Crain's New York in 2025" },
-              { number: "#4", label: "TOP 90 RETAIL GIANTS", sublabel: "by BD+C Magazine in 2025" },
-              { number: "Platinum", label: "NATIONAL SAFETY AWARD", sublabel: "by ABC in 2025" }
+              { number: "20+", label: "YEARS EXPERIENCE", sublabel: "Trusted craftsmanship since 2004" },
+              { number: "500+", label: "PROJECTS COMPLETED", sublabel: "Across the NYC metro area" },
+              { number: "5.0", label: "GOOGLE RATING", sublabel: "Based on 50+ reviews" },
+              { number: "5-Year", label: "WARRANTY", sublabel: "On all our projects" }
             ].map((stat, idx) => (
               <motion.div
                 key={idx}
