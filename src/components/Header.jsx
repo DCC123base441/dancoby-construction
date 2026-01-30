@@ -36,14 +36,15 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-12">
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={createPageUrl(link.path)}
-                className="text-gray-600 hover:text-gray-900 transition-colors text-xs uppercase tracking-widest font-medium"
-              >
-                {link.name}
-              </Link>
-            ))}
+                                <Link
+                                  key={link.name}
+                                  to={createPageUrl(link.path)}
+                                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                                  className="text-gray-600 hover:text-gray-900 transition-colors text-xs uppercase tracking-widest font-medium"
+                                >
+                                  {link.name}
+                                </Link>
+                              ))}
           </nav>
 
           {/* Right Side */}
