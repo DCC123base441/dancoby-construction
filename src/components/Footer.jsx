@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, Mail, Phone, MapPin } from 'lucide-react';
+import { Building2, Mail, Phone, MapPin, Instagram, Facebook } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
@@ -26,6 +26,24 @@ export default function Footer() {
             <p className="text-white/60 text-sm">
               With over twenty years of experience and a dedication to customer satisfaction.
             </p>
+            <div className="flex gap-4 mt-6">
+              <a 
+                href="https://www.instagram.com/dancobyconstruction" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              >
+                <Instagram className="w-5 h-5 text-white" />
+              </a>
+              <a 
+                href="https://www.facebook.com/dancobyconstruction" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              >
+                <Facebook className="w-5 h-5 text-white" />
+              </a>
+            </div>
           </div>
 
           {/* Services */}
