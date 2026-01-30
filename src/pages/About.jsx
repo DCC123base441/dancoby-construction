@@ -5,10 +5,16 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { Target, Heart, Shield, Award } from 'lucide-react';
 import EstimatorButton from '../components/EstimatorButton';
+import SEOHead from '../components/SEOHead';
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white">
+      <SEOHead 
+        title="About Us | 20+ Years of NYC Home Renovation Excellence"
+        description="Learn about Dancoby Construction's 20+ years of NYC renovation experience. Licensed, insured contractors with 5-year warranty. Meet our founder and team."
+        keywords="about Dancoby Construction, NYC renovation company, licensed contractor Brooklyn, home renovation experience, general contractor history"
+      />
       {/* Hero Section */}
       <section 
         className="relative h-[70vh] flex items-center justify-center overflow-hidden"
@@ -191,6 +197,6 @@ export default function About() {
           <EstimatorButton size="large" />
         </div>
       </section>
-    </div>
+    </main>
   );
 }
