@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import { toast } from "sonner";
+import EstimatorButton from '../components/EstimatorButton';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -42,9 +43,10 @@ export default function Contact() {
 
         <div className="relative max-w-6xl mx-auto px-6 text-center text-white">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">Get Started</h1>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
             Let's transform your space into something extraordinary
           </p>
+          <EstimatorButton size="large" />
         </div>
       </section>
 
