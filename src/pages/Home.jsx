@@ -257,6 +257,9 @@ export default function Home() {
               </div>
             </section>
 
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+
       {/* Awards Banner */}
       <section className="py-16 bg-red-600">
         <div className="max-w-7xl mx-auto px-6">
