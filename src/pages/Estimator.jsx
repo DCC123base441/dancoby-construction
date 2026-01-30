@@ -471,8 +471,18 @@ export default function Estimator() {
           ) : step.type === 'photo' ? (
             <div className="mb-8">
               <ImageUpload
-                onImageUpload={setImageUrl}
-                onSkip={() => setImageUrl(null)}
+                onImageUpload={(url) => {
+                  setImageUrl(url);
+                  if (currentStep < steps.length - 1) {
+                    setCurrentStep(currentStep + 1);
+                  }
+                }}
+                onSkip={() => {
+                  setImageUrl(null);
+                  if (currentStep < steps.length - 1) {
+                    setCurrentStep(currentStep + 1);
+                  }
+                }}
               />
             </div>
           ) : step.type === 'finishes' ? (
