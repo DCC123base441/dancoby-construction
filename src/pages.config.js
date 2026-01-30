@@ -47,8 +47,14 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
-export const pagesConfig = {
-	Pages: {}
+
+export const PAGES = {
+    "PrivacyPolicy": PrivacyPolicy,
 }
 
+export const pagesConfig = {
+    mainPage: "PrivacyPolicy",
+    Pages: PAGES,
+};
