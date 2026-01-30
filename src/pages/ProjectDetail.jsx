@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { createPageUrl } from '../utils';
 import { ArrowLeft } from 'lucide-react';
+import ProjectSlideshow from '../components/ProjectSlideshow';
 
 const projectsData = [
   {
