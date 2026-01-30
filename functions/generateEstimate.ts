@@ -12,18 +12,37 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const { imageUrl, roomType, selectedFinishes, userAnswers } = body;
 
+    // Extract user-provided info
+    const userSqFt = userAnswers?.squareFootage;
+    const finishLevel = userAnswers?.finishLevel;
+    const currentCondition = userAnswers?.currentCondition;
+    const propertyType = userAnswers?.propertyType;
+    const location = userAnswers?.location;
+    const priority = userAnswers?.priority;
+
     // Generate prompt for AI to estimate square footage and analyze space
-    const estimationPrompt = `Analyze this ${roomType} renovation photo and provide:
-1. Estimated square footage (be realistic based on visible dimensions)
+    const estimationPrompt = `Analyze this ${roomType} renovation photo for a ${propertyType || 'residential'} property.
+
+User-provided context:
+- Approximate square footage selected: ${userSqFt || 'Not provided'}
+- Current condition: ${currentCondition || 'Not specified'}
+- Finish level desired: ${finishLevel || 'Mid-range'}
+- Location: ${location || 'NYC area'}
+- Priority: ${priority || 'General renovation'}
+
+Provide:
+1. Refined square footage estimate (consider user input but adjust based on photo if needed)
 2. Room condition assessment
 3. Complexity factors that affect cost
+4. Estimated project timeline in weeks
 
 Respond with JSON:
 {
   "squareFootage": <number>,
   "complexity": "low|medium|high",
   "condition": "good|fair|poor",
-  "notes": "<brief description>"
+  "estimatedWeeks": <number>,
+  "notes": "<brief description of the space and renovation scope>"
 }`;
 
     // Get square footage estimate from AI
@@ -35,11 +54,38 @@ Respond with JSON:
           squareFootage: { type: 'number' },
           complexity: { type: 'string' },
           condition: { type: 'string' },
+          estimatedWeeks: { type: 'number' },
           notes: { type: 'string' }
         }
       },
       file_urls: imageUrl ? [imageUrl] : []
     });
+
+    // Generate AI visualization if photo provided
+    let visualizationUrl = null;
+    if (imageUrl) {
+      try {
+        const visualizationPrompt = `Generate a photorealistic interior renovation visualization. Transform this ${roomType} space into a beautifully renovated ${finishLevel || 'mid-range'} ${roomType.toLowerCase()}. 
+        
+Style: ${priority === 'Luxury Finishes & Design' ? 'High-end luxury with premium materials' : 'Modern and functional with quality finishes'}. 
+Property type: ${propertyType || 'residential'}.
+
+The image should show:
+- Updated flooring, lighting, and fixtures
+- Modern cabinetry and countertops if applicable
+- Fresh paint and updated trim
+- The same general room layout but completely renovated
+- Professional interior design quality`;
+
+        const visualization = await base44.integrations.Core.GenerateImage({
+          prompt: visualizationPrompt,
+          existing_image_urls: [imageUrl]
+        });
+        visualizationUrl = visualization?.url;
+      } catch (vizError) {
+        console.log('Visualization generation failed:', vizError.message);
+      }
+    }
 
     // Cost database by room type and category
     const costDatabase = {
