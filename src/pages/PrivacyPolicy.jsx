@@ -50,11 +50,10 @@ export default function PrivacyPolicy() {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Adjust for fixed header offset
-      setTimeout(() => {
-        window.scrollBy({ top: -100, behavior: 'smooth' });
-      }, 100);
+      window.scrollTo({
+        top: element.offsetTop - 100,
+        behavior: 'smooth'
+      });
     }
   };
 
