@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import ProjectCard from '../components/ProjectCard';
 import ProjectFilters from '../components/ProjectFilters';
 import EstimatorButton from '../components/EstimatorButton';
+import SEOHead from '../components/SEOHead';
 
 export default function Projects() {
   const [category, setCategory] = useState('all');
@@ -56,7 +57,12 @@ export default function Projects() {
     });
 
   return (
-    <div className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white">
+      <SEOHead 
+        title="Our Projects | Kitchen, Bath & Home Renovation Portfolio"
+        description="Browse our portfolio of completed renovation projects in NYC & Long Island. Kitchen remodels, bathroom renovations, brownstone restorations. See our craftsmanship."
+        keywords="renovation portfolio Brooklyn, kitchen remodel examples, bathroom renovation photos, brownstone restoration projects, NYC construction portfolio"
+      />
       {/* Hero Section */}
       <section 
         className="relative h-[60vh] flex items-center justify-center overflow-hidden"
@@ -121,6 +127,6 @@ export default function Projects() {
           </motion.div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

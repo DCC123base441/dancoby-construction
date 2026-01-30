@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 export default function Contact() {
   useEffect(() => {
@@ -48,7 +49,12 @@ export default function Contact() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50">
+      <SEOHead 
+        title="Contact Us | Get a Free Renovation Estimate"
+        description="Contact Dancoby Construction for a free renovation estimate. Call (516) 684-9766 or fill out our form. Kitchen, bath, brownstone renovations in Brooklyn & Long Island."
+        keywords="free renovation estimate NYC, contact general contractor Brooklyn, home renovation quote, kitchen remodel estimate, bathroom renovation consultation"
+      />
       <style>{`
         .success-message { display: none; background: #dc2626; color: white; padding: 16px; border-radius: 8px; margin-bottom: 24px; animation: slideIn 0.3s; align-items: flex-start; gap: 12px; }
         .success-message.show { display: flex; }
@@ -254,6 +260,6 @@ export default function Contact() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
