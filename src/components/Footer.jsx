@@ -7,113 +7,112 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <footer className="bg-black text-white">
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           
           {/* Company Info */}
-          <div className="space-y-4">
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
-              alt="Dancoby"
-              className="h-20 mb-6"
-            />
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Sophisticated-Customer Centric-Transformations
-            </p>
-            <p className="text-gray-500 text-sm">
-              With over twenty years of experience and a dedication to customer satisfaction.
-            </p>
+          <div className="space-y-6">
+            <div className="bg-white p-3 w-fit rounded">
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
+                alt="Dancoby"
+                className="h-12 w-auto"
+                style={{ filter: 'brightness(0)' }}
+              />
+            </div>
+            <div>
+              <p className="text-gray-300 text-xs uppercase tracking-widest font-semibold mb-2">
+                Since 2004
+              </p>
+              <p className="text-white/70 text-sm leading-relaxed">
+                Sophisticated transformations delivered with expert craftsmanship and customer dedication.
+              </p>
+            </div>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="text-zinc-200 font-light text-sm uppercase tracking-wider mb-6">Our Services</h4>
+            <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-6">Services</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-zinc-500 hover:text-amber-400 text-sm transition-colors font-light">
+                <Link to={createPageUrl('ServiceInteriorRenovations')} className="text-white/60 hover:text-white text-sm transition-colors">
                   Interior Renovations
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
-                  Kitchen & Bath Remodeling
-                </a>
+                <Link to={createPageUrl('ServiceKitchenBath')} className="text-white/60 hover:text-white text-sm transition-colors">
+                  Kitchen & Bath
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
-                  Brownstone Restorations
-                </a>
+                <Link to={createPageUrl('ServiceBrownstone')} className="text-white/60 hover:text-white text-sm transition-colors">
+                  Brownstone Restoration
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
+                <Link to={createPageUrl('ServiceTownhouses')} className="text-white/60 hover:text-white text-sm transition-colors">
                   Townhouses & Apartments
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
-                  3D Rendering & Floor Planning
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Quick Links */}
+          {/* Company */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">Quick Links</h4>
+            <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-6">Company</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
+                <Link to={createPageUrl('Home')} className="text-white/60 hover:text-white text-sm transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to={createPageUrl('About')} className="text-white/60 hover:text-white text-sm transition-colors">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
-                  Our Projects
-                </a>
+                <Link to={createPageUrl('Projects')} className="text-white/60 hover:text-white text-sm transition-colors">
+                  Projects
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
-                  Portfolio
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
-                  Contact
-                </a>
+                <Link to={createPageUrl('Press')} className="text-white/60 hover:text-white text-sm transition-colors">
+                  Press
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">Contact Us</h4>
+            <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-6">Contact</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-white/60 flex-shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
                 <span className="text-white/70 text-sm">
                   Brooklyn, NY
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-white/60 flex-shrink-0 mt-0.5" />
+                <Mail className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
                 <a href="mailto:info@dancoby.com" className="text-white/70 hover:text-white text-sm transition-colors">
                   info@dancoby.com
                 </a>
               </li>
-              <li className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-white/60 flex-shrink-0 mt-0.5" />
-                <a href="tel:+1234567890" className="text-white/70 hover:text-white text-sm transition-colors">
-                  Contact for details
-                </a>
+              <li>
+                <Link to={createPageUrl('Contact')} className="text-red-600 hover:text-red-500 text-sm font-semibold uppercase tracking-wider transition-colors">
+                  Get in Touch →
+                </Link>
               </li>
             </ul>
-            <div className="flex gap-6 mt-6">
+          </div>
+
+          {/* Social */}
+          <div>
+            <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-6">Follow</h4>
+            <div className="flex gap-4">
               <a 
                 href="https://www.instagram.com/dancobyconstruction" 
                 target="_blank" 
@@ -135,21 +134,21 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/50 text-sm">
+        <div className="border-t border-white/10 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/50">
+            <p>
               © {currentYear} Dancoby Construction Company. All rights reserved.
             </p>
             <div className="flex gap-6">
               <Link 
                 to={createPageUrl('PrivacyPolicy')} 
-                className="text-white/50 hover:text-white text-sm transition-colors"
+                className="hover:text-white transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link 
                 to={createPageUrl('TermsOfService')} 
-                className="text-white/50 hover:text-white text-sm transition-colors"
+                className="hover:text-white transition-colors"
               >
                 Terms of Service
               </Link>
