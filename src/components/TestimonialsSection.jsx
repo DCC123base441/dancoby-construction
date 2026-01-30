@@ -47,6 +47,40 @@ export default function TestimonialsSection() {
   return (
     <section className="py-16 bg-stone-100">
       <div className="max-w-6xl mx-auto px-6">
+        {/* Google Reviews Banner */}
+        <div className="bg-stone-800 rounded-xl p-6 md:p-8 mb-10">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-stone-400 mb-3">Customer Reviews</p>
+              <p className="text-stone-300 text-sm md:text-base max-w-xl">
+                Don't just take our word for it. See what our customers have to say about their experience with Dancoby Construction.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex items-center gap-3 bg-stone-700/50 px-5 py-3 rounded-lg">
+                <span className="text-3xl font-light text-white">5.0</span>
+                <div>
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs text-stone-400 mt-0.5">Based on 50+ reviews</p>
+                </div>
+              </div>
+              <a 
+                href="https://www.google.com/maps/place/Dancoby+Construction/@40.6781784,-73.9441579,15z/data=!4m8!3m7!1s0x89c25bba1e5a5555:0x5555555555555555!8m2!3d40.6781784!4d-73.9441579!9m1!1b1!16s%2Fg%2F11c1p1p1p1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white text-stone-800 px-5 py-3 rounded-lg text-sm font-medium hover:bg-stone-100 transition-colors"
+              >
+                View on Google
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-[200px_1fr] gap-10 items-start">
           {/* Desktop Navigation */}
           <div className="hidden lg:block sticky top-20">
