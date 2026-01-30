@@ -13,10 +13,10 @@ export default function Footer() {
               <img 
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3461e0b81_Logo.png" 
                 alt="Dancoby Construction Company" 
-                className="h-12 w-auto brightness-0 invert"
+                className="h-20 w-auto brightness-0 invert"
               />
             </div>
-            <p className="text-white/70 text-sm leading-relaxed mb-4">
+            <p className="text-white/70 text-base leading-relaxed mb-4">
               Sophisticated-Customer Centric-Transformations
             </p>
             <p className="text-white/60 text-sm">
