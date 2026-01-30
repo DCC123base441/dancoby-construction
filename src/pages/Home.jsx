@@ -221,10 +221,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { id: 1, title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Luxury Bath Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
-              { id: 2, title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Kitchen + Living Renovation", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
-              { id: 3, title: "Modern powder room with marble flooring and walnut accent paneling", logo: "Brownstone Restoration", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
-              { id: 4, title: "Statement stone feature wall with seamless electrical integration", logo: "Penthouse Upgrade", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }
+              { id: 1, title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
+              { id: 2, title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Bathroom Renovation", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
+              { id: 3, title: "Modern powder room with marble flooring and walnut accent paneling", logo: "Powder Room", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
+              { id: 4, title: "Statement stone feature wall with seamless electrical integration", logo: "Feature Wall", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }
             ].map((project, idx) => (
               <motion.div
                 key={idx}
