@@ -33,14 +33,6 @@ export default function PrivacyPolicy() {
     const handleScroll = () => {
       const sectionElements = sections.map(s => document.getElementById(s.id));
       const scrollPosition = window.scrollY + 200;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-
-      // Check if we're at the very bottom of the page
-      if (window.scrollY + windowHeight >= documentHeight - 2) {
-        setActiveSection('contact');
-        return;
-      }
 
       for (let i = sectionElements.length - 1; i >= 0; i--) {
         const section = sectionElements[i];
@@ -51,7 +43,6 @@ export default function PrivacyPolicy() {
       }
     };
 
-    handleScroll(); // Call once on mount
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
