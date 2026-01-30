@@ -115,26 +115,22 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-            <div className="flex gap-3 mt-6">
+            <div className="flex gap-6 mt-6">
               <a 
                 href="https://www.instagram.com/dancobyconstruction" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group"
+                className="text-white/60 hover:text-white transition-colors"
               >
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:scale-110 flex items-center justify-center transition-transform duration-200 shadow-lg">
-                  <Instagram className="w-5 h-5 text-white" />
-                </div>
+                <Instagram className="w-5 h-5" />
               </a>
               <a 
                 href="https://www.facebook.com/dancobyconstruction" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group"
+                className="text-white/60 hover:text-white transition-colors"
               >
-                <div className="w-10 h-10 rounded-lg bg-[#1877F2] hover:scale-110 flex items-center justify-center transition-transform duration-200 shadow-lg">
-                  <Facebook className="w-5 h-5 text-white" />
-                </div>
+                <Facebook className="w-5 h-5" />
               </a>
             </div>
           </div>
