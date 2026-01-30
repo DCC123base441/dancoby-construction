@@ -139,7 +139,7 @@ export default function Hiring() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                <FileText className="w-6 h-6 text-gray-900" />
+                <FileText className="w-6 h-6 text-red-600" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-1">Daily Documentation</h3>
               <p className="text-sm text-gray-500 mb-4">Required by 6:00 PM</p>
@@ -150,7 +150,7 @@ export default function Hiring() {
 
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-gray-900" />
+                <Users className="w-6 h-6 text-red-600" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Client Communication</h3>
               <ul className="text-sm text-gray-600 space-y-2">
@@ -164,7 +164,7 @@ export default function Hiring() {
 
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                <Shield className="w-6 h-6 text-gray-900" />
+                <Shield className="w-6 h-6 text-red-600" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Compliance & Inspections</h3>
               <ul className="text-sm text-gray-600 space-y-2">
@@ -188,7 +188,7 @@ export default function Hiring() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-4">
-                <Car className="w-6 h-6 text-gray-900" />
+                <Car className="w-6 h-6 text-red-600" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Company Vehicle</h3>
               <ul className="text-sm text-gray-600 space-y-2">
@@ -203,7 +203,7 @@ export default function Hiring() {
 
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-4">
-                <Wrench className="w-6 h-6 text-gray-900" />
+                <Wrench className="w-6 h-6 text-red-600" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Tools & Equipment</h3>
               <ul className="text-sm text-gray-600 space-y-2">
@@ -217,7 +217,7 @@ export default function Hiring() {
 
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-4">
-                <Briefcase className="w-6 h-6 text-gray-900" />
+                <Briefcase className="w-6 h-6 text-red-600" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Material Management</h3>
               <ul className="text-sm text-gray-600 space-y-2">
@@ -425,7 +425,7 @@ export default function Hiring() {
         <motion.section {...fadeIn} className="text-center py-12">
           <h2 className="text-3xl font-light text-gray-900 mb-4">Ready to Join Our Team?</h2>
           <p className="text-gray-600 mb-8">Apply today and start your career with Dancoby Construction</p>
-          <Button asChild size="lg" className="bg-gray-900 hover:bg-gray-800 text-white px-10 py-6 text-lg">
+          <Button asChild size="lg" className="bg-red-600 hover:bg-red-700 text-white px-10 py-6 text-lg">
             <Link to={createPageUrl('Contact')}>Apply Now</Link>
           </Button>
         </motion.section>
