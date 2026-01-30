@@ -313,9 +313,8 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="text-center mt-16 flex flex-wrap gap-4 justify-center">
-            <EstimatorButton size="large" />
-            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-8 h-12">
+          <div className="text-center mt-16">
+            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-8">
               <Link to={createPageUrl('Projects')}>Featured Projects</Link>
             </Button>
           </div>
