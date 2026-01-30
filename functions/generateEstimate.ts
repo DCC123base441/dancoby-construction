@@ -1,159 +1,154 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
-const costDatabase = {
-  Countertops: {
-    Granite: 50,
-    Quartz: 60,
-    Marble: 80,
-    Laminate: 20,
-    'Butcher Block': 45
-  },
-  Flooring: {
-    Hardwood: 8,
-    Tile: 6,
-    Vinyl: 3,
-    Laminate: 4,
-    Marble: 12
-  },
-  Cabinetry: {
-    'White Shaker': 100,
-    'Dark Walnut': 120,
-    'Light Oak': 90,
-    Custom: 150,
-    'Two-Tone': 130
-  },
-  Backsplash: {
-    'Subway Tile': 25,
-    Mosaic: 35,
-    Marble: 40,
-    Hexagon: 30,
-    None: 0
-  },
-  Fixtures: {
-    Chrome: 15,
-    'Brushed Nickel': 18,
-    'Matte Black': 20,
-    Gold: 25,
-    'Stainless Steel': 22
-  },
-  Paint: {
-    'Soft White': 2,
-    'Warm Gray': 2,
-    'Navy Blue': 2,
-    'Sage Green': 2,
-    'Classic Beige': 2
-  },
-  Tile: {
-    'White Subway': 8,
-    'Carrara Marble': 15,
-    Hexagon: 10,
-    'Large Format': 12,
-    Mosaic: 14
-  },
-  Hardware: {
-    Modern: 30,
-    Traditional: 25,
-    Industrial: 35,
-    Vintage: 20
-  }
-};
-
-const roomMultipliers = {
-  Kitchen: 1.5,
-  Bathroom: 1.2,
-  Bedroom: 0.9,
-  'Living Room': 1.0,
-  'Full House': 2.5
-};
-
-const laborCost = {
-  Kitchen: 5000,
-  Bathroom: 3000,
-  Bedroom: 2000,
-  'Living Room': 2500,
-  'Full House': 8000
-};
-
 Deno.serve(async (req) => {
-  if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
-  }
-
   try {
-    const body = await req.json();
-    const { imageUrl, roomType, finishes } = body;
+    const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me();
 
-    if (!imageUrl || !roomType || !finishes) {
-      return new Response(
-        JSON.stringify({ error: 'Missing required fields' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
+    if (!user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const base44 = createClientFromRequest(req);
+    const body = await req.json();
+    const { imageUrl, roomType, selectedFinishes, userAnswers } = body;
 
-    // Generate visualization prompt
-    const finishesDescription = Object.entries(finishes)
-      .map(([cat, item]) => `${cat}: ${item}`)
-      .join(', ');
+    // Generate prompt for AI to estimate square footage and analyze space
+    const estimationPrompt = `Analyze this ${roomType} renovation photo and provide:
+1. Estimated square footage (be realistic based on visible dimensions)
+2. Room condition assessment
+3. Complexity factors that affect cost
 
-    const visualizationPrompt = `You are a professional interior designer. Take this photo of a ${roomType} and create a photorealistic visualization showing a beautiful, sophisticated renovation with these finishes: ${finishesDescription}. The design should be modern, elegant, and high-end. Apply the finishes tastefully and cohesively. The space should look like a professional home renovation magazine feature.`;
+Respond with JSON:
+{
+  "squareFootage": <number>,
+  "complexity": "low|medium|high",
+  "condition": "good|fair|poor",
+  "notes": "<brief description>"
+}`;
 
-    // Generate visualization image
-    const imageResponse = await base44.integrations.Core.GenerateImage({
-      prompt: visualizationPrompt,
-      existing_image_urls: [imageUrl]
+    // Get square footage estimate from AI
+    const sqftEstimate = await base44.integrations.Core.InvokeLLM({
+      prompt: estimationPrompt,
+      response_json_schema: {
+        type: 'object',
+        properties: {
+          squareFootage: { type: 'number' },
+          complexity: { type: 'string' },
+          condition: { type: 'string' },
+          notes: { type: 'string' }
+        }
+      },
+      file_urls: imageUrl ? [imageUrl] : []
     });
 
-    const visualizedImageUrl = imageResponse.url;
-
-    // Calculate costs
-    let materialCost = 0;
-    for (const [category, selection] of Object.entries(finishes)) {
-      const unitCost = costDatabase[category]?.[selection] || 0;
-      const sqftEstimate = 200; // Default estimate, could be refined with computer vision
-      materialCost += unitCost * sqftEstimate;
-    }
-
-    const multiplier = roomMultipliers[roomType] || 1;
-    const baseLabor = laborCost[roomType] || 3000;
-    const adjustedMaterialCost = materialCost * multiplier;
-    const totalLabor = baseLabor * multiplier;
-
-    const minCost = Math.floor(adjustedMaterialCost + totalLabor);
-    const maxCost = Math.floor((adjustedMaterialCost + totalLabor) * 1.3); // 30% buffer for contingencies
-
-    // Create breakdown
-    const breakdown = {
-      Materials: Math.floor(adjustedMaterialCost),
-      Labor: Math.floor(totalLabor),
-      'Design & Permits': Math.floor((adjustedMaterialCost + totalLabor) * 0.1),
-      'Contingency (10%)': Math.floor((adjustedMaterialCost + totalLabor) * 0.1)
+    // Cost database by room type and category
+    const costDatabase = {
+      'Kitchen Renovation': {
+        materials: { perSqft: 150, base: 5000 },
+        labor: { perSqft: 100, base: 3000 },
+        permits: { base: 800 }
+      },
+      'Bathroom Remodeling': {
+        materials: { perSqft: 120, base: 3000 },
+        labor: { perSqft: 80, base: 2000 },
+        permits: { base: 400 }
+      },
+      'Interior Renovations': {
+        materials: { perSqft: 100, base: 4000 },
+        labor: { perSqft: 75, base: 2500 },
+        permits: { base: 600 }
+      },
+      'Brownstone Restoration': {
+        materials: { perSqft: 200, base: 10000 },
+        labor: { perSqft: 150, base: 5000 },
+        permits: { base: 2000 }
+      },
+      'Townhouse & Apartment': {
+        materials: { perSqft: 130, base: 6000 },
+        labor: { perSqft: 90, base: 3500 },
+        permits: { base: 1200 }
+      },
+      'Full House Renovation': {
+        materials: { perSqft: 110, base: 15000 },
+        labor: { perSqft: 85, base: 10000 },
+        permits: { base: 3000 }
+      }
     };
 
-    return new Response(
-      JSON.stringify({
-        originalImageUrl: imageUrl,
-        visualizedImageUrl,
-        roomType,
-        squareFootage: 200,
-        costRange: {
-          min: minCost,
-          max: maxCost
+    // Complexity multipliers
+    const complexityMultiplier = {
+      low: 0.8,
+      medium: 1.0,
+      high: 1.3
+    };
+
+    // Condition adjustment
+    const conditionMultiplier = {
+      good: 0.9,
+      fair: 1.0,
+      poor: 1.3
+    };
+
+    const costs = costDatabase[roomType] || costDatabase['Interior Renovations'];
+    const sqft = sqftEstimate.squareFootage || 200;
+    const complexFactor = complexityMultiplier[sqftEstimate.complexity] || 1.0;
+    const conditionFactor = conditionMultiplier[sqftEstimate.condition] || 1.0;
+
+    // Calculate costs
+    const materialsCost = Math.round((costs.materials.perSqft * sqft + costs.materials.base) * complexFactor * conditionFactor);
+    const laborCost = Math.round((costs.labor.perSqft * sqft + costs.labor.base) * complexFactor * conditionFactor);
+    const permitsCost = Math.round(costs.permits.base * conditionFactor);
+    const contingency = Math.round((materialsCost + laborCost + permitsCost) * 0.15); // 15% contingency
+
+    const totalMin = materialsCost + laborCost + permitsCost;
+    const totalMax = Math.round(totalMin * 1.25); // 25% variance for unknowns
+
+    // Finish adjustments
+    let finishAdjustment = 0;
+    if (selectedFinishes) {
+      const finishCosts = {
+        'Premium': 5000,
+        'High-End': 8000,
+        'Standard': 0,
+        'Budget': -2000
+      };
+      Object.values(selectedFinishes).forEach(finish => {
+        finishAdjustment += finishCosts[finish] || 0;
+      });
+    }
+
+    return Response.json({
+      squareFootage: sqft,
+      complexity: sqftEstimate.complexity,
+      condition: sqftEstimate.condition,
+      costBreakdown: {
+        materials: {
+          label: 'Materials & Finishes',
+          cost: materialsCost + finishAdjustment,
+          percentage: Math.round((materialsCost + finishAdjustment) / (totalMin + finishAdjustment) * 100)
         },
-        breakdown,
-        finishesSelected: finishes
-      }),
-      {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
+        labor: {
+          label: 'Labor & Installation',
+          cost: laborCost,
+          percentage: Math.round(laborCost / (totalMin + finishAdjustment) * 100)
+        },
+        permits: {
+          label: 'Permits & Inspections',
+          cost: permitsCost,
+          percentage: Math.round(permitsCost / (totalMin + finishAdjustment) * 100)
+        },
+        contingency: {
+          label: 'Contingency (15%)',
+          cost: contingency,
+          percentage: 15
+        }
+      },
+      totalMin: totalMin + finishAdjustment,
+      totalMax: totalMax + finishAdjustment,
+      notes: sqftEstimate.notes
+    });
   } catch (error) {
-    console.error('Error generating estimate:', error);
-    return new Response(
-      JSON.stringify({ error: 'Failed to generate estimate' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    console.error('Error:', error);
+    return Response.json({ error: error.message }, { status: 500 });
   }
 });
