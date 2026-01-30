@@ -335,13 +335,26 @@ export default function Home() {
 
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
             <motion.div {...fadeIn}>
-              <div className="bg-gradient-to-br from-[#f8f7f6] to-[#f0efed] rounded-2xl p-8 shadow-lg">
-                <motion.img 
-                  src="https://www.jobtread.com/images/videos/jobtread-in-five-minutes.webp"
-                  alt="JobTread Dashboard"
-                  className="w-full rounded-lg shadow-md"
-                  animate={{ 
-                    y: [0, -8, 0],
+              <motion.div 
+                className="bg-gradient-to-br from-[#f8f7f6] to-[#f0efed] rounded-2xl p-8 shadow-lg relative"
+                animate={{
+                  boxShadow: [
+                    "0 10px 40px -10px rgba(107, 102, 94, 0.2)",
+                    "0 20px 60px -10px rgba(107, 102, 94, 0.35)",
+                    "0 10px 40px -10px rgba(107, 102, 94, 0.2)"
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <motion.div
+                  className="absolute inset-0 rounded-2xl opacity-0"
+                  style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(107,102,94,0.05) 100%)" }}
+                  animate={{
+                    opacity: [0, 0.5, 0]
                   }}
                   transition={{
                     duration: 4,
@@ -349,7 +362,20 @@ export default function Home() {
                     ease: "easeInOut"
                   }}
                 />
-              </div>
+                <motion.img 
+                  src="https://www.jobtread.com/images/videos/jobtread-in-five-minutes.webp"
+                  alt="JobTread Dashboard"
+                  className="w-full rounded-lg shadow-md relative z-10"
+                  animate={{ 
+                    scale: [1, 1.01, 1],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </motion.div>
             </motion.div>
 
             <motion.div {...fadeIn} className="space-y-8">
