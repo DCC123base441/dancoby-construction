@@ -109,14 +109,16 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <motion.div {...fadeIn}>
-              <img 
-                src="https://static.wixstatic.com/media/c1b522_74cf22378412427c8944f5e8a0fa3851~mv2.jpeg/v1/fill/w_366,h_654,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%209.jpeg"
-                alt="Bathroom"
-                className="w-full h-[500px] object-cover"
-              />
-              <div className="mt-8">
+          <div className="space-y-12">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <motion.div {...fadeIn}>
+                <img 
+                  src="https://static.wixstatic.com/media/c1b522_74cf22378412427c8944f5e8a0fa3851~mv2.jpeg/v1/fill/w_366,h_654,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%209.jpeg"
+                  alt="Bathroom"
+                  className="w-full"
+                />
+              </motion.div>
+              <motion.div {...fadeIn}>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Home is where the heart is.</h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
                   Which is why your space should promote cozy relaxation and evoke your unique personality and taste.
@@ -124,14 +126,14 @@ export default function Home() {
                 <p className="text-gray-600 leading-relaxed">
                   That's why our team of professionals provides a customer-centric experience with complete collaboration that ensures we turn your conceptual ideas into sophisticated transformations.
                 </p>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
 
             <motion.div {...fadeIn}>
               <img 
                 src="https://static.wixstatic.com/media/c1b522_30838463920a460186882c2d6dae4ad4~mv2.jpeg/v1/fill/w_451,h_870,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2015.jpeg"
                 alt="Kitchen"
-                className="w-full h-[600px] object-cover"
+                className="w-full"
               />
             </motion.div>
           </div>
