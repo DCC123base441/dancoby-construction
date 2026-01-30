@@ -142,8 +142,8 @@ export default function Home() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      className="group cursor-pointer"
-                    >
+                      className="group"
+                      >
                       <div className="block h-full">
                           <img 
                             src={service.image}
