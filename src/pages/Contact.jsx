@@ -157,7 +157,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-serif mb-2 text-gray-900">Request Your Online Estimate</h2>
+            <h2 className="text-2xl font-serif mb-2 text-gray-900">Request Estimate</h2>
             <p className="text-gray-600 text-sm mb-8">Fill out the form below and we'll get back to you within 24 hours to schedule your free consultation.</p>
 
             <form className="jtwf" data-jobtread-web-form="true" data-key="22SrWsutaFVFqgWZnGsBzRCK3SrUNEyLu3">
@@ -238,7 +238,7 @@ export default function Contact() {
                 </label>
               </div>
 
-              <button type="submit" data-submit-button="true">Request Online Estimate</button>
+              <button type="submit" data-submit-button="true">Request Estimate</button>
 
               <div className="flex gap-8 justify-center items-center text-sm text-gray-400 mt-4">
                 <span className="flex items-center gap-1.5">
