@@ -258,6 +258,36 @@ export default function Estimator() {
             </p>
           </motion.div>
 
+          {/* AI Visualization Section */}
+          {(imageUrl || estimateData.visualizationUrl) && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <Sparkles className="w-5 h-5 text-amber-500" />
+                <h3 className="text-lg font-bold text-gray-900">AI Renovation Visualization</h3>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                {imageUrl && (
+                  <div>
+                    <p className="text-sm text-gray-500 mb-2">Current Space</p>
+                    <img src={imageUrl} alt="Current space" className="w-full h-64 object-cover rounded-lg" />
+                  </div>
+                )}
+                {estimateData.visualizationUrl && (
+                  <div>
+                    <p className="text-sm text-gray-500 mb-2">AI-Generated After Renovation</p>
+                    <img src={estimateData.visualizationUrl} alt="Renovation visualization" className="w-full h-64 object-cover rounded-lg" />
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-gray-500 mt-3">*Visualization is AI-generated for illustrative purposes only. Actual results may vary.</p>
+            </motion.div>
+          )}
+
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -268,18 +298,22 @@ export default function Estimator() {
               {/* Space Analysis */}
               <div className="border-b pb-8">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Space Analysis</h3>
-                <div className="grid sm:grid-cols-3 gap-4">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <p className="text-gray-600 text-sm">Estimated Square Footage</p>
                     <p className="text-2xl font-bold text-gray-900">{estimateData.squareFootage} sq ft</p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-gray-600 text-sm">Complexity Level</p>
+                    <p className="text-gray-600 text-sm">Project Complexity</p>
                     <p className="text-2xl font-bold capitalize text-gray-900">{estimateData.complexity}</p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-gray-600 text-sm">Condition Assessment</p>
+                    <p className="text-gray-600 text-sm">Current Condition</p>
                     <p className="text-2xl font-bold capitalize text-gray-900">{estimateData.condition}</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-gray-600 text-sm">Est. Timeline</p>
+                    <p className="text-2xl font-bold text-gray-900">{estimateData.estimatedWeeks || '4-8'} weeks</p>
                   </div>
                 </div>
               </div>
