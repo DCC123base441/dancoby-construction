@@ -10,18 +10,18 @@ export default function Home() {
 
   const heroProjects = [
     {
-      title: "The most exquisite luxury retail destination in the country, with a whiff of Paris",
-      location: "Printemps / New York, NY",
+      title: "Sophisticated bathroom renovation transforming a Brooklyn brownstone into a spa-like retreat",
+      location: "Penthouse Renovation / Brooklyn, NY",
       image: "https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
     },
     {
-      title: "A tastefully built Italian marketplace offers an upscale dining and retail experience",
-      location: "Eataly / Brooklyn, NY",
+      title: "Complete kitchen and living space renovation blending modern functionality with timeless elegance",
+      location: "Park Slope Townhouse / Brooklyn, NY",
       image: "https://static.wixstatic.com/media/c1b522_74cf22378412427c8944f5e8a0fa3851~mv2.jpeg/v1/fill/w_366,h_654,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%209.jpeg"
     },
     {
-      title: "Global fashion retailer revamps Hudson Yards Flagship with renovation and expansion",
-      location: "H&M / New York, NY",
+      title: "Full interior renovation of a Manhattan apartment featuring custom cabinetry and premium finishes",
+      location: "Upper West Side Apartment / Manhattan, NY",
       image: "https://static.wixstatic.com/media/c1b522_30838463920a460186882c2d6dae4ad4~mv2.jpeg/v1/fill/w_451,h_870,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2015.jpeg"
     }
   ];
@@ -116,14 +116,14 @@ export default function Home() {
 
             <motion.div {...fadeIn} className="space-y-6">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                We Look At Construction Differently.
+                Sophisticated, Customer-Centric Transformations
               </h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  We've spent decades building an enviable reputation as one of the region's leading general contractors. Clients continually rely on us to meet – and exceed – their schedules, specifications, and budgets on each project we are assigned.
+                  For over 20 years, Dancoby Construction has been transforming homes and commercial spaces across Brooklyn, Manhattan, and beyond. We specialize in creating sophisticated renovations that blend timeless design with modern functionality, all while maintaining your budget and timeline.
                 </p>
                 <p>
-                  With a staff of experienced professionals, a field-tested project management program, and a sound business model, our proprietary construction process delivers exceptional results – project after project.
+                  Our team of licensed professionals approaches every project with passion and meticulous attention to detail. Whether it's a luxury bathroom renovation, full kitchen remodel, or complete interior transformation, we're committed to exceeding expectations on every job.
                 </p>
               </div>
               <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white mt-6">
@@ -139,10 +139,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center">
             <p className="text-white/90 text-sm uppercase tracking-wider mb-3">
-              ENR East has named Dancoby
+              Award-Winning Excellence
             </p>
             <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              NY CONTRACTOR OF THE YEAR
+              5-Year Warranty on All Projects
             </h3>
             <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-red-600 transition-all">
               Read More
@@ -157,23 +157,23 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                title: "An electrifying build brings a new vibe to NoMad",
-                logo: "Electric Shuffle",
+                title: "Master bathroom renovation with heated marble floors and custom vanity cabinetry",
+                logo: "Luxury Bath Remodel",
                 image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished%20Shot%2017.jpeg"
               },
               {
-                title: "Parisian luxury crafted into an elegant multi-level boutique",
-                logo: "Van Cleef & Arpels",
+                title: "Open-concept kitchen and living space with custom millwork and premium finishes",
+                logo: "Kitchen + Living Renovation",
                 image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg"
               },
               {
-                title: "Carefully built for art and ambiance above Michelin-Starred restaurant",
-                logo: "Clemente Bar",
+                title: "Complete brownstone interior transformation with custom architectural details",
+                logo: "Brownstone Restoration",
                 image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg"
               },
               {
-                title: "Liverpool's retail supercenter undergoes a remodel and expansion",
-                logo: "Walmart",
+                title: "Penthouse renovation featuring floor-to-ceiling windows and custom design elements",
+                logo: "Penthouse Upgrade",
                 image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg"
               }
             ].map((project, idx) => (
@@ -251,10 +251,10 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
-              Ready to Start Your Project?
+              Transform Your Space Into Something Extraordinary
             </h2>
             <p className="text-xl text-gray-300 mb-12">
-              Let's discuss how we can bring your vision to life
+              Let's create your perfect home with sophisticated design and expert craftsmanship
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button asChild size="lg" className="bg-red-600 hover:bg-red-700 text-white px-10">
