@@ -9,28 +9,6 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 
 export default function Home() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const heroProjects = [
-    {
-      title: "Sophisticated, Customer-Centric Transformations",
-      location: "Dancoby Construction Company",
-      image: "https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
-    },
-    {
-      title: "Complete kitchen and living space renovation blending modern functionality with timeless elegance",
-      location: "Park Slope Townhouse / Brooklyn, NY",
-      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/33d419c8d_Dancoby_498Westminster_MasterBath_02.jpg"
-    },
-    {
-      title: "Full interior renovation of a Manhattan apartment featuring custom cabinetry and premium finishes",
-      location: "Upper West Side Apartment / Manhattan, NY",
-      image: "https://static.wixstatic.com/media/c1b522_30838463920a460186882c2d6dae4ad4~mv2.jpeg/v1/fill/w_451,h_870,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2015.jpeg"
-    }
-  ];
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % heroProjects.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + heroProjects.length) % heroProjects.length);
 
   const fadeIn = {
     initial: { opacity: 0, y: 30 },
@@ -41,67 +19,35 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Slider */}
-      <section className="relative h-screen overflow-hidden">
-        {heroProjects.map((project, idx) => (
-          <motion.div
-            key={idx}
-            initial={false}
-            animate={{
-              opacity: currentSlide === idx ? 1 : 0,
-              scale: currentSlide === idx ? 1 : 1.1
-            }}
-            transition={{ duration: 0.7 }}
-            className="absolute inset-0"
-            style={{ pointerEvents: currentSlide === idx ? 'auto' : 'none' }}
-          >
-            <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${project.image})` }}
-            />
-            <div className="absolute inset-0 bg-black/40" />
-          </motion.div>
-        ))}
+      {/* Hero Section */}
+              <section className="relative h-screen overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg)` }}
+                />
+                <div className="absolute inset-0 bg-black/40" />
 
-        {/* Slide Content */}
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-6 w-full">
-            <div className="max-w-2xl">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <div className="h-1 w-16 bg-red-600 mb-6" />
-                <p className="text-white/90 text-base uppercase tracking-wider mb-4">
-                  {heroProjects[currentSlide].location}
-                </p>
-                <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-8">
-                  {heroProjects[currentSlide].title}
-                </h1>
-                <EstimatorButton size="large" />
-              </motion.div>
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation Arrows */}
-        <div className="absolute bottom-12 left-6 z-20 flex gap-3">
-          <button 
-            onClick={prevSlide}
-            className="w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/20 flex items-center justify-center transition-all"
-          >
-            <ChevronLeft className="w-6 h-6 text-white" />
-          </button>
-          <button 
-            onClick={nextSlide}
-            className="w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/20 flex items-center justify-center transition-all"
-          >
-            <ChevronRight className="w-6 h-6 text-white" />
-          </button>
-        </div>
-      </section>
+                <div className="relative z-10 h-full flex items-center">
+                  <div className="max-w-7xl mx-auto px-6 w-full">
+                    <div className="max-w-2xl">
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                      >
+                        <div className="h-1 w-16 bg-red-600 mb-6" />
+                        <p className="text-white/90 text-base uppercase tracking-wider mb-4">
+                          Dancoby Construction Company
+                        </p>
+                        <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-8">
+                          Sophisticated, Customer-Centric Transformations
+                        </h1>
+                        <EstimatorButton size="large" />
+                      </motion.div>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
       {/* Who We Are Section */}
       <section className="py-20 bg-white">
