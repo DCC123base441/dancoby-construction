@@ -267,9 +267,9 @@ export default function Estimator() {
               AI-analyzed cost breakdown for your {answers.projectType}
             </p>
           </div>
-        </div>
 
-          {/* AI Visualization Section */}
+          <div className="max-w-4xl mx-auto px-6 py-12">
+            {/* AI Visualization Section */}
           {(imageUrl || estimateData.visualizationUrl) && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -393,6 +393,7 @@ export default function Estimator() {
                 <Link to={createPageUrl('Contact')}>Schedule Consultation</Link>
               </Button>
             </div>
+          </div>
         </div>
       </div>
     );
@@ -537,7 +538,6 @@ export default function Estimator() {
             </Button>
           </div>
         </motion.div>
-        </div>
       </div>
     </div>
   );
