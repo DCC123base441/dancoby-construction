@@ -275,7 +275,7 @@ export default function Estimator() {
         <div className="mb-12">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-semibold text-gray-600">
-              Question {currentQuestion + 1} of {questions.length}
+              Step {currentStep + 1} of {steps.length}
             </span>
             <span className="text-sm font-semibold text-red-600">
               {Math.round(progress)}% complete
@@ -290,19 +290,19 @@ export default function Estimator() {
             />
           </div>
           <div className="flex justify-between mt-4 gap-1">
-            {Array.from({ length: questions.length }).map((_, idx) => (
+            {Array.from({ length: steps.length }).map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => idx < currentQuestion && setCurrentQuestion(idx)}
+                onClick={() => idx < currentStep && setCurrentStep(idx)}
                 className={`w-8 h-8 rounded-full text-xs font-semibold transition-all ${
-                  idx === currentQuestion
+                  idx === currentStep
                     ? 'bg-red-600 text-white'
-                    : idx < currentQuestion
+                    : idx < currentStep
                     ? 'bg-green-600 text-white'
                     : 'bg-gray-300 text-gray-600'
                 }`}
               >
-                {idx < currentQuestion ? '✓' : idx + 1}
+                {idx < currentStep ? '✓' : idx + 1}
               </button>
             ))}
           </div>
