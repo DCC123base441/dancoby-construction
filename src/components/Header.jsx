@@ -16,17 +16,16 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-6 py-5">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to={createPageUrl('Home')} className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">D</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Dancoby</span>
-              <span className="text-[10px] text-slate-500 uppercase tracking-wider">Construction</span>
+          <Link to={createPageUrl('Home')} className="group">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-red-600 flex items-center justify-center">
+                <div className="w-4 h-4 bg-white transform rotate-45" />
+              </div>
+              <span className="text-2xl font-bold text-gray-900 tracking-tight">Dancoby</span>
             </div>
           </Link>
 
@@ -36,7 +35,7 @@ export default function Header() {
               <Link
                 key={link.name}
                 to={createPageUrl(link.path)}
-                className="text-slate-700 hover:text-blue-600 transition-colors text-sm font-medium"
+                className="text-gray-700 hover:text-red-600 transition-colors text-sm font-normal"
               >
                 {link.name}
               </Link>
@@ -47,9 +46,9 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             <Button 
               asChild
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full"
+              className="bg-red-600 hover:bg-red-700 text-white"
             >
-              <Link to={createPageUrl('Contact')}>Get Started</Link>
+              <Link to={createPageUrl('Contact')}>Contact</Link>
             </Button>
           </div>
 
