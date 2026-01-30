@@ -20,14 +20,25 @@ export default function Projects() {
     initialData: []
   });
 
-  // Custom order for cohesive color flow (warm tones grouped together)
+  // Custom order for cohesive color flow (warm tones → neutral → cool → dark)
   const customOrder = [
+    // Warm wood tones
     'Warm Oak Kitchen with Statement Marble',
+    '15th Street Modern Dining',
+    'Coffee Shop Buildout',
+    // Neutral/warm browns & travertine
     'Modern Bathroom with Chevron Tile & Travertine',
-    'Elegant Kitchen Renovation with Custom Cabinetry',
     'Vibrant Pink & Brass Bathroom',
-    'Master Bathroom Renovation with Heated Marble Floors',
+    // White/bright spaces
+    'Elegant Kitchen Renovation with Custom Cabinetry',
+    'Brooklyn Kitchen Renovation',
     'Open-Concept Kitchen and Living Space with Custom Millwork',
+    // Marble/stone tones
+    'Judith Marble Bathroom',
+    'Master Bathroom Renovation with Heated Marble Floors',
+    'Modern powder room with marble flooring and walnut accent paneling',
+    // Classic/exterior
+    'Woodmere Front Entrance',
     'Westminster Townhouse Living Room',
     'Brownstone Restoration',
     'Penthouse Upgrade'
