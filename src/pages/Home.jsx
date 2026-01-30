@@ -72,8 +72,8 @@ export default function Home() {
             <h3 className="text-4xl font-bold text-gray-900 mb-6">
               Full-Service Rejuvenation For Any Space
             </h3>
-            <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg">
-              Learn More
+            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg">
+              <Link to={createPageUrl('Contact')}>Learn More</Link>
             </Button>
           </div>
 
@@ -206,8 +206,8 @@ export default function Home() {
             <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed mb-8">
               Using our customer-centric and collaborative approach, we can turn your concept into a mock-up so you can enter any new project trusting that the final result will exceed your expectations.
             </p>
-            <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg">
-              Learn More
+            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg">
+              <Link to={createPageUrl('Projects')}>Learn More</Link>
             </Button>
           </div>
 
