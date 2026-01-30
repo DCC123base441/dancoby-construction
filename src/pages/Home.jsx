@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import EstimatorButton from '../components/EstimatorButton';
 import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
