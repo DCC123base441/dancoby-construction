@@ -10,9 +10,12 @@ import ImageUpload from '../components/estimator/ImageUpload';
 import FinishSelector from '../components/estimator/FinishSelector';
 
 export default function Estimator() {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [showResult, setShowResult] = useState(false);
+  const [selectedFinishes, setSelectedFinishes] = useState({});
+  const [imageUrl, setImageUrl] = useState(null);
+  const [estimateData, setEstimateData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const questions = [
     {
