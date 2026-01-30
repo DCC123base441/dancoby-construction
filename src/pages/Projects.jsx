@@ -1,55 +1,38 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { X } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
+import ProjectCard from '../components/ProjectCard';
+import ProjectFilters from '../components/ProjectFilters';
 
 export default function Projects() {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [category, setCategory] = useState('all');
+  const [sort, setSort] = useState('recent');
 
-  const projects = [
-    {
-      title: "Penthouse A",
-      image: "https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fit/w_960,h_1280,q_90,enc_avif,quality_auto/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg"
-    },
-    {
-      title: "Privet",
-      image: "https://static.wixstatic.com/media/c1b522_5882028639a9479ab19479577302810a~mv2.jpeg/v1/fit/w_960,h_1280,q_90,enc_avif,quality_auto/c1b522_5882028639a9479ab19479577302810a~mv2.jpeg"
-    },
-    {
-      title: "The Garden",
-      image: "https://static.wixstatic.com/media/c1b522_0463b4b57a704427b7c60a57afd204b4~mv2.jpg/v1/fill/w_445,h_520,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2269%201.jpg"
-    },
-    {
-      title: "So Suite",
-      image: "https://static.wixstatic.com/media/c1b522_ad38c506d35e4fd6a819d8702ad6b680~mv2.jpg/v1/fill/w_445,h_520,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_849%20Central_15.jpg"
-    },
-    {
-      title: "Penthouse Living",
-      image: "https://static.wixstatic.com/media/c1b522_d14a164578e44c94b12a1805090ad37e~mv2.jpeg/v1/fill/w_445,h_520,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished%20Shot%2020%20-%20V2.jpeg"
-    },
-    {
-      title: "Conklin Bathroom",
-      image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg"
-    },
-    {
-      title: "Modern Interior",
-      image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished%20Shot%2017.jpeg"
-    },
-    {
-      title: "Kitchen Design",
-      image: "https://static.wixstatic.com/media/c1b522_7231b6f8cbaf46cf8dd85c643a4230f7~mv2.jpg/v1/fill/w_467,h_418,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2311%201.jpg"
-    },
-    {
-      title: "Park Slope",
-      image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg"
-    },
-    {
-      title: "Villier Living",
-      image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg"
-    }
-  ];
+  const { data: projects = [], isLoading } = useQuery({
+    queryKey: ['projects'],
+    queryFn: () => base44.entities.Project.list(),
+    initialData: []
+  });
+
+  const filteredProjects = projects
+    .filter(p => category === 'all' || p.category === category)
+    .sort((a, b) => {
+      switch(sort) {
+        case 'oldest':
+          return new Date(a.created_date) - new Date(b.created_date);
+        case 'name-asc':
+          return a.title.localeCompare(b.title);
+        case 'name-desc':
+          return b.title.localeCompare(a.title);
+        case 'recent':
+        default:
+          return new Date(b.created_date) - new Date(a.created_date);
+      }
+    });
 
   return (
     <div className="min-h-screen bg-white">
@@ -76,83 +59,27 @@ export default function Projects() {
       {/* Projects Grid */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group cursor-pointer"
-                onClick={() => setSelectedProject(project)}
-              >
-                <div className="relative h-[500px] overflow-hidden bg-gray-100">
-                  <motion.img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                  />
-                  <motion.div
-                    className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-end justify-center pb-8"
-                  >
-                    <motion.h3
-                      initial={{ opacity: 0, y: 20 }}
-                      whileHover={{ opacity: 1, y: 0 }}
-                      className="text-white text-2xl font-light tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    >
-                      {project.title}
-                    </motion.h3>
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <ProjectFilters onFilterChange={setCategory} onSortChange={setSort} />
+
+          {isLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <p className="text-gray-500">Loading projects...</p>
+            </div>
+          ) : filteredProjects.length === 0 ? (
+            <div className="flex items-center justify-center py-16">
+              <p className="text-gray-500">No projects found in this category.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Modal for Selected Project */}
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-6"
-            onClick={() => setSelectedProject(null)}
-          >
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors z-50"
-              onClick={() => setSelectedProject(null)}
-            >
-              <X className="w-10 h-10" />
-            </motion.button>
-            
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="max-w-5xl w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={selectedProject.image}
-                alt={selectedProject.title}
-                className="w-full max-h-[85vh] object-contain"
-              />
-              <h2 className="text-white text-3xl font-light text-center mt-8 tracking-wide">
-                {selectedProject.title}
-              </h2>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
 
       {/* CTA Section */}
       <section className="py-24 bg-gray-50">
