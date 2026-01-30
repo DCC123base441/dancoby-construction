@@ -135,8 +135,8 @@ export default function Home() {
             </motion.div>
 
             {/* Right Image */}
-            <motion.div {...fadeIn} className="group flex items-end">
-              <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg w-full">
+            <motion.div {...fadeIn} className="group self-end">
+              <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
                 <img 
                   src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
                   alt="Kitchen"
