@@ -3,19 +3,76 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { base44 } from '@/api/base44Client';
-import { X, Send, MessageCircle, Loader } from 'lucide-react';
+import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
+
+const engagingMessages = [
+  "🔨 Did you know? The average kitchen renovation takes 6-8 weeks. Good thing patience is a virtue!",
+  "🏠 Fun fact: Brownstones got their name from the brown Triassic sandstone used on their facades. The more you know!",
+  "💡 Pro tip: LED under-cabinet lighting can make your kitchen look like a million bucks... for way less!",
+  "🛁 Here's a thought: A well-designed bathroom can increase your home value by up to 20%!",
+  "🪜 Random thought: If walls could talk, ours would probably say 'Thanks for the makeover!'",
+  "🎨 Color trivia: White kitchens are timeless, but navy blue is having a moment right now!",
+  "🔧 Dad joke alert: Why did the contractor break up with the calculator? They just couldn't count on each other!",
+  "✨ Just browsing? That's cool! I'm here if you want to chat about turning your space into something amazing.",
+  "🏗️ Contractor humor: Our team is so good, even our mistakes are load-bearing! (Just kidding, we don't make mistakes 😉)",
+  "💭 Thinking about renovating? Studies show 87% of homeowners wish they'd started sooner!",
+];
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: 'Hello! 👋 I\'m here to answer your renovation and construction questions. Ask me about kitchens, bathrooms, brownstones, or any home improvement topics!'
+      content: 'Hey there! 👋 I\'m your renovation buddy. Whether you\'re dreaming about a chef\'s kitchen or a spa-like bathroom, I\'m here to help. Ask me anything—or just say hi!'
     }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [bubbleMessage, setBubbleMessage] = useState('');
+  const [showBubble, setShowBubble] = useState(false);
   const messagesEndRef = useRef(null);
+  const bubbleTimerRef = useRef(null);
+  const hasShownInitialBubble = useRef(false);
+
+  // Show engaging bubble messages periodically when chat is closed
+  useEffect(() => {
+    if (isOpen) {
+      setShowBubble(false);
+      return;
+    }
+
+    const showRandomBubble = () => {
+      const randomMessage = engagingMessages[Math.floor(Math.random() * engagingMessages.length)];
+      setBubbleMessage(randomMessage);
+      setShowBubble(true);
+      
+      // Hide bubble after 8 seconds
+      setTimeout(() => setShowBubble(false), 8000);
+    };
+
+    // Show first bubble after 15 seconds
+    if (!hasShownInitialBubble.current) {
+      const initialTimer = setTimeout(() => {
+        showRandomBubble();
+        hasShownInitialBubble.current = true;
+      }, 15000);
+      
+      return () => clearTimeout(initialTimer);
+    }
+
+    // Then show bubbles every 45-60 seconds
+    bubbleTimerRef.current = setInterval(() => {
+      if (!isOpen) {
+        showRandomBubble();
+      }
+    }, 45000 + Math.random() * 15000);
+
+    return () => {
+      if (bubbleTimerRef.current) {
+        clearInterval(bubbleTimerRef.current);
+      }
+    };
+  }, [isOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -37,7 +94,17 @@ export default function ChatBot() {
 
     try {
       const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are a helpful renovation and construction expert for Dancoby Construction Company. Answer questions about home renovations, kitchen and bath remodeling, brownstone restorations, and construction services. Keep responses concise, friendly, and professional. If relevant, suggest scheduling a consultation.\n\nUser question: ${userMessage}`,
+        prompt: `You are a friendly, witty renovation expert for Dancoby Construction Company in NYC. Your personality is warm, helpful, and occasionally funny—throw in a light joke or pun when appropriate! Answer questions about home renovations, kitchen and bath remodeling, brownstone restorations, and construction services.
+
+Guidelines:
+- Keep responses concise but engaging (2-4 sentences max)
+- Be helpful and knowledgeable
+- Add personality—a light joke, fun fact, or playful comment is welcome
+- If relevant, suggest scheduling a consultation
+- Use emojis sparingly but effectively
+- Never be annoying or over-the-top
+
+User question: ${userMessage}`,
         add_context_from_internet: false
       });
 
@@ -54,6 +121,34 @@ export default function ChatBot() {
 
   return (
     <>
+      {/* Engaging Bubble */}
+      <AnimatePresence>
+        {showBubble && !isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+            className="fixed bottom-24 right-6 z-40 max-w-xs bg-white rounded-xl shadow-lg border border-gray-200 p-4 cursor-pointer"
+            onClick={() => {
+              setShowBubble(false);
+              setIsOpen(true);
+            }}
+          >
+            <div className="flex items-start gap-2">
+              <Sparkles className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-gray-700 leading-relaxed">{bubbleMessage}</p>
+            </div>
+            <button 
+              onClick={(e) => { e.stopPropagation(); setShowBubble(false); }}
+              className="absolute -top-2 -right-2 w-6 h-6 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-xs"
+            >
+              ✕
+            </button>
+            <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-r border-b border-gray-200 transform rotate-45" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Floating Button */}
       <AnimatePresence>
         {!isOpen && (
