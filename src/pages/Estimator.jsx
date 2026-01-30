@@ -224,18 +224,29 @@ export default function Estimator() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12 flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto px-6">
-          <div className="relative mb-6">
-            <Loader2 className="w-16 h-16 text-red-600 animate-spin mx-auto" />
-            <Sparkles className="w-6 h-6 text-amber-500 absolute top-0 right-1/3 animate-pulse" />
+      <div className="min-h-screen bg-gray-50">
+        {/* Hero */}
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 px-5">
+          <div className="max-w-6xl mx-auto text-center">
+            <span className="inline-block bg-white/10 border border-white/20 px-4 py-1.5 rounded-full text-sm mb-6">
+              Online Estimator
+            </span>
+            <h1 className="text-4xl md:text-5xl font-light">Analyzing Your Project</h1>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">AI is analyzing your project...</h3>
-          <p className="text-gray-600 mb-4">Generating your detailed cost estimate and renovation visualization</p>
-          <div className="flex justify-center gap-2 text-sm text-gray-500">
-            <span className="flex items-center gap-1"><ImageIcon className="w-4 h-4" /> Analyzing photos</span>
-            <span>•</span>
-            <span>Calculating costs</span>
+        </div>
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center max-w-md mx-auto px-6">
+            <div className="relative mb-6">
+              <Loader2 className="w-16 h-16 text-red-600 animate-spin mx-auto" />
+              <Sparkles className="w-6 h-6 text-amber-500 absolute top-0 right-1/3 animate-pulse" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">AI is analyzing your project...</h3>
+            <p className="text-gray-600 mb-4">Generating your detailed cost estimate and renovation visualization</p>
+            <div className="flex justify-center gap-2 text-sm text-gray-500">
+              <span className="flex items-center gap-1"><ImageIcon className="w-4 h-4" /> Analyzing photos</span>
+              <span>•</span>
+              <span>Calculating costs</span>
+            </div>
           </div>
         </div>
       </div>
@@ -244,20 +255,21 @@ export default function Estimator() {
 
   if (estimateData) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12">
-        <div className="max-w-3xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Your Detailed Estimate
-            </h1>
-            <p className="text-lg text-gray-600">
+      <div className="min-h-screen bg-gray-50">
+        {/* Hero */}
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 px-5">
+          <div className="max-w-6xl mx-auto">
+            <span className="inline-block bg-white/10 border border-white/20 px-4 py-1.5 rounded-full text-sm mb-6">
+              Online Estimator
+            </span>
+            <h1 className="text-4xl md:text-5xl font-light mb-4">Your Detailed Estimate</h1>
+            <p className="text-lg text-gray-300 max-w-2xl">
               AI-analyzed cost breakdown for your {answers.projectType}
             </p>
-          </motion.div>
+          </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto px-6 py-12">
 
           {/* AI Visualization Section */}
           {(imageUrl || estimateData.visualizationUrl) && (
@@ -390,24 +402,24 @@ export default function Estimator() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12">
-      <div className="max-w-3xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Get Your Online Estimate
-          </h1>
-          <p className="text-lg text-gray-600">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 px-5">
+        <div className="max-w-6xl mx-auto">
+          <span className="inline-block bg-white/10 border border-white/20 px-4 py-1.5 rounded-full text-sm mb-6">
+            Online Estimator
+          </span>
+          <h1 className="text-4xl md:text-5xl font-light mb-4">Get Your Online Estimate</h1>
+          <p className="text-lg text-gray-300 max-w-2xl">
             Answer a few quick questions to get a preliminary budget range for your renovation project.
           </p>
-        </motion.div>
+        </div>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-6 py-12">
 
         {/* Progress */}
-        <div className="mb-12">
+        <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-semibold text-gray-600">
               Step {currentStep + 1} of {steps.length}
@@ -528,6 +540,7 @@ export default function Estimator() {
             </Button>
           </div>
         </motion.div>
+        </div>
       </div>
     </div>
   );
