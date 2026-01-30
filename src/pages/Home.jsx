@@ -52,7 +52,7 @@ export default function Home() {
       {/* Who We Are Section */}
       <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-stretch">
             {/* Text Content */}
             <motion.div {...fadeIn} className="space-y-8">
               <div>
@@ -76,20 +76,20 @@ export default function Home() {
             </motion.div>
 
             {/* Images */}
-            <motion.div {...fadeIn} className="relative">
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-6">
+            <motion.div {...fadeIn} className="relative h-full">
+              <div className="grid grid-cols-2 gap-6 h-full">
+                <div className="h-full">
                   <img 
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
                     alt="Living Room"
-                    className="w-full shadow-xl object-cover aspect-[3/4]"
+                    className="w-full h-full shadow-xl object-cover"
                   />
                 </div>
-                <div className="space-y-6 pt-12">
+                <div className="h-full">
                   <img 
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
                     alt="Kitchen"
-                    className="w-full shadow-xl object-cover aspect-[3/4]"
+                    className="w-full h-full shadow-xl object-cover"
                   />
                 </div>
               </div>
