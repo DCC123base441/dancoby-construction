@@ -50,6 +50,7 @@
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
+import Home from './pages/Home';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
@@ -61,7 +62,6 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
 import Hiring from './pages/Hiring';
-import Home from './pages/Home';
 import __Layout from './Layout.jsx';
 
 
@@ -69,6 +69,7 @@ export const PAGES = {
     "About": About,
     "Contact": Contact,
     "Estimator": Estimator,
+    "Home": Home,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
@@ -80,7 +81,6 @@ export const PAGES = {
     "Services": Services,
     "TermsOfService": TermsOfService,
     "Hiring": Hiring,
-    "Home": Home,
 }
 
 export const pagesConfig = {
