@@ -458,7 +458,7 @@ export default function Home() {
       </section>
 
       {/* What We're Up To Section */}
-      <section className="bg-white border-b border-[#d6cec3]">
+      <section className="bg-white">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Current Projects</p>
           <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">What We're Up To</h2>
