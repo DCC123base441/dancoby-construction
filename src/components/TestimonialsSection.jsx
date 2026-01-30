@@ -69,7 +69,7 @@ export default function TestimonialsSection() {
                 </div>
               </div>
               <a 
-                href="https://www.google.com/maps/place/Dancoby+Construction/@40.6781784,-73.9441579,15z/data=!4m8!3m7!1s0x89c25bba1e5a5555:0x5555555555555555!8m2!3d40.6781784!4d-73.9441579!9m1!1b1!16s%2Fg%2F11c1p1p1p1"
+                href="https://g.page/r/CfLkGeakL9MkEAI/review"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-white text-stone-800 px-5 py-3 rounded-lg text-sm font-medium hover:bg-stone-100 transition-colors"
