@@ -46,7 +46,7 @@ export default function About() {
             {/* Our Mission */}
             <Card className="p-8 border-0 shadow-lg">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
                   <Target className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Our Mission</h3>
@@ -62,7 +62,7 @@ export default function About() {
             {/* Our Commitment */}
             <Card className="p-8 border-0 shadow-lg">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
                   <Shield className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Our Commitment</h3>
@@ -78,7 +78,7 @@ export default function About() {
             {/* Our Standards */}
             <Card className="p-8 border-0 shadow-lg">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
                   <Award className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Our Standards</h3>
@@ -116,7 +116,7 @@ export default function About() {
             </p>
             <Button 
               asChild
-              className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg mt-6"
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg mt-6"
             >
               <Link to={createPageUrl('Contact')}>Contact</Link>
             </Button>
@@ -172,7 +172,7 @@ export default function About() {
               </p>
               <Button 
                 asChild
-                className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg mt-6"
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg mt-6"
               >
                 <Link to={createPageUrl('Contact')}>Let's Talk</Link>
               </Button>
