@@ -109,7 +109,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-12 items-center">
+          <div className="grid lg:grid-cols-3 gap-12">
             {/* Left Image */}
             <motion.div {...fadeIn} className="group">
               <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
@@ -122,7 +122,7 @@ export default function Home() {
             </motion.div>
 
             {/* Center Text */}
-            <motion.div {...fadeIn} className="space-y-6">
+            <motion.div {...fadeIn} className="space-y-6 flex flex-col justify-center">
               <h3 className="text-4xl font-bold text-gray-900 leading-tight">Home is where the heart is.</h3>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
@@ -135,8 +135,8 @@ export default function Home() {
             </motion.div>
 
             {/* Right Image */}
-            <motion.div {...fadeIn} className="group">
-              <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
+            <motion.div {...fadeIn} className="group flex items-end">
+              <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg w-full">
                 <img 
                   src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
                   alt="Kitchen"
