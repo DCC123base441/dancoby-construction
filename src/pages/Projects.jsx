@@ -11,7 +11,7 @@ import EstimatorButton from '../components/EstimatorButton';
 
 export default function Projects() {
   const [category, setCategory] = useState('all');
-  const [sort, setSort] = useState('recent');
+  const [sort, setSort] = useState('curated');
 
   const { data: projects = [], isLoading } = useQuery({
     queryKey: ['projects'],
@@ -19,9 +19,29 @@ export default function Projects() {
     initialData: []
   });
 
+  // Custom order for cohesive color flow (warm tones grouped together)
+  const customOrder = [
+    'Warm Oak Kitchen with Statement Marble',
+    'Modern Bathroom with Chevron Tile & Travertine',
+    'Elegant Kitchen Renovation with Custom Cabinetry',
+    'Vibrant Pink & Brass Bathroom',
+    'Master Bathroom Renovation with Heated Marble Floors',
+    'Open-Concept Kitchen and Living Space with Custom Millwork',
+    'Westminster Townhouse Living Room',
+    'Brownstone Restoration',
+    'Penthouse Upgrade'
+  ];
+
   const filteredProjects = projects
     .filter(p => category === 'all' || p.category === category)
     .sort((a, b) => {
+      if (sort === 'curated') {
+        const indexA = customOrder.indexOf(a.title);
+        const indexB = customOrder.indexOf(b.title);
+        const orderA = indexA === -1 ? 999 : indexA;
+        const orderB = indexB === -1 ? 999 : indexB;
+        return orderA - orderB;
+      }
       switch(sort) {
         case 'oldest':
           return new Date(a.created_date) - new Date(b.created_date);
