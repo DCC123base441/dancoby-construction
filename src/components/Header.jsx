@@ -13,7 +13,7 @@ export default function Header() {
     { name: 'Projects', path: 'Projects' },
     { name: 'About', path: 'About' },
     { name: 'Press', path: 'Press' },
-    { name: 'Hiring', path: 'Hiring' },
+    { name: 'Careers', path: 'Hiring' },
 
   ];
 
