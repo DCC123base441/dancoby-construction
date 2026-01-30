@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, AlertCircle, Loader2 } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import ImageUpload from '../components/estimator/ImageUpload';
+import FinishSelector from '../components/estimator/FinishSelector';
 
 export default function Estimator() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
