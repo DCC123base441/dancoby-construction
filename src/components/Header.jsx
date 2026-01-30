@@ -21,13 +21,17 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to={createPageUrl('Home')} className="group">
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
-              alt="Dancoby"
-              className="h-16"
-            />
-          </Link>
+          <Link 
+                            to={createPageUrl('Home')} 
+                            className="group"
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                          >
+                            <img 
+                              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
+                              alt="Dancoby"
+                              className="h-16"
+                            />
+                          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-12">
