@@ -7,6 +7,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import ProjectCard from '../components/ProjectCard';
 import ProjectFilters from '../components/ProjectFilters';
+import EstimatorButton from '../components/EstimatorButton';
 
 export default function Projects() {
   const [category, setCategory] = useState('all');
@@ -96,13 +97,7 @@ export default function Projects() {
             <p className="text-xl text-gray-600 mb-12 font-light">
               Let's create something amazing together
             </p>
-            <Button 
-              asChild
-              size="lg" 
-              className="bg-gray-900 hover:bg-gray-800 text-white px-12 py-7 text-lg font-light tracking-wide"
-            >
-              <Link to={createPageUrl('Contact')}>Get Started</Link>
-            </Button>
+            <EstimatorButton size="large" />
           </motion.div>
         </div>
       </section>
