@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
       const documentHeight = document.documentElement.scrollHeight;
 
       // Check if we're at the very bottom of the page
-      if (window.scrollY + windowHeight >= documentHeight - 50) {
+      if (window.scrollY + windowHeight >= documentHeight - 10) {
         setActiveSection('contact');
         return;
       }
