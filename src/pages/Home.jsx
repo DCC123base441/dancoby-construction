@@ -109,31 +109,19 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="space-y-12">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <motion.div {...fadeIn}>
-                <img 
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
-                  alt="Living Room"
-                  className="w-full"
-                />
-              </motion.div>
-              <motion.div {...fadeIn}>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Home is where the heart is.</h3>
-                <p className="text-gray-600 leading-relaxed mb-6">
-                  Which is why your space should promote cozy relaxation and evoke your unique personality and taste.
-                </p>
-                <p className="text-gray-600 leading-relaxed">
-                  That's why our team of professionals provides a customer-centric experience with complete collaboration that ensures we turn your conceptual ideas into sophisticated transformations.
-                </p>
-              </motion.div>
-            </div>
-
+          <div className="grid lg:grid-cols-2 gap-8">
+            <motion.div {...fadeIn}>
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
+                alt="Living Room"
+                className="w-full h-64 object-cover"
+              />
+            </motion.div>
             <motion.div {...fadeIn}>
               <img 
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
                 alt="Kitchen"
-                className="w-full"
+                className="w-full h-64 object-cover"
               />
             </motion.div>
           </div>
