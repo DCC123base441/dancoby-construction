@@ -7,33 +7,33 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#3d3d3d] text-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+    <footer className="bg-[#0a0a0a] text-white border-t border-amber-500/10">
+      <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
-              <Building2 className="w-8 h-8 text-white" />
+              <Building2 className="w-8 h-8 text-amber-500" />
               <div>
-                <h3 className="text-xl font-bold text-white">Dancoby</h3>
-                <p className="text-xs text-white/60">Construction Company</p>
+                <h3 className="text-xl font-extralight text-amber-400">Dancoby</h3>
+                <p className="text-[10px] text-zinc-500 uppercase tracking-wider">Construction Company</p>
               </div>
             </div>
-            <p className="text-white/70 text-sm leading-relaxed">
+            <p className="text-zinc-400 text-sm leading-relaxed font-light">
               Sophisticated-Customer Centric-Transformations
             </p>
-            <p className="text-white/60 text-sm">
+            <p className="text-zinc-500 text-sm font-light">
               With over twenty years of experience and a dedication to customer satisfaction.
             </p>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">Our Services</h4>
+            <h4 className="text-zinc-200 font-light text-sm uppercase tracking-wider mb-6">Our Services</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-white/70 hover:text-white text-sm transition-colors">
+                <a href="#" className="text-zinc-500 hover:text-amber-400 text-sm transition-colors font-light">
                   Interior Renovations
                 </a>
               </li>

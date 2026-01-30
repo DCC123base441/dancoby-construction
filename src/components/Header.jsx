@@ -16,13 +16,13 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#2d2d2d] text-white">
-      <div className="max-w-7xl mx-auto px-6 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-lg border-b border-amber-500/10 text-white">
+      <div className="max-w-7xl mx-auto px-6 py-5">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to={createPageUrl('Home')} className="flex flex-col">
-            <span className="text-2xl font-bold tracking-tight">Dancoby</span>
-            <span className="text-xs text-white/70">Construction Company</span>
+          <Link to={createPageUrl('Home')} className="flex flex-col group">
+            <span className="text-2xl font-extralight tracking-tight text-amber-400 group-hover:text-amber-300 transition-colors">Dancoby</span>
+            <span className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-light">Construction</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -31,7 +31,7 @@ export default function Header() {
               <Link
                 key={link.name}
                 to={createPageUrl(link.path)}
-                className="text-white/90 hover:text-white transition-colors text-sm font-medium"
+                className="text-zinc-400 hover:text-amber-400 transition-colors text-sm font-light uppercase tracking-wider"
               >
                 {link.name}
               </Link>
@@ -43,11 +43,11 @@ export default function Header() {
             <Button 
               asChild
               variant="outline" 
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+              className="bg-transparent border border-amber-500/50 text-amber-400 hover:bg-amber-500/20 text-xs uppercase tracking-wider font-light"
             >
               <Link to={createPageUrl('Contact')}>Online Estimator</Link>
             </Button>
-            <Link to={createPageUrl('Home')} className="text-white/70 hover:text-white">
+            <Link to={createPageUrl('Home')} className="text-zinc-500 hover:text-amber-400 transition-colors">
               <Home className="w-5 h-5" />
             </Link>
           </div>
