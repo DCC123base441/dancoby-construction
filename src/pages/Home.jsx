@@ -574,12 +574,7 @@ export default function Home() {
             <p className="text-xl text-gray-300 mb-12">
               Let's create your perfect home with sophisticated design and expert craftsmanship
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <EstimatorButton size="large" />
-              <Button asChild size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-gray-900">
-                <Link to={createPageUrl('Projects')}>View Projects</Link>
-              </Button>
-            </div>
+            <EstimatorButton size="large" />
           </motion.div>
         </div>
       </section>
