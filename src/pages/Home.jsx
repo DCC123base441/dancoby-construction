@@ -162,7 +162,7 @@ export default function Home() {
             {/* About Us Section */}
             <section className="py-32 bg-white">
               <div className="max-w-7xl mx-auto px-6">
-                <div className="grid lg:grid-cols-2 gap-20 items-start">
+                <div className="grid lg:grid-cols-2 gap-20 items-stretch">
                   {/* Text Content */}
                   <motion.div {...fadeIn} className="space-y-12">
                     <div className="space-y-6">
@@ -190,20 +190,13 @@ export default function Home() {
                     </div>
                   </motion.div>
 
-                  {/* Images Collage */}
-                  <motion.div {...fadeIn} className="relative mt-8 lg:mt-0">
-                    <div className="relative">
-                      <img 
-                        src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
-                        alt="Modern Kitchen"
-                        className="w-[85%] shadow-2xl rounded-sm"
-                      />
-                      <img 
-                        src="https://static.wixstatic.com/media/efb67d_a261152299dc4434a364c708901dffc5~mv2.jpg/v1/fill/w_1068,h_371,al_c,q_85,enc_avif,quality_auto/efb67d_a261152299dc4434a364c708901dffc5~mv2.jpg"
-                        alt="Kitchen Detail"
-                        className="w-[70%] shadow-2xl absolute -bottom-24 right-0 border-8 border-white rounded-sm"
-                      />
-                    </div>
+                  {/* Image */}
+                  <motion.div {...fadeIn} className="relative mt-8 lg:mt-0 h-full">
+                    <img 
+                      src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
+                      alt="Modern Kitchen"
+                      className="w-full h-full object-cover shadow-2xl rounded-sm"
+                    />
                   </motion.div>
                 </div>
               </div>
