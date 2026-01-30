@@ -16,25 +16,25 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-6 py-5">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="group">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
               alt="Dancoby"
-              className="h-20"
+              className="h-16"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-12">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={createPageUrl(link.path)}
-                className="text-gray-700 hover:text-red-600 transition-colors text-sm font-normal"
+                className="text-gray-600 hover:text-gray-900 transition-colors text-xs uppercase tracking-widest font-medium"
               >
                 {link.name}
               </Link>
@@ -45,7 +45,7 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             <Button 
               asChild
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-gray-900 hover:bg-gray-800 text-white text-xs uppercase tracking-wider px-6 h-10"
             >
               <Link to={createPageUrl('Contact')}>Contact</Link>
             </Button>
@@ -54,7 +54,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white"
+            className="md:hidden text-gray-900"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -62,24 +62,23 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 space-y-3">
+          <nav className="md:hidden mt-4 pb-4 space-y-3 border-t border-gray-200 pt-4">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={createPageUrl(link.path)}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-white/90 hover:text-white transition-colors py-2"
+                className="block text-gray-600 hover:text-gray-900 transition-colors py-2 text-xs uppercase tracking-widest"
               >
                 {link.name}
               </Link>
             ))}
             <Button 
               asChild
-              variant="outline" 
-              className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
+              className="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs uppercase tracking-wider mt-4"
             >
               <Link to={createPageUrl('Contact')} onClick={() => setMobileMenuOpen(false)}>
-                Online Estimator
+                Contact
               </Link>
             </Button>
           </nav>
