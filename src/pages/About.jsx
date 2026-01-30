@@ -174,7 +174,7 @@ export default function About() {
                 With a deep knowledge of building and code regulations, expertise in team building, and devotion to leadership and quality control management, Ralph remains an industry leader with a commitment to client satisfaction.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                During his free time Ralph enjoys playing pickleball, biking, or relaxing by the beach with his gorgeous Goldendoodle, Jaxx. He currently lives in Rockaway Beach NY and holds a general contractor license in New York and Nassau County.
+                During his free time Ralph enjoys playing pickleball, biking, or relaxing by the beach with his Goldendoodle, Jaxx. He currently lives in Rockaway Beach NY and holds a general contractor license in New York and Nassau County.
               </p>
               <Button 
                 asChild
