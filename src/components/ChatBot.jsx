@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { base44 } from '@/api/base44Client';
 import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
+import { createPageUrl } from '../utils';
 
 const engagingMessages = [
   "🔨 Did you know? The average kitchen renovation takes 6-8 weeks. Good thing patience is a virtue!",
@@ -90,6 +91,13 @@ export default function ChatBot() {
     const userMessage = inputValue;
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setInputValue('');
+    
+    // Secret phrase check
+    if (userMessage.toLowerCase().includes("whats cooking") || userMessage.toLowerCase().includes("what's cooking")) {
+      window.location.href = createPageUrl('Secret');
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
