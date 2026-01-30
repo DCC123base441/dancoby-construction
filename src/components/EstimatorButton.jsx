@@ -14,7 +14,7 @@ export default function EstimatorButton({ className = '', size = 'default' }) {
   return (
     <Link to={createPageUrl('Estimator')} className={className}>
       <motion.div
-        className={`relative inline-flex items-center gap-2 font-semibold uppercase tracking-wider rounded-lg overflow-hidden ${sizeClasses[size]}`}
+        className={`relative inline-flex items-center gap-2 font-semibold tracking-wider rounded-lg overflow-hidden ${sizeClasses[size]}`}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
@@ -49,7 +49,7 @@ export default function EstimatorButton({ className = '', size = 'default' }) {
         {/* Content */}
         <span className="relative z-10 text-white flex items-center gap-2">
           <Sparkles className="w-4 h-4" />
-          Online Estimate
+          Online Estimator
         </span>
       </motion.div>
     </Link>
