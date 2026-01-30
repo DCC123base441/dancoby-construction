@@ -400,7 +400,7 @@ export default function PrivacyPolicy() {
                       </div>
                       <div>
                         <h5 className="font-semibold text-white mb-1">Email Us</h5>
-                        <p className="text-white/80 text-sm">info@dancobyconstruction.com</p>
+                        <p className="text-white/80 text-sm">info@dancoby.com</p>
                       </div>
                     </div>
                     
@@ -426,16 +426,6 @@ export default function PrivacyPolicy() {
                   </div>
                 </Card>
               </section>
-
-              {/* Footer Note */}
-              <div className="text-center py-8 border-t border-gray-200">
-                <p className="text-gray-500 text-sm">
-                  © {new Date().getFullYear()} Dancoby Construction Company. All rights reserved.
-                </p>
-                <p className="text-gray-400 text-xs mt-2">
-                  This privacy policy was last updated in January 2025.
-                </p>
-              </div>
 
             </div>
           </motion.main>
