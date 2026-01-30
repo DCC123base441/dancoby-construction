@@ -13,7 +13,6 @@ export default function ProjectCard({ project }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       className="group flex flex-col h-full"
-      style={{ minHeight: '100%' }}
     >
       <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5]">
         <img 
@@ -40,7 +39,7 @@ export default function ProjectCard({ project }) {
           {project.description}
         </p>
 
-        <div className="mt-auto pt-2">
+        <div className="mt-auto">
           <Button 
             asChild 
             className="bg-gray-900 hover:bg-gray-800 text-white h-auto py-2 px-4 text-xs uppercase tracking-wider group-hover:gap-2"
