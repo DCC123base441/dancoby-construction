@@ -436,11 +436,12 @@ The image should show:
 </body>
 </html>`;
 
-        await base44.asServiceRole.integrations.Core.SendEmail({
+        const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
+        await resend.emails.send({
+          from: 'Dancoby Construction <onboarding@resend.dev>',
           to: userEmail,
           subject: `Your ${roomType} Estimate: $${totalMin.toLocaleString()} - $${totalMax.toLocaleString()}`,
-          body: emailBody,
-          from_name: 'Dancoby Construction'
+          html: emailBody
         });
         console.log('Estimate email sent to:', userEmail);
       } catch (emailError) {
