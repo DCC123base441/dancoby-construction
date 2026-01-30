@@ -75,48 +75,60 @@ export default function Estimator() {
     }
   ];
 
-  const q = questions[currentQuestion];
-  const progress = ((currentQuestion + 1) / questions.length) * 100;
+  const step = steps[currentStep];
+  const progress = ((currentStep + 1) / steps.length) * 100;
 
   const handleAnswer = (answer) => {
-    setAnswers({ ...answers, [q.id]: answer });
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
+    setAnswers({ ...answers, [step.id]: answer });
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
     } else {
-      setShowResult(true);
+      generateEstimate();
     }
   };
 
   const handleTextInput = (value) => {
-    setAnswers({ ...answers, [q.id]: value });
+    setAnswers({ ...answers, [step.id]: value });
+  };
+
+  const generateEstimate = async () => {
+    setLoading(true);
+    try {
+      const { data } = await base44.functions.invoke('generateEstimate', {
+        imageUrl,
+        roomType: answers.projectType,
+        selectedFinishes,
+        userAnswers: answers
+      });
+      setEstimateData(data);
+    } catch (error) {
+      console.error('Error generating estimate:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleNext = () => {
-    if (answers[q.id]) {
-      if (currentQuestion < questions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
+    if (step.type === 'finishes' || (answers[step.id] && step.type !== 'photo')) {
+      if (currentStep < steps.length - 1) {
+        setCurrentStep(currentStep + 1);
       } else {
-        setShowResult(true);
+        generateEstimate();
+      }
+    } else if (step.type === 'photo') {
+      if (currentStep < steps.length - 1) {
+        setCurrentStep(currentStep + 1);
+      } else {
+        generateEstimate();
       }
     }
   };
 
   const handlePrev = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
     }
   };
-
-  const estimateRange = {
-    'Kitchen Renovation': { min: 15000, max: 75000 },
-    'Bathroom Remodeling': { min: 8000, max: 40000 },
-    'Interior Renovations': { min: 20000, max: 100000 },
-    'Brownstone Restoration': { min: 50000, max: 300000 },
-    'Townhouse & Apartment': { min: 30000, max: 200000 },
-    'Full House Renovation': { min: 75000, max: 500000 }
-  };
-
-  const costRange = estimateRange[answers.projectType] || { min: 10000, max: 100000 };
 
   if (showResult) {
     return (
