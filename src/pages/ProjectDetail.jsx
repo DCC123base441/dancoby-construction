@@ -86,7 +86,7 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      {/* Project Image */}
+      {/* Project Image/Slideshow */}
       <section className="py-12">
         <div className="max-w-5xl mx-auto px-6">
           <motion.div
@@ -94,11 +94,15 @@ export default function ProjectDetail() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <img 
-              src={project.image}
-              alt={project.title}
-              className="w-full h-auto object-contain"
-            />
+            {project.images ? (
+              <ProjectSlideshow images={project.images} />
+            ) : (
+              <img 
+                src={project.image}
+                alt={project.title}
+                className="w-full h-auto object-contain"
+              />
+            )}
           </motion.div>
         </div>
       </section>
