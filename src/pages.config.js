@@ -50,6 +50,10 @@
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Home from './pages/Home';
+import Contact from './pages/Contact';
+import About from './pages/About';
+import Projects from './pages/Projects';
+import Press from './pages/Press';
 import __Layout from './Layout.jsx';
 
 
@@ -57,6 +61,10 @@ export const PAGES = {
     "PrivacyPolicy": PrivacyPolicy,
     "TermsOfService": TermsOfService,
     "Home": Home,
+    "Contact": Contact,
+    "About": About,
+    "Projects": Projects,
+    "Press": Press,
 }
 
 export const pagesConfig = {

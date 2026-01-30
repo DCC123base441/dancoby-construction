@@ -131,8 +131,8 @@ export default function Home() {
               <p className="text-2xl text-gray-700 font-light">
                 We will help you create an enviable space that you're proud to call home.
               </p>
-              <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg mt-6">
-                Learn More
+              <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg mt-6">
+                <Link to={createPageUrl('About')}>Learn More</Link>
               </Button>
             </div>
             <div>
@@ -165,8 +165,8 @@ export default function Home() {
             <p className="text-lg text-gray-700 leading-relaxed">
               Plus, our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process from concept to completion.
             </p>
-            <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg mt-6">
-              Learn More
+            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 text-lg mt-6">
+              <Link to={createPageUrl('About')}>Learn More</Link>
             </Button>
           </div>
         </div>
@@ -285,8 +285,8 @@ export default function Home() {
           <p className="text-xl text-gray-300 mb-12">
             Let's turn your renovation dreams into reality
           </p>
-          <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100 px-12 py-7 text-lg font-semibold">
-            Get Started
+          <Button asChild size="lg" className="bg-white text-gray-900 hover:bg-gray-100 px-12 py-7 text-lg font-semibold">
+            <Link to={createPageUrl('Contact')}>Get Started</Link>
           </Button>
         </div>
       </section>
