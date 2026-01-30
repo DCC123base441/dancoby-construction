@@ -221,7 +221,7 @@ export default function Contact() {
                     <option value="Under $10,000">Under $10,000</option>
                     <option value="$10,000 - $25,000">$10,000 - $25,000</option>
                     <option value="$25,000 - $50,000">$25,000 - $50,000</option>
-                    <option value="$50,000+">$50,000+</option>
+                    <option value="$250,000 - $300,000">$250,000 - $300,000</option>
                     <option value="Not Sure Yet">Not Sure Yet</option>
                   </select>
                 </label>
