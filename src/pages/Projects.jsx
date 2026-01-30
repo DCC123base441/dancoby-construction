@@ -41,7 +41,7 @@ export default function Projects() {
       <section 
         className="relative h-[60vh] flex items-center justify-center overflow-hidden"
         style={{
-          backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/b7c8321ab_Screenshot2026-01-30042020.png)',
+          backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/fad6f9182_Dancoby_498Westminster_LivingRoom_02.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
