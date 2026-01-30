@@ -16,7 +16,7 @@ export default function Footer() {
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
               alt="Dancoby"
-              className="h-16 mb-6"
+              className="h-20 mb-6"
             />
             <p className="text-gray-400 text-sm leading-relaxed">
               Sophisticated-Customer Centric-Transformations
