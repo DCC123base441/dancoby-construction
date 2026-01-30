@@ -20,9 +20,10 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
     // Upload file
     setUploading(true);
     try {
-      const { data } = await base44.integrations.Core.UploadFile({ file });
-      setImage(data.file_url);
-      onImageUpload(data.file_url);
+      const result = await base44.integrations.Core.UploadFile({ file });
+      const fileUrl = result.file_url || result?.data?.file_url;
+      setImage(fileUrl);
+      onImageUpload(fileUrl);
     } catch (error) {
       console.error('Upload failed:', error);
       setPreview(null);
