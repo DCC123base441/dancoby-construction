@@ -298,7 +298,7 @@ export default function HiringApplication() {
               </div>
 
               <a 
-                href={createPageUrl('About')} 
+                href={createPageUrl('Hiring')} 
                 className="block w-full text-center bg-gray-900 hover:bg-gray-800 text-white py-4 px-8 rounded-lg font-semibold transition-all mb-3"
               >
                 Check Out Our Standards
