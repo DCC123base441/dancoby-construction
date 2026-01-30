@@ -110,19 +110,23 @@ export default function Home() {
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            <motion.div {...fadeIn}>
-              <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
-                alt="Living Room"
-                className="w-full h-64 object-cover"
-              />
+            <motion.div {...fadeIn} className="group">
+              <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
+                <img 
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
+                  alt="Living Room"
+                  className="w-full h-auto object-contain transition-transform group-hover:scale-105"
+                />
+              </div>
             </motion.div>
-            <motion.div {...fadeIn}>
-              <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
-                alt="Kitchen"
-                className="w-full h-64 object-cover"
-              />
+            <motion.div {...fadeIn} className="group">
+              <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
+                <img 
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
+                  alt="Kitchen"
+                  className="w-full h-auto object-contain transition-transform group-hover:scale-105"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
