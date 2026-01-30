@@ -223,7 +223,7 @@ export default function Home() {
             {[
               { id: 1, title: "Master bathroom renovation with heated marble floors and custom vanity cabinetry", logo: "Luxury Bath Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
               { id: 2, title: "Open-concept kitchen and living space with custom millwork and premium finishes", logo: "Kitchen + Living Renovation", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
-              { id: 3, title: "Complete brownstone interior transformation with custom architectural details", logo: "Brownstone Restoration", image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg" },
+              { id: 3, title: "Complete brownstone interior transformation with custom architectural details", logo: "Brownstone Restoration", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
               { id: 4, title: "Penthouse renovation featuring floor-to-ceiling windows and custom design elements", logo: "Penthouse Upgrade", image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg" }
             ].map((project, idx) => (
               <motion.div
