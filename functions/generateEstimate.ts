@@ -87,38 +87,61 @@ The image should show:
       }
     }
 
-    // Cost database by room type and category
+    // Cost database by room type and category (NYC area pricing)
     const costDatabase = {
       'Kitchen Renovation': {
-        materials: { perSqft: 150, base: 5000 },
-        labor: { perSqft: 100, base: 3000 },
-        permits: { base: 800 }
+        materials: { perSqft: 175, base: 8000 },
+        labor: { perSqft: 125, base: 5000 },
+        permits: { base: 1200 },
+        design: { base: 2500 }
       },
       'Bathroom Remodeling': {
-        materials: { perSqft: 120, base: 3000 },
-        labor: { perSqft: 80, base: 2000 },
-        permits: { base: 400 }
+        materials: { perSqft: 150, base: 5000 },
+        labor: { perSqft: 100, base: 3500 },
+        permits: { base: 600 },
+        design: { base: 1500 }
       },
-      'Interior Renovations': {
-        materials: { perSqft: 100, base: 4000 },
-        labor: { perSqft: 75, base: 2500 },
-        permits: { base: 600 }
+      'Whole Home Renovation': {
+        materials: { perSqft: 125, base: 20000 },
+        labor: { perSqft: 95, base: 15000 },
+        permits: { base: 5000 },
+        design: { base: 8000 }
+      },
+      'Basement Remodel': {
+        materials: { perSqft: 100, base: 6000 },
+        labor: { perSqft: 80, base: 4000 },
+        permits: { base: 1500 },
+        design: { base: 2000 }
       },
       'Brownstone Restoration': {
-        materials: { perSqft: 200, base: 10000 },
-        labor: { perSqft: 150, base: 5000 },
-        permits: { base: 2000 }
+        materials: { perSqft: 225, base: 15000 },
+        labor: { perSqft: 175, base: 10000 },
+        permits: { base: 3500 },
+        design: { base: 5000 }
       },
-      'Townhouse & Apartment': {
-        materials: { perSqft: 130, base: 6000 },
-        labor: { perSqft: 90, base: 3500 },
-        permits: { base: 1200 }
-      },
-      'Full House Renovation': {
-        materials: { perSqft: 110, base: 15000 },
-        labor: { perSqft: 85, base: 10000 },
-        permits: { base: 3000 }
+      'Addition/Extension': {
+        materials: { perSqft: 200, base: 25000 },
+        labor: { perSqft: 150, base: 20000 },
+        permits: { base: 8000 },
+        design: { base: 10000 }
       }
+    };
+
+    // Finish level multipliers
+    const finishLevelMultiplier = {
+      'Standard / Builder-grade': 0.8,
+      'Mid-range / Custom': 1.0,
+      'High-End / Luxury': 1.5
+    };
+
+    // Location multipliers (NYC areas tend to be more expensive)
+    const locationMultiplier = {
+      'Manhattan, NY': 1.3,
+      'Brooklyn, NY': 1.15,
+      'Queens, NY': 1.0,
+      'Bronx, NY': 0.95,
+      'Staten Island, NY': 0.95,
+      'Other NYC Area': 1.0
     };
 
     // Complexity multipliers
