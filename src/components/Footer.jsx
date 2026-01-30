@@ -13,14 +13,11 @@ export default function Footer() {
           
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 bg-red-600 flex items-center justify-center">
-                <div className="w-4 h-4 bg-white transform rotate-45" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-white">Dancoby</h3>
-              </div>
-            </div>
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
+              alt="Dancoby"
+              className="h-16 mb-6"
+            />
             <p className="text-gray-400 text-sm leading-relaxed">
               Sophisticated-Customer Centric-Transformations
             </p>

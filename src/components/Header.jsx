@@ -21,12 +21,11 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to={createPageUrl('Home')} className="group">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-red-600 flex items-center justify-center">
-                <div className="w-4 h-4 bg-white transform rotate-45" />
-              </div>
-              <span className="text-2xl font-bold text-gray-900 tracking-tight">Dancoby</span>
-            </div>
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
+              alt="Dancoby"
+              className="h-12"
+            />
           </Link>
 
           {/* Desktop Navigation */}
