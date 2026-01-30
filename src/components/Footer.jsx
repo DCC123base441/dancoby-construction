@@ -96,6 +96,8 @@ export default function Footer() {
                   About
                 </Link>
               </li>
+            </ul>
+            <ul className="flex gap-4 mt-4">
               <li>
                 <Link to={createPageUrl('Press')} className="text-white/50 hover:text-white text-sm transition-colors">
                   Press
