@@ -140,37 +140,104 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <motion.div {...fadeIn}>
-              <img 
-                src="https://static.wixstatic.com/media/efb67d_56ea9dfe4a0f437a8bc6abb241a18a24~mv2.jpeg/v1/fill/w_551,h_493,fp_0.54_0.31,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Favorite-Aragon-Headshot-94.jpeg"
-                alt="About Dancoby"
-                className="w-full h-[600px] object-cover"
-              />
-            </motion.div>
+      {/* Our Services Section */}
+            <section className="py-24 bg-white">
+              <div className="max-w-7xl mx-auto px-6">
+                <motion.div {...fadeIn} className="text-center mb-20">
+                  <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Our Services</h2>
+                  <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">Full-Service Rejuvenation For Any Space</h3>
+                  <Button asChild variant="link" className="text-gray-900 hover:text-red-600">
+                    <Link to={createPageUrl('Contact')}>Learn More</Link>
+                  </Button>
+                </motion.div>
 
-            <motion.div {...fadeIn} className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                Sophisticated, Customer-Centric Transformations
-              </h2>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>
-                  For over 20 years, Dancoby Construction has been transforming homes and commercial spaces across Brooklyn, Manhattan, and beyond. We specialize in creating sophisticated renovations that blend timeless design with modern functionality, all while maintaining your budget and timeline.
-                </p>
-                <p>
-                  Our team of licensed professionals approaches every project with passion and meticulous attention to detail. Whether it's a luxury bathroom renovation, full kitchen remodel, or complete interior transformation, we're committed to exceeding expectations on every job.
-                </p>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                  {[
+                    {
+                      title: "Interior Renovations",
+                      description: "Complete transformation of living spaces for form and function.",
+                      image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2017.jpeg"
+                    },
+                    {
+                      title: "Kitchen & Bath Remodeling",
+                      description: "Modern upgrades tailored to your lifestyle.",
+                      image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg"
+                    },
+                    {
+                      title: "Brownstone Restorations",
+                      description: "Preserving the charm, enhancing the function.",
+                      image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg"
+                    },
+                    {
+                      title: "Townhouses & Apartments",
+                      description: "Expert craftsmanship for high-end residences.",
+                      image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg"
+                    }
+                  ].map((service, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, y: 40 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    >
+                      <img 
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full mb-6 aspect-square object-cover"
+                      />
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{service.title}</h4>
+                      <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
-              <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white mt-6">
-                <Link to={createPageUrl('About')}>About Us</Link>
-              </Button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+            </section>
+
+            {/* About Us Section */}
+            <section className="py-32 bg-white">
+              <div className="max-w-7xl mx-auto px-6">
+                <motion.div {...fadeIn} className="text-center mb-16">
+                  <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">About Us</h2>
+                  <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">By working with your goals, budget, schedule, and lifestyle.<br/>We will help you create an enviable<br/>space that you're proud to call home.</h3>
+                  <Button asChild variant="link" className="text-gray-900 hover:text-red-600">
+                    <Link to={createPageUrl('About')}>Learn More</Link>
+                  </Button>
+                </motion.div>
+
+                <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                  <motion.div {...fadeIn}>
+                    <img 
+                      src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
+                      alt="Modern Kitchen"
+                      className="w-full"
+                    />
+                  </motion.div>
+                  <motion.div {...fadeIn}>
+                    <img 
+                      src="https://static.wixstatic.com/media/efb67d_a261152299dc4434a364c708901dffc5~mv2.jpg/v1/fill/w_1068,h_371,al_c,q_85,enc_avif,quality_auto/efb67d_a261152299dc4434a364c708901dffc5~mv2.jpg"
+                      alt="Kitchen Shot 2"
+                      className="w-full"
+                    />
+                  </motion.div>
+                </div>
+
+                <motion.div {...fadeIn} className="max-w-4xl mx-auto">
+                  <h3 className="text-4xl font-bold text-gray-900 mb-6">Commitment to Perfection</h3>
+                  <div className="space-y-4 text-gray-600 leading-relaxed">
+                    <p>
+                      We don't merely strive for excellence…we strive for perfection on every project, every time. Our passion resonates in everything we do from our friendly smile to our attention to detail, collaborative approach, and commitment to a flawless result.
+                    </p>
+                    <p>
+                      Plus, our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process from concept to completion.
+                    </p>
+                  </div>
+                  <Button asChild variant="link" className="text-gray-900 hover:text-red-600 mt-6">
+                    <Link to={createPageUrl('About')}>Learn More</Link>
+                  </Button>
+                </motion.div>
+              </div>
+            </section>
 
       {/* Awards Banner */}
       <section className="py-16 bg-red-600">
