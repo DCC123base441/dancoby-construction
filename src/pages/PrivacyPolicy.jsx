@@ -126,22 +126,6 @@ export default function PrivacyPolicy() {
                   {sections.map((section, index) => {
                     const Icon = section.icon;
                     const isActive = activeSection === section.id;
-                    const isDisabled = section.id === 'usage' || section.id === 'rights';
-
-                    if (isDisabled) {
-                      return (
-                        <motion.div
-                          key={section.id}
-                          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 opacity-50 cursor-not-allowed"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 0.5, x: 0 }}
-                          transition={{ delay: index * 0.05 }}
-                        >
-                          <Icon className="w-4 h-4 flex-shrink-0" />
-                          <span className="text-sm font-medium">{section.title}</span>
-                        </motion.div>
-                      );
-                    }
 
                     return (
                       <motion.button
