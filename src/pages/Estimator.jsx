@@ -308,31 +308,48 @@ export default function Estimator() {
           </div>
         </div>
 
-        {/* Question */}
+        {/* Step Content */}
         <motion.div
-          key={currentQuestion}
+          key={currentStep}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 md:p-12"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
-            {q.question}
-          </h2>
+          <div className="mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+              {step.question}
+            </h2>
+            {step.subtitle && <p className="text-gray-600 mt-2">{step.subtitle}</p>}
+          </div>
 
-          {q.type === 'text' ? (
+          {step.type === 'text' ? (
             <div className="mb-8">
               <input
-                type={q.id === 'email' ? 'email' : 'text'}
-                placeholder={q.placeholder}
-                value={answers[q.id] || ''}
+                type={step.id === 'email' ? 'email' : 'text'}
+                placeholder={step.placeholder}
+                value={answers[step.id] || ''}
                 onChange={(e) => handleTextInput(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 text-base"
               />
             </div>
+          ) : step.type === 'photo' ? (
+            <div className="mb-8">
+              <ImageUpload
+                onImageUpload={setImageUrl}
+                onSkip={() => setImageUrl(null)}
+              />
+            </div>
+          ) : step.type === 'finishes' ? (
+            <div className="mb-8">
+              <FinishSelector
+                roomType={answers.projectType}
+                onSelectFinishes={setSelectedFinishes}
+              />
+            </div>
           ) : (
             <div className="space-y-3 mb-8">
-              {q.options.map((option) => (
+              {step.options.map((option) => (
                 <button
                   key={option}
                   onClick={() => handleAnswer(option)}
@@ -350,17 +367,17 @@ export default function Estimator() {
               onClick={handlePrev}
               variant="outline"
               className="flex-1 h-12 text-base"
-              disabled={currentQuestion === 0}
+              disabled={currentStep === 0}
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
             <Button
               onClick={handleNext}
-              disabled={!answers[q.id]}
+              disabled={step.type !== 'photo' && step.type !== 'finishes' && !answers[step.id]}
               className="flex-1 bg-red-600 hover:bg-red-700 text-white h-12 text-base"
             >
-              {currentQuestion === questions.length - 1 ? 'Get Estimate' : 'Continue'}
+              {currentStep === steps.length - 1 ? 'Get Estimate' : 'Continue'}
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
