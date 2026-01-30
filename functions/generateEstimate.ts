@@ -3,12 +3,9 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
-
-    if (!user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
+    
+    // Allow unauthenticated access for public estimator tool
+    // Use service role for integrations
     const body = await req.json();
     const { imageUrl, roomType, selectedFinishes, userAnswers } = body;
 
@@ -57,8 +54,8 @@ Respond with JSON:
   "notes": "<brief description of the space and renovation scope>"
 }`;
 
-    // Get square footage estimate from AI
-    const sqftEstimate = await base44.integrations.Core.InvokeLLM({
+    // Get square footage estimate from AI using service role
+    const sqftEstimate = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt: estimationPrompt,
       response_json_schema: {
         type: 'object',
@@ -89,7 +86,7 @@ The image should show:
 - The same general room layout but completely renovated
 - Professional interior design quality`;
 
-        const visualization = await base44.integrations.Core.GenerateImage({
+        const visualization = await base44.asServiceRole.integrations.Core.GenerateImage({
           prompt: visualizationPrompt,
           existing_image_urls: [imageUrl]
         });
