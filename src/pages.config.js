@@ -60,6 +60,7 @@ import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import TermsOfService from './pages/TermsOfService';
 import Services from './pages/Services';
+import Estimator from './pages/Estimator';
 import __Layout from './Layout.jsx';
 
 
@@ -77,6 +78,7 @@ export const PAGES = {
     "ServiceTownhouses": ServiceTownhouses,
     "TermsOfService": TermsOfService,
     "Services": Services,
+    "Estimator": Estimator,
 }
 
 export const pagesConfig = {
