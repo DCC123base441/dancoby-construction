@@ -265,7 +265,7 @@ export default function PrivacyPolicy() {
                       { title: 'Legal Requirements', desc: 'When required by law or to respond to legal process, or to protect our rights, privacy, safety, or property' },
                       { title: 'Business Transfers', desc: 'In connection with a merger, acquisition, or sale of assets, your information may be transferred' }
                     ].map((item, i) => (
-                      <div key={i} className="border-l-4 border-gray-500 pl-4 py-2">
+                      <div key={i} className="border-l-4 border-red-600 pl-4 py-2">
                         <h5 className="font-semibold text-gray-800 mb-1">{item.title}</h5>
                         <p className="text-gray-600 text-sm">{item.desc}</p>
                       </div>
