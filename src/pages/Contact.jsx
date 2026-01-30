@@ -1,210 +1,259 @@
-import React, { useState } from 'react';
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import { toast } from "sonner";
-import EstimatorButton from '../components/EstimatorButton';
+import React, { useEffect } from 'react';
+import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check } from 'lucide-react';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    type: '',
-    message: ''
-  });
+  useEffect(() => {
+    // Load JobTread CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://app.jobtread.com/web-form.css';
+    document.head.appendChild(link);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    toast.success('Thank you! We will contact you soon.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      address: '',
-      type: '',
-      message: ''
-    });
-  };
+    // Load JobTread script
+    const script = document.createElement('script');
+    script.src = 'https://app.jobtread.com/web-form.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Success handler
+    const handleSuccess = (event) => {
+      console.log('JobTread form submitted successfully', event.detail);
+      const successMessage = document.getElementById('successMessage');
+      if (successMessage) {
+        successMessage.classList.add('show');
+        document.querySelector('.form-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+          successMessage.classList.remove('show');
+        }, 5000);
+      }
+    };
+
+    // Error handler
+    const handleError = (event) => {
+      console.error('JobTread form error:', event.detail);
+      alert('There was an error submitting the form. Please try again or contact us directly.');
+    };
+
+    window.addEventListener('jobtread-form-success', handleSuccess);
+    window.addEventListener('jobtread-form-error', handleError);
+
+    return () => {
+      window.removeEventListener('jobtread-form-success', handleSuccess);
+      window.removeEventListener('jobtread-form-error', handleError);
+      document.head.removeChild(link);
+      if (script.parentNode) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* Hero Section */}
-      <section className="relative bg-[#3d3d3d] py-24 overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      <style>{`
+        .success-message { display: none; background: #6b665e; color: white; padding: 16px; border-radius: 8px; margin-bottom: 24px; animation: slideIn 0.3s; align-items: flex-start; gap: 12px; }
+        .success-message.show { display: flex; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .jtwf label { display: block; margin-bottom: 20px; }
+        .jtwf .label-text { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px; display: block; }
+        .jtwf .required { color: #dc2626; }
+        .jtwf input, .jtwf select, .jtwf textarea { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-family: inherit; transition: all 0.2s; background: white; }
+        .jtwf input:focus, .jtwf select:focus, .jtwf textarea:focus { outline: none; border-color: #6b665e; box-shadow: 0 0 0 3px rgba(107,102,94,0.1); }
+        .jtwf textarea { resize: vertical; min-height: 100px; }
+        .jtwf .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .jtwf .form-row label { margin-bottom: 0; }
+        .jtwf button[type="submit"] { width: 100%; background: #6b665e; color: white; padding: 16px 32px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+        .jtwf button[type="submit"]:hover { filter: brightness(1.1); }
+        
+        @media (max-width: 968px) {
+          .jtwf .form-row { grid-template-columns: 1fr; }
+        }
+      `}</style>
 
-        <div className="relative max-w-6xl mx-auto px-6 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Get Started</h1>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
-            Let's transform your space into something extraordinary
+      {/* Hero */}
+      <div className="bg-white py-16 px-5">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-serif mb-5 text-gray-900">Contact Us</h1>
+          <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
+            Planning a major renovation? Whether it's a complete home transformation, high-end kitchen or bathroom remodel, or a comprehensive brownstone restoration, we specialize in large-scale projects that require expert craftsmanship and meticulous attention to detail.
           </p>
-          <EstimatorButton size="large" />
         </div>
-      </section>
+      </div>
 
-      {/* Contact Form & Info */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Contact Information */}
-            <div className="lg:col-span-1 space-y-6">
-              <Card className="p-6 border-gray-200 shadow-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-gray-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Location</h3>
-                    <p className="text-gray-600">Brooklyn, NY</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6 border-gray-200 shadow-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-gray-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <a href="mailto:info@dancoby.com" className="text-gray-600 hover:text-gray-900">
-                      info@dancoby.com
-                    </a>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6 border-gray-200 shadow-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-gray-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600">Contact for details</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6 border-gray-200 shadow-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-gray-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Business Hours</h3>
-                    <p className="text-gray-600 text-sm">Mon - Fri: 8am - 6pm</p>
-                    <p className="text-gray-600 text-sm">Sat: 9am - 4pm</p>
-                  </div>
-                </div>
-              </Card>
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto px-5 py-16">
+        <div className="grid lg:grid-cols-[2fr_3fr] gap-10">
+          
+          {/* Contact Info */}
+          <div className="flex flex-col gap-4">
+            <div>
+              <h2 className="text-3xl font-serif mb-4 text-gray-900">Get In Touch</h2>
+              <p className="text-gray-600 mb-8 leading-relaxed">Have questions? Want to discuss your project? We're here to help. Reach out by phone, text, or fill out our form.</p>
             </div>
 
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <Card className="p-8 border-gray-200 shadow-lg">
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">Contact Form</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <Label htmlFor="name">Name *</Label>
-                    <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
+            <a href="tel:+15166849766" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-[#6b665e] transition-all group">
+              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-[#6b665e] transition-all">
+                <Phone className="w-5 h-5 text-[#6b665e] group-hover:text-white transition-all" />
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">Call Us</h3>
+                <div className="text-lg text-[#6b665e] font-semibold mb-0.5">(516) 684-9766</div>
+                <div className="text-sm text-gray-400">Click to call now</div>
+              </div>
+            </a>
 
-                  <div>
-                    <Label htmlFor="email">Email *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
+            <a href="sms:+16464238283" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-[#6b665e] transition-all group">
+              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-[#6b665e] transition-all">
+                <MessageSquare className="w-5 h-5 text-[#6b665e] group-hover:text-white transition-all" />
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">Text Us</h3>
+                <div className="text-lg text-[#6b665e] font-semibold mb-0.5">(646) 423-8283</div>
+                <div className="text-sm text-gray-400">Quick response via text</div>
+              </div>
+            </a>
 
-                  <div>
-                    <Label htmlFor="phone">Phone *</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
+            <a href="mailto:info@dancoby.com" className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-[#6b665e] transition-all group">
+              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-[#6b665e] transition-all">
+                <Mail className="w-5 h-5 text-[#6b665e] group-hover:text-white transition-all" />
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">Email Us</h3>
+                <div className="text-lg text-[#6b665e] font-semibold mb-0.5">info@dancoby.com</div>
+                <div className="text-sm text-gray-400">We'll reply within 24 hours</div>
+              </div>
+            </a>
 
-                  <div>
-                    <Label htmlFor="address">Address *</Label>
-                    <Input
-                      id="address"
-                      value={formData.address}
-                      onChange={(e) => setFormData({...formData, address: e.target.value})}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 mt-4">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-3">
+                <Clock className="w-5 h-5 text-[#6b665e]" />
+                Business Hours
+              </h3>
+              <p className="text-gray-600 text-sm mb-2">Mon–Fri 8am–8pm</p>
+              <p className="text-gray-600 text-sm">Sat–Sun: Closed</p>
+            </div>
 
-                  <div>
-                    <Label htmlFor="type">Type *</Label>
-                    <Select value={formData.type} onValueChange={(value) => setFormData({...formData, type: value})}>
-                      <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Select a type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="bathroom">Bathroom</SelectItem>
-                        <SelectItem value="kitchen">Kitchen</SelectItem>
-                        <SelectItem value="full-renovation">Full Renovation</SelectItem>
-                        <SelectItem value="basement">Basement</SelectItem>
-                        <SelectItem value="townhouse">Town House</SelectItem>
-                        <SelectItem value="brownstone">Brownstone</SelectItem>
-                        <SelectItem value="two-bathroom">Two Bathroom</SelectItem>
-                        <SelectItem value="flooring">Flooring</SelectItem>
-                        <SelectItem value="painting">Painting</SelectItem>
-                        <SelectItem value="commercial">Commercial</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      rows={5}
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <Button 
-                    type="submit" 
-                    size="lg"
-                    className="w-full bg-gray-900 hover:bg-gray-800 text-white"
-                  >
-                    Submit
-                  </Button>
-                </form>
-              </Card>
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-[#6b665e]" />
+                Service Area
+              </h3>
+              <p className="text-gray-600 text-sm mb-3">Proudly serving the New York area:</p>
+              <div className="flex flex-wrap gap-2">
+                {['Brooklyn', 'Queens', 'Manhattan', 'The Bronx', 'Staten Island', 'Long Island'].map((city) => (
+                  <span key={city} className="bg-gray-100 px-3.5 py-1.5 rounded-full text-sm text-gray-600">{city}</span>
+                ))}
+              </div>
             </div>
           </div>
+
+          {/* Form */}
+          <div className="form-container bg-white border border-gray-200 rounded-xl p-8 md:p-10 shadow-sm">
+            <div id="successMessage" className="success-message">
+              <Check className="w-5 h-5 text-white mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold mb-1">Thank you for your submission!</p>
+                <p className="text-sm opacity-95">We'll contact you within 24 hours to discuss your project.</p>
+              </div>
+            </div>
+
+            <h2 className="text-2xl font-serif mb-2 text-gray-900">Request Your Online Estimate</h2>
+            <p className="text-gray-600 text-sm mb-8">Fill out the form below and we'll get back to you within 24 hours to schedule your free consultation.</p>
+
+            <form className="jtwf" data-jobtread-web-form="true" data-key="22SrWsutaFVFqgWZnGsBzRCK3SrUNEyLu3">
+              <div className="form-row">
+                <label>
+                  <span className="label-text">Name <span className="required">*</span></span>
+                  <input type="text" required name="contact.name" placeholder="Your name" />
+                </label>
+                <label>
+                  <span className="label-text">Phone <span className="required">*</span></span>
+                  <input type="tel" required name="contact.custom.22NypE6NdPYC" placeholder="(516) 555-0123" />
+                </label>
+              </div>
+
+              <div className="form-row">
+                <label>
+                  <span className="label-text">Email</span>
+                  <input type="email" name="contact.custom.22NypE69XMG8" placeholder="you@email.com" />
+                </label>
+                <label>
+                  <span className="label-text">City / Zip</span>
+                  <input type="text" name="location.address" placeholder="Brooklyn or 11201" />
+                </label>
+              </div>
+
+              <label>
+                <span className="label-text">Service Needed</span>
+                <select name="account.custom.22P3zkSL7gGh" defaultValue="">
+                  <option value="" disabled hidden>Select a service</option>
+                  <option value="Kitchen">Kitchen Renovation</option>
+                  <option value="Bathroom">Bathroom Remodeling</option>
+                  <option value="Basement">Basement Finishing</option>
+                  <option value="Full Renovation">Whole-Home Renovation</option>
+                  <option value="Flooring">Flooring & Trim</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+
+              <label>
+                <span className="label-text">Tell Us About Your Project</span>
+                <textarea name="contact.notes" placeholder="Describe your project, goals, and any questions..." />
+              </label>
+
+              <label>
+                <span className="label-text">How'd You Hear About Us?</span>
+                <select name="account.custom.referral_source" required defaultValue="">
+                  <option value="" disabled hidden>Select source</option>
+                  <option value="Google">Google</option>
+                  <option value="Referral">Referral</option>
+                  <option value="Signage">Signage</option>
+                  <option value="Social Media">Social Media</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+
+              <div className="form-row">
+                <label>
+                  <span className="label-text">Budget Range (Optional)</span>
+                  <select name="account.custom.budget" defaultValue="">
+                    <option value="" disabled hidden>Select budget</option>
+                    <option value="Under $10,000">Under $10,000</option>
+                    <option value="$10,000 - $25,000">$10,000 - $25,000</option>
+                    <option value="$25,000 - $50,000">$25,000 - $50,000</option>
+                    <option value="$50,000+">$50,000+</option>
+                    <option value="Not Sure Yet">Not Sure Yet</option>
+                  </select>
+                </label>
+                <label>
+                  <span className="label-text">Timeline (Optional)</span>
+                  <select name="account.custom.timeline" defaultValue="">
+                    <option value="" disabled hidden>Select timeline</option>
+                    <option value="ASAP">ASAP</option>
+                    <option value="1-3 Months">1-3 Months</option>
+                    <option value="3-6 Months">3-6 Months</option>
+                    <option value="6-12 Months">6-12 Months</option>
+                    <option value="Just Exploring">Just Exploring</option>
+                  </select>
+                </label>
+              </div>
+
+              <button type="submit" data-submit-button="true">Request Online Estimate</button>
+
+              <div className="flex gap-8 justify-center items-center text-sm text-gray-400 mt-4">
+                <span className="flex items-center gap-1.5">
+                  <Shield className="w-4 h-4 text-[#6b665e]" />
+                  No obligation
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Check className="w-4 h-4 text-[#6b665e]" />
+                  Response in 24hrs
+                </span>
+              </div>
+            </form>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
