@@ -498,13 +498,6 @@ export default function Home() {
                 title: "Entire Home",
                 location: "Hewlett, NY",
                 description: "Full home renovation featuring luxury baths."
-              },
-              {
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/f7d56151c_Dancoby_498Westminster_LivingRoom_02.jpg",
-                status: "Complete",
-                title: "Westminster Living Room",
-                location: "Brooklyn, NY",
-                description: "Custom built-in shelving with arched alcove and walnut media center."
               }
             ].map((project, idx) => (
               <motion.div
