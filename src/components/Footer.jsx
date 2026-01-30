@@ -75,34 +75,42 @@ export default function Footer() {
           {/* Company */}
           <div>
             <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Company</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-4">
-                <Link to={createPageUrl('Home')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  Home
-                </Link>
-                <Link to={createPageUrl('Press')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  Press
-                </Link>
-                <Link to={createPageUrl('Hiring')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  Hiring
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('Services')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('Projects')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  Projects
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('About')} className="text-white/50 hover:text-white text-sm transition-colors">
-                  About
-                </Link>
-              </li>
-            </ul>
+            <div className="flex gap-12">
+              <ul className="space-y-3">
+                <li>
+                  <Link to={createPageUrl('Home')} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to={createPageUrl('Services')} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Services
+                  </Link>
+                </li>
+                <li>
+                  <Link to={createPageUrl('Projects')} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Projects
+                  </Link>
+                </li>
+                <li>
+                  <Link to={createPageUrl('About')} className="text-white/50 hover:text-white text-sm transition-colors">
+                    About
+                  </Link>
+                </li>
+              </ul>
+              <ul className="space-y-3">
+                <li>
+                  <Link to={createPageUrl('Press')} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Press
+                  </Link>
+                </li>
+                <li>
+                  <Link to={createPageUrl('Hiring')} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Hiring
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* Contact */}
