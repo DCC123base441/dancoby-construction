@@ -102,14 +102,15 @@ export default function Home() {
       {/* Who We Are Section */}
       <section className="py-20 bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div {...fadeIn} className="mb-16">
-            <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-2">Who We Are</h2>
-            <p className="text-gray-700 text-lg leading-relaxed max-w-3xl">
+          <motion.div {...fadeIn} className="mb-20">
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Who We Are</h2>
+            <p className="text-gray-900 text-2xl leading-relaxed max-w-2xl">
               With over twenty years of experience and a dedication to customer satisfaction, we work with you, your budget, and your style to turn your renovation dreams into realities.
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-3 gap-12 items-center">
+            {/* Left Image */}
             <motion.div {...fadeIn} className="group">
               <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
                 <img 
@@ -119,6 +120,21 @@ export default function Home() {
                 />
               </div>
             </motion.div>
+
+            {/* Center Text */}
+            <motion.div {...fadeIn} className="space-y-6">
+              <h3 className="text-4xl font-bold text-gray-900 leading-tight">Home is where the heart is.</h3>
+              <div className="space-y-4 text-gray-600 leading-relaxed">
+                <p>
+                  Which is why your space should promote cozy relaxation and evoke your unique personality and taste.
+                </p>
+                <p>
+                  That's why our team of professionals provides a customer-centric experience with complete collaboration that ensures we turn your conceptual ideas into sophisticated transformations.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Right Image */}
             <motion.div {...fadeIn} className="group">
               <div className="bg-gray-100 overflow-hidden transition-shadow hover:shadow-lg">
                 <img 
