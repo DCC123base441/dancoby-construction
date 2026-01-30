@@ -423,18 +423,19 @@ export default function Estimator() {
               transition={{ duration: 0.3 }}
             />
           </div>
-          <div className="flex justify-between mt-4 gap-1">
-            {Array.from({ length: steps.length }).map((_, idx) => (
+          <div className="hidden md:flex justify-between mt-4 gap-1 overflow-x-auto">
+            {steps.map((s, idx) => (
               <button
                 key={idx}
                 onClick={() => idx < currentStep && setCurrentStep(idx)}
-                className={`w-8 h-8 rounded-full text-xs font-semibold transition-all ${
+                className={`w-7 h-7 rounded-full text-xs font-semibold transition-all flex-shrink-0 ${
                   idx === currentStep
                     ? 'bg-red-600 text-white'
                     : idx < currentStep
                     ? 'bg-green-600 text-white'
                     : 'bg-gray-300 text-gray-600'
                 }`}
+                title={s.question}
               >
                 {idx < currentStep ? '✓' : idx + 1}
               </button>
