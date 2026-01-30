@@ -253,26 +253,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              {
-                title: "Master bathroom renovation with heated marble floors and custom vanity cabinetry",
-                logo: "Luxury Bath Remodel",
-                image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished%20Shot%2017.jpeg"
-              },
-              {
-                title: "Open-concept kitchen and living space with custom millwork and premium finishes",
-                logo: "Kitchen + Living Renovation",
-                image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg"
-              },
-              {
-                title: "Complete brownstone interior transformation with custom architectural details",
-                logo: "Brownstone Restoration",
-                image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg"
-              },
-              {
-                title: "Penthouse renovation featuring floor-to-ceiling windows and custom design elements",
-                logo: "Penthouse Upgrade",
-                image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg"
-              }
+              { id: 1, title: "Master bathroom renovation with heated marble floors and custom vanity cabinetry", logo: "Luxury Bath Remodel", image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished%20Shot%2017.jpeg" },
+              { id: 2, title: "Open-concept kitchen and living space with custom millwork and premium finishes", logo: "Kitchen + Living Renovation", image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg" },
+              { id: 3, title: "Complete brownstone interior transformation with custom architectural details", logo: "Brownstone Restoration", image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg" },
+              { id: 4, title: "Penthouse renovation featuring floor-to-ceiling windows and custom design elements", logo: "Penthouse Upgrade", image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg" }
             ].map((project, idx) => (
               <motion.div
                 key={idx}
@@ -280,17 +264,17 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group cursor-pointer"
+                className="group"
               >
                 <div className="relative overflow-hidden mb-6 bg-gray-200">
                   <img 
                     src={project.image}
                     alt={project.logo}
-                    className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="h-12 flex items-center">
                     <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
@@ -300,8 +284,10 @@ export default function Home() {
                   <h3 className="text-lg font-medium text-gray-900 leading-tight">
                     {project.title}
                   </h3>
-                  <Button variant="link" className="text-gray-900 hover:text-red-600 p-0 h-auto font-normal">
-                    View Project
+                  <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
+                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
+                      View Project
+                    </Link>
                   </Button>
                 </div>
               </motion.div>
