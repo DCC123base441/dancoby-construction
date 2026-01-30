@@ -148,7 +148,7 @@ export default function Home() {
                         <img 
                           src={service.image}
                           alt={service.title}
-                          className="w-full mb-6 aspect-square object-cover group-hover:opacity-80 transition-opacity"
+                          className="w-full mb-6 aspect-[3/4] object-cover group-hover:opacity-80 transition-opacity"
                         />
                         <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 group-hover:text-gray-600 transition-colors">{service.title}</h4>
                         <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-900 transition-colors">{service.description}</p>
