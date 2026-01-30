@@ -63,6 +63,7 @@ import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
+import Secret from './pages/Secret';
 import __Layout from './Layout.jsx';
 
 
@@ -83,6 +84,7 @@ export const PAGES = {
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
     "TermsOfService": TermsOfService,
+    "Secret": Secret,
 }
 
 export const pagesConfig = {
