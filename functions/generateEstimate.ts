@@ -141,6 +141,7 @@ The image should show:
       'Queens, NY': 1.0,
       'Bronx, NY': 0.95,
       'Staten Island, NY': 0.95,
+      'Long Island, NY': 1.05,
       'Other NYC Area': 1.0
     };
 

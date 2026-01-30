@@ -141,6 +141,7 @@ export default function Estimator() {
         'Queens, NY',
         'Bronx, NY',
         'Staten Island, NY',
+        'Long Island, NY',
         'Other NYC Area'
       ]
     },
