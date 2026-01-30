@@ -17,10 +17,11 @@ export default function Estimator() {
   const [estimateData, setEstimateData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const questions = [
+  const steps = [
     {
       id: 'projectType',
       question: 'What type of project are you planning?',
+      type: 'multiChoice',
       options: [
         'Kitchen Renovation',
         'Bathroom Remodeling',
@@ -29,6 +30,18 @@ export default function Estimator() {
         'Townhouse & Apartment',
         'Full House Renovation'
       ]
+    },
+    {
+      id: 'photo',
+      question: 'Upload a photo of your space',
+      type: 'photo',
+      subtitle: 'This helps us estimate square footage and provide accurate pricing'
+    },
+    {
+      id: 'finishes',
+      question: 'Select your preferred finishes',
+      type: 'finishes',
+      subtitle: 'Different finishes affect the overall cost'
     },
     {
       id: 'budget',
