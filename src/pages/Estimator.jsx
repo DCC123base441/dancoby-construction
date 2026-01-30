@@ -130,7 +130,18 @@ export default function Estimator() {
     }
   };
 
-  if (showResult) {
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-red-600 animate-spin mx-auto mb-4" />
+          <p className="text-lg text-gray-600">Generating your detailed estimate...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (estimateData) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12">
         <div className="max-w-3xl mx-auto px-6">
@@ -140,10 +151,10 @@ export default function Estimator() {
             className="text-center mb-12"
           >
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Your Estimate
+              Your Detailed Estimate
             </h1>
             <p className="text-lg text-gray-600">
-              Based on your answers, here's your preliminary budget range
+              AI-analyzed cost breakdown for your {answers.projectType}
             </p>
           </motion.div>
 
@@ -154,34 +165,72 @@ export default function Estimator() {
             className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 md:p-12 mb-8"
           >
             <div className="space-y-8">
-              <div>
-                <p className="text-gray-600 text-center mb-4">Estimated Budget Range</p>
-                <div className="text-center">
-                  <h2 className="text-5xl font-bold text-red-600 mb-2">
-                    ${costRange.min.toLocaleString()} - ${costRange.max.toLocaleString()}
-                  </h2>
-                  <p className="text-gray-600">
-                    For your {answers.projectType}
-                  </p>
+              {/* Space Analysis */}
+              <div className="border-b pb-8">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Space Analysis</h3>
+                <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-gray-600 text-sm">Estimated Square Footage</p>
+                    <p className="text-2xl font-bold text-gray-900">{estimateData.squareFootage} sq ft</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-gray-600 text-sm">Complexity Level</p>
+                    <p className="text-2xl font-bold capitalize text-gray-900">{estimateData.complexity}</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-gray-600 text-sm">Condition Assessment</p>
+                    <p className="text-2xl font-bold capitalize text-gray-900">{estimateData.condition}</p>
+                  </div>
                 </div>
               </div>
 
-              <div className="border-t border-gray-200 pt-8">
-                <h3 className="font-semibold text-gray-900 mb-4">Your Answers</h3>
+              {/* Total Estimate */}
+              <div className="bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg p-8">
+                <p className="text-gray-600 text-center mb-2">Total Estimated Budget</p>
+                <h2 className="text-4xl md:text-5xl font-bold text-red-600 text-center mb-2">
+                  ${estimateData.totalMin.toLocaleString()} - ${estimateData.totalMax.toLocaleString()}
+                </h2>
+                <p className="text-center text-gray-600 text-sm">Includes all costs and 15% contingency</p>
+              </div>
+
+              {/* Cost Breakdown */}
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Detailed Cost Breakdown</h3>
                 <div className="space-y-3">
-                  {questions.slice(0, 7).map((q) => (
-                    <div key={q.id} className="flex justify-between text-sm">
-                      <span className="text-gray-600">{q.question}</span>
-                      <span className="font-semibold text-gray-900">{answers[q.id]}</span>
+                  {Object.entries(estimateData.costBreakdown).map(([key, item]) => (
+                    <div key={key} className="flex items-center gap-4">
+                      <div className="flex-1">
+                        <div className="flex justify-between mb-1">
+                          <span className="font-medium text-gray-900">{item.label}</span>
+                          <span className="font-bold text-gray-900">${item.cost.toLocaleString()}</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className="bg-red-600 h-2 rounded-full"
+                            style={{ width: `${item.percentage}%` }}
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">{item.percentage}% of total</p>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p className="text-sm text-blue-900">
-                  <strong>📌 Note:</strong> This is a preliminary estimate based on typical projects. Final pricing depends on site inspection, detailed measurements, and specific design choices. Our team will provide an accurate quote after consultation.
-                </p>
+              {/* Disclaimer */}
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex gap-3">
+                <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-amber-900">
+                  <strong>Important Disclaimer:</strong> This is a preliminary estimate based on AI analysis of your uploaded photo and industry averages. The actual cost may vary significantly based on:
+                  <ul className="mt-2 ml-4 space-y-1 list-disc">
+                    <li>Detailed on-site inspection</li>
+                    <li>Hidden structural issues</li>
+                    <li>Local labor rates and material availability</li>
+                    <li>Permit requirements and inspections</li>
+                    <li>Final design selections and upgrades</li>
+                  </ul>
+                  Schedule a free consultation for an accurate quote.
+                </div>
               </div>
             </div>
           </motion.div>
@@ -189,7 +238,7 @@ export default function Estimator() {
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 mb-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Next Steps</h3>
             <p className="text-gray-600 mb-6">
-              We'll reach out to {answers.email} and {answers.phone} to schedule a free consultation and refine this estimate.
+              We'll reach out to {answers.email} and {answers.phone} to discuss your project details and provide a detailed, on-site estimate.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild className="flex-1 bg-red-600 hover:bg-red-700 text-white h-12 text-base">
@@ -199,13 +248,6 @@ export default function Estimator() {
                 <Link to={createPageUrl('Contact')}>Schedule Consultation</Link>
               </Button>
             </div>
-          </div>
-
-          <div className="text-center">
-            <p className="text-gray-600 mb-4">Or call us directly</p>
-            <a href="tel:+1234567890" className="text-red-600 hover:text-red-700 font-semibold text-lg">
-              (555) 000-0000
-            </a>
           </div>
         </div>
       </div>
