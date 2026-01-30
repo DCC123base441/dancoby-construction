@@ -303,12 +303,7 @@ export default function Home() {
                                                                     alt={`${project.logo} - Before`}
                                                                     className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                                                                   />
-                                                                  <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 text-sm font-medium rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                                    Before
-                                                                  </div>
-                                                                  <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 text-sm font-medium rounded group-hover:opacity-0 transition-opacity duration-300">
-                                                                    After
-                                                                  </div>
+
                                                                 </div>
                                       ) : (
                                         <>
