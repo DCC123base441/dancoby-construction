@@ -17,20 +17,20 @@ const fadeIn = {
 
 const CheckItem = ({ children, icon: Icon = CheckCircle }) => (
   <div className="flex gap-4 mb-4">
-    <Icon className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
+    <Icon className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
     <div className="text-gray-700">{children}</div>
   </div>
 );
 
 const ArrowItem = ({ children }) => (
   <div className="flex gap-4 mb-4">
-    <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
+    <ChevronRight className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
     <div className="text-gray-600">{children}</div>
   </div>
 );
 
 const SectionNumber = ({ number }) => (
-  <span className="w-10 h-10 rounded-full bg-[#3D3D3D] text-white flex items-center justify-center font-semibold text-sm flex-shrink-0">
+  <span className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center font-semibold text-sm flex-shrink-0">
     {number}
   </span>
 );
@@ -39,7 +39,7 @@ export default function Hiring() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#3D3D3D] to-[#5a5a5a] text-white py-16 md:py-24">
+      <section className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div {...fadeIn}>
             <span className="inline-block bg-white/10 border border-white/20 px-4 py-1.5 rounded-full text-sm mb-6">
@@ -64,13 +64,13 @@ export default function Hiring() {
 
         {/* Pre-Construction */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8 flex items-center gap-3">
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8 flex items-center gap-3">
             <SectionNumber number="1" />
             Pre-Construction Responsibilities
           </h2>
           
           <div className="bg-gray-50 rounded-2xl p-6 md:p-8 mb-8">
-            <h3 className="text-lg font-medium text-[#3D3D3D] mb-6">Before Remodeling Begins</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-6">Before Remodeling Begins</h3>
             <CheckItem><strong>Client Home Assessment:</strong> Conduct detailed walkthrough with homeowner, document existing conditions with photos/video, identify potential challenges (access, pets, children, valuables to protect)</CheckItem>
             <CheckItem><strong>Scope Verification:</strong> Review project plans, specifications, material selections, and finish schedules with PM and client</CheckItem>
             <CheckItem><strong>Protection Planning:</strong> Identify areas requiring protection (floors, countertops, fixtures, landscaping, driveways), plan dust barrier locations and HVAC protection</CheckItem>
@@ -82,7 +82,7 @@ export default function Hiring() {
           </div>
 
           <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
-            <h3 className="text-lg font-medium text-[#3D3D3D] mb-6">Throughout Remodeling Project</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-6">Throughout Remodeling Project</h3>
             <ArrowItem>Provide daily progress updates to homeowners (photos, completion status, next-day plan)</ArrowItem>
             <ArrowItem>Manage material selections and changes with client input</ArrowItem>
             <ArrowItem>Coordinate around homeowner schedules and special events</ArrowItem>
@@ -93,14 +93,14 @@ export default function Hiring() {
 
         {/* Jobsite Standards */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8 flex items-center gap-3">
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8 flex items-center gap-3">
             <SectionNumber number="2" />
             Jobsite Standards for Occupied Homes
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-6">Client-Centered Site Management</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Client-Centered Site Management</h3>
               <div className="space-y-4 text-gray-700 text-sm">
                 <p><strong>Respect the Home:</strong> Treat every home as if it were your own - remove shoes when requested, use floor protection, be mindful of noise during early mornings/late afternoons</p>
                 <p><strong>Dust Containment:</strong> Install and maintain plastic barriers using ZipWall or equivalent, seal HVAC vents in work areas, use HEPA filtration when sanding/cutting, daily dust cleanup before leaving</p>
@@ -111,7 +111,7 @@ export default function Hiring() {
             </div>
 
             <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-6">Remodeling-Specific Site Standards</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-6">Remodeling-Specific Site Standards</h3>
               <div className="space-y-4 text-gray-700 text-sm">
                 <p><strong>Material Protection:</strong> Protect cabinets, countertops, appliances, and finishes during installation; properly store materials to prevent damage from household traffic</p>
                 <p><strong>Working Bathroom/Kitchen:</strong> When possible, maintain functional facilities for clients; coordinate outages in advance; provide temporary solutions when needed</p>
@@ -122,7 +122,7 @@ export default function Hiring() {
             </div>
           </div>
 
-          <div className="bg-[#3D3D3D] text-white rounded-2xl p-8 md:p-12">
+          <div className="bg-red-600 text-white rounded-2xl p-8 md:p-12">
             <h3 className="text-lg font-medium mb-3">Company Standard</h3>
             <p className="text-2xl md:text-3xl font-light mb-4">"Leave It Better Than You Found It"</p>
             <p className="text-gray-300">Every day, the job site should be cleaner, safer, and more organized than when you arrived. Clients should feel proud to show their project to neighbors and friends at any point during construction.</p>
@@ -131,7 +131,7 @@ export default function Hiring() {
 
         {/* Documentation Standards */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8 flex items-center gap-3">
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8 flex items-center gap-3">
             <SectionNumber number="3" />
             Documentation Standards
           </h2>
@@ -139,9 +139,9 @@ export default function Hiring() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                <FileText className="w-6 h-6 text-[#3D3D3D]" />
+                <FileText className="w-6 h-6 text-gray-900" />
               </div>
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-1">Daily Documentation</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-1">Daily Documentation</h3>
               <p className="text-sm text-gray-500 mb-4">Required by 6:00 PM</p>
               <p className="text-sm text-gray-600 mb-3"><strong>Daily Report in JobTread:</strong> Complete report including weather, personnel, work completed, materials, client interactions, issues, and tomorrow's plan</p>
               <p className="text-sm text-gray-600 mb-3"><strong>Photo Documentation:</strong> Minimum 10 photos per day showing site conditions, work in progress, installations, and before/after comparisons</p>
@@ -150,9 +150,9 @@ export default function Hiring() {
 
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-[#3D3D3D]" />
+                <Users className="w-6 h-6 text-gray-900" />
               </div>
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-4">Client Communication</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Client Communication</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Log every client conversation, decision, and approval in JobTread</li>
                 <li>• Document all scope changes immediately - no verbal-only approvals</li>
@@ -164,9 +164,9 @@ export default function Hiring() {
 
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                <Shield className="w-6 h-6 text-[#3D3D3D]" />
+                <Shield className="w-6 h-6 text-gray-900" />
               </div>
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-4">Compliance & Inspections</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Compliance & Inspections</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Schedule inspections 48 hours in advance minimum</li>
                 <li>• Be present for all inspections, document results immediately</li>
@@ -180,7 +180,7 @@ export default function Hiring() {
 
         {/* Vehicle, Tools & Equipment */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8 flex items-center gap-3">
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8 flex items-center gap-3">
             <SectionNumber number="4" />
             Vehicle, Tools & Equipment Standards
           </h2>
@@ -188,9 +188,9 @@ export default function Hiring() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-4">
-                <Car className="w-6 h-6 text-[#3D3D3D]" />
+                <Car className="w-6 h-6 text-gray-900" />
               </div>
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-4">Company Vehicle</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Company Vehicle</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Daily inspection before leaving for job site</li>
                 <li>• Wash exterior weekly minimum</li>
@@ -203,9 +203,9 @@ export default function Hiring() {
 
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-4">
-                <Wrench className="w-6 h-6 text-[#3D3D3D]" />
+                <Wrench className="w-6 h-6 text-gray-900" />
               </div>
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-4">Tools & Equipment</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Tools & Equipment</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Keep all tools clean, sharp, and working</li>
                 <li>• Charge batteries nightly</li>
@@ -217,9 +217,9 @@ export default function Hiring() {
 
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-4">
-                <Briefcase className="w-6 h-6 text-[#3D3D3D]" />
+                <Briefcase className="w-6 h-6 text-gray-900" />
               </div>
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-4">Material Management</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Material Management</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Inspect all deliveries immediately for damage</li>
                 <li>• Store materials appropriately</li>
@@ -233,7 +233,7 @@ export default function Hiring() {
 
         {/* Required Qualifications */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8">Required Qualifications</h2>
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8">Required Qualifications</h2>
           
           <div className="bg-gray-50 rounded-2xl p-6 md:p-8 mb-8">
             <CheckItem>Minimum 2-3 years residential remodeling experience (kitchens, bathrooms, additions preferred)</CheckItem>
@@ -248,10 +248,10 @@ export default function Hiring() {
             <CheckItem>Professional references from previous remodeling projects</CheckItem>
           </div>
 
-          <h3 className="text-xl font-medium text-[#3D3D3D] mb-6">Preferred Qualifications</h3>
+          <h3 className="text-xl font-medium text-gray-900 mb-6">Preferred Qualifications</h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-white border border-gray-200 rounded-xl p-5">
-              <h4 className="font-medium text-[#3D3D3D] mb-3">Experience</h4>
+              <h4 className="font-medium text-gray-900 mb-3">Experience</h4>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Lead carpenter or foreman role</li>
                 <li>• Custom home or high-end remodeling</li>
@@ -260,7 +260,7 @@ export default function Hiring() {
               </ul>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-5">
-              <h4 className="font-medium text-[#3D3D3D] mb-3">Certifications</h4>
+              <h4 className="font-medium text-gray-900 mb-3">Certifications</h4>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• OSHA 30 certification</li>
                 <li>• Lead-safe certification (EPA RRP)</li>
@@ -269,7 +269,7 @@ export default function Hiring() {
               </ul>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-5">
-              <h4 className="font-medium text-[#3D3D3D] mb-3">Technical Skills</h4>
+              <h4 className="font-medium text-gray-900 mb-3">Technical Skills</h4>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• JobTread or similar software</li>
                 <li>• Advanced finish carpentry</li>
@@ -278,7 +278,7 @@ export default function Hiring() {
               </ul>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-5">
-              <h4 className="font-medium text-[#3D3D3D] mb-3">Personal Attributes</h4>
+              <h4 className="font-medium text-gray-900 mb-3">Personal Attributes</h4>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Exceptional client service focus</li>
                 <li>• Detail-oriented perfectionist</li>
@@ -291,10 +291,10 @@ export default function Hiring() {
 
         {/* Key Competencies */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8">Key Competencies for Remodeling Success</h2>
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8">Key Competencies for Remodeling Success</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-gray-50 rounded-2xl p-6">
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-4">Client Relations Excellence</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Client Relations Excellence</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Manage client expectations proactively and diplomatically</li>
                 <li>• Navigate emotional aspects of remodeling</li>
@@ -304,7 +304,7 @@ export default function Hiring() {
               </ul>
             </div>
             <div className="bg-gray-50 rounded-2xl p-6">
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-4">Technical Remodeling Expertise</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Technical Remodeling Expertise</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Identify and solve existing home challenges</li>
                 <li>• Coordinate complex finish work and sequencing</li>
@@ -314,7 +314,7 @@ export default function Hiring() {
               </ul>
             </div>
             <div className="bg-gray-50 rounded-2xl p-6">
-              <h3 className="text-lg font-medium text-[#3D3D3D] mb-4">Project Coordination</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Project Coordination</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Manage multiple subcontractors in small spaces</li>
                 <li>• Adapt to discoveries and changes mid-project</li>
@@ -328,7 +328,7 @@ export default function Hiring() {
 
         {/* Performance Metrics */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8">Performance Metrics & Evaluation</h2>
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8">Performance Metrics & Evaluation</h2>
           <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
             <p className="text-gray-600 mb-6">Success in this role will be measured by:</p>
             <div className="grid md:grid-cols-2 gap-4">
@@ -348,7 +348,7 @@ export default function Hiring() {
 
         {/* Career Progression */}
         <motion.section {...fadeIn} className="mb-16">
-          <div className="bg-[#3D3D3D] text-white rounded-2xl p-8 md:p-12">
+          <div className="bg-red-600 text-white rounded-2xl p-8 md:p-12">
             <h2 className="text-2xl md:text-3xl font-light mb-6">Career Progression Path</h2>
             <div className="flex items-center gap-3 flex-wrap text-lg md:text-xl mb-6">
               <span>Project Coordinator</span>
@@ -365,7 +365,7 @@ export default function Hiring() {
 
         {/* Advancement Criteria */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8">Advancement Criteria</h2>
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8">Advancement Criteria</h2>
           <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
             <p className="font-medium text-gray-900 mb-6">To advance to Assistant Project Manager, candidates must demonstrate:</p>
             <CheckItem icon={TrendingUp}>Consistent achievement of all performance metrics for minimum 12 months</CheckItem>
@@ -383,7 +383,7 @@ export default function Hiring() {
 
         {/* Professional Development */}
         <motion.section {...fadeIn} className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-8">Professional Development Opportunities</h2>
+          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-8">Professional Development Opportunities</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { title: 'Mentorship Program', desc: 'Direct mentorship from experienced PMs on active projects' },
@@ -396,7 +396,7 @@ export default function Hiring() {
               { title: 'Leadership Development', desc: 'Training in team management, conflict resolution, and client relations' },
             ].map((item, idx) => (
               <div key={idx} className="bg-white border border-gray-200 rounded-xl p-5">
-                <h3 className="font-medium text-[#3D3D3D] mb-2">{item.title}</h3>
+                <h3 className="font-medium text-gray-900 mb-2">{item.title}</h3>
                 <p className="text-sm text-gray-600">{item.desc}</p>
               </div>
             ))}
@@ -406,7 +406,7 @@ export default function Hiring() {
         {/* Why Dancoby */}
         <motion.section {...fadeIn} className="mb-16">
           <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
-            <h2 className="text-2xl md:text-3xl font-light text-[#3D3D3D] mb-6">Why Dancoby?</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-6">Why Dancoby?</h2>
             <p className="text-gray-600 leading-relaxed mb-6">
               Dancoby Construction Company specializes in high-end residential remodeling where quality, client experience, and professional execution define our reputation. We invest in our people, provide clear career paths, and support professional growth at every level.
             </p>
