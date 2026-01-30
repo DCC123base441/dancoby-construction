@@ -49,7 +49,7 @@ export default function EstimatorButton({ className = '', size = 'default' }) {
         {/* Content */}
         <span className="relative z-10 text-white flex items-center gap-2">
           <Sparkles className="w-4 h-4" />
-          Get AI Estimate
+          Online Estimate
         </span>
       </motion.div>
     </Link>
