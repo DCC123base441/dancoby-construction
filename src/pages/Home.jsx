@@ -71,15 +71,12 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <div className="h-1 w-16 bg-red-600 mb-6" />
-                <p className="text-white/90 text-sm uppercase tracking-wider mb-4">
+                <p className="text-white/90 text-base uppercase tracking-wider mb-4">
                   {heroProjects[currentSlide].location}
                 </p>
                 <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-8">
                   {heroProjects[currentSlide].title}
                 </h1>
-                <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-black transition-all">
-                  VIEW PROJECT
-                </Button>
               </motion.div>
             </div>
           </div>
