@@ -454,11 +454,6 @@ export default function Home() {
             ))}
           </motion.div>
 
-          <motion.div {...fadeIn} className="text-center mt-12">
-            <Button asChild className="bg-[#6b665e] hover:bg-[#5a5650] text-white px-8">
-              <Link to={createPageUrl('Contact')}>See How We Use JobTread</Link>
-            </Button>
-          </motion.div>
         </div>
       </section>
 
