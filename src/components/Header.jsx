@@ -16,13 +16,18 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-lg border-b border-amber-500/10 text-white">
-      <div className="max-w-7xl mx-auto px-6 py-5">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to={createPageUrl('Home')} className="flex flex-col group">
-            <span className="text-2xl font-extralight tracking-tight text-amber-400 group-hover:text-amber-300 transition-colors">Dancoby</span>
-            <span className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-light">Construction</span>
+          <Link to={createPageUrl('Home')} className="flex items-center gap-2 group">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
+              <span className="text-white font-bold text-lg">D</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Dancoby</span>
+              <span className="text-[10px] text-slate-500 uppercase tracking-wider">Construction</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -31,7 +36,7 @@ export default function Header() {
               <Link
                 key={link.name}
                 to={createPageUrl(link.path)}
-                className="text-zinc-400 hover:text-amber-400 transition-colors text-sm font-light uppercase tracking-wider"
+                className="text-slate-700 hover:text-blue-600 transition-colors text-sm font-medium"
               >
                 {link.name}
               </Link>
@@ -42,14 +47,10 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             <Button 
               asChild
-              variant="outline" 
-              className="bg-transparent border border-amber-500/50 text-amber-400 hover:bg-amber-500/20 text-xs uppercase tracking-wider font-light"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full"
             >
-              <Link to={createPageUrl('Contact')}>Online Estimator</Link>
+              <Link to={createPageUrl('Contact')}>Get Started</Link>
             </Button>
-            <Link to={createPageUrl('Home')} className="text-zinc-500 hover:text-amber-400 transition-colors">
-              <Home className="w-5 h-5" />
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
