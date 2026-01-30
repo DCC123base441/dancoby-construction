@@ -40,7 +40,7 @@ export default function Header() {
                                   key={link.name}
                                   to={createPageUrl(link.path)}
                                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                                  className="text-gray-600 hover:text-red-600 transition-colors text-xs uppercase tracking-widest font-medium"
+                                  className="text-gray-600 hover:text-red-600 transition-colors text-sm tracking-wide font-medium"
                                 >
                                   {link.name}
                                 </Link>
@@ -51,7 +51,7 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             <Button 
               asChild
-              className="bg-gray-900 hover:bg-gray-800 text-white text-xs uppercase tracking-wider px-6 h-10"
+              className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10"
             >
               <Link to={createPageUrl('Contact')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Contact</Link>
             </Button>
@@ -74,14 +74,14 @@ export default function Header() {
                 key={link.name}
                 to={createPageUrl(link.path)}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-600 hover:text-gray-900 transition-colors py-2 text-xs uppercase tracking-widest"
+                className="block text-gray-600 hover:text-gray-900 transition-colors py-2 text-sm tracking-wide"
               >
                 {link.name}
               </Link>
             ))}
             <Button 
               asChild
-              className="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs uppercase tracking-wider mt-4"
+              className="w-full bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide mt-4"
             >
               <Link to={createPageUrl('Contact')} onClick={() => { setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                 Contact
