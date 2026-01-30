@@ -232,49 +232,50 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group"
+                className="group flex flex-col h-full"
               >
                 <div className="relative overflow-hidden mb-6 bg-gray-200">
-                                      {project.beforeImage ? (
-                                        <div className="relative w-full h-96">
-                                                                  <img 
-                                                                    src={project.image}
-                                                                    alt={project.logo}
-                                                                    className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                                                                  />
-                                                                  <img 
-                                                                    src={project.beforeImage}
-                                                                    alt={`${project.logo} - Before`}
-                                                                    className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                                                                  />
+                  {project.beforeImage ? (
+                    <div className="relative w-full h-96">
+                      <img 
+                        src={project.image}
+                        alt={project.logo}
+                        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                      />
+                      <img 
+                        src={project.beforeImage}
+                        alt={`${project.logo} - Before`}
+                        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <img 
+                        src={project.image}
+                        alt={project.logo}
+                        className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                    </>
+                  )}
+                </div>
 
-                                                                </div>
-                                      ) : (
-                                        <>
-                                          <img 
-                                            src={project.image}
-                                            alt={project.logo}
-                                            className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
-                                          />
-                                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
-                                        </>
-                                      )}
-                                    </div>
-
-                <div className="space-y-4">
+                <div className="flex flex-col flex-1">
                   <div className="h-12 flex items-center">
                     <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
                       {project.logo}
                     </div>
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 leading-tight">
+                  <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
                     {project.title}
                   </h3>
-                  <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
-                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-                      View Project
-                    </Link>
-                  </Button>
+                  <div className="mt-auto">
+                    <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
+                      <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
+                        View Project
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </motion.div>
             ))}
