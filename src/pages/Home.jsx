@@ -10,8 +10,8 @@ export default function Home() {
 
   const heroProjects = [
     {
-      title: "Sophisticated bathroom renovation transforming a Brooklyn brownstone into a spa-like retreat",
-      location: "Penthouse Renovation / Brooklyn, NY",
+      title: "Sophisticated, Customer-Centric Transformations",
+      location: "Dancoby Construction Company",
       image: "https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
     },
     {
