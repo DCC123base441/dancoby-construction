@@ -36,8 +36,8 @@ export default function PrivacyPolicy() {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
 
-      // Check if we're near the bottom of the page
-      if (window.scrollY + windowHeight >= documentHeight - 100) {
+      // Check if we're at the very bottom of the page
+      if (window.scrollY + windowHeight >= documentHeight - 50) {
         setActiveSection('contact');
         return;
       }
@@ -51,6 +51,7 @@ export default function PrivacyPolicy() {
       }
     };
 
+    handleScroll(); // Call once on mount
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
