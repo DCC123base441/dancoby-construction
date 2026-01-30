@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import EstimatorButton from '../components/EstimatorButton';
+import TestimonialsSection from '../components/TestimonialsSection';
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
