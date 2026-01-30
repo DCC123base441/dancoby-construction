@@ -162,45 +162,50 @@ export default function Home() {
             {/* About Us Section */}
             <section className="py-32 bg-white">
               <div className="max-w-7xl mx-auto px-6">
-                <motion.div {...fadeIn} className="text-center mb-16">
-                  <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">About Us</h2>
-                  <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">By working with your goals, budget, schedule, and lifestyle.<br/>We will help you create an enviable<br/>space that you're proud to call home.</h3>
-                  <Button asChild variant="link" className="text-gray-900 hover:text-red-600">
-                    <Link to={createPageUrl('About')}>Learn More</Link>
-                  </Button>
-                </motion.div>
+                <div className="grid lg:grid-cols-2 gap-20 items-start">
+                  {/* Text Content */}
+                  <motion.div {...fadeIn} className="space-y-12">
+                    <div className="space-y-6">
+                      <h2 className="text-sm uppercase tracking-widest text-red-600 font-bold">About Us</h2>
+                      <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                        By working with your goals, budget, schedule, and lifestyle, we create an enviable space that you're proud to call home.
+                      </h3>
+                    </div>
 
-                <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-                  <motion.div {...fadeIn}>
-                    <img 
-                      src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
-                      alt="Modern Kitchen"
-                      className="w-full"
-                    />
+                    <div className="space-y-6 border-t border-gray-100 pt-8">
+                      <h4 className="text-2xl font-bold text-gray-900">Commitment to Perfection</h4>
+                      <div className="space-y-4 text-gray-600 leading-relaxed text-lg">
+                        <p>
+                          We don't merely strive for excellence…we strive for perfection on every project, every time. Our passion resonates in everything we do from our friendly smile to our attention to detail.
+                        </p>
+                        <p>
+                          Our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process.
+                        </p>
+                      </div>
+                      <Button asChild variant="link" className="text-gray-900 hover:text-red-600 p-0 h-auto font-semibold text-lg group">
+                        <Link to={createPageUrl('About')} className="flex items-center gap-2">
+                          Learn More <span className="group-hover:translate-x-1 transition-transform">→</span>
+                        </Link>
+                      </Button>
+                    </div>
                   </motion.div>
-                  <motion.div {...fadeIn}>
-                    <img 
-                      src="https://static.wixstatic.com/media/efb67d_a261152299dc4434a364c708901dffc5~mv2.jpg/v1/fill/w_1068,h_371,al_c,q_85,enc_avif,quality_auto/efb67d_a261152299dc4434a364c708901dffc5~mv2.jpg"
-                      alt="Kitchen Shot 2"
-                      className="w-full"
-                    />
+
+                  {/* Images Collage */}
+                  <motion.div {...fadeIn} className="relative mt-8 lg:mt-0">
+                    <div className="relative">
+                      <img 
+                        src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
+                        alt="Modern Kitchen"
+                        className="w-[85%] shadow-2xl rounded-sm"
+                      />
+                      <img 
+                        src="https://static.wixstatic.com/media/efb67d_a261152299dc4434a364c708901dffc5~mv2.jpg/v1/fill/w_1068,h_371,al_c,q_85,enc_avif,quality_auto/efb67d_a261152299dc4434a364c708901dffc5~mv2.jpg"
+                        alt="Kitchen Detail"
+                        className="w-[70%] shadow-2xl absolute -bottom-24 right-0 border-8 border-white rounded-sm"
+                      />
+                    </div>
                   </motion.div>
                 </div>
-
-                <motion.div {...fadeIn} className="max-w-4xl mx-auto">
-                  <h3 className="text-4xl font-bold text-gray-900 mb-6">Commitment to Perfection</h3>
-                  <div className="space-y-4 text-gray-600 leading-relaxed">
-                    <p>
-                      We don't merely strive for excellence…we strive for perfection on every project, every time. Our passion resonates in everything we do from our friendly smile to our attention to detail, collaborative approach, and commitment to a flawless result.
-                    </p>
-                    <p>
-                      Plus, our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process from concept to completion.
-                    </p>
-                  </div>
-                  <Button asChild variant="link" className="text-gray-900 hover:text-red-600 mt-6">
-                    <Link to={createPageUrl('About')}>Learn More</Link>
-                  </Button>
-                </motion.div>
               </div>
             </section>
 
