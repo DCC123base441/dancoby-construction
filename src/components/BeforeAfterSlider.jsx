@@ -1,0 +1,91 @@
+import React, { useState, useRef } from 'react';
+
+export default function BeforeAfterSlider({ beforeImage, afterImage, beforeLabel = "Before", afterLabel = "After" }) {
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const containerRef = useRef(null);
+  const isDragging = useRef(false);
+
+  const handleMove = (clientX) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setSliderPosition(percentage);
+  };
+
+  const handleMouseDown = () => {
+    isDragging.current = true;
+  };
+
+  const handleMouseUp = () => {
+    isDragging.current = false;
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging.current) {
+      handleMove(e.clientX);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    handleMove(e.touches[0].clientX);
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full aspect-[4/3] overflow-hidden cursor-ew-resize select-none bg-gray-200"
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleMouseUp}
+    >
+      {/* After Image (Background) */}
+      <img
+        src={afterImage}
+        alt={afterLabel}
+        className="absolute inset-0 w-full h-full object-cover"
+        draggable={false}
+      />
+
+      {/* Before Image (Clipped) */}
+      <div
+        className="absolute inset-0 overflow-hidden"
+        style={{ width: `${sliderPosition}%` }}
+      >
+        <img
+          src={beforeImage}
+          alt={beforeLabel}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ width: containerRef.current ? `${containerRef.current.offsetWidth}px` : '100%' }}
+          draggable={false}
+        />
+      </div>
+
+      {/* Slider Line */}
+      <div
+        className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-ew-resize z-10"
+        style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleMouseDown}
+      >
+        {/* Slider Handle */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center">
+          <div className="flex items-center gap-0.5">
+            <div className="w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-gray-600" />
+            <div className="w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[6px] border-l-gray-600" />
+          </div>
+        </div>
+      </div>
+
+      {/* Labels */}
+      <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 text-sm font-medium rounded">
+        {beforeLabel}
+      </div>
+      <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 text-sm font-medium rounded">
+        {afterLabel}
+      </div>
+    </div>
+  );
+}

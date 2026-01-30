@@ -6,6 +6,7 @@ import { createPageUrl } from '../utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import EstimatorButton from '../components/EstimatorButton';
 import TestimonialsSection from '../components/TestimonialsSection';
+import BeforeAfterSlider from '../components/BeforeAfterSlider';
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -277,7 +278,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { id: 1, title: "Master bathroom renovation with heated marble floors and custom vanity cabinetry", logo: "Luxury Bath Remodel", image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished%20Shot%2017.jpeg" },
-              { id: 2, title: "Open-concept kitchen and living space with custom millwork and premium finishes", logo: "Kitchen + Living Renovation", image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg" },
+              { id: 2, title: "Open-concept kitchen and living space with custom millwork and premium finishes", logo: "Kitchen + Living Renovation", image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg", beforeImage: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/76e000574_Dancoby_92ConklinBathroomBeforePhoto_011.jpg" },
               { id: 3, title: "Complete brownstone interior transformation with custom architectural details", logo: "Brownstone Restoration", image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg" },
               { id: 4, title: "Penthouse renovation featuring floor-to-ceiling windows and custom design elements", logo: "Penthouse Upgrade", image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg" }
             ].map((project, idx) => (
@@ -290,13 +291,22 @@ export default function Home() {
                 className="group"
               >
                 <div className="relative overflow-hidden mb-6 bg-gray-200">
-                  <img 
-                    src={project.image}
-                    alt={project.logo}
-                    className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
-                </div>
+                                      {project.beforeImage ? (
+                                        <BeforeAfterSlider 
+                                          beforeImage={project.beforeImage}
+                                          afterImage={project.image}
+                                        />
+                                      ) : (
+                                        <>
+                                          <img 
+                                            src={project.image}
+                                            alt={project.logo}
+                                            className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+                                          />
+                                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                                        </>
+                                      )}
+                                    </div>
 
                 <div className="space-y-4">
                   <div className="h-12 flex items-center">
