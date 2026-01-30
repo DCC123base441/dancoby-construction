@@ -113,8 +113,8 @@ export default function Home() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div {...fadeIn}>
                 <img 
-                  src="https://static.wixstatic.com/media/c1b522_74cf22378412427c8944f5e8a0fa3851~mv2.jpeg/v1/fill/w_366,h_654,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%209.jpeg"
-                  alt="Bathroom"
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/313085d63_Dancoby_PenthouseFinished_Shot9.jpg"
+                  alt="Living Room"
                   className="w-full"
                 />
               </motion.div>
@@ -131,7 +131,7 @@ export default function Home() {
 
             <motion.div {...fadeIn}>
               <img 
-                src="https://static.wixstatic.com/media/c1b522_30838463920a460186882c2d6dae4ad4~mv2.jpeg/v1/fill/w_451,h_870,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2015.jpeg"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/0dfb7ee55_Dancoby_PenthouseFinished_Shot15.jpg"
                 alt="Kitchen"
                 className="w-full"
               />
