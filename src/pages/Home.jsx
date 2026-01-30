@@ -18,7 +18,7 @@ export default function Home() {
     {
       title: "Complete kitchen and living space renovation blending modern functionality with timeless elegance",
       location: "Park Slope Townhouse / Brooklyn, NY",
-      image: "https://static.wixstatic.com/media/c1b522_74cf22378412427c8944f5e8a0fa3851~mv2.jpeg/v1/fill/w_366,h_654,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%209.jpeg"
+      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/33d419c8d_Dancoby_498Westminster_MasterBath_02.jpg"
     },
     {
       title: "Full interior renovation of a Manhattan apartment featuring custom cabinetry and premium finishes",
