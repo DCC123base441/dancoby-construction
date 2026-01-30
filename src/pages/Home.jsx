@@ -164,22 +164,26 @@ export default function Home() {
                     {
                       title: "Interior Renovations",
                       description: "Complete transformation of living spaces for form and function.",
-                      image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2017.jpeg"
+                      image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2017.jpeg",
+                      page: "ServiceInteriorRenovations"
                     },
                     {
                       title: "Kitchen & Bath Remodeling",
                       description: "Modern upgrades tailored to your lifestyle.",
-                      image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg"
+                      image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg",
+                      page: "ServiceKitchenBath"
                     },
                     {
                       title: "Brownstone Restorations",
                       description: "Preserving the charm, enhancing the function.",
-                      image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg"
+                      image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg",
+                      page: "ServiceBrownstone"
                     },
                     {
                       title: "Townhouses & Apartments",
                       description: "Expert craftsmanship for high-end residences.",
-                      image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg"
+                      image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg",
+                      page: "ServiceTownhouses"
                     }
                   ].map((service, idx) => (
                     <motion.div
@@ -188,14 +192,17 @@ export default function Home() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      className="group cursor-pointer"
                     >
-                      <img 
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full mb-6 aspect-square object-cover"
-                      />
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{service.title}</h4>
-                      <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
+                      <Link to={createPageUrl(service.page)} className="block h-full">
+                        <img 
+                          src={service.image}
+                          alt={service.title}
+                          className="w-full mb-6 aspect-square object-cover group-hover:opacity-80 transition-opacity"
+                        />
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 group-hover:text-gray-600 transition-colors">{service.title}</h4>
+                        <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-900 transition-colors">{service.description}</p>
+                      </Link>
                     </motion.div>
                   ))}
                 </div>
