@@ -103,17 +103,16 @@ export default function About() {
         />
       </section>
 
-      {/* About Us */}
+      {/* Commitment to Perfection */}
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <h2 className="text-4xl font-bold text-gray-900">By working with your goals, budget, schedule, and lifestyle, we create an enviable space that you're proud to call home.</h2>
-            <h3 className="text-2xl font-bold text-gray-900 pt-4">Commitment to Perfection</h3>
+            <h2 className="text-4xl font-bold text-gray-900">Commitment to Perfection</h2>
             <p className="text-lg text-gray-700 leading-relaxed">
-              We don't merely strive for excellence…we strive for perfection on every project, every time. Our passion resonates in everything we do from our friendly smile to our attention to detail.
+              We don't merely strive for excellence, we strive for perfection on every project, every time. Our passion resonates in everything we do from our friendly smile to our attention to detail, collaborative approach, and commitment to a flawless result.
             </p>
             <p className="text-lg text-gray-700 leading-relaxed">
-              Our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process.
+              Plus, our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process from concept to completion.
             </p>
             <Button 
               asChild
