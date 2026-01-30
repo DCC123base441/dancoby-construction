@@ -347,6 +347,106 @@ The image should show:
     if (conditionFactor > 1.2) estimatedWeeks = Math.ceil(estimatedWeeks * 1.25);
     if (complexFactor > 1.2) estimatedWeeks = Math.ceil(estimatedWeeks * 1.2);
 
+    // Send email with estimate results
+    const userEmail = userAnswers?.email;
+    const userName = userAnswers?.name || 'Valued Customer';
+    
+    if (userEmail) {
+      try {
+        const emailBody = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #dc2626; color: white; padding: 30px; text-align: center; }
+    .header h1 { margin: 0; font-size: 28px; }
+    .content { padding: 30px; background: #f9f9f9; }
+    .estimate-box { background: linear-gradient(135deg, #fef2f2, #fff7ed); border: 2px solid #dc2626; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; }
+    .estimate-range { font-size: 32px; font-weight: bold; color: #dc2626; }
+    .breakdown { background: white; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .breakdown-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+    .breakdown-item:last-child { border-bottom: none; }
+    .details { background: white; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .detail-row { padding: 8px 0; }
+    .label { color: #666; }
+    .value { font-weight: 600; }
+    .cta { text-align: center; margin: 30px 0; }
+    .cta a { background: #dc2626; color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; }
+    .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+    .disclaimer { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 15px; margin: 20px 0; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Your Renovation Estimate</h1>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">Dancoby Construction</p>
+    </div>
+    
+    <div class="content">
+      <p>Hi ${userName},</p>
+      <p>Thank you for using our online estimator! Based on your inputs, here's your preliminary renovation estimate:</p>
+      
+      <div class="estimate-box">
+        <p style="margin: 0 0 10px 0; color: #666;">Estimated Budget Range</p>
+        <div class="estimate-range">$${totalMin.toLocaleString()} - $${totalMax.toLocaleString()}</div>
+        <p style="margin: 10px 0 0 0; font-size: 14px; color: #666;">Includes 10% contingency</p>
+      </div>
+      
+      <div class="details">
+        <h3 style="margin-top: 0;">Project Details</h3>
+        <div class="detail-row"><span class="label">Project Type:</span> <span class="value">${roomType}</span></div>
+        <div class="detail-row"><span class="label">Property Type:</span> <span class="value">${propertyType || 'Not specified'}</span></div>
+        <div class="detail-row"><span class="label">Square Footage:</span> <span class="value">${sqft} sq ft</span></div>
+        <div class="detail-row"><span class="label">Finish Level:</span> <span class="value">${finishLevel || 'Mid-range'}</span></div>
+        <div class="detail-row"><span class="label">Location:</span> <span class="value">${location || 'NYC Area'}</span></div>
+        <div class="detail-row"><span class="label">Est. Timeline:</span> <span class="value">${estimatedWeeks} weeks</span></div>
+      </div>
+      
+      <div class="breakdown">
+        <h3 style="margin-top: 0;">Cost Breakdown</h3>
+        <div class="breakdown-item"><span>Materials & Finishes</span><span>$${(materialsCost + finishAdjustment).toLocaleString()}</span></div>
+        <div class="breakdown-item"><span>Labor & Installation</span><span>$${laborCost.toLocaleString()}</span></div>
+        <div class="breakdown-item"><span>Design & Planning</span><span>$${designCost.toLocaleString()}</span></div>
+        <div class="breakdown-item"><span>Permits & Inspections</span><span>$${permitsCost.toLocaleString()}</span></div>
+        <div class="breakdown-item"><span>Contingency (10%)</span><span>$${contingency.toLocaleString()}</span></div>
+      </div>
+      
+      <div class="disclaimer">
+        <strong>⚠️ Important:</strong> This is a preliminary estimate based on the information provided. Actual costs may vary based on site conditions, final material selections, permit requirements, and other factors discovered during detailed planning. Schedule a free consultation for an accurate quote.
+      </div>
+      
+      <div class="cta">
+        <a href="https://dancoby.com/Contact">Schedule Free Consultation</a>
+      </div>
+      
+      <p>Questions? Reply to this email or call us at <strong>(516) 684-9766</strong>.</p>
+      
+      <p>Best regards,<br>The Dancoby Construction Team</p>
+    </div>
+    
+    <div class="footer">
+      <p>Dancoby Construction | Brooklyn, NY<br>
+      <a href="https://dancoby.com" style="color: #dc2626;">dancoby.com</a> | (516) 684-9766</p>
+    </div>
+  </div>
+</body>
+</html>`;
+
+        await base44.asServiceRole.integrations.Core.SendEmail({
+          to: userEmail,
+          subject: `Your ${roomType} Estimate: $${totalMin.toLocaleString()} - $${totalMax.toLocaleString()}`,
+          body: emailBody,
+          from_name: 'Dancoby Construction'
+        });
+        console.log('Estimate email sent to:', userEmail);
+      } catch (emailError) {
+        console.error('Failed to send estimate email:', emailError.message);
+      }
+    }
+
     return Response.json({
       squareFootage: sqft,
       complexity: sqftEstimate.complexity,
