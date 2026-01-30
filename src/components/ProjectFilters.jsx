@@ -6,7 +6,7 @@ import { Filter } from 'lucide-react';
 
 export default function ProjectFilters({ onFilterChange, onSortChange }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedSort, setSelectedSort] = useState('recent');
+  const [selectedSort, setSelectedSort] = useState('curated');
 
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
@@ -51,6 +51,7 @@ export default function ProjectFilters({ onFilterChange, onSortChange }) {
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="curated">Curated</SelectItem>
             <SelectItem value="recent">Most Recent</SelectItem>
             <SelectItem value="oldest">Oldest First</SelectItem>
             <SelectItem value="name-asc">Name (A-Z)</SelectItem>
