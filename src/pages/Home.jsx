@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import EstimatorButton from '../components/EstimatorButton';
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -77,6 +78,7 @@ export default function Home() {
                 <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-8">
                   {heroProjects[currentSlide].title}
                 </h1>
+                <EstimatorButton size="large" />
               </motion.div>
             </div>
           </div>
@@ -363,9 +365,7 @@ export default function Home() {
               Let's create your perfect home with sophisticated design and expert craftsmanship
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button asChild size="lg" className="bg-red-600 hover:bg-red-700 text-white px-10">
-                <Link to={createPageUrl('Contact')}>Get Started</Link>
-              </Button>
+              <EstimatorButton size="large" />
               <Button asChild size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-gray-900">
                 <Link to={createPageUrl('Projects')}>View Projects</Link>
               </Button>
