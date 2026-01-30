@@ -41,7 +41,7 @@ export default function Projects() {
       <section 
         className="relative h-[60vh] flex items-center justify-center overflow-hidden"
         style={{
-          backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.77,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg)',
+          backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/b7c8321ab_Screenshot2026-01-30042020.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
