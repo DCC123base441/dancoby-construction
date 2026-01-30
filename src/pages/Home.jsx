@@ -82,14 +82,14 @@ export default function Home() {
                   <img 
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
                     alt="Living Room"
-                    className="w-full rounded-lg shadow-xl object-cover aspect-[3/4]"
+                    className="w-full shadow-xl object-cover aspect-[3/4]"
                   />
                 </div>
                 <div className="space-y-6 pt-12">
                   <img 
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
                     alt="Kitchen"
-                    className="w-full rounded-lg shadow-xl object-cover aspect-[3/4]"
+                    className="w-full shadow-xl object-cover aspect-[3/4]"
                   />
                 </div>
               </div>
