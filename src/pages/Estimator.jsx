@@ -269,8 +269,6 @@ export default function Estimator() {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-6 py-12">
-
           {/* AI Visualization Section */}
           {(imageUrl || estimateData.visualizationUrl) && (
             <motion.div
@@ -395,7 +393,6 @@ export default function Estimator() {
                 <Link to={createPageUrl('Contact')}>Schedule Consultation</Link>
               </Button>
             </div>
-          </div>
         </div>
       </div>
     );
