@@ -186,15 +186,17 @@ export default function Estimator() {
   const generateEstimate = async () => {
     setLoading(true);
     try {
-      const { data } = await base44.functions.invoke('generateEstimate', {
+      const response = await base44.functions.invoke('generateEstimate', {
         imageUrl,
         roomType: answers.projectType,
         selectedFinishes,
         userAnswers: answers
       });
-      setEstimateData(data);
+      console.log('Estimate response:', response);
+      setEstimateData(response.data || response);
     } catch (error) {
       console.error('Error generating estimate:', error);
+      alert('Error generating estimate. Please try again.');
     } finally {
       setLoading(false);
     }
