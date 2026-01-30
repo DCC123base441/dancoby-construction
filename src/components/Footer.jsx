@@ -12,13 +12,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           
           {/* Company Info */}
-          <div className="flex flex-col justify-between">
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
-              alt="Dancoby"
-              className="h-12 w-auto mb-6"
-              style={{ filter: 'brightness(0) invert(1)' }}
-            />
+          <div className="space-y-6">
+            <div className="bg-white p-3 w-fit rounded">
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
+                alt="Dancoby"
+                className="h-12 w-auto"
+                style={{ filter: 'brightness(0)' }}
+              />
+            </div>
             <div>
               <p className="text-gray-300 text-xs uppercase tracking-widest font-semibold mb-2">
                 Since 2004
