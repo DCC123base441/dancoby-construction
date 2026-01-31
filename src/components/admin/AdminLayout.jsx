@@ -54,10 +54,10 @@ export default function AdminLayout({ children }) {
 
   const navItems = [
     { icon: LayoutDashboard, label: 'Overview', path: '/admin' },
-    { icon: FolderKanban, label: 'Projects', path: '/admin/projects' },
-    { icon: Users, label: 'Leads & Estimates', path: '/admin/leads' },
-    { icon: PenTool, label: 'AI Blog', path: '/admin/blog' },
-    { icon: Settings, label: 'Settings', path: '/admin/settings' },
+    { icon: FolderKanban, label: 'Projects', path: '/admin-projects' },
+    { icon: Users, label: 'Leads & Estimates', path: '/admin-leads' },
+    { icon: PenTool, label: 'AI Blog', path: '/admin-blog' },
+    // { icon: Settings, label: 'Settings', path: '/admin/settings' }, // Placeholder
   ];
 
   if (loading) {

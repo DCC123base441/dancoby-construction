@@ -64,10 +64,10 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import AdminDashboard from './pages/AdminDashboard';
 import AdminBlog from './pages/AdminBlog';
 import AdminProjects from './pages/AdminProjects';
 import AdminLeads from './pages/AdminLeads';
+import Admin from './pages/Admin';
 import __Layout from './Layout.jsx';
 
 
@@ -89,10 +89,10 @@ export const PAGES = {
     "Services": Services,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "AdminDashboard": AdminDashboard,
     "AdminBlog": AdminBlog,
     "AdminProjects": AdminProjects,
     "AdminLeads": AdminLeads,
+    "Admin": Admin,
 }
 
 export const pagesConfig = {
