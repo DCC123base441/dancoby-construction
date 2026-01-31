@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
 import { base44 } from '@/api/base44Client';
@@ -19,6 +19,24 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function AdminLayout({ children, title, actions }) {
     const location = useLocation();
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const isAuthenticated = await base44.auth.isAuthenticated();
+                if (!isAuthenticated) {
+                    window.location.href = createPageUrl('AdminLogin');
+                } else {
+                    setIsCheckingAuth(false);
+                }
+            } catch (error) {
+                console.error("Auth check failed", error);
+                window.location.href = createPageUrl('AdminLogin');
+            }
+        };
+        checkAuth();
+    }, []);
     
     const navigation = [
         { name: 'Dashboard', href: 'AdminDashboard', icon: LayoutDashboard },
@@ -81,6 +99,14 @@ export default function AdminLayout({ children, title, actions }) {
             </div>
         </div>
     );
+
+    if (isCheckingAuth) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-slate-50">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-slate-50 flex">

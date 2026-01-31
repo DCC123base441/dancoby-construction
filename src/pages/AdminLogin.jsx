@@ -21,16 +21,6 @@ export default function AdminLogin() {
         const password = formData.get("password");
 
         try {
-            // For this specific request, checking the hardcoded credentials first
-            // to allow access without real user setup, as requested "placeholders"
-            if (email === 'admin' && password === 'securepass123') {
-                // Mock success for the requested placeholder flow
-                // In a real app we'd use base44.auth.login(email, password)
-                // Redirect to dashboard
-                window.location.href = createPageUrl('AdminDashboard');
-                return;
-            }
-
             // Real authentication attempt
             await base44.auth.login(email, password);
             window.location.href = createPageUrl('AdminDashboard');
