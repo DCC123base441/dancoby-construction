@@ -227,14 +227,14 @@ export default function Contact() {
                 </label>
                 <label>
                   <span className="label-text">Phone <span className="required">*</span></span>
-                  <input type="tel" required name="contact.phone" placeholder="(516) 555-0123" />
+                  <input type="tel" required name="contact.custom.22NypE6NdPYC" placeholder="(516) 555-0123" />
                 </label>
               </div>
 
               <div className="form-row">
                 <label>
                   <span className="label-text">Email</span>
-                  <input type="email" name="contact.email" placeholder="you@email.com" />
+                  <input type="email" name="contact.custom.22NypE69XMG8" placeholder="you@email.com" />
                 </label>
                 <label>
                   <span className="label-text">City / Zip</span>
