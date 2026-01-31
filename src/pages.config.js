@@ -48,10 +48,10 @@
  * The mainPage value must match a key in the PAGES object exactly.
  */
 import About from './pages/About';
-import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
+import Home from './pages/Home';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
@@ -63,16 +63,17 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import Home from './pages/Home';
+import Contact from './pages/Contact';
+import AdminLogin from './pages/AdminLogin';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "About": About,
-    "Contact": Contact,
     "Estimator": Estimator,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
+    "Home": Home,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
@@ -84,7 +85,8 @@ export const PAGES = {
     "Services": Services,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "Home": Home,
+    "Contact": Contact,
+    "AdminLogin": AdminLogin,
 }
 
 export const pagesConfig = {
