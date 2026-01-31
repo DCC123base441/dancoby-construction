@@ -36,19 +36,37 @@ Deno.serve(async (req) => {
             }
         }
 
-        // Call ReimagineHome generate_image
-        const generateResponse = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
+        // Call ReimagineHome redesign_room (which handles auto-masking)
+        // If that fails, we might need a 2-step process (create_mask -> generate_image)
+        // But let's try the high-level endpoint first.
+        
+        let endpoint = 'https://api.reimaginehome.ai/v1/redesign_room';
+        let payload = {
+            image_url: imageUrl,
+            prompt: prompt || `Beautifully designed ${roomType || 'room'}, photorealistic, 8k, interior design`,
+            room_type: roomType, 
+            style: "Modern" // We should pass style if available, or extract from prompt?
+            // "theme": style ?
+        };
+
+        // If specific params are needed for redesign_room vs generate_image
+        // redesign_room usually takes: image_url, prompt, room_type, style, etc.
+        // It might NOT take mask_category/mask_prompt directly if it's "redesign".
+        
+        // However, to be safe and try to match the "Staging" vs "Renovation" intent:
+        if (maskCategory === 'furnishing') {
+             // For virtual staging, maybe use 'virtual_staging' endpoint if it exists, or stick to redesign_room with specific prompt
+             // or check if we should be using generate_image with a mask (2-step).
+             // Let's assume redesign_room handles it.
+        }
+
+        const generateResponse = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                image_url: imageUrl,
-                prompt: prompt || `Beautifully designed ${roomType || 'room'}, photorealistic, 8k, interior design`,
-                mask_category: category,
-                mask_prompt: category === 'architectural' ? "wall, floor, ceiling, cabinets, fixtures" : "furniture, decor, rugs, lighting"
-            })
+            body: JSON.stringify(payload)
         });
 
         if (!generateResponse.ok) {
