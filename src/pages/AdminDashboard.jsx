@@ -27,6 +27,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 export default function AdminDashboard() {
     // Queries
@@ -55,26 +62,80 @@ export default function AdminDashboard() {
     const newLeads = leads.filter(l => l.status === 'new').length;
     
     // Real traffic data
+    const [timeRange, setTimeRange] = React.useState("week");
+
     const trafficData = useMemo(() => {
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const today = new Date();
-        const last7Days = Array.from({ length: 7 }, (_, i) => {
-            const d = new Date(today);
-            d.setDate(today.getDate() - (6 - i));
-            return d;
+        const now = new Date();
+        const grouped = {};
+        
+        let dateFormat = 'weekday'; // 'hour', 'weekday', 'day', 'month'
+        let iterations = 7;
+        
+        // Define configuration based on selected range
+        if (timeRange === 'day') {
+            dateFormat = 'hour';
+            iterations = 24;
+        } else if (timeRange === 'week') {
+            dateFormat = 'weekday';
+            iterations = 7;
+        } else if (timeRange === 'month') {
+            dateFormat = 'day';
+            iterations = 30;
+        } else if (timeRange === 'year') {
+            dateFormat = 'month';
+            iterations = 12;
+        }
+
+        // Initialize buckets with 0
+        for (let i = iterations - 1; i >= 0; i--) {
+            const d = new Date(now);
+            let key, label, sortTime;
+
+            if (dateFormat === 'hour') {
+                d.setHours(d.getHours() - i);
+                key = d.toISOString().slice(0, 13); // key by hour
+                label = d.toLocaleTimeString([], { hour: 'numeric' });
+            } else if (dateFormat === 'weekday') {
+                d.setDate(d.getDate() - i);
+                key = d.toDateString();
+                label = d.toLocaleDateString('en-US', { weekday: 'short' });
+            } else if (dateFormat === 'day') {
+                d.setDate(d.getDate() - i);
+                key = d.toDateString();
+                label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            } else if (dateFormat === 'month') {
+                d.setMonth(d.getMonth() - i);
+                key = `${d.getMonth()}-${d.getFullYear()}`;
+                label = d.toLocaleDateString('en-US', { month: 'short' });
+            }
+            
+            sortTime = d.getTime();
+            grouped[key] = { name: label, value: 0, sort: sortTime };
+        }
+
+        // Fill buckets with visit data
+        const cutoffDate = new Date(Object.values(grouped)[0].sort);
+        
+        visits.forEach(visit => {
+            const vDate = new Date(visit.created_date);
+            if (vDate < cutoffDate) return;
+
+            let key;
+            if (dateFormat === 'hour') {
+                key = vDate.toISOString().slice(0, 13);
+            } else if (dateFormat === 'weekday' || dateFormat === 'day') {
+                key = vDate.toDateString();
+            } else if (dateFormat === 'month') {
+                key = `${vDate.getMonth()}-${vDate.getFullYear()}`;
+            }
+
+            if (grouped[key]) {
+                grouped[key].value++;
+            }
         });
 
-        const visitsByDate = visits.reduce((acc, visit) => {
-            const dateStr = new Date(visit.created_date).toLocaleDateString();
-            acc[dateStr] = (acc[dateStr] || 0) + 1;
-            return acc;
-        }, {});
-
-        return last7Days.map(date => ({
-            name: days[date.getDay()],
-            value: visitsByDate[date.toLocaleDateString()] || 0
-        }));
-    }, [visits]);
+        return Object.values(grouped).sort((a, b) => a.sort - b.sort);
+    }, [visits, timeRange]);
 
     const engagementRate = useMemo(() => {
         if (!visits.length) return { value: "0%", label: "No visits yet" };
@@ -166,9 +227,22 @@ export default function AdminDashboard() {
                 <div className="grid gap-8 lg:grid-cols-7">
                     {/* Main Chart Section - Takes up 4/7 columns */}
                     <Card className="lg:col-span-4 border-slate-200/60 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Traffic Overview</CardTitle>
-                            <CardDescription>Daily visitors for the current week</CardDescription>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
+                            <div className="space-y-1">
+                                <CardTitle>Traffic Overview</CardTitle>
+                                <CardDescription>Visitors over time</CardDescription>
+                            </div>
+                            <Select value={timeRange} onValueChange={setTimeRange}>
+                                <SelectTrigger className="w-[140px]">
+                                    <SelectValue placeholder="Select range" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="day">Last 24 Hours</SelectItem>
+                                    <SelectItem value="week">Last 7 Days</SelectItem>
+                                    <SelectItem value="month">Last 30 Days</SelectItem>
+                                    <SelectItem value="year">Last 12 Months</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </CardHeader>
                         <CardContent className="pl-0">
                             <div className="h-[350px] w-full">
