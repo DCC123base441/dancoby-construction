@@ -16,6 +16,15 @@ export default function Estimator() {
   const [imageUrl, setImageUrl] = useState(null);
   const [estimateData, setEstimateData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const formRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentStep]);
 
   const steps = [
     {
@@ -393,7 +402,7 @@ export default function Estimator() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12">
-      <div className="max-w-3xl mx-auto px-6">
+      <div ref={formRef} className="max-w-3xl mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
