@@ -14,14 +14,23 @@ export default function Layout({ children }) {
     // Track site visit
     const trackVisit = async () => {
         try {
-            await base44.entities.SiteVisit.create({
+            // Use backend function to enrich with location data
+            await base44.functions.invoke('trackVisit', {
                 page: location.pathname,
                 userAgent: navigator.userAgent,
                 referrer: document.referrer
             });
         } catch (error) {
-            // Silently fail for analytics
-            console.warn('Failed to track visit', error);
+            // Fallback to direct creation if function fails
+            try {
+                await base44.entities.SiteVisit.create({
+                    page: location.pathname,
+                    userAgent: navigator.userAgent,
+                    referrer: document.referrer
+                });
+            } catch (e) {
+                console.warn('Failed to track visit', e);
+            }
         }
     };
     

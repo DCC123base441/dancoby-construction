@@ -138,7 +138,25 @@ export default function AdminAnalytics() {
             .sort((a, b) => b.value - a.value)
             .slice(0, 5);
 
-        return { total: totalCount, chartData, topPages };
+        // Top Locations
+        const locationStats = filteredVisits.reduce((acc, curr) => {
+            if (curr.city && curr.state) {
+                const loc = `${curr.city}, ${curr.state}`;
+                acc[loc] = (acc[loc] || 0) + 1;
+            } else if (curr.country) {
+                acc[curr.country] = (acc[curr.country] || 0) + 1;
+            } else {
+                acc['Unknown'] = (acc['Unknown'] || 0) + 1;
+            }
+            return acc;
+        }, {});
+
+        const topLocations = Object.entries(locationStats)
+            .map(([name, value]) => ({ name, value }))
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 5);
+
+        return { total: totalCount, chartData, topPages, topLocations };
     }, [visits, timeRange]);
 
     // Process Estimates Data
@@ -286,28 +304,53 @@ export default function AdminAnalytics() {
                                 </div>
                             </CardContent>
                         </Card>
-                        <Card className="col-span-3">
-                            <CardHeader>
-                                <CardTitle>Top Pages</CardTitle>
-                                <CardDescription>Most visited sections</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-4">
-                                    {visitsStats.topPages.map((page, i) => (
-                                        <div key={i} className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2 max-w-[80%]">
-                                                <div className="w-2 h-2 rounded-full bg-blue-500" />
-                                                <span className="text-sm font-medium truncate">{page.name}</span>
+                        <div className="col-span-3 space-y-6">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Top Pages</CardTitle>
+                                    <CardDescription>Most visited sections</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-4">
+                                        {visitsStats.topPages.map((page, i) => (
+                                            <div key={i} className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2 max-w-[80%]">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-500" />
+                                                    <span className="text-sm font-medium truncate">{page.name}</span>
+                                                </div>
+                                                <span className="text-sm text-slate-500">{page.value}</span>
                                             </div>
-                                            <span className="text-sm text-slate-500">{page.value}</span>
-                                        </div>
-                                    ))}
-                                    {visitsStats.topPages.length === 0 && (
-                                        <div className="text-center text-slate-500 py-8">No data yet</div>
-                                    )}
-                                </div>
-                            </CardContent>
-                        </Card>
+                                        ))}
+                                        {visitsStats.topPages.length === 0 && (
+                                            <div className="text-center text-slate-500 py-8">No data yet</div>
+                                        )}
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Top Locations</CardTitle>
+                                    <CardDescription>Visitor demographics</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-4">
+                                        {visitsStats.topLocations.map((loc, i) => (
+                                            <div key={i} className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2 max-w-[80%]">
+                                                    <MapPin className="w-3 h-3 text-red-500" />
+                                                    <span className="text-sm font-medium truncate">{loc.name}</span>
+                                                </div>
+                                                <span className="text-sm text-slate-500">{loc.value}</span>
+                                            </div>
+                                        ))}
+                                        {visitsStats.topLocations.length === 0 && (
+                                            <div className="text-center text-slate-500 py-4">No data yet</div>
+                                        )}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
                 </TabsContent>
 
