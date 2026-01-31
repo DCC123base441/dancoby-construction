@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -78,6 +78,26 @@ const DEVICE_DATA = [
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [user, setUser] = useState(null);
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const currentUser = await base44.auth.me();
+        if (currentUser) {
+          setUser(currentUser);
+        } else {
+          base44.auth.redirectToLogin(window.location.href);
+        }
+      } catch (e) {
+        base44.auth.redirectToLogin(window.location.href);
+      } finally {
+        setIsAuthChecking(false);
+      }
+    };
+    checkAuth();
+  }, []);
 
   const { data: projects, isLoading: isLoadingProjects } = useQuery({
     queryKey: ['projects'],
@@ -164,14 +184,36 @@ export default function AdminDashboard() {
   }, [estimates]);
 
 
-  const isLoading = isLoadingProjects || isLoadingEstimates || isLoadingTestimonials;
+  const isLoading = isLoadingProjects || isLoadingEstimates || isLoadingTestimonials || isAuthChecking;
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <Loader2 className="w-10 h-10 animate-spin text-red-600 mx-auto mb-4" />
-          <p className="text-gray-500">Loading dashboard analytics...</p>
+          <p className="text-gray-500">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user || user.role !== 'admin') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center max-w-md px-6">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <LogOut className="w-8 h-8 text-red-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
+          <p className="text-gray-500 mb-6">You do not have permission to view the admin dashboard.</p>
+          <div className="flex gap-4 justify-center">
+             <Button variant="outline" asChild>
+                <Link to={createPageUrl('Home')}>Return Home</Link>
+             </Button>
+             <Button onClick={() => base44.auth.logout()}>
+                Sign Out
+             </Button>
+          </div>
         </div>
       </div>
     );
@@ -241,7 +283,11 @@ export default function AdminDashboard() {
         </nav>
 
         <div className="p-4 mt-auto border-t border-gray-100">
-           <Button variant="ghost" className="w-full justify-start gap-3 text-red-600 hover:text-red-700 hover:bg-red-50">
+           <Button 
+             variant="ghost" 
+             className="w-full justify-start gap-3 text-red-600 hover:text-red-700 hover:bg-red-50"
+             onClick={() => base44.auth.logout()}
+           >
              <LogOut className="w-4 h-4" />
              Sign Out
            </Button>
