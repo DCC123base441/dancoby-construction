@@ -4,8 +4,9 @@ import { Check, Shield, Clock, Building2, UserSquare2 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 
 export default function VendorIntake() {
-  const [captcha, setCaptcha] = React.useState({ num1: 0, num2: 0, answer: '' });
-  const [isHuman, setIsHuman] = React.useState(false);
+  const [isVerified, setIsVerified] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
+  const intervalRef = React.useRef(null);
   
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -13,22 +14,24 @@ export default function VendorIntake() {
     transition: { duration: 0.6 }
   };
 
-  React.useEffect(() => {
-    setCaptcha({
-      num1: Math.floor(Math.random() * 10),
-      num2: Math.floor(Math.random() * 10),
-      answer: ''
-    });
-  }, []);
+  const startHolding = () => {
+    if (isVerified) return;
+    intervalRef.current = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(intervalRef.current);
+          setIsVerified(true);
+          return 100;
+        }
+        return prev + 4; 
+      });
+    }, 20);
+  };
 
-  const handleCaptchaChange = (e) => {
-    const val = e.target.value;
-    setCaptcha(prev => ({ ...prev, answer: val }));
-    if (parseInt(val) === captcha.num1 + captcha.num2) {
-      setIsHuman(true);
-    } else {
-      setIsHuman(false);
-    }
+  const stopHolding = () => {
+    if (isVerified) return;
+    clearInterval(intervalRef.current);
+    setProgress(0);
   };
 
   useEffect(() => {
@@ -297,32 +300,42 @@ export default function VendorIntake() {
               />
             </label>
 
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
-              <label className="block">
-                <span className="label-text mb-2 block">Security Check: What is {captcha.num1} + {captcha.num2}? <span className="required">*</span></span>
-                <input 
-                  type="number" 
-                  value={captcha.answer}
-                  onChange={handleCaptchaChange}
-                  placeholder="?"
-                  className="w-24 !inline-block mr-2"
+            <div className="mb-8 select-none">
+              <span className="label-text mb-2 block">Security Verification <span className="required">*</span></span>
+              <div 
+                className={`relative h-14 rounded-lg overflow-hidden cursor-pointer transition-all border ${isVerified ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}`}
+                onMouseDown={startHolding}
+                onMouseUp={stopHolding}
+                onMouseLeave={stopHolding}
+                onTouchStart={startHolding}
+                onTouchEnd={stopHolding}
+              >
+                {/* Progress Bar */}
+                <div 
+                  className={`absolute top-0 left-0 h-full transition-all duration-75 ease-linear ${isVerified ? 'bg-green-500' : 'bg-red-500/80'}`}
+                  style={{ width: `${progress}%` }}
                 />
-                {!isHuman && captcha.answer && (
-                  <span className="text-sm text-red-500">Incorrect answer</span>
-                )}
-                {isHuman && (
-                  <span className="text-sm text-green-600 flex items-center gap-1 inline-flex">
-                    <Check className="w-4 h-4" /> Verified
-                  </span>
-                )}
-              </label>
+                
+                {/* Text / Content */}
+                <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                  {isVerified ? (
+                    <span className="font-semibold text-green-700 flex items-center gap-2">
+                      <Check className="w-5 h-5" /> Verified Human
+                    </span>
+                  ) : (
+                    <span className="font-medium text-gray-600 flex items-center gap-2">
+                      <Shield className="w-4 h-4" /> Hold to Verify
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
 
             <button 
               type="submit" 
               data-submit-button="true"
-              disabled={!isHuman}
-              className={`transition-all duration-200 ${!isHuman ? 'opacity-50 cursor-not-allowed grayscale' : 'hover:brightness-110'}`}
+              disabled={!isVerified}
+              className={`transition-all duration-200 ${!isVerified ? 'opacity-50 cursor-not-allowed grayscale' : 'hover:brightness-110'}`}
             >
               Submit Registration
             </button>
