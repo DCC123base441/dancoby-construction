@@ -165,30 +165,6 @@ export default function Home() {
               </div>
             </section>
 
-      {/* Neighborhood Banner */}
-      <section className="relative h-[60vh] overflow-hidden flex items-center justify-center">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{ 
-            backgroundImage: `url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/786e0c0f6_IMG_3919.JPG)` 
-          }}
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 text-center text-white px-6 max-w-4xl"
-        >
-          <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-red-500">In Your Neighborhood</span>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">Building Brooklyn & Beyond</h2>
-          <p className="text-lg md:text-xl font-light text-gray-200 leading-relaxed max-w-2xl mx-auto">
-            Look for us on your block. We're bringing expert craftsmanship and sophisticated transformations to every corner of the community.
-          </p>
-        </motion.div>
-      </section>
-
             {/* About Us Section */}
             <section className="py-32 bg-white">
               <div className="max-w-7xl mx-auto px-6">
