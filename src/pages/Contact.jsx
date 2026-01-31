@@ -238,7 +238,13 @@ export default function Contact() {
                 </label>
                 <label>
                   <span className="label-text">Address <span className="required">*</span></span>
-                  <textarea name="location.address" required placeholder="Your full address" className="min-h-[80px]" />
+                  <input 
+                    type="text" 
+                    name="location.address" 
+                    required 
+                    placeholder="Start typing your address..." 
+                    autoComplete="street-address"
+                  />
                 </label>
               </div>
 
