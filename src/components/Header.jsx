@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { Menu, X, Home } from 'lucide-react';
+import { Menu, X, Home, LayoutDashboard } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { base44 } from '@/api/base44Client';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      // Check for bypass token first (dev mode)
+      if (localStorage.getItem('admin_bypass') === 'true') {
+        setIsAdmin(true);
+        return;
+      }
+
+      try {
+        const user = await base44.auth.me();
+        if (user?.role === 'admin') {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        // User not logged in
+      }
+    };
+    checkAdmin();
+  }, []);
 
   const navLinks = [
     { name: 'Home', path: 'Home' },
@@ -50,6 +72,18 @@ export default function Header() {
 
           {/* Right Side */}
           <div className="hidden md:flex items-center gap-4">
+            {isAdmin && (
+              <Button 
+                asChild
+                variant="ghost"
+                className="text-gray-600 hover:text-red-600 hover:bg-transparent"
+              >
+                <Link to={createPageUrl('AdminDashboard')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                  <LayoutDashboard className="w-5 h-5 mr-2" />
+                  Admin
+                </Link>
+              </Button>
+            )}
             <Button 
               asChild
               className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10"
@@ -80,6 +114,16 @@ export default function Header() {
                 {link.name}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                to={createPageUrl('AdminDashboard')}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-gray-600 hover:text-gray-900 transition-colors py-2 text-sm tracking-wide flex items-center gap-2"
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                Admin Dashboard
+              </Link>
+            )}
             <Button 
               asChild
               className="w-full bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide mt-4"
