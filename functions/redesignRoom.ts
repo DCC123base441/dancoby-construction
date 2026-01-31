@@ -20,6 +20,7 @@ Deno.serve(async (req) => {
         }
 
         console.log('Starting redesign for:', roomType);
+        console.log('Image URL:', imageUrl);
 
         // Determine mask category if not provided
         // Options: architectural, furnishing, landscaping, etc.
