@@ -42,7 +42,7 @@ export default function Home() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                       >
                         <div className="h-1 w-16 bg-red-600 mb-6" />
-                        <p className="text-white/90 text-base tracking-wider mb-4">
+                        <p className="text-white/90 text-base uppercase tracking-wider mb-4">
                           Dancoby Construction Company
                         </p>
                         <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-8">
