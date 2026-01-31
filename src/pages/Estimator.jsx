@@ -327,7 +327,7 @@ export default function Estimator() {
                 <h2 className="text-4xl md:text-5xl font-bold text-red-600 text-center mb-2">
                   ${estimateData.totalMin.toLocaleString()} - ${estimateData.totalMax.toLocaleString()}
                 </h2>
-                <p className="text-center text-gray-600 text-sm">Includes all costs and 15% contingency</p>
+                <p className="text-center text-gray-600 text-sm">Includes all costs and 10% contingency</p>
               </div>
 
               {/* Cost Breakdown */}
