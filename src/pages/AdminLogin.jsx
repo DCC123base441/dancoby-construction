@@ -21,6 +21,13 @@ export default function AdminLogin() {
         const password = formData.get("password");
 
         try {
+            // Developer bypass for specific password request
+            if (password === 'dancobyadmin123') {
+                localStorage.setItem('admin_bypass', 'true');
+                window.location.href = createPageUrl('AdminDashboard');
+                return;
+            }
+
             // Real authentication attempt
             await base44.auth.login(email, password);
             window.location.href = createPageUrl('AdminDashboard');

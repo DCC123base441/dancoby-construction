@@ -24,6 +24,12 @@ export default function AdminLayout({ children, title, actions }) {
     useEffect(() => {
         const checkAuth = async () => {
             try {
+                // Check for bypass token first
+                if (localStorage.getItem('admin_bypass') === 'true') {
+                    setIsCheckingAuth(false);
+                    return;
+                }
+
                 const isAuthenticated = await base44.auth.isAuthenticated();
                 if (!isAuthenticated) {
                     window.location.href = createPageUrl('AdminLogin');
@@ -47,7 +53,9 @@ export default function AdminLayout({ children, title, actions }) {
     ];
 
     const handleLogout = async () => {
+        localStorage.removeItem('admin_bypass');
         await base44.auth.logout();
+        window.location.href = createPageUrl('AdminLogin');
     };
 
     const NavContent = () => (
