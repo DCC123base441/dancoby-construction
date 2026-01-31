@@ -98,6 +98,7 @@ export default function AdminAnalytics() {
         // Filter and count visits
         let totalCount = 0;
         const pageViews = {};
+        const locationCounts = {};
         
         const cutoffDate = new Date(Object.values(grouped)[0].sort);
         // Adjust cutoff for hour precision or day precision
@@ -129,6 +130,16 @@ export default function AdminAnalytics() {
 
             // Count for top pages
             pageViews[visit.page] = (pageViews[visit.page] || 0) + 1;
+
+            // Count for top locations
+            if (visit.city && visit.state) {
+                const loc = `${visit.city}, ${visit.state}`;
+                locationCounts[loc] = (locationCounts[loc] || 0) + 1;
+            } else if (visit.country) {
+                locationCounts[visit.country] = (locationCounts[visit.country] || 0) + 1;
+            } else {
+                locationCounts['Unknown'] = (locationCounts['Unknown'] || 0) + 1;
+            }
         });
 
         const chartData = Object.values(grouped).sort((a, b) => a.sort - b.sort);
@@ -138,20 +149,7 @@ export default function AdminAnalytics() {
             .sort((a, b) => b.value - a.value)
             .slice(0, 5);
 
-        // Top Locations
-        const locationStats = filteredVisits.reduce((acc, curr) => {
-            if (curr.city && curr.state) {
-                const loc = `${curr.city}, ${curr.state}`;
-                acc[loc] = (acc[loc] || 0) + 1;
-            } else if (curr.country) {
-                acc[curr.country] = (acc[curr.country] || 0) + 1;
-            } else {
-                acc['Unknown'] = (acc['Unknown'] || 0) + 1;
-            }
-            return acc;
-        }, {});
-
-        const topLocations = Object.entries(locationStats)
+        const topLocations = Object.entries(locationCounts)
             .map(([name, value]) => ({ name, value }))
             .sort((a, b) => b.value - a.value)
             .slice(0, 5);
