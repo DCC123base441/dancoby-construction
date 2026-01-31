@@ -39,10 +39,13 @@ Deno.serve(async (req) => {
         // Two-step process: 1. Create Mask, 2. Generate Image
         console.log("Step 1: Creating mask...");
         
+        console.log("Using API Key:", apiKey?.substring(0, 5) + "...");
+        
         const maskResponse = await fetch('https://api.reimaginehome.ai/v1/create_mask', {
             method: 'POST',
             headers: {
-                'api-key': apiKey, // Endpoint requires api-key header
+                'api-key': apiKey,
+                'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
