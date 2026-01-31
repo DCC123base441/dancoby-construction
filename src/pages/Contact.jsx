@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check, ShieldAlert, Loader2 } from 'lucide-react';
+import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check, ShieldAlert, Loader2, Instagram, Facebook } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 
 export default function Contact() {
@@ -184,6 +184,30 @@ export default function Contact() {
                 {['Brooklyn', 'Queens', 'Manhattan', 'The Bronx', 'Staten Island', 'Long Island'].map((city) => (
                   <span key={city} className="bg-gray-100 px-3.5 py-1.5 rounded-full text-sm text-gray-600">{city}</span>
                 ))}
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+              <div className="flex gap-4">
+                <a 
+                  href="https://www.instagram.com/dancobyconstruction" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center w-12 h-12 bg-stone-50 rounded-lg text-gray-600 hover:bg-pink-600 hover:text-white transition-all"
+                  aria-label="Follow us on Instagram"
+                >
+                  <Instagram className="w-6 h-6" />
+                </a>
+                <a 
+                  href="https://www.facebook.com/dancobyconstruction" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-center w-12 h-12 bg-stone-50 rounded-lg text-gray-600 hover:bg-blue-600 hover:text-white transition-all"
+                  aria-label="Follow us on Facebook"
+                >
+                  <Facebook className="w-6 h-6" />
+                </a>
               </div>
             </div>
           </div>
