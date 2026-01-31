@@ -87,11 +87,11 @@ Respond with JSON:
           {
             input: {
               image: imageUrl,
-              prompt: visualizationPrompt,
-              negative_prompt: "blurry, low quality, distorted, bad anatomy, watermark, text, signature, ugly, lowres, glitchy, artifacts, mirrored, flipped, inverted",
+              prompt: visualizationPrompt + ", same layout, preserving room geometry, exact scale, same perspective, accurate dimensions",
+              negative_prompt: "blurry, low quality, distorted, bad anatomy, watermark, text, signature, ugly, lowres, glitchy, artifacts, mirrored, flipped, inverted, changing layout, resizing room, distorted perspective",
               guidance_scale: 7.5,
               num_inference_steps: 30,
-              controlnet_conditioning_scale: 0.85 // Increased to ensure correct orientation and structure
+              controlnet_conditioning_scale: 0.95 // Maximum structural adherence to preserve scale and layout
             }
           }
         );
