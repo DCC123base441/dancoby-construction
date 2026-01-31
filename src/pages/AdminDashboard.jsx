@@ -71,15 +71,7 @@ export default function AdminDashboard() {
             color: "text-blue-600",
             bg: "bg-blue-100/50"
         },
-        {
-            title: "Active Projects",
-            value: activeProjects,
-            change: "2 completing soon",
-            trend: "neutral",
-            icon: FolderKanban,
-            color: "text-violet-600",
-            bg: "bg-violet-100/50"
-        },
+
         {
             title: "Blog Posts",
             value: blogs.length,
