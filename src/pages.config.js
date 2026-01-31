@@ -57,13 +57,13 @@ import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
 import Projects from './pages/Projects';
+import Secret from './pages/Secret';
 import ServiceBrownstone from './pages/ServiceBrownstone';
 import ServiceInteriorRenovations from './pages/ServiceInteriorRenovations';
 import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
-import Secret from './pages/Secret';
 import __Layout from './Layout.jsx';
 
 
@@ -78,13 +78,13 @@ export const PAGES = {
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
     "Projects": Projects,
+    "Secret": Secret,
     "ServiceBrownstone": ServiceBrownstone,
     "ServiceInteriorRenovations": ServiceInteriorRenovations,
     "ServiceKitchenBath": ServiceKitchenBath,
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
     "TermsOfService": TermsOfService,
-    "Secret": Secret,
 }
 
 export const pagesConfig = {
