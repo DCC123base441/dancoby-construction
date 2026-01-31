@@ -58,7 +58,13 @@ export default function VirtualStaging() {
       }
     } catch (error) {
       console.error("Generation failed:", error);
-      alert("Failed to generate design. Please try again.");
+      let msg = "Failed to generate design. Please try again.";
+      if (error.response?.data?.error) {
+        msg = `Generation failed: ${error.response.data.error}`;
+      } else if (error.message) {
+        msg = error.message;
+      }
+      alert(msg);
     } finally {
       setLoading(false);
     }
