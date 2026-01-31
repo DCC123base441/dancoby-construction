@@ -188,11 +188,18 @@ export default function Home() {
                           Our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process.
                         </p>
                       </div>
-                      <Button asChild variant="link" className="text-gray-900 hover:text-red-600 p-0 h-auto font-semibold text-lg group">
-                        <Link to={createPageUrl('About')} className="flex items-center gap-2">
-                          Learn More <span className="group-hover:translate-x-1 transition-transform">→</span>
-                        </Link>
-                      </Button>
+                      <div className="flex flex-col sm:flex-row gap-6 items-start">
+                        <Button asChild variant="link" className="text-gray-900 hover:text-red-600 p-0 h-auto font-semibold text-lg group">
+                          <Link to={createPageUrl('About')} className="flex items-center gap-2">
+                            Learn More <span className="group-hover:translate-x-1 transition-transform">→</span>
+                          </Link>
+                        </Button>
+                        <Button asChild variant="link" className="text-gray-500 hover:text-gray-900 p-0 h-auto font-medium text-lg">
+                          <Link to={createPageUrl('VendorIntake')}>
+                            Partner With Us
+                          </Link>
+                        </Button>
+                      </div>
                     </div>
                   </motion.div>
 
@@ -500,9 +507,14 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-xs tracking-[2px] text-[#78716b] uppercase mb-4">Interested in working with us?</p>
           <h2 className="text-3xl md:text-4xl font-light mb-8">Let's Build Something Beautiful</h2>
-          <Button asChild variant="outline" className="border border-white bg-transparent text-white hover:bg-white hover:text-[#1c1917] px-8 py-3 text-sm tracking-wider uppercase">
-            <Link to={createPageUrl('Contact')}>Get In Touch</Link>
-          </Button>
+          <div className="flex flex-col items-center gap-6">
+            <Button asChild variant="outline" className="border border-white bg-transparent text-white hover:bg-white hover:text-[#1c1917] px-8 py-3 text-sm tracking-wider uppercase">
+              <Link to={createPageUrl('Contact')}>Get In Touch</Link>
+            </Button>
+            <Link to={createPageUrl('VendorIntake')} className="text-white/40 hover:text-white text-xs tracking-widest uppercase transition-colors border-b border-transparent hover:border-white/40 pb-0.5">
+              Subcontractor Registration
+            </Link>
+          </div>
         </div>
       </section>
 

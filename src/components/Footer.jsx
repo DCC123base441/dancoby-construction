@@ -109,6 +109,11 @@ export default function Footer() {
                     Careers
                   </Link>
                 </li>
+                <li>
+                  <Link to={createPageUrl('VendorIntake')} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Partner With Us
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
