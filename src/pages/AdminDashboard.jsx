@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
@@ -45,21 +45,36 @@ export default function AdminDashboard() {
         queryFn: () => base44.entities.BlogPost.list(),
     });
 
+    const { data: visits = [] } = useQuery({
+        queryKey: ['siteVisits'],
+        queryFn: () => base44.entities.SiteVisit.list('-created_date', 1000),
+    });
+
     // Calculate stats
-    const totalLeads = leads.length; // Note: this is only of the fetched 10 if not using total count endpoint, but sufficient for mockup
+    const totalLeads = leads.length;
     const newLeads = leads.filter(l => l.status === 'new').length;
-    const activeProjects = projects.length;
     
-    // Mock data for charts
-    const trafficData = [
-        { name: 'Mon', value: 40 },
-        { name: 'Tue', value: 30 },
-        { name: 'Wed', value: 45 },
-        { name: 'Thu', value: 80 },
-        { name: 'Fri', value: 55 },
-        { name: 'Sat', value: 20 },
-        { name: 'Sun', value: 15 },
-    ];
+    // Real traffic data
+    const trafficData = useMemo(() => {
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const today = new Date();
+        const last7Days = Array.from({ length: 7 }, (_, i) => {
+            const d = new Date(today);
+            d.setDate(today.getDate() - (6 - i));
+            return d;
+        });
+
+        const visitsByDate = visits.reduce((acc, visit) => {
+            const dateStr = new Date(visit.created_date).toLocaleDateString();
+            acc[dateStr] = (acc[dateStr] || 0) + 1;
+            return acc;
+        }, {});
+
+        return last7Days.map(date => ({
+            name: days[date.getDay()],
+            value: visitsByDate[date.toLocaleDateString()] || 0
+        }));
+    }, [visits]);
 
     const stats = [
         {
