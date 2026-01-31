@@ -188,18 +188,11 @@ export default function Home() {
                           Our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process.
                         </p>
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-6 items-start">
-                        <Button asChild variant="link" className="text-gray-900 hover:text-red-600 p-0 h-auto font-semibold text-lg group">
-                          <Link to={createPageUrl('About')} className="flex items-center gap-2">
-                            Learn More <span className="group-hover:translate-x-1 transition-transform">→</span>
-                          </Link>
-                        </Button>
-                        <Button asChild variant="link" className="text-gray-500 hover:text-gray-900 p-0 h-auto font-medium text-lg">
-                          <Link to={createPageUrl('VendorIntake')}>
-                            Partner With Us
-                          </Link>
-                        </Button>
-                      </div>
+                      <Button asChild variant="link" className="text-gray-900 hover:text-red-600 p-0 h-auto font-semibold text-lg group">
+                        <Link to={createPageUrl('About')} className="flex items-center gap-2">
+                          Learn More <span className="group-hover:translate-x-1 transition-transform">→</span>
+                        </Link>
+                      </Button>
                     </div>
                   </motion.div>
 
