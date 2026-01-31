@@ -1,16 +1,55 @@
 import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Check, Shield, Clock, Building2, UserSquare2 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 
 export default function VendorIntake() {
   
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
+
   useEffect(() => {
+    // Load JobTread CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://app.jobtread.com/web-form.css';
+    document.head.appendChild(link);
+
     // Load JobTread script
     const script = document.createElement('script');
     script.src = 'https://app.jobtread.com/web-form.js';
     script.async = true;
     document.body.appendChild(script);
 
+    // Success handler
+    const handleSuccess = (event) => {
+      console.log('JobTread form submitted successfully', event.detail);
+      const successMessage = document.getElementById('successMessage');
+      if (successMessage) {
+        successMessage.classList.add('show');
+        document.querySelector('.form-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+          successMessage.classList.remove('show');
+        }, 5000);
+      }
+    };
+
+    // Error handler
+    const handleError = (event) => {
+      console.error('JobTread form error:', event.detail);
+      alert('There was an error submitting the form. Please try again or contact us directly.');
+    };
+
+    window.addEventListener('jobtread-form-success', handleSuccess);
+    window.addEventListener('jobtread-form-error', handleError);
+
     return () => {
+      window.removeEventListener('jobtread-form-success', handleSuccess);
+      window.removeEventListener('jobtread-form-error', handleError);
+      document.head.removeChild(link);
       if (script.parentNode) {
         document.body.removeChild(script);
       }
@@ -20,109 +59,178 @@ export default function VendorIntake() {
   return (
     <main className="min-h-screen bg-gray-50">
       <SEOHead 
-        title="Subcontractor Intake | Dancoby Construction"
-        description="Subcontractor registration form for Dancoby Construction."
+        title="Subcontractor Registration | Dancoby Construction"
+        description="Join our network of trusted subcontractors. Register with Dancoby Construction."
       />
-      <style>{`
-        @layer properties{@supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))){.jtwf *,.jtwf :before,.jtwf :after,.jtwf ::backdrop{--tw-space-y-reverse:0;--tw-divide-y-reverse:0;--tw-border-style:solid;--tw-font-weight:initial;--tw-shadow:0 0 #0000;--tw-shadow-color:initial;--tw-shadow-alpha:100%;--tw-inset-shadow:0 0 #0000;--tw-inset-shadow-color:initial;--tw-inset-shadow-alpha:100%;--tw-ring-color:initial;--tw-ring-shadow:0 0 #0000;--tw-inset-ring-color:initial;--tw-inset-ring-shadow:0 0 #0000;--tw-ring-inset:initial;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-offset-shadow:0 0 #0000;--tw-blur:initial;--tw-brightness:initial;--tw-contrast:initial;--tw-grayscale:initial;--tw-hue-rotate:initial;--tw-invert:initial;--tw-opacity:initial;--tw-saturate:initial;--tw-sepia:initial;--tw-drop-shadow:initial;--tw-drop-shadow-color:initial;--tw-drop-shadow-alpha:100%;--tw-drop-shadow-size:initial}}}@layer theme{.jtwf{--color-red-500:oklch(63.7% .237 25.331);--color-blue-500:oklch(62.3% .214 259.815);--color-gray-50:oklch(98.5% .002 247.839);--color-gray-200:oklch(92.8% .006 264.531);--color-gray-300:oklch(87.2% .01 258.338);--color-gray-500:oklch(55.1% .027 264.364);--color-white:#fff;--spacing:.25rem;--container-sm:24rem;--text-xl:1.25rem;--text-xl--line-height:calc(1.75/1.25);--font-weight-normal:400;--font-weight-bold:700;--radius-sm:.25rem;--default-transition-duration:.25s;--default-transition-timing-function:cubic-bezier(.4,0,.2,1)}}@layer base{.jtwf *,.jtwf :after,.jtwf :before,.jtwf ::backdrop{border-color:var(--color-gray-200,currentColor)}.jtwf ::file-selector-button{border-color:var(--color-gray-200,currentColor)}.jtwf *{box-sizing:border-box;border:0 solid #e5e7eb}.jtwf button,.jtwf input,.jtwf optgroup,.jtwf select,.jtwf textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}}@layer components;@layer utilities{.jtwf .mx-auto{margin-inline:auto}.jtwf .block{display:block}.jtwf .flex{display:flex}.jtwf .max-h-24{max-height:calc(var(--spacing)*24)}.jtwf .w-full{width:100%}.jtwf .max-w-full{max-width:100%}.jtwf .max-w-sm{max-width:var(--container-sm)}.jtwf .min-w-0{min-width:calc(var(--spacing)*0)}.jtwf .shrink-0{flex-shrink:0}.jtwf .grow{flex-grow:1}.jtwf .cursor-pointer{cursor:pointer}.jtwf .appearance-none{appearance:none}.jtwf .items-center{align-items:center}.jtwf .gap-2{gap:calc(var(--spacing)*2)}.jtwf :where(.space-y-2>:not(:last-child)){--tw-space-y-reverse:0;margin-block-start:calc(calc(var(--spacing)*2)*var(--tw-space-y-reverse));margin-block-end:calc(calc(var(--spacing)*2)*calc(1 - var(--tw-space-y-reverse)))}.jtwf :where(.divide-y>:not(:last-child)){--tw-divide-y-reverse:0;border-bottom-style:var(--tw-border-style);border-top-style:var(--tw-border-style);border-top-width:calc(1px*var(--tw-divide-y-reverse));border-bottom-width:calc(1px*calc(1 - var(--tw-divide-y-reverse)))}.jtwf .overflow-hidden{overflow:hidden}.jtwf .rounded-sm{border-radius:var(--radius-sm)}.jtwf .border{border-style:var(--tw-border-style);border-width:1px}.jtwf .bg-white{background-color:var(--color-white)}.jtwf .p-2{padding:calc(var(--spacing)*2)}.jtwf .p-4{padding:calc(var(--spacing)*4)}.jtwf .px-4{padding-inline:calc(var(--spacing)*4)}.jtwf .py-2{padding-block:calc(var(--spacing)*2)}.jtwf .text-center{text-align:center}.jtwf .text-right{text-align:right}.jtwf .text-xl{font-size:var(--text-xl);line-height:var(--tw-leading,var(--text-xl--line-height))}.jtwf .font-bold{--tw-font-weight:var(--font-weight-bold);font-weight:var(--font-weight-bold)}.jtwf .font-normal{--tw-font-weight:var(--font-weight-normal);font-weight:var(--font-weight-normal)}.jtwf .text-gray-500{color:var(--color-gray-500)}.jtwf .text-red-500{color:var(--color-red-500)}.jtwf .shadow-sm{--tw-shadow:0 1px 3px 0 var(--tw-shadow-color,#0000001a),0 1px 2px -1px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.jtwf .shadow-xs{--tw-shadow:0 1px 2px 0 var(--tw-shadow-color,#0000000d);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.jtwf .ring{--tw-ring-shadow:var(--tw-ring-inset,)0 0 0 calc(1px + var(--tw-ring-offset-width))var(--tw-ring-color,currentcolor);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.jtwf .ring-gray-200{--tw-ring-color:var(--color-gray-200)}.jtwf .transition{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,opacity,box-shadow,transform,translate,scale,rotate,filter,-webkit-backdrop-filter,backdrop-filter,display,content-visibility,overlay,pointer-events;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.jtwf .focus-within\:bg-white:focus-within{background-color:var(--color-white)}.jtwf .focus-within\:ring-3:focus-within{--tw-ring-shadow:var(--tw-ring-inset,)0 0 0 calc(3px + var(--tw-ring-offset-width))var(--tw-ring-color,currentcolor);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.jtwf .focus-within\:ring-blue-500:focus-within{--tw-ring-color:var(--color-blue-500)}@media (hover:hover){.jtwf .hover\:bg-gray-50:hover{background-color:var(--color-gray-50)}.jtwf .hover\:brightness-95:hover{--tw-brightness:brightness(95%);filter:var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)}}.jtwf .\[\&\:\:-webkit-date-and-time-value\]\:h-5::-webkit-date-and-time-value{height:calc(var(--spacing)*5)}@media (hover:hover){.jtwf .hover\:\[\&\:not\(\:focus-within\)\]\:border-gray-300:hover:not(:focus-within){border-color:var(--color-gray-300)}.jtwf .hover\:\[\&\:not\(\:focus-within\)\]\:bg-gray-50:hover:not(:focus-within){background-color:var(--color-gray-50)}}}@property --tw-space-y-reverse{syntax:"*";inherits:false;initial-value:0}@property --tw-divide-y-reverse{syntax:"*";inherits:false;initial-value:0}@property --tw-border-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-font-weight{syntax:"*";inherits:false}@property --tw-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-shadow-color{syntax:"*";inherits:false}@property --tw-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-inset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-shadow-color{syntax:"*";inherits:false}@property --tw-inset-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-ring-color{syntax:"*";inherits:false}@property --tw-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-ring-color{syntax:"*";inherits:false}@property --tw-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-ring-inset{syntax:"*";inherits:false}@property --tw-ring-offset-width{syntax:"<length>";inherits:false;initial-value:0}@property --tw-ring-offset-color{syntax:"*";inherits:false;initial-value:#fff}@property --tw-ring-offset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-blur{syntax:"*";inherits:false}@property --tw-brightness{syntax:"*";inherits:false}@property --tw-contrast{syntax:"*";inherits:false}@property --tw-grayscale{syntax:"*";inherits:false}@property --tw-hue-rotate{syntax:"*";inherits:false}@property --tw-invert{syntax:"*";inherits:false}@property --tw-opacity{syntax:"*";inherits:false}@property --tw-saturate{syntax:"*";inherits:false}@property --tw-sepia{syntax:"*";inherits:false}@property --tw-drop-shadow{syntax:"*";inherits:false}@property --tw-drop-shadow-color{syntax:"*";inherits:false}@property --tw-drop-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-drop-shadow-size{syntax:"*";inherits:false}
-      `}</style>
       
-      {/* Hero */}
-      <div className="bg-white py-16 px-5">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-serif mb-5 text-gray-900">Subcontractor Intake</h1>
-          <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
-            Join our network of trusted subcontractors. Please fill out the form below to register with Dancoby Construction.
-          </p>
+      {/* Shared Styles from Contact Page */}
+      <style>{`
+        .success-message { display: none; background: #dc2626; color: white; padding: 16px; border-radius: 8px; margin-bottom: 24px; animation: slideIn 0.3s; align-items: flex-start; gap: 12px; }
+        .success-message.show { display: flex; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .jtwf label { display: block; margin-bottom: 20px; }
+        .jtwf .label-text { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px; display: block; }
+        .jtwf .required { color: #dc2626; }
+        .jtwf input, .jtwf select, .jtwf textarea { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; font-family: inherit; transition: all 0.2s; background: white; }
+        .jtwf input:focus, .jtwf select:focus, .jtwf textarea:focus { outline: none; border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+        .jtwf textarea { resize: vertical; min-height: 100px; }
+        .jtwf .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .jtwf .form-row label { margin-bottom: 0; }
+        .jtwf button[type="submit"] { width: 100%; background: #dc2626; color: white; padding: 16px 32px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+        .jtwf button[type="submit"]:hover { filter: brightness(1.1); }
+        
+        @media (max-width: 968px) {
+          .jtwf .form-row { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      {/* Hero Section */}
+      <div className="bg-white py-16 px-5 border-b border-gray-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex justify-center mb-6">
+              <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center">
+                <Building2 className="w-8 h-8 text-red-600" />
+              </div>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-serif mb-6 text-gray-900">Subcontractor Partners</h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              We're always looking for skilled professionals to join our network. 
+              Partner with Dancoby Construction for consistent work on high-end renovation projects across New York.
+            </p>
+          </motion.div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-5 py-16">
-        <div className="bg-white border border-gray-200 rounded-xl p-8 md:p-10 shadow-sm">
-          
+      <div className="max-w-3xl mx-auto px-5 py-16">
+        <motion.div 
+          className="form-container bg-white border border-gray-200 rounded-xl p-8 md:p-10 shadow-lg"
+          variants={fadeIn}
+          initial="initial"
+          animate="animate"
+        >
+          <div id="successMessage" className="success-message">
+            <Check className="w-5 h-5 text-white mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="font-semibold mb-1">Registration Submitted!</p>
+              <p className="text-sm opacity-95">Thank you for registering. We've received your information and will be in touch when opportunities arise.</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 mb-8 pb-8 border-b border-gray-100">
+            <UserSquare2 className="w-6 h-6 text-red-600" />
+            <h2 className="text-xl font-semibold text-gray-900">Vendor Registration</h2>
+          </div>
+
           <form className="jtwf" data-jobtread-web-form="true" data-key="22TGXQ6uZYnsy4evWGXsitueqjVLnNsTSa">
-            <div className="mx-auto min-w-0 max-w-sm rounded-sm shadow-sm bg-white">
-              <div className="p-4 shadow-line-bottom">
-                <img className="block max-w-full max-h-24 mx-auto" src="https://cdn.jobtread.com/G1QAaBwHuWnlKq6V9iSkwXmprwsPRWrvgFOHpa9E3loRgSzKSo5OQvll6GaHPUByUC0EUUobhtAKpAcA1tqOGYvexZROknqlTBjNGQ.tL13VG4foqGG1KRBcG_DA18TAxYj6h2YO_YwLpC3RYQ?size=1024" alt="Company Logo" />
-              </div>
-              <div className="p-4 space-y-2">
-                <label className="cursor-pointer block">
-                  <div className="font-bold">Name<span className="font-normal text-red-500">*</span></div>
-                  <input className="rounded-sm ring ring-gray-200 p-2 w-full bg-white appearance-none transition hover:[&:not(:focus-within)]:bg-gray-50 hover:[&:not(:focus-within)]:border-gray-300 focus-within:bg-white focus-within:ring-3 focus-within:ring-blue-500 [&::-webkit-date-and-time-value]:h-5" type="text" required name="contact.name" />
-                </label>
-                <label className="cursor-pointer block">
-                  <div className="font-bold">Company Name<span className="font-normal text-red-500">*</span></div>
-                  <input className="rounded-sm ring ring-gray-200 p-2 w-full bg-white appearance-none transition hover:[&:not(:focus-within)]:bg-gray-50 hover:[&:not(:focus-within)]:border-gray-300 focus-within:bg-white focus-within:ring-3 focus-within:ring-blue-500 [&::-webkit-date-and-time-value]:h-5" type="text" required name="account.name" />
-                </label>
-                <label className="cursor-pointer block">
-                  <div className="font-bold">Email<span className="font-normal text-red-500">*</span></div>
-                  <input className="rounded-sm ring ring-gray-200 p-2 w-full bg-white appearance-none transition hover:[&:not(:focus-within)]:bg-gray-50 hover:[&:not(:focus-within)]:border-gray-300 focus-within:bg-white focus-within:ring-3 focus-within:ring-blue-500 [&::-webkit-date-and-time-value]:h-5" type="email" required name="account.custom.22NypE69vj9J" />
-                </label>
-                <label className="cursor-pointer block">
-                  <div className="font-bold">Phone<span className="font-normal text-red-500">*</span></div>
-                  <input className="rounded-sm ring ring-gray-200 p-2 w-full bg-white appearance-none transition hover:[&:not(:focus-within)]:bg-gray-50 hover:[&:not(:focus-within)]:border-gray-300 focus-within:bg-white focus-within:ring-3 focus-within:ring-blue-500 [&::-webkit-date-and-time-value]:h-5" type="tel" required name="account.custom.22NypE6Nic8E" />
-                </label>
-                <label className="cursor-pointer block">
-                  <div className="font-bold">Address<span className="font-normal text-red-500">*</span></div>
-                  <textarea className="rounded-sm ring ring-gray-200 p-2 w-full bg-white appearance-none transition hover:[&:not(:focus-within)]:bg-gray-50 hover:[&:not(:focus-within)]:border-gray-300 focus-within:bg-white focus-within:ring-3 focus-within:ring-blue-500 [&::-webkit-date-and-time-value]:h-5" name="location.address" required placeholder="Start typing your address..." autoComplete="street-address"></textarea>
-                </label>
-                <div className="block">
-                  <div className="font-bold">Type<span className="font-normal text-red-500">*</span></div>
-                  <select className="rounded-sm ring ring-gray-200 p-2 w-full bg-white appearance-none transition hover:[&:not(:focus-within)]:bg-gray-50 hover:[&:not(:focus-within)]:border-gray-300 focus-within:bg-white focus-within:ring-3 focus-within:ring-blue-500 [&::-webkit-date-and-time-value]:h-5" name="account.custom.22P5yYdRKR2h">
-                    <option></option>
-                    <option>Plumber</option>
-                    <option>Electrician</option>
-                    <option>Low Voltage</option>
-                    <option>HVAC</option>
-                    <option>Tile Installer</option>
-                    <option>Garbage Removal</option>
-                    <option>Stone Fabricators</option>
-                    <option>Drywall & Taping</option>
-                    <option>Shower Doors</option>
-                    <option>Flooring</option>
-                    <option>Stairs & Railing</option>
-                    <option>Roofing</option>
-                    <option>Kitchen Cabinet Installer</option>
-                    <option>Wallpaper Installer</option>
-                    <option>Spray Foam</option>
-                    <option>Architect</option>
-                    <option>Closets</option>
-                    <option>Construction Recruitment</option>
-                    <option>Custom Millwork</option>
-                    <option>Designer</option>
-                    <option>Demolition And Cleanup</option>
-                    <option>Door Suppliers</option>
-                    <option>Dumpster</option>
-                    <option>Engineer</option>
-                    <option>Footing And Foundation</option>
-                    <option>Framer</option>
-                    <option>Fences & Railing</option>
-                    <option>Iron Workers</option>
-                    <option>Mason</option>
-                    <option>Millwork Restoration</option>
-                    <option>Painter</option>
-                    <option>Plaster Molding</option>
-                    <option>Supplier</option>
-                    <option>Stucco</option>
-                    <option>Stainless Countertops</option>
-                    <option>Stone Protection</option>
-                    <option>Vendor</option>
-                    <option>Windows</option>
-                  </select>
-                </div>
-                <label className="cursor-pointer block">
-                  <div className="font-bold">Notes</div>
-                  <textarea className="rounded-sm ring ring-gray-200 p-2 w-full bg-white appearance-none transition hover:[&:not(:focus-within)]:bg-gray-50 hover:[&:not(:focus-within)]:border-gray-300 focus-within:bg-white focus-within:ring-3 focus-within:ring-blue-500 [&::-webkit-date-and-time-value]:h-5" name="account.custom.22P6LjCyLfPa"></textarea>
-                </label>
-                <div className="text-right">
-                  <button className="text-right px-4 py-2 rounded-sm shadow-xs cursor-pointer hover:brightness-95" data-submit-button="true" style={{ backgroundColor: '#a39c94', color: '#f6f5f4' }}>Submit</button>
-                </div>
-              </div>
+            
+            <div className="form-row">
+              <label>
+                <span className="label-text">Company Name <span className="required">*</span></span>
+                <input type="text" required name="account.name" placeholder="Business Name" />
+              </label>
+              <label>
+                <span className="label-text">Contact Name <span className="required">*</span></span>
+                <input type="text" required name="contact.name" placeholder="Full Name" />
+              </label>
+            </div>
+
+            <div className="form-row">
+              <label>
+                <span className="label-text">Email Address <span className="required">*</span></span>
+                <input type="email" required name="account.custom.22NypE69vj9J" placeholder="email@company.com" />
+              </label>
+              <label>
+                <span className="label-text">Phone Number <span className="required">*</span></span>
+                <input type="tel" required name="account.custom.22NypE6Nic8E" placeholder="(555) 555-5555" />
+              </label>
+            </div>
+
+            <label>
+              <span className="label-text">Primary Trade / Service <span className="required">*</span></span>
+              <select required name="account.custom.22P5yYdRKR2h" defaultValue="">
+                <option value="" disabled hidden>Select your primary trade</option>
+                <option value="Plumber">Plumber</option>
+                <option value="Electrician">Electrician</option>
+                <option value="Low Voltage">Low Voltage</option>
+                <option value="HVAC">HVAC</option>
+                <option value="Tile Installer">Tile Installer</option>
+                <option value="Garbage Removal">Garbage Removal</option>
+                <option value="Stone Fabricators">Stone Fabricators</option>
+                <option value="Drywall & Taping">Drywall & Taping</option>
+                <option value="Shower Doors">Shower Doors</option>
+                <option value="Flooring">Flooring</option>
+                <option value="Stairs & Railing">Stairs & Railing</option>
+                <option value="Roofing">Roofing</option>
+                <option value="Kitchen Cabinet Installer">Kitchen Cabinet Installer</option>
+                <option value="Wallpaper Installer">Wallpaper Installer</option>
+                <option value="Spray Foam">Spray Foam</option>
+                <option value="Architect">Architect</option>
+                <option value="Closets">Closets</option>
+                <option value="Construction Recruitment">Construction Recruitment</option>
+                <option value="Custom Millwork">Custom Millwork</option>
+                <option value="Designer">Designer</option>
+                <option value="Demolition And Cleanup">Demolition And Cleanup</option>
+                <option value="Door Suppliers">Door Suppliers</option>
+                <option value="Dumpster">Dumpster</option>
+                <option value="Engineer">Engineer</option>
+                <option value="Footing And Foundation">Footing And Foundation</option>
+                <option value="Framer">Framer</option>
+                <option value="Fences & Railing">Fences & Railing</option>
+                <option value="Iron Workers">Iron Workers</option>
+                <option value="Mason">Mason</option>
+                <option value="Millwork Restoration">Millwork Restoration</option>
+                <option value="Painter">Painter</option>
+                <option value="Plaster Molding">Plaster Molding</option>
+                <option value="Supplier">Supplier</option>
+                <option value="Stucco">Stucco</option>
+                <option value="Stainless Countertops">Stainless Countertops</option>
+                <option value="Stone Protection">Stone Protection</option>
+                <option value="Vendor">Vendor</option>
+                <option value="Windows">Windows</option>
+              </select>
+            </label>
+
+            <label>
+              <span className="label-text">Business Address <span className="required">*</span></span>
+              <input 
+                type="text" 
+                name="location.address" 
+                required 
+                placeholder="Start typing address..." 
+                autoComplete="street-address"
+              />
+            </label>
+
+            <label>
+              <span className="label-text">Additional Notes or Specializations</span>
+              <textarea 
+                name="account.custom.22P6LjCyLfPa" 
+                placeholder="Tell us more about your team size, years in business, or specific capabilities..." 
+                className="min-h-[120px]"
+              />
+            </label>
+
+            <button type="submit" data-submit-button="true">Submit Registration</button>
+
+            <div className="flex gap-8 justify-center items-center text-sm text-gray-400 mt-6 pt-6 border-t border-gray-100">
+              <span className="flex items-center gap-1.5">
+                <Shield className="w-4 h-4 text-gray-400" />
+                Verified Partner Network
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-4 h-4 text-gray-400" />
+                Quick Verification
+              </span>
             </div>
           </form>
-          
-        </div>
+        </motion.div>
       </div>
     </main>
   );
