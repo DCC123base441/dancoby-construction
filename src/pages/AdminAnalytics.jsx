@@ -33,7 +33,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function AdminAnalytics() {
-    const [timeRange, setTimeRange] = useState('30d'); // 7d, 30d, 90d, 1y
+    const [timeRange, setTimeRange] = useState('week');
 
     // Fetch Data
     const { data: visits = [] } = useQuery({
@@ -49,39 +49,96 @@ export default function AdminAnalytics() {
     // Process Visits Data
     const visitsStats = useMemo(() => {
         const now = new Date();
-        const filteredVisits = visits.filter(v => {
-            const date = new Date(v.created_date);
-            const diffDays = (now - date) / (1000 * 60 * 60 * 24);
-            if (timeRange === '7d') return diffDays <= 7;
-            if (timeRange === '30d') return diffDays <= 30;
-            if (timeRange === '90d') return diffDays <= 90;
-            if (timeRange === '1y') return diffDays <= 365;
-            return true;
+        const grouped = {};
+        
+        let dateFormat = 'weekday'; // 'hour', 'weekday', 'day', 'month'
+        let iterations = 7;
+        
+        if (timeRange === 'day') {
+            dateFormat = 'hour';
+            iterations = 24;
+        } else if (timeRange === 'week') {
+            dateFormat = 'weekday';
+            iterations = 7;
+        } else if (timeRange === 'month') {
+            dateFormat = 'day';
+            iterations = 30;
+        } else if (timeRange === 'year') {
+            dateFormat = 'month';
+            iterations = 12;
+        }
+
+        // Initialize buckets
+        for (let i = iterations - 1; i >= 0; i--) {
+            const d = new Date(now);
+            let key, label, sortTime;
+
+            if (dateFormat === 'hour') {
+                d.setHours(d.getHours() - i);
+                key = d.toISOString().slice(0, 13);
+                label = d.toLocaleTimeString([], { hour: 'numeric' });
+            } else if (dateFormat === 'weekday') {
+                d.setDate(d.getDate() - i);
+                key = d.toDateString();
+                label = d.toLocaleDateString('en-US', { weekday: 'short' });
+            } else if (dateFormat === 'day') {
+                d.setDate(d.getDate() - i);
+                key = d.toDateString();
+                label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            } else if (dateFormat === 'month') {
+                d.setMonth(d.getMonth() - i);
+                key = `${d.getMonth()}-${d.getFullYear()}`;
+                label = d.toLocaleDateString('en-US', { month: 'short' });
+            }
+            
+            sortTime = d.getTime();
+            grouped[key] = { name: label, value: 0, sort: sortTime };
+        }
+
+        // Filter and count visits
+        let totalCount = 0;
+        const pageViews = {};
+        
+        const cutoffDate = new Date(Object.values(grouped)[0].sort);
+        // Adjust cutoff for hour precision or day precision
+        if (dateFormat === 'hour') {
+            cutoffDate.setMinutes(0, 0, 0); 
+        } else {
+            cutoffDate.setHours(0, 0, 0, 0);
+        }
+
+        visits.forEach(visit => {
+            const vDate = new Date(visit.created_date);
+            if (vDate < cutoffDate) return;
+
+            totalCount++;
+
+            // Count for chart
+            let key;
+            if (dateFormat === 'hour') {
+                key = vDate.toISOString().slice(0, 13);
+            } else if (dateFormat === 'weekday' || dateFormat === 'day') {
+                key = vDate.toDateString();
+            } else if (dateFormat === 'month') {
+                key = `${vDate.getMonth()}-${vDate.getFullYear()}`;
+            }
+
+            if (grouped[key]) {
+                grouped[key].value++;
+            }
+
+            // Count for top pages
+            pageViews[visit.page] = (pageViews[visit.page] || 0) + 1;
         });
 
-        // Group by Date
-        const groupedByDate = filteredVisits.reduce((acc, curr) => {
-            const date = new Date(curr.created_date).toLocaleDateString();
-            acc[date] = (acc[date] || 0) + 1;
-            return acc;
-        }, {});
+        const chartData = Object.values(grouped).sort((a, b) => a.sort - b.sort);
 
-        const chartData = Object.entries(groupedByDate)
-            .map(([date, count]) => ({ date, count }))
-            .sort((a, b) => new Date(a.date) - new Date(b.date));
-
-        // Top Pages
-        const pageViews = filteredVisits.reduce((acc, curr) => {
-            acc[curr.page] = (acc[curr.page] || 0) + 1;
-            return acc;
-        }, {});
-        
         const topPages = Object.entries(pageViews)
             .map(([name, value]) => ({ name, value }))
             .sort((a, b) => b.value - a.value)
             .slice(0, 5);
 
-        return { total: filteredVisits.length, chartData, topPages };
+        return { total: totalCount, chartData, topPages };
     }, [visits, timeRange]);
 
     // Process Estimates Data
@@ -130,10 +187,10 @@ export default function AdminAnalytics() {
                         <SelectValue placeholder="Select range" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="7d">Last 7 Days</SelectItem>
-                        <SelectItem value="30d">Last 30 Days</SelectItem>
-                        <SelectItem value="90d">Last 3 Months</SelectItem>
-                        <SelectItem value="1y">Last Year</SelectItem>
+                        <SelectItem value="day">Last 24 Hours</SelectItem>
+                        <SelectItem value="week">Last 7 Days</SelectItem>
+                        <SelectItem value="month">Last 30 Days</SelectItem>
+                        <SelectItem value="year">Last 12 Months</SelectItem>
                     </SelectContent>
                 </Select>
             }
@@ -159,14 +216,14 @@ export default function AdminAnalytics() {
                         </Card>
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">Avg. Daily Visits</CardTitle>
+                                <CardTitle className="text-sm font-medium">Avg. Visits</CardTitle>
                                 <Calendar className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
                                     {Math.round(visitsStats.total / (visitsStats.chartData.length || 1))}
                                 </div>
-                                <p className="text-xs text-muted-foreground">visitors per day</p>
+                                <p className="text-xs text-muted-foreground">per period</p>
                             </CardContent>
                         </Card>
                         <Card>
@@ -202,7 +259,7 @@ export default function AdminAnalytics() {
                                                 </linearGradient>
                                             </defs>
                                             <XAxis 
-                                                dataKey="date" 
+                                                dataKey="name" 
                                                 stroke="#888888" 
                                                 fontSize={12} 
                                                 tickLine={false} 
@@ -219,7 +276,7 @@ export default function AdminAnalytics() {
                                             <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                             <Area 
                                                 type="monotone" 
-                                                dataKey="count" 
+                                                dataKey="value" 
                                                 stroke="#3b82f6" 
                                                 fillOpacity={1} 
                                                 fill="url(#colorVisits)" 
