@@ -8,6 +8,7 @@ import {
     FileText, 
     Users, 
     BarChart3, 
+    Calculator,
     Settings, 
     LogOut,
     Menu,
@@ -46,6 +47,7 @@ export default function AdminLayout({ children, title, actions }) {
     
     const navigation = [
         { name: 'Dashboard', href: 'AdminDashboard', icon: LayoutDashboard },
+        { name: 'Estimates', href: 'AdminEstimates', icon: Calculator },
         { name: 'Projects', href: 'AdminProjects', icon: FolderKanban },
         { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
         { name: 'Leads', href: 'AdminLeads', icon: Users },
