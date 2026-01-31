@@ -11,12 +11,6 @@ export default function Header() {
 
   useEffect(() => {
     const checkAdmin = async () => {
-      // Check for bypass token first (dev mode)
-      if (localStorage.getItem('admin_bypass') === 'true') {
-        setIsAdmin(true);
-        return;
-      }
-
       try {
         const user = await base44.auth.me();
         if (user?.role === 'admin') {
