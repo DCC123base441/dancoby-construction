@@ -165,9 +165,13 @@ User question: ${userMessage}`,
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all"
+            className="fixed bottom-6 right-6 z-40 w-16 h-16 bg-white rounded-full shadow-xl flex items-center justify-center transition-all overflow-hidden border-2 border-red-600 p-0.5"
           >
-            <MessageCircle className="w-6 h-6" />
+            <img 
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200" 
+              alt="AI Assistant" 
+              className="w-full h-full rounded-full object-cover hover:scale-110 transition-transform duration-300"
+            />
           </motion.button>
         )}
       </AnimatePresence>
@@ -183,9 +187,23 @@ User question: ${userMessage}`,
           >
             {/* Header */}
             <div className="bg-red-600 text-white p-4 flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold">Renovation Assistant</h3>
-                <p className="text-xs text-red-100">Powered by AI</p>
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" 
+                    alt="AI Assistant" 
+                    className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
+                  />
+                  {isLoading && (
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-red-600 rounded-full animate-pulse" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="font-semibold">Sarah</h3>
+                  <p className="text-xs text-red-100 flex items-center gap-1">
+                    {isLoading ? 'Speaking...' : 'AI Assistant'}
+                  </p>
+                </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
@@ -200,13 +218,20 @@ User question: ${userMessage}`,
               {messages.map((message, idx) => (
                 <div
                   key={idx}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex items-end gap-2 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
+                  {message.role === 'assistant' && (
+                    <img 
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" 
+                      alt="AI" 
+                      className="w-6 h-6 rounded-full object-cover mb-1 flex-shrink-0"
+                    />
+                  )}
                   <div
-                    className={`max-w-xs px-4 py-2 rounded-lg ${
+                    className={`max-w-xs px-4 py-2 rounded-2xl ${
                       message.role === 'user'
-                        ? 'bg-red-600 text-white'
-                        : 'bg-gray-100 text-gray-900'
+                        ? 'bg-red-600 text-white rounded-br-none'
+                        : 'bg-gray-100 text-gray-900 rounded-bl-none'
                     }`}
                   >
                     <p className="text-sm leading-relaxed">{message.content}</p>
