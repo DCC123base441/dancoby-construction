@@ -90,7 +90,9 @@ Respond with JSON:
             },
             body: JSON.stringify({
                 image_url: imageUrl,
-                prompt: visualizationPrompt + ", same layout, preserving room geometry, exact scale, same perspective, accurate dimensions"
+                prompt: visualizationPrompt + ", keep exact layout, preserve existing furniture placement, maintain room structure, do not move walls or windows, photorealistic, architectural accuracy",
+                negative_prompt: "changing layout, moving furniture, removing furniture, adding random objects, distorted perspective, blurry, low quality, bad anatomy, watermark, text, signature, ugly, lowres, glitchy, artifacts, mirrored, flipped, inverted, resizing room, wrong scale",
+                control_strength: 0.95
             })
         });
 
