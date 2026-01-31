@@ -5,6 +5,7 @@ import SEOHead from '../components/SEOHead';
 export default function Contact() {
   const [fileError, setFileError] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
+  const [customerName, setCustomerName] = useState('');
 
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
@@ -222,7 +223,7 @@ export default function Contact() {
               <div className="form-row">
                 <label>
                   <span className="label-text">Name <span className="required">*</span></span>
-                  <input type="text" required name="contact.name" placeholder="Your name" />
+                  <input type="text" required name="contact.name" placeholder="Your name" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
                 </label>
                 <label>
                   <span className="label-text">Phone <span className="required">*</span></span>
@@ -256,7 +257,7 @@ export default function Contact() {
 
               <label>
                 <span className="label-text">Tell Us About Your Project</span>
-                <input type="hidden" name="account.name" value="New Web Inquiry" />
+                <input type="hidden" name="account.name" value={customerName} />
                 <textarea name="account.description" required placeholder="Describe your project, goals, and any questions..." />
               </label>
 
