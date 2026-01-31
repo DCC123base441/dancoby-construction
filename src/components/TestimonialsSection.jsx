@@ -64,7 +64,7 @@ export default function TestimonialsSection() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-white text-stone-800 px-5 py-3 rounded-lg text-sm font-medium hover:bg-stone-100 transition-colors"
               >
-                View on Google
+                Review Us
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>
