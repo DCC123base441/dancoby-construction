@@ -6,31 +6,29 @@ Deno.serve(async (req) => {
         if (!reimagineKey) return Response.json({error: "No key"});
 
         const largeImage = "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1024&q=80";
-        const endpoints = [
-            "create_mask",
-            "generate_image", 
-            "renovate",
-            "redesign_room",
-            "virtual_staging",
-            "space_redesign"
-        ];
         
         const results = {};
-        
-        for (const ep of endpoints) {
-            try {
-                const res = await fetch(`https://api.reimaginehome.ai/v1/${ep}`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${reimagineKey}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ image_url: largeImage })
-                });
-                results[ep] = { status: res.status, body: await res.text() };
-            } catch(e) {
-                results[ep] = { error: e.message };
-            }
+
+        // Try generate_image with api-key and dummy params
+        try {
+            const body = {
+                image_url: largeImage,
+                prompt: "Modern living room renovation",
+                mask_category: "architectural", // Guessing
+                mask_prompt: "wall, floor" // Guessing
+            };
+
+            const res = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
+                method: 'POST',
+                headers: {
+                    'api-key': reimagineKey, // Using api-key header
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            results.generate_image_probe = { status: res.status, body: await res.text() };
+        } catch(e) {
+            results.generate_image_probe = { error: e.message };
         }
 
         return Response.json(results);
