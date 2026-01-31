@@ -12,17 +12,67 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
 
-  const handleFileSelect = async (file) => {
-    if (!file) return;
+  const resizeImage = (file) => {
+    return new Promise((resolve) => {
+      const MAX_SIZE = 2048;
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+          
+          if (width <= MAX_SIZE && height <= MAX_SIZE) {
+            resolve(file);
+            return;
+          }
 
-    // Create preview
+          if (width > height) {
+            if (width > MAX_SIZE) {
+              height *= MAX_SIZE / width;
+              width = MAX_SIZE;
+            }
+          } else {
+            if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height;
+              height = MAX_SIZE;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          canvas.toBlob((blob) => {
+            const resizedFile = new File([blob], file.name, {
+              type: file.type,
+              lastModified: Date.now(),
+            });
+            resolve(resizedFile);
+          }, file.type);
+        };
+      };
+    });
+  };
+
+  const handleFileSelect = async (originalFile) => {
+    if (!originalFile) return;
+
+    // Create preview immediately with original file
     const reader = new FileReader();
     reader.onload = (e) => setPreview(e.target.result);
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(originalFile);
 
-    // Upload file
     setUploading(true);
     try {
+      // Resize image if needed (max 2048x2048)
+      const file = await resizeImage(originalFile);
+
+      // Upload file
       const result = await base44.integrations.Core.UploadFile({ file });
       const fileUrl = result.file_url || result?.data?.file_url;
       setImage(fileUrl);
@@ -30,6 +80,7 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
     } catch (error) {
       console.error('Upload failed:', error);
       setPreview(null);
+      alert("Failed to upload image. Please try again.");
     } finally {
       setUploading(false);
     }
