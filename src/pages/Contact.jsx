@@ -1,8 +1,43 @@
-import React, { useEffect } from 'react';
-import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check, ShieldAlert, Loader2 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 
 export default function Contact() {
+  const [fileError, setFileError] = useState(null);
+  const [isScanning, setIsScanning] = useState(false);
+
+  const handleFileChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    setFileError(null);
+    setIsScanning(true);
+
+    // Artificial delay to simulate virus scanning
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'pdf', 'heic'];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    
+    for (const file of files) {
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (!allowedExtensions.includes(ext)) {
+        setFileError(`Security Alert: .${ext} files are not allowed. Please upload images or PDFs only.`);
+        e.target.value = '';
+        setIsScanning(false);
+        return;
+      }
+      if (file.size > maxSize) {
+        setFileError(`Security Alert: File is too large (Max 10MB).`);
+        e.target.value = '';
+        setIsScanning(false);
+        return;
+      }
+    }
+    
+    setIsScanning(false);
+  };
+
   useEffect(() => {
     // Load JobTread CSS
     const link = document.createElement('link');
@@ -221,8 +256,34 @@ export default function Contact() {
 
               <label>
                 <span className="label-text">Photos / Files (Optional)</span>
-                <input type="file" name="files" multiple className="pt-3" />
-                <span className="text-xs text-gray-500 mt-1 block">Upload photos of your space or architectural plans</span>
+                <div className="relative">
+                  <input 
+                    type="file" 
+                    name="files" 
+                    multiple 
+                    className="pt-3 disabled:opacity-50" 
+                    onChange={handleFileChange}
+                    disabled={isScanning}
+                    accept=".jpg,.jpeg,.png,.webp,.pdf,.heic"
+                  />
+                  {isScanning && (
+                    <div className="absolute right-0 top-2 flex items-center gap-2 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full animate-pulse">
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                      <span>Scanning files...</span>
+                    </div>
+                  )}
+                </div>
+                {fileError ? (
+                   <div className="flex items-start gap-2 mt-2 text-red-600 text-xs bg-red-50 p-2 rounded border border-red-100 animate-in slide-in-from-top-1">
+                     <ShieldAlert className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                     <span className="font-medium">{fileError}</span>
+                   </div>
+                ) : (
+                   <div className="flex items-center gap-1.5 mt-1.5 text-xs text-gray-500">
+                     <Shield className="w-3 h-3 text-green-600" />
+                     <span>Secure upload (Images & PDF only, Max 10MB)</span>
+                   </div>
+                )}
               </label>
 
               <div className="form-row">
