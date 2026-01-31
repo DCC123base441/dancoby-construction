@@ -483,8 +483,20 @@ export default function Home() {
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute top-4 right-4 bg-white/95 px-4 py-2 text-xs tracking-wider text-[#292522] uppercase">
-                    {project.status}
+                  <div className="absolute top-4 right-4 bg-white/95 p-4 min-w-[160px] shadow-sm backdrop-blur-sm">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-gray-500">Progress</span>
+                      <span className="text-xs font-bold text-red-600">{parseInt(project.status)}%</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${parseInt(project.status)}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                        className="h-full bg-red-600"
+                      />
+                    </div>
                   </div>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">{project.title}</h3>
