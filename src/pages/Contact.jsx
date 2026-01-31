@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check, ShieldAlert, Loader2, Instagram, Facebook } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import { base44 } from '@/api/base44Client';
 
 export default function Contact() {
   const [fileError, setFileError] = useState(null);
@@ -219,7 +220,42 @@ export default function Contact() {
             <h2 className="text-2xl font-serif mb-2 text-gray-900">Request Estimate</h2>
             <p className="text-gray-600 text-sm mb-8">Fill out the form below and we'll get back to you within 24 hours to schedule your free consultation.</p>
 
-            <form className="jtwf" data-jobtread-web-form="true" data-key="22SrWsutaFVFqgWZnGsBzRCK3SrUNEyLu3">
+            <form 
+              className="jtwf" 
+              data-jobtread-web-form="true" 
+              data-key="22SrWsutaFVFqgWZnGsBzRCK3SrUNEyLu3"
+              onSubmit={async (e) => {
+                // We can't easily prevent default because JobTread script needs to run.
+                // But we can try to capture the data as well.
+                // Note: JobTread might handle the submit event and stop propagation.
+                // We'll attempt to scrape the data from the form inputs.
+                try {
+                  const formData = new FormData(e.target);
+                  const leadData = {
+                    name: formData.get('contact.name'),
+                    phone: formData.get('contact.custom.22NypE6NdPYC'),
+                    email: formData.get('contact.custom.22NypE69XMG8'),
+                    message: formData.get('account.custom.22PRFWNyVQrW'),
+                    source: 'Contact Form',
+                    status: 'new'
+                  };
+
+                  // We import base44 dynamically or rely on global scope if available, 
+                  // but safer to just use window.base44 if we exposed it, or better:
+                  // Since we can't import inside onSubmit easily without the import at top level:
+                  // We will add the import at top of file and use it here.
+                  if (leadData.name && leadData.email) {
+                     // Silent save to our DB
+                     // import { base44 } from '@/api/base44Client'; needs to be at top
+                     // using window dispatch or just trusting the user provided context
+                     // For now, let's just log. To fully implement, we need to add the import and call create.
+                     await base44.entities.Lead.create(leadData);
+                     }
+                } catch (err) {
+                  console.error("Error saving internal lead copy", err);
+                }
+              }}
+            >
               <div className="form-row">
                 <label>
                   <span className="label-text">Name <span className="required">*</span></span>
