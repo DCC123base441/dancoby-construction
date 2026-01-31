@@ -14,7 +14,7 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
 
   const resizeImage = (file) => {
     return new Promise((resolve) => {
-      const MAX_SIZE = 2048;
+      const MAX_SIZE = 1536; // Lowered to be safe (limit is 2048)
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event) => {
@@ -23,8 +23,10 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
         img.onload = () => {
           let width = img.width;
           let height = img.height;
+          console.log(`Original image size: ${width}x${height}`);
           
           if (width <= MAX_SIZE && height <= MAX_SIZE) {
+            console.log("Image is small enough, skipping resize");
             resolve(file);
             return;
           }
@@ -41,6 +43,10 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
             }
           }
 
+          width = Math.floor(width);
+          height = Math.floor(height);
+          console.log(`Resizing image to: ${width}x${height}`);
+
           const canvas = document.createElement('canvas');
           canvas.width = width;
           canvas.height = height;
@@ -48,12 +54,21 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
           ctx.drawImage(img, 0, 0, width, height);
           
           canvas.toBlob((blob) => {
+            if (!blob) {
+                console.error("Canvas toBlob failed");
+                resolve(file); // Fallback
+                return;
+            }
             const resizedFile = new File([blob], file.name, {
               type: file.type,
               lastModified: Date.now(),
             });
             resolve(resizedFile);
-          }, file.type);
+          }, file.type, 0.9); // 0.9 quality
+        };
+        img.onerror = (e) => {
+            console.error("Image load failed", e);
+            resolve(file);
         };
       };
     });
