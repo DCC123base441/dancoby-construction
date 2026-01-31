@@ -49,13 +49,7 @@ export default function Header() {
           </nav>
 
           {/* Right Side */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link 
-              to={createPageUrl('AdminDashboard')}
-              className="text-gray-400 hover:text-red-600 text-xs font-medium transition-colors uppercase tracking-widest"
-            >
-              Sign In
-            </Link>
+          <div className="hidden md:flex items-center gap-4">
             <Button 
               asChild
               className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10"
@@ -86,13 +80,6 @@ export default function Header() {
                 {link.name}
               </Link>
             ))}
-            <Link
-                to={createPageUrl('AdminDashboard')}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-400 hover:text-red-600 transition-colors py-2 text-xs tracking-widest uppercase"
-              >
-                Sign In
-            </Link>
             <Button 
               asChild
               className="w-full bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide mt-4"

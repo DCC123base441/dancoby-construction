@@ -161,9 +161,6 @@ export default function Footer() {
             <Link to={createPageUrl('TermsOfService')} className="hover:text-white transition-colors">
               Terms of Service
             </Link>
-            <Link to={createPageUrl('AdminDashboard')} className="hover:text-white transition-colors opacity-0 hover:opacity-100">
-              Admin
-            </Link>
           </div>
         </div>
       </div>
