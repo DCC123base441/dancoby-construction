@@ -136,7 +136,7 @@ export default function Home() {
                       page: "ServiceBrownstone"
                     },
                     {
-                      title: "Penthouse Renovation",
+                      title: "Townhouses & Apartments",
                       description: "Expert craftsmanship for high-end residences.",
                       image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg",
                       page: "ServiceTownhouses"
