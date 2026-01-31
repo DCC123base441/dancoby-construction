@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
     Users, 
     FileText, 
@@ -47,8 +48,10 @@ export default function AdminDashboard() {
 
     const { data: visits = [] } = useQuery({
         queryKey: ['siteVisits'],
-        queryFn: () => base44.entities.SiteVisit.list('-created_date', 1000),
+        queryFn: () => base44.entities.SiteVisit.list('-created_date', 5000),
     });
+
+    const [timeRange, setTimeRange] = useState('week');
 
     // Calculate stats
     const totalLeads = leads.length;
@@ -56,25 +59,92 @@ export default function AdminDashboard() {
     
     // Real traffic data
     const trafficData = useMemo(() => {
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const today = new Date();
-        const last7Days = Array.from({ length: 7 }, (_, i) => {
-            const d = new Date(today);
-            d.setDate(today.getDate() - (6 - i));
-            return d;
-        });
+        const now = new Date();
+        const visitsByDate = {};
+        
+        if (timeRange === 'day') {
+            const startOfDay = new Date(now);
+            startOfDay.setHours(0,0,0,0);
+            
+            const hours = Array.from({ length: 24 }, (_, i) => {
+                const d = new Date(startOfDay);
+                d.setHours(i);
+                return d;
+            });
 
-        const visitsByDate = visits.reduce((acc, visit) => {
-            const dateStr = new Date(visit.created_date).toLocaleDateString();
-            acc[dateStr] = (acc[dateStr] || 0) + 1;
-            return acc;
-        }, {});
+            visits.forEach(v => {
+                const d = new Date(v.created_date);
+                if (d >= startOfDay) {
+                    const hour = d.getHours();
+                    visitsByDate[hour] = (visitsByDate[hour] || 0) + 1;
+                }
+            });
 
-        return last7Days.map(date => ({
-            name: days[date.getDay()],
-            value: visitsByDate[date.toLocaleDateString()] || 0
-        }));
-    }, [visits]);
+            return hours.map(date => ({
+                name: date.getHours().toString().padStart(2, '0') + ':00',
+                value: visitsByDate[date.getHours()] || 0
+            }));
+        } 
+        
+        if (timeRange === 'week') {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const last7Days = Array.from({ length: 7 }, (_, i) => {
+                const d = new Date(now);
+                d.setDate(now.getDate() - (6 - i));
+                return d;
+            });
+
+            visits.forEach(v => {
+                const dateStr = new Date(v.created_date).toLocaleDateString();
+                visitsByDate[dateStr] = (visitsByDate[dateStr] || 0) + 1;
+            });
+
+            return last7Days.map(date => ({
+                name: days[date.getDay()],
+                value: visitsByDate[date.toLocaleDateString()] || 0
+            }));
+        }
+
+        if (timeRange === 'month') {
+            const last30Days = Array.from({ length: 30 }, (_, i) => {
+                const d = new Date(now);
+                d.setDate(now.getDate() - (29 - i));
+                return d;
+            });
+
+            visits.forEach(v => {
+                const dateStr = new Date(v.created_date).toLocaleDateString();
+                visitsByDate[dateStr] = (visitsByDate[dateStr] || 0) + 1;
+            });
+
+            return last30Days.map(date => ({
+                name: date.getDate(),
+                value: visitsByDate[date.toLocaleDateString()] || 0
+            }));
+        }
+
+        if (timeRange === 'year') {
+            const last12Months = Array.from({ length: 12 }, (_, i) => {
+                const d = new Date(now);
+                d.setMonth(now.getMonth() - (11 - i));
+                return d;
+            });
+
+            visits.forEach(v => {
+                const d = new Date(v.created_date);
+                const key = `${d.getMonth()}-${d.getFullYear()}`;
+                visitsByDate[key] = (visitsByDate[key] || 0) + 1;
+            });
+
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return last12Months.map(date => ({
+                name: monthNames[date.getMonth()],
+                value: visitsByDate[`${date.getMonth()}-${date.getFullYear()}`] || 0
+            }));
+        }
+        
+        return [];
+    }, [visits, timeRange]);
 
     const engagementRate = useMemo(() => {
         if (!visits.length) return { value: "0%", label: "No visits yet" };
@@ -166,9 +236,24 @@ export default function AdminDashboard() {
                 <div className="grid gap-8 lg:grid-cols-7">
                     {/* Main Chart Section - Takes up 4/7 columns */}
                     <Card className="lg:col-span-4 border-slate-200/60 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Traffic Overview</CardTitle>
-                            <CardDescription>Daily visitors for the current week</CardDescription>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
+                            <div className="space-y-1">
+                                <CardTitle>Traffic Overview</CardTitle>
+                                <CardDescription>
+                                    {timeRange === 'day' ? 'Hourly' : timeRange === 'year' ? 'Monthly' : 'Daily'} visitors
+                                </CardDescription>
+                            </div>
+                            <Select value={timeRange} onValueChange={setTimeRange}>
+                                <SelectTrigger className="w-[120px]">
+                                    <SelectValue placeholder="Range" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="day">Day</SelectItem>
+                                    <SelectItem value="week">Week</SelectItem>
+                                    <SelectItem value="month">Month</SelectItem>
+                                    <SelectItem value="year">Year</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </CardHeader>
                         <CardContent className="pl-0">
                             <div className="h-[350px] w-full">
