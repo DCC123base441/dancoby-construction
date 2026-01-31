@@ -57,17 +57,7 @@ export default function TestimonialsSection() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="flex items-center gap-3 bg-stone-700/50 px-5 py-3 rounded-lg">
-                <span className="text-3xl font-light text-white">5.0</span>
-                <div>
-                  <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-xs text-stone-400 mt-0.5">Based on 50+ reviews</p>
-                </div>
-              </div>
+
               <a 
                 href="https://g.page/r/CfLkGeakL9MkEAI/review"
                 target="_blank"
