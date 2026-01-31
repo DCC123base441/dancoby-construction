@@ -115,7 +115,7 @@ export default function AdminDashboard() {
       {
         title: "Google Rating",
         value: "5.0",
-        subtext: "Based on recent reviews",
+        subtext: "Based on Google reviews",
         icon: MessageSquare,
         star: true
       },
