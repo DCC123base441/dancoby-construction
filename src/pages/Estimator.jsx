@@ -203,7 +203,7 @@ export default function Estimator() {
   };
 
   const handleNext = () => {
-    if (step.type === 'finishes' || (answers[step.id] && step.type !== 'photo')) {
+    if (step.type === 'finishes' || step.id === 'phone' || (answers[step.id] && step.type !== 'photo')) {
       if (currentStep < steps.length - 1) {
         setCurrentStep(currentStep + 1);
       } else {
@@ -522,7 +522,7 @@ export default function Estimator() {
             </Button>
             <Button
               onClick={handleNext}
-              disabled={step.type !== 'photo' && step.type !== 'finishes' && !answers[step.id]}
+              disabled={step.type !== 'photo' && step.type !== 'finishes' && step.id !== 'phone' && !answers[step.id]}
               className="flex-1 bg-red-600 hover:bg-red-700 text-white h-12 text-base"
             >
               {currentStep === steps.length - 1 ? 'Get Estimate' : 'Continue'}
