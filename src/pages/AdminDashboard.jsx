@@ -32,7 +32,7 @@ export default function AdminDashboard() {
     // Queries
     const { data: leads = [] } = useQuery({
         queryKey: ['leads'],
-        queryFn: () => base44.entities.Lead.list('-created_date', 10),
+        queryFn: () => base44.entities.Lead.list('-created_date', 1000),
     });
 
     const { data: projects = [] } = useQuery({
