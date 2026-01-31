@@ -117,8 +117,7 @@ export default function AdminDashboard() {
         value: "5.0",
         subtext: "Based on Google reviews",
         icon: MessageSquare,
-        star: true,
-        link: "https://g.page/r/CfLkGeakL9MkEAI/review"
+        star: true
       },
       {
         title: "Total Content",
@@ -271,16 +270,13 @@ export default function AdminDashboard() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {stats.map((stat, i) => (
-                <Card key={i} className={`border-none shadow-sm bg-white relative transition-all ${stat.link ? 'hover:shadow-md cursor-pointer group' : ''}`}>
-                  {stat.link && (
-                    <a href={stat.link} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10" aria-label={`View ${stat.title}`} />
-                  )}
+                <Card key={i} className="border-none shadow-sm bg-white">
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <div className="p-2 bg-gray-50 rounded-lg text-gray-600 group-hover:bg-red-50 group-hover:text-red-600 transition-colors">
+                      <div className="p-2 bg-gray-50 rounded-lg text-gray-600">
                         {stat.title}
                       </div>
-                      <stat.icon className="w-5 h-5 text-gray-400 group-hover:text-red-600 transition-colors" />
+                      <stat.icon className="w-5 h-5 text-gray-400" />
                     </div>
                     <div className="text-3xl font-bold text-gray-900 mb-1 flex items-center gap-2">
                       {stat.value}
