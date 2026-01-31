@@ -25,8 +25,9 @@ export default function AdminLayout({ children, title, actions }) {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const isAuthenticated = await base44.auth.isAuthenticated();
-                if (!isAuthenticated) {
+                const user = await base44.auth.me();
+                if (!user || user.role !== 'admin') {
+                    // Not authenticated or not an admin
                     window.location.href = createPageUrl('AdminLogin');
                 } else {
                     setIsCheckingAuth(false);
