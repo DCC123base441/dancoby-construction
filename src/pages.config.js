@@ -65,6 +65,11 @@ import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
 import Contact from './pages/Contact';
 import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminProjects from './pages/AdminProjects';
+import AdminLeads from './pages/AdminLeads';
+import AdminBlog from './pages/AdminBlog';
+import AdminAnalytics from './pages/AdminAnalytics';
 import __Layout from './Layout.jsx';
 
 
@@ -87,6 +92,11 @@ export const PAGES = {
     "VendorIntake": VendorIntake,
     "Contact": Contact,
     "AdminLogin": AdminLogin,
+    "AdminDashboard": AdminDashboard,
+    "AdminProjects": AdminProjects,
+    "AdminLeads": AdminLeads,
+    "AdminBlog": AdminBlog,
+    "AdminAnalytics": AdminAnalytics,
 }
 
 export const pagesConfig = {
