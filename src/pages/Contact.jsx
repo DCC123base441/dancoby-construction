@@ -237,20 +237,20 @@ export default function Contact() {
                   <input type="email" name="contact.custom.22NypE69XMG8" placeholder="you@email.com" />
                 </label>
                 <label>
-                  <span className="label-text">City / Zip</span>
-                  <input type="text" name="location.address" placeholder="Brooklyn or 11201" />
+                  <span className="label-text">Address <span className="required">*</span></span>
+                  <textarea name="location.address" required placeholder="Your full address" className="min-h-[80px]" />
                 </label>
               </div>
 
               <label>
                 <span className="label-text">Service Needed</span>
-                <select name="account.custom.22P3zkSL7gGh" defaultValue="">
+                <select name="account.custom.22PRFdDPtXvQ" defaultValue="">
                   <option value="" disabled hidden>Select a service</option>
-                  <option value="Kitchen">Kitchen Renovation</option>
-                  <option value="Bathroom">Bathroom Remodeling</option>
-                  <option value="Basement">Basement Finishing</option>
-                  <option value="Full Renovation">Whole-Home Renovation</option>
-                  <option value="Flooring">Flooring & Trim</option>
+                  <option value="Kitchen Renovation">Kitchen Renovation</option>
+                  <option value="Bathroom Remodeling">Bathroom Remodeling</option>
+                  <option value="Basement Finishing">Basement Finishing</option>
+                  <option value="Whole-Home Renovation">Whole-Home Renovation</option>
+                  <option value="Flooring & Trim">Flooring & Trim</option>
                   <option value="Other">Other</option>
                 </select>
               </label>
@@ -258,7 +258,7 @@ export default function Contact() {
               <label>
                 <span className="label-text">Tell Us About Your Project</span>
                 <input type="hidden" name="account.name" value={customerName} />
-                <textarea name="contact.notes" required placeholder="Describe your project, goals, and any questions..." />
+                <textarea name="account.custom.22PRFWNyVQrW" required placeholder="Describe your project, goals, and any questions..." />
               </label>
 
               <label>
@@ -308,18 +308,18 @@ export default function Contact() {
               <div className="form-row">
                 <label>
                   <span className="label-text">Budget Range (Optional)</span>
-                  <select name="account.custom.22PR84m6W9ta" defaultValue="">
+                  <select name="account.custom.22PRFYviBvXA" defaultValue="">
                     <option value="" disabled hidden>Select budget</option>
-                    <option value="10000">Under $10,000</option>
-                    <option value="25000">$10,000 - $25,000</option>
-                    <option value="50000">$25,000 - $50,000</option>
-                    <option value="75000">$50,000+</option>
-                    <option value="0">Not Sure Yet</option>
+                    <option value="Under $10,000">Under $10,000</option>
+                    <option value="$10,000-$25,000">$10,000 - $25,000</option>
+                    <option value="$25,000-$50,000">$25,000 - $50,000</option>
+                    <option value="$50,000+">$50,000+</option>
+                    <option value="Not Sure Yet">Not Sure Yet</option>
                   </select>
                 </label>
                 <label>
                   <span className="label-text">Timeline (Optional)</span>
-                  <select name="account.custom.22NzJ8ngA26g" defaultValue="">
+                  <select name="account.custom.22PRFZL4uPuM" defaultValue="">
                     <option value="" disabled hidden>Select timeline</option>
                     <option value="ASAP">ASAP</option>
                     <option value="1-3 Months">1-3 Months</option>
