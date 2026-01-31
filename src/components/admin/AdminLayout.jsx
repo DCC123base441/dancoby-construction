@@ -119,8 +119,8 @@ export default function AdminLayout({ children, title, actions }) {
     return (
         <div className="min-h-screen bg-slate-50 flex">
             {/* Desktop Sidebar */}
-            <div className="hidden lg:block w-64 flex-shrink-0">
-                <div className="h-full fixed w-64">
+            <div className="hidden lg:block w-64 flex-shrink-0 relative z-20">
+                <div className="h-full fixed w-64 border-r border-slate-200/10">
                     <NavContent />
                 </div>
             </div>
