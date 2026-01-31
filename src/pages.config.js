@@ -53,6 +53,7 @@ import AdminBlog from './pages/AdminBlog';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminEstimates from './pages/AdminEstimates';
 import AdminLeads from './pages/AdminLeads';
+import AdminLogin from './pages/AdminLogin';
 import AdminProjects from './pages/AdminProjects';
 import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
@@ -70,7 +71,6 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import AdminLogin from './pages/AdminLogin';
 import __Layout from './Layout.jsx';
 
 
@@ -81,6 +81,7 @@ export const PAGES = {
     "AdminDashboard": AdminDashboard,
     "AdminEstimates": AdminEstimates,
     "AdminLeads": AdminLeads,
+    "AdminLogin": AdminLogin,
     "AdminProjects": AdminProjects,
     "Contact": Contact,
     "Estimator": Estimator,
@@ -98,7 +99,6 @@ export const PAGES = {
     "Services": Services,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "AdminLogin": AdminLogin,
 }
 
 export const pagesConfig = {
