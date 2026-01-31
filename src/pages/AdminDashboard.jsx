@@ -76,21 +76,29 @@ export default function AdminDashboard() {
         }));
     }, [visits]);
 
+    const engagementRate = useMemo(() => {
+        if (!visits.length) return { value: "0%", label: "No visits yet" };
+        const rate = (leads.length / visits.length) * 100;
+        return { 
+            value: `${rate.toFixed(1)}%`, 
+            label: `Conversion (${leads.length} leads / ${visits.length} visits)` 
+        };
+    }, [visits, leads]);
+
     const stats = [
         {
             title: "Total Leads",
-            value: totalLeads || "124", // Mock total if list is limited
-            change: `+${newLeads} this week`,
+            value: totalLeads,
+            change: `+${newLeads} new`,
             trend: "up",
             icon: Users,
             color: "text-blue-600",
             bg: "bg-blue-100/50"
         },
-
         {
             title: "Blog Posts",
             value: blogs.length,
-            change: "Last posted 2d ago",
+            change: "Total posts",
             trend: "up",
             icon: FileText,
             color: "text-amber-600",
@@ -98,9 +106,9 @@ export default function AdminDashboard() {
         },
         {
             title: "Engagement",
-            value: "24.5%",
-            change: "+4.2% from last month",
-            trend: "up",
+            value: engagementRate.value,
+            change: engagementRate.label,
+            trend: "neutral",
             icon: TrendingUp,
             color: "text-emerald-600",
             bg: "bg-emerald-100/50"
