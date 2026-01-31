@@ -256,7 +256,8 @@ export default function Contact() {
 
               <label>
                 <span className="label-text">Tell Us About Your Project</span>
-                <textarea name="account.name" required placeholder="Describe your project, goals, and any questions..." />
+                <input type="hidden" name="account.name" value="New Web Inquiry" />
+                <textarea name="account.description" required placeholder="Describe your project, goals, and any questions..." />
               </label>
 
               <label>
