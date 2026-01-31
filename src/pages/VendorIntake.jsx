@@ -86,35 +86,95 @@ export default function VendorIntake() {
       `}</style>
 
       {/* Hero Section */}
-      <div className="bg-white py-16 px-5 border-b border-gray-100">
-        <div className="max-w-4xl mx-auto text-center">
+      <div className="relative bg-gray-900 py-24 px-5 overflow-hidden">
+        <div className="absolute inset-0 opacity-40">
+            <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/78deec984_Photo12.jpg" 
+                className="w-full h-full object-cover"
+                alt="Construction background"
+            />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 to-gray-900/90" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <div className="flex justify-center mb-6">
-              <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center">
-                <Building2 className="w-8 h-8 text-red-600" />
+              <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 shadow-xl">
+                <Building2 className="w-8 h-8 text-white" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl font-serif mb-6 text-gray-900">Subcontractor Partners</h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              We're always looking for skilled professionals to join our network. 
-              Partner with Dancoby Construction for consistent work on high-end renovation projects across New York.
+            <h1 className="text-4xl md:text-5xl font-serif mb-6 drop-shadow-lg">Subcontractor Partners</h1>
+            <p className="text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+              Join our network of elite professionals. We build more than just homes; we build lasting partnerships based on trust, quality, and mutual success.
             </p>
           </motion.div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-3xl mx-auto px-5 py-16">
-        <motion.div 
-          className="form-container bg-white border border-gray-200 rounded-xl p-8 md:p-10 shadow-lg"
-          variants={fadeIn}
-          initial="initial"
-          animate="animate"
-        >
+      <div className="max-w-7xl mx-auto px-5 py-16 -mt-20 relative z-20">
+        <div className="grid lg:grid-cols-[1fr_1.5fr] gap-8 items-start">
+            {/* Left Side - Info Card */}
+            <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="hidden lg:block bg-gray-900 text-white p-8 rounded-xl shadow-2xl sticky top-24 border border-gray-800"
+            >
+                <h3 className="text-2xl font-serif mb-6 text-white">Why Partner With Us?</h3>
+                
+                <div className="space-y-8">
+                    <div className="flex gap-4">
+                        <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0 border border-white/10">
+                            <Check className="w-5 h-5 text-red-500" />
+                        </div>
+                        <div>
+                            <h4 className="font-semibold mb-1 text-white">Consistent Projects</h4>
+                            <p className="text-sm text-gray-400 leading-relaxed">Steady stream of high-end renovation work across Brooklyn and Long Island.</p>
+                        </div>
+                    </div>
+                    
+                    <div className="flex gap-4">
+                        <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0 border border-white/10">
+                            <Check className="w-5 h-5 text-red-500" />
+                        </div>
+                        <div>
+                            <h4 className="font-semibold mb-1 text-white">Reliable Payments</h4>
+                            <p className="text-sm text-gray-400 leading-relaxed">Professional management with clear payment schedules and transparency.</p>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                        <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0 border border-white/10">
+                            <Check className="w-5 h-5 text-red-500" />
+                        </div>
+                        <div>
+                            <h4 className="font-semibold mb-1 text-white">Professional Growth</h4>
+                            <p className="text-sm text-gray-400 leading-relaxed">Work on prestigious projects that build your portfolio and reputation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-gray-800">
+                    <img 
+                        src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" 
+                        alt="Quality Work" 
+                        className="w-full h-48 object-cover rounded-lg opacity-90 hover:opacity-100 transition-opacity"
+                    />
+                </div>
+            </motion.div>
+
+            {/* Right Side - Form */}
+            <motion.div 
+              className="form-container bg-white border border-gray-200 rounded-xl p-8 md:p-10 shadow-2xl"
+              variants={fadeIn}
+              initial="initial"
+              animate="animate"
+            >
           <div id="successMessage" className="success-message">
             <Check className="w-5 h-5 text-white mt-0.5 flex-shrink-0" />
             <div>
@@ -231,6 +291,7 @@ export default function VendorIntake() {
             </div>
           </form>
         </motion.div>
+        </div>
       </div>
     </main>
   );
