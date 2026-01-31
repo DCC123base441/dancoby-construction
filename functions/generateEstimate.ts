@@ -349,6 +349,34 @@ The image should show:
     if (conditionFactor > 1.2) estimatedWeeks = Math.ceil(estimatedWeeks * 1.25);
     if (complexFactor > 1.2) estimatedWeeks = Math.ceil(estimatedWeeks * 1.2);
 
+    // Save estimate to database
+    try {
+        await base44.asServiceRole.entities.Estimate.create({
+            roomType: roomType,
+            userEmail: userAnswers?.email,
+            userName: userAnswers?.name,
+            originalImageUrl: imageUrl,
+            visualizedImageUrl: visualizationUrl,
+            selectedFinishes: selectedFinishes,
+            estimatedCost: {
+                min: totalMin,
+                max: totalMax,
+                breakdown: {
+                    materials: materialsCost + finishAdjustment,
+                    labor: laborCost,
+                    design: designCost,
+                    permits: permitsCost,
+                    contingency: contingency
+                }
+            },
+            squareFootageEstimate: sqft,
+            status: 'sent',
+            generationPrompt: estimationPrompt
+        });
+    } catch (dbError) {
+        console.error('Failed to save estimate to database:', dbError);
+    }
+
     // Send email with estimate results
     const userEmail = userAnswers?.email;
     const userName = userAnswers?.name || 'Valued Customer';
