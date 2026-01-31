@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { base44 } from '@/api/base44Client';
-import { X, Send, MessageCircle, Loader, Sparkles, Phone } from 'lucide-react';
+import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
 import { createPageUrl } from '../utils';
 
 const engagingMessages = [
@@ -165,27 +165,9 @@ User question: ${userMessage}`,
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full shadow-xl flex items-center justify-center transition-all overflow-hidden border-2 border-white bg-gray-200"
+            className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all"
           >
-            <motion.img 
-              src="https://static.wixstatic.com/media/efb67d_56ea9dfe4a0f437a8bc6abb241a18a24~mv2.jpeg/v1/fill/w_551,h_493,fp_0.54_0.31,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Favorite-Aragon-Headshot-94.jpeg"
-              alt="Chat"
-              className="w-full h-full object-cover"
-              animate={showBubble ? {
-                scaleY: [1, 0.92, 1.08, 0.95, 1.05, 1],
-                scaleX: [1, 1.05, 0.95, 1.02, 0.98, 1],
-                y: [0, 2, -1, 1, 0]
-              } : {
-                scale: 1,
-                y: 0
-              }}
-              transition={showBubble ? {
-                duration: 0.4,
-                repeat: Infinity,
-                repeatType: "loop",
-                ease: "linear"
-              } : {}}
-            />
+            <MessageCircle className="w-6 h-6" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -200,31 +182,17 @@ User question: ${userMessage}`,
             className="fixed bottom-6 right-6 z-50 w-96 max-h-[600px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-red-600 text-white p-4 flex items-center justify-between shadow-md z-10">
-              <div className="flex items-center gap-3">
-                 <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/30">
-                    <img src="https://static.wixstatic.com/media/efb67d_56ea9dfe4a0f437a8bc6abb241a18a24~mv2.jpeg/v1/fill/w_551,h_493,fp_0.54_0.31,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Favorite-Aragon-Headshot-94.jpeg" alt="Ralph" className="object-cover w-full h-full" />
-                 </div>
-                 <div>
-                    <h3 className="font-semibold text-sm">Ralph</h3>
-                    <div className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"/>
-                        <p className="text-xs text-red-100">Online now</p>
-                    </div>
-                 </div>
+            <div className="bg-red-600 text-white p-4 flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold">Renovation Assistant</h3>
+                <p className="text-xs text-red-100">Powered by AI</p>
               </div>
-              <div className="flex items-center gap-1">
-                  <a href="tel:+15166849766" className="text-white hover:bg-red-700 p-2 rounded-full transition-colors flex flex-col items-center group" title="Call Us">
-                    <Phone className="w-5 h-5 mb-0.5" />
-                    <span className="text-[9px] opacity-0 group-hover:opacity-100 absolute -bottom-2 transition-opacity whitespace-nowrap">Voice</span>
-                  </a>
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="text-white hover:bg-red-700 p-2 rounded-full transition-colors"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-              </div>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-white hover:bg-red-700 p-1 rounded transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
             {/* Messages */}
