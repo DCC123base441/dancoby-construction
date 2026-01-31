@@ -77,65 +77,56 @@ Respond with JSON:
       try {
         const visualizationPrompt = `Photorealistic interior design of a ${roomType}, chic stylish finishes, contemporary elegance, sophisticated, ${finishLevel || 'modern'} style, ${priority === 'Luxury Finishes & Design' ? 'luxury high-end materials' : 'clean modern aesthetic'}, renovated, professional photography, 8k, highly detailed, interior architecture, bright lighting`;
         
-        // REimagineHome API Implementation
-        const apiKey = Deno.env.get("REIMAGINEHOME_API_KEY");
-        if (!apiKey) throw new Error("REIMAGINEHOME_API_KEY not set");
+        // RenovateAI API Implementation
+        const apiKey = Deno.env.get("RENOVATEAI_API_KEY");
+        if (!apiKey) throw new Error("RENOVATEAI_API_KEY not set");
 
-        // 1. Initiate Generation
-        const generateResponse = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
+        // 1. Upload Asset
+        console.log('Uploading asset to RenovateAI...');
+        const uploadResponse = await fetch('https://api.tech.renovateai.app/public/v1/assets/upload', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'api-key': apiKey
+                'x-api-key': apiKey,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 image_url: imageUrl,
-                prompt: visualizationPrompt + ", keep exact layout, preserve existing furniture placement, maintain room structure, do not move walls or windows, photorealistic, architectural accuracy",
-                negative_prompt: "changing layout, moving furniture, removing furniture, adding random objects, distorted perspective, blurry, low quality, bad anatomy, watermark, text, signature, ugly, lowres, glitchy, artifacts, mirrored, flipped, inverted, resizing room, wrong scale",
-                control_strength: 0.95
+                asset_name: `upload_${Date.now()}`
             })
         });
 
-        if (!generateResponse.ok) {
-            const errorText = await generateResponse.text();
-            throw new Error(`API Error: ${generateResponse.status} ${errorText}`);
+        if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            throw new Error(`RenovateAI Upload Error: ${uploadResponse.status} ${errorText}`);
         }
 
-        const generateData = await generateResponse.json();
-        const jobId = generateData?.data?.job_id;
-
-        if (!jobId) throw new Error("No job_id returned from REimagineHome");
-
-        // 2. Poll for Results
-        let attempts = 0;
-        const maxAttempts = 30; // 60 seconds max
+        const uploadData = await uploadResponse.json();
+        const assetId = uploadData?.asset?.id;
         
-        while (attempts < maxAttempts) {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            const statusResponse = await fetch(`https://api.reimaginehome.ai/v1/generate_image/${jobId}`, {
-                method: 'GET',
-                headers: {
-                    'api-key': apiKey
-                }
-            });
-            
-            if (statusResponse.ok) {
-                const statusData = await statusResponse.json();
-                const jobStatus = statusData?.data?.job_status;
-                
-                if (jobStatus === 'done') {
-                    // Assuming structure based on docs (create_mask had masks array, generate_image likely has result_url or similar)
-                    // We'll look for result_url or images array
-                    const resultData = statusData.data;
-                    visualizationUrl = resultData.result_url || (resultData.images && resultData.images[0]?.url);
-                    break;
-                } else if (jobStatus === 'error') {
-                    throw new Error("Job failed with status: error");
-                }
-            }
-            attempts++;
+        if (!assetId) throw new Error("No asset_id returned from RenovateAI upload");
+
+        // 2. Renovate Image
+        console.log('Renovating image...');
+        const renovateResponse = await fetch('https://api.tech.renovateai.app/public/v1/renovate', {
+            method: 'POST',
+            headers: {
+                'x-api-key': apiKey,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                asset_id: assetId,
+                guidance: visualizationPrompt + ". Keep the exact layout, structure, and perspective. Do not move walls, windows, or major furniture. High quality, photorealistic.",
+                renovation_spectrum: "renovate" 
+            })
+        });
+
+        if (!renovateResponse.ok) {
+            const errorText = await renovateResponse.text();
+            throw new Error(`RenovateAI Renovation Error: ${renovateResponse.status} ${errorText}`);
         }
+
+        const renovateData = await renovateResponse.json();
+        visualizationUrl = renovateData?.renovated_image_url;
 
       } catch (vizError) {
         console.log('Visualization generation failed:', vizError.message);
