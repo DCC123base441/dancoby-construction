@@ -317,11 +317,12 @@ The image should show:
     const basePermitsCost = costs.permits.base * (conditionFactor > 1.2 ? 1.3 : 1.0);
     const baseDesignCost = costs.design.base * finishFactor;
 
-    // Apply multipliers
-    const materialsCost = Math.round(baseMaterialsCost * combinedMultiplier);
-    const laborCost = Math.round(baseLaborCost * combinedMultiplier);
-    const permitsCost = Math.round(basePermitsCost);
-    const designCost = Math.round(baseDesignCost);
+    // Apply multipliers (with 50% reduction as requested)
+    const costReduction = 0.5;
+    const materialsCost = Math.round(baseMaterialsCost * combinedMultiplier * costReduction);
+    const laborCost = Math.round(baseLaborCost * combinedMultiplier * costReduction);
+    const permitsCost = Math.round(basePermitsCost * costReduction);
+    const designCost = Math.round(baseDesignCost * costReduction);
 
     // Calculate finish adjustments from specific selections
     let finishAdjustment = 0;
@@ -329,8 +330,8 @@ The image should show:
       Object.values(selectedFinishes).forEach(finish => {
         finishAdjustment += finishCostAdjustments[finish] || 0;
       });
-      // Apply location factor to finish upgrades
-      finishAdjustment = Math.round(finishAdjustment * locationFactor);
+      // Apply location factor to finish upgrades (with 50% reduction)
+      finishAdjustment = Math.round(finishAdjustment * locationFactor * 0.5);
     }
 
     const subtotal = materialsCost + laborCost + permitsCost + designCost + finishAdjustment;
