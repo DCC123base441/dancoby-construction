@@ -56,15 +56,28 @@ export default function TestimonialsSection() {
                 Don't just take our word for it. See what our customers have to say about their experience with Dancoby Construction.
               </p>
             </div>
-            <a 
-              href="https://g.page/r/CfLkGeakL9MkEAI/review"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-stone-800 px-5 py-3 rounded-lg text-sm font-medium hover:bg-stone-100 transition-colors"
-            >
-              Review Us
-              <ExternalLink className="w-4 h-4" />
-            </a>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex items-center gap-3 bg-stone-700/50 px-5 py-3 rounded-lg">
+                <span className="text-3xl font-light text-white">5.0</span>
+                <div>
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs text-stone-400 mt-0.5">Based on 50+ reviews</p>
+                </div>
+              </div>
+              <a 
+                href="https://g.page/r/CfLkGeakL9MkEAI/review"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white text-stone-800 px-5 py-3 rounded-lg text-sm font-medium hover:bg-stone-100 transition-colors"
+              >
+                View on Google
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
 
