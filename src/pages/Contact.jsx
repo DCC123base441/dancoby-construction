@@ -258,7 +258,7 @@ export default function Contact() {
               <label>
                 <span className="label-text">Tell Us About Your Project</span>
                 <input type="hidden" name="account.name" value={customerName} />
-                <textarea name="account.description" required placeholder="Describe your project, goals, and any questions..." />
+                <textarea name="contact.notes" required placeholder="Describe your project, goals, and any questions..." />
               </label>
 
               <label>
@@ -308,7 +308,7 @@ export default function Contact() {
               <div className="form-row">
                 <label>
                   <span className="label-text">Budget Range (Optional)</span>
-                  <select name="location.custom.22PR84m6W9ta" defaultValue="">
+                  <select name="account.custom.22PR84m6W9ta" defaultValue="">
                     <option value="" disabled hidden>Select budget</option>
                     <option value="10000">Under $10,000</option>
                     <option value="25000">$10,000 - $25,000</option>
