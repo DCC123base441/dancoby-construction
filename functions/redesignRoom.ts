@@ -53,7 +53,13 @@ Deno.serve(async (req) => {
         if (!generateResponse.ok) {
             const errorText = await generateResponse.text();
             console.error('ReimagineHome Error:', errorText);
-            throw new Error(`Generation failed: ${generateResponse.status}`);
+            let errorMsg = `Generation failed: ${generateResponse.status}`;
+            try {
+                const errorJson = JSON.parse(errorText);
+                if (errorJson.error_message) errorMsg = errorJson.error_message;
+                if (errorJson.message) errorMsg = errorJson.message;
+            } catch (e) {}
+            throw new Error(errorMsg);
         }
 
         const generateData = await generateResponse.json();
