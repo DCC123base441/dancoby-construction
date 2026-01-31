@@ -49,7 +49,9 @@ Deno.serve(async (req) => {
                 });
                 results.reimagineHome_ApiKeyHeader = { status: response1.status, body: await response1.text() };
 
-                // Try with Bearer
+                // Try with Bearer and valid image
+                const largeImage = "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1024&q=80";
+                
                 const response2 = await fetch('https://api.reimaginehome.ai/v1/create_mask', {
                     method: 'POST',
                     headers: {
@@ -57,10 +59,32 @@ Deno.serve(async (req) => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        image_url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=500&q=60"
+                        image_url: largeImage
                     })
                 });
-                results.reimagineHome_Bearer = { status: response2.status, body: await response2.text() };
+                results.reimagineHome_CreateMask = { status: response2.status, body: await response2.text() };
+
+                // Probe Generate Image
+                const responseGen1 = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${reimagineKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image_url: largeImage })
+                });
+                results.reimagineHome_GenerateImage = { status: responseGen1.status, body: await responseGen1.text() };
+
+                // Probe Redesign
+                const responseGen2 = await fetch('https://api.reimaginehome.ai/v1/redesign_room', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${reimagineKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image_url: largeImage })
+                });
+                results.reimagineHome_RedesignRoom = { status: responseGen2.status, body: await responseGen2.text() };
 
             } catch (e) {
                 results.reimagineHome = { error: e.message };
