@@ -31,12 +31,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function AdminEstimates() {
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
-    const [selectedEstimate, setSelectedEstimate] = useState(null);
 
     const { data: estimates = [], isLoading } = useQuery({
         queryKey: ['estimates'],
@@ -140,7 +138,7 @@ export default function AdminEstimates() {
                         <div className="p-6 flex flex-col md:flex-row gap-6">
                             {/* Images Preview */}
                             <div className="flex gap-2 shrink-0">
-                                <div className="w-32 h-24 bg-slate-100 rounded-lg overflow-hidden relative group cursor-pointer" onClick={() => setSelectedEstimate(estimate)}>
+                                <div className="w-32 h-24 bg-slate-100 rounded-lg overflow-hidden relative group">
                                     {estimate.originalImageUrl ? (
                                         <img src={estimate.originalImageUrl} alt="Original" className="w-full h-full object-cover" />
                                     ) : (
@@ -153,7 +151,7 @@ export default function AdminEstimates() {
                                     </div>
                                 </div>
                                 {estimate.visualizedImageUrl && (
-                                    <div className="w-32 h-24 bg-slate-100 rounded-lg overflow-hidden relative group cursor-pointer" onClick={() => setSelectedEstimate(estimate)}>
+                                    <div className="w-32 h-24 bg-slate-100 rounded-lg overflow-hidden relative group">
                                         <img src={estimate.visualizedImageUrl} alt="Render" className="w-full h-full object-cover" />
                                         <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                             <span className="text-xs text-white font-medium">AI Render</span>
@@ -201,7 +199,7 @@ export default function AdminEstimates() {
                                 <div className="flex items-center justify-end">
                                     <Dialog>
                                         <DialogTrigger asChild>
-                                            <Button variant="outline" className="gap-2" onClick={() => setSelectedEstimate(estimate)}>
+                                            <Button variant="outline" className="gap-2">
                                                 View Full Details <ArrowRight className="w-4 h-4" />
                                             </Button>
                                         </DialogTrigger>
@@ -217,8 +215,8 @@ export default function AdminEstimates() {
                                                             <div className="space-y-2">
                                                                 <span className="text-sm text-slate-500">Original Space</span>
                                                                 <div className="rounded-lg overflow-hidden border border-slate-200 aspect-video bg-slate-50">
-                                                                    {selectedEstimate?.originalImageUrl ? (
-                                                                        <img src={selectedEstimate.originalImageUrl} className="w-full h-full object-cover" />
+                                                                    {estimate.originalImageUrl ? (
+                                                                        <img src={estimate.originalImageUrl} className="w-full h-full object-cover" />
                                                                     ) : (
                                                                         <div className="flex items-center justify-center h-full text-slate-400">No image</div>
                                                                     )}
@@ -227,8 +225,8 @@ export default function AdminEstimates() {
                                                             <div className="space-y-2">
                                                                 <span className="text-sm text-slate-500">AI Visualization</span>
                                                                 <div className="rounded-lg overflow-hidden border border-slate-200 aspect-video bg-slate-50">
-                                                                    {selectedEstimate?.visualizedImageUrl ? (
-                                                                        <img src={selectedEstimate.visualizedImageUrl} className="w-full h-full object-cover" />
+                                                                    {estimate.visualizedImageUrl ? (
+                                                                        <img src={estimate.visualizedImageUrl} className="w-full h-full object-cover" />
                                                                     ) : (
                                                                         <div className="flex items-center justify-center h-full text-slate-400">Not generated</div>
                                                                     )}
@@ -244,24 +242,24 @@ export default function AdminEstimates() {
                                                         <div className="bg-slate-50 p-4 rounded-lg space-y-2 text-sm">
                                                             <div className="grid grid-cols-3 gap-2">
                                                                 <span className="text-slate-500">Name:</span>
-                                                                <span className="col-span-2 font-medium">{selectedEstimate?.userName}</span>
+                                                                <span className="col-span-2 font-medium">{estimate.userName}</span>
                                                             </div>
                                                             <div className="grid grid-cols-3 gap-2">
                                                                 <span className="text-slate-500">Email:</span>
-                                                                <span className="col-span-2 font-medium">{selectedEstimate?.userEmail}</span>
+                                                                <span className="col-span-2 font-medium">{estimate.userEmail}</span>
                                                             </div>
                                                             <div className="grid grid-cols-3 gap-2">
                                                                 <span className="text-slate-500">Date:</span>
-                                                                <span className="col-span-2 font-medium">{new Date(selectedEstimate?.created_date).toLocaleString()}</span>
+                                                                <span className="col-span-2 font-medium">{new Date(estimate.created_date).toLocaleString()}</span>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div>
                                                         <h4 className="font-medium mb-3">Cost Breakdown</h4>
-                                                        {selectedEstimate?.estimatedCost?.breakdown ? (
+                                                        {estimate.estimatedCost?.breakdown ? (
                                                             <div className="space-y-2">
-                                                                {Object.entries(selectedEstimate.estimatedCost.breakdown).map(([category, cost]) => (
+                                                                {Object.entries(estimate.estimatedCost.breakdown).map(([category, cost]) => (
                                                                     <div key={category} className="flex justify-between text-sm py-2 border-b border-slate-100 last:border-0">
                                                                         <span className="capitalize text-slate-600">{category.replace(/([A-Z])/g, ' $1').trim()}</span>
                                                                         <span className="font-medium">{formatCurrency(cost)}</span>
@@ -270,7 +268,7 @@ export default function AdminEstimates() {
                                                                 <div className="flex justify-between text-sm py-3 font-bold text-slate-900 border-t border-slate-200 mt-2">
                                                                     <span>Total Estimate</span>
                                                                     <span>
-                                                                        {formatCurrency(selectedEstimate.estimatedCost.min)} - {formatCurrency(selectedEstimate.estimatedCost.max)}
+                                                                        {formatCurrency(estimate.estimatedCost.min)} - {formatCurrency(estimate.estimatedCost.max)}
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -281,9 +279,9 @@ export default function AdminEstimates() {
 
                                                     <div>
                                                         <h4 className="font-medium mb-3">Selected Finishes</h4>
-                                                        {selectedEstimate?.selectedFinishes ? (
+                                                        {estimate.selectedFinishes ? (
                                                             <div className="flex flex-wrap gap-2">
-                                                                {Object.entries(selectedEstimate.selectedFinishes).map(([key, value]) => (
+                                                                {Object.entries(estimate.selectedFinishes).map(([key, value]) => (
                                                                     <Badge key={key} variant="secondary" className="font-normal">
                                                                         {key}: {value}
                                                                     </Badge>

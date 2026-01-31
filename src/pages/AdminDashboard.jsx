@@ -234,7 +234,6 @@ export default function AdminDashboard() {
                                         <div className="flex items-center gap-2">
                                             <Badge variant={
                                                 lead.status === 'new' ? 'default' : 
-                                                lead.status === 'won' ? 'success' : 
                                                 'secondary'
                                             } className={`
                                                 capitalize font-normal
