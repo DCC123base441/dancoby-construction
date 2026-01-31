@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 import { Resend } from 'npm:resend@4.0.0';
+import Replicate from 'npm:replicate';
 
 Deno.serve(async (req) => {
   try {
@@ -75,25 +76,46 @@ Respond with JSON:
     let visualizationUrl = null;
     if (imageUrl) {
       try {
-        const visualizationPrompt = `Generate a photorealistic interior renovation visualization. Transform this ${roomType} space into a beautifully renovated ${finishLevel || 'mid-range'} ${roomType.toLowerCase()}. 
-        
-Style: ${priority === 'Luxury Finishes & Design' ? 'High-end luxury with premium materials' : 'Modern and functional with quality finishes'}. 
-Property type: ${propertyType || 'residential'}.
-
-The image should show:
-- Updated flooring, lighting, and fixtures
-- Modern cabinetry and countertops if applicable
-- Fresh paint and updated trim
-- The same general room layout but completely renovated
-- Professional interior design quality`;
-
-        const visualization = await base44.asServiceRole.integrations.Core.GenerateImage({
-          prompt: visualizationPrompt,
-          existing_image_urls: [imageUrl]
+        const replicate = new Replicate({
+          auth: Deno.env.get("REPLICATE_API_TOKEN"),
         });
-        visualizationUrl = visualization?.url;
+
+        const visualizationPrompt = `Photorealistic interior design of a ${finishLevel || 'modern'} ${roomType}, ${priority === 'Luxury Finishes & Design' ? 'luxury style, high-end materials' : 'clean modern style'}, renovated, professional photography, 8k, highly detailed, interior architecture, bright lighting`;
+
+        const output = await replicate.run(
+          "rocketdigitalai/interior-design-sdxl:a3c091059a25590ce2d5ea13651fab63f447f21760e50c358d4b850e844f59ee",
+          {
+            input: {
+              image: imageUrl,
+              prompt: visualizationPrompt,
+              negative_prompt: "blurry, low quality, distorted, bad anatomy, watermark, text, signature, ugly, lowres, glitchy, artifacts",
+              guidance_scale: 7.5,
+              num_inference_steps: 30,
+              controlnet_conditioning_scale: 0.7 // Good balance for keeping structure but changing style
+            }
+          }
+        );
+        
+        // Output is typically an array of image URLs (or strings/streams)
+        if (Array.isArray(output) && output.length > 0) {
+            visualizationUrl = output[0];
+        } else if (typeof output === 'string') {
+            visualizationUrl = output;
+        }
+
       } catch (vizError) {
         console.log('Visualization generation failed:', vizError.message);
+        // Fallback to old method if Replicate fails (e.g. if token invalid)
+        try {
+             const visualizationPrompt = `Generate a photorealistic interior renovation visualization. Transform this ${roomType} space into a beautifully renovated ${finishLevel || 'mid-range'} ${roomType.toLowerCase()}.`;
+             const visualization = await base44.asServiceRole.integrations.Core.GenerateImage({
+                prompt: visualizationPrompt,
+                existing_image_urls: [imageUrl]
+              });
+              visualizationUrl = visualization?.url;
+        } catch (fallbackError) {
+            console.log('Fallback visualization failed:', fallbackError.message);
+        }
       }
     }
 
