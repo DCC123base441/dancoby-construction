@@ -168,7 +168,7 @@ User question: ${userMessage}`,
             className="fixed bottom-6 right-6 z-40 w-16 h-16 bg-white rounded-full shadow-xl flex items-center justify-center transition-all overflow-hidden border-2 border-green-500 p-0.5"
           >
             <img 
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200" 
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200" 
               alt="AI Assistant" 
               className="w-full h-full rounded-full object-cover hover:scale-110 transition-transform duration-300"
             />
@@ -190,7 +190,7 @@ User question: ${userMessage}`,
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <img 
-                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" 
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100" 
                     alt="AI Assistant" 
                     className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
                   />
@@ -222,7 +222,7 @@ User question: ${userMessage}`,
                 >
                   {message.role === 'assistant' && (
                     <img 
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" 
+                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100" 
                       alt="AI" 
                       className="w-6 h-6 rounded-full object-cover mb-1 flex-shrink-0"
                     />
