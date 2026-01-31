@@ -42,7 +42,7 @@ Deno.serve(async (req) => {
         const maskResponse = await fetch('https://api.reimaginehome.ai/v1/create_mask', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
+                'api-key': apiKey, // Endpoint requires api-key header
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
