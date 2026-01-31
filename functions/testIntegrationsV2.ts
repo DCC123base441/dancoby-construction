@@ -11,7 +11,7 @@ Deno.serve(async (req) => {
                 // Try with Bearer and valid image
                 const largeImage = "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1024&q=80";
                 
-                // Probe Create Mask
+                // Probe Create Mask - Bearer
                 const response2 = await fetch('https://api.reimaginehome.ai/v1/create_mask', {
                     method: 'POST',
                     headers: {
@@ -22,7 +22,20 @@ Deno.serve(async (req) => {
                         image_url: largeImage
                     })
                 });
-                results.reimagineHome_CreateMask = { status: response2.status, body: await response2.text() };
+                results.reimagineHome_CreateMask_Bearer = { status: response2.status, body: await response2.text() };
+
+                // Probe Create Mask - api-key
+                const response3 = await fetch('https://api.reimaginehome.ai/v1/create_mask', {
+                    method: 'POST',
+                    headers: {
+                        'api-key': reimagineKey,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        image_url: largeImage
+                    })
+                });
+                results.reimagineHome_CreateMask_ApiKey = { status: response3.status, body: await response3.text() };
 
                 // Probe Generate Image
                 const responseGen1 = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
