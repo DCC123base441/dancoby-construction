@@ -330,12 +330,12 @@ export default function VendorIntake() {
 
               <div className="flex gap-6 justify-center items-center text-xs text-gray-400 mt-8">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="w-3 h-3" />
+                  <Shield className="w-3 h-3 text-green-600" />
                   Secure Submission
                 </span>
                 <span className="w-1 h-1 rounded-full bg-gray-300" />
                 <span className="flex items-center gap-1.5">
-                  <Clock className="w-3 h-3" />
+                  <Clock className="w-3 h-3 text-blue-600" />
                   Quick Review
                 </span>
               </div>
