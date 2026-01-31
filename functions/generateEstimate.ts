@@ -83,24 +83,29 @@ Respond with JSON:
 
         // 1. Upload Asset
         console.log('Uploading asset to RenovateAI...');
+        
+        // Use FormData for multipart/form-data upload as required by API
+        const formData = new FormData();
+        formData.append('image_url', imageUrl);
+        formData.append('asset_name', `upload_${Date.now()}`);
+
         const uploadResponse = await fetch('https://api.tech.renovateai.app/public/v1/assets/upload', {
             method: 'POST',
             headers: {
                 'x-api-key': apiKey,
-                'Content-Type': 'application/json'
+                // Content-Type header not set manually to allow boundary generation
             },
-            body: JSON.stringify({
-                image_url: imageUrl,
-                asset_name: `upload_${Date.now()}`
-            })
+            body: formData
         });
 
         if (!uploadResponse.ok) {
             const errorText = await uploadResponse.text();
+            console.error(`RenovateAI Upload Failed: ${uploadResponse.status}`, errorText);
             throw new Error(`RenovateAI Upload Error: ${uploadResponse.status} ${errorText}`);
         }
 
         const uploadData = await uploadResponse.json();
+        console.log('RenovateAI Upload Success:', uploadData);
         const assetId = uploadData?.asset?.id;
         
         if (!assetId) throw new Error("No asset_id returned from RenovateAI upload");
