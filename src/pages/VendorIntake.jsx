@@ -4,11 +4,31 @@ import { Check, Shield, Clock, Building2, UserSquare2 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 
 export default function VendorIntake() {
+  const [captcha, setCaptcha] = React.useState({ num1: 0, num2: 0, answer: '' });
+  const [isHuman, setIsHuman] = React.useState(false);
   
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6 }
+  };
+
+  React.useEffect(() => {
+    setCaptcha({
+      num1: Math.floor(Math.random() * 10),
+      num2: Math.floor(Math.random() * 10),
+      answer: ''
+    });
+  }, []);
+
+  const handleCaptchaChange = (e) => {
+    const val = e.target.value;
+    setCaptcha(prev => ({ ...prev, answer: val }));
+    if (parseInt(val) === captcha.num1 + captcha.num2) {
+      setIsHuman(true);
+    } else {
+      setIsHuman(false);
+    }
   };
 
   useEffect(() => {
@@ -277,7 +297,35 @@ export default function VendorIntake() {
               />
             </label>
 
-            <button type="submit" data-submit-button="true">Submit Registration</button>
+            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+              <label className="block">
+                <span className="label-text mb-2 block">Security Check: What is {captcha.num1} + {captcha.num2}? <span className="required">*</span></span>
+                <input 
+                  type="number" 
+                  value={captcha.answer}
+                  onChange={handleCaptchaChange}
+                  placeholder="?"
+                  className="w-24 !inline-block mr-2"
+                />
+                {!isHuman && captcha.answer && (
+                  <span className="text-sm text-red-500">Incorrect answer</span>
+                )}
+                {isHuman && (
+                  <span className="text-sm text-green-600 flex items-center gap-1 inline-flex">
+                    <Check className="w-4 h-4" /> Verified
+                  </span>
+                )}
+              </label>
+            </div>
+
+            <button 
+              type="submit" 
+              data-submit-button="true"
+              disabled={!isHuman}
+              className={`transition-all duration-200 ${!isHuman ? 'opacity-50 cursor-not-allowed grayscale' : 'hover:brightness-110'}`}
+            >
+              Submit Registration
+            </button>
 
             <div className="flex gap-8 justify-center items-center text-sm text-gray-400 mt-6 pt-6 border-t border-gray-100">
               <span className="flex items-center gap-1.5">
