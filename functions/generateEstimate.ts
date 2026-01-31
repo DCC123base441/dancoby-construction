@@ -80,7 +80,7 @@ Respond with JSON:
           auth: Deno.env.get("REPLICATE_API_TOKEN"),
         });
 
-        const visualizationPrompt = `Photorealistic interior design of a ${finishLevel || 'modern'} ${roomType}, ${priority === 'Luxury Finishes & Design' ? 'luxury style, high-end materials' : 'clean modern style'}, renovated, professional photography, 8k, highly detailed, interior architecture, bright lighting`;
+        const visualizationPrompt = `Photorealistic interior design of a ${roomType}, chic stylish finishes, contemporary elegance, sophisticated, ${finishLevel || 'modern'} style, ${priority === 'Luxury Finishes & Design' ? 'luxury high-end materials' : 'clean modern aesthetic'}, renovated, professional photography, 8k, highly detailed, interior architecture, bright lighting`;
 
         const output = await replicate.run(
           "rocketdigitalai/interior-design-sdxl:a3c091059a25590ce2d5ea13651fab63f447f21760e50c358d4b850e844f59ee",
@@ -88,10 +88,10 @@ Respond with JSON:
             input: {
               image: imageUrl,
               prompt: visualizationPrompt,
-              negative_prompt: "blurry, low quality, distorted, bad anatomy, watermark, text, signature, ugly, lowres, glitchy, artifacts",
+              negative_prompt: "blurry, low quality, distorted, bad anatomy, watermark, text, signature, ugly, lowres, glitchy, artifacts, mirrored, flipped, inverted",
               guidance_scale: 7.5,
               num_inference_steps: 30,
-              controlnet_conditioning_scale: 0.7 // Good balance for keeping structure but changing style
+              controlnet_conditioning_scale: 0.85 // Increased to ensure correct orientation and structure
             }
           }
         );
