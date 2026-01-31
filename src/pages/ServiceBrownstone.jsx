@@ -58,7 +58,7 @@ export default function ServiceBrownstone() {
           <motion.div {...fadeIn} className="grid md:grid-cols-2 gap-12">
             <div>
               <img 
-                src="https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/2c339618d_Photo9.jpg"
                 alt="Brownstone Restoration"
                 className="w-full h-auto rounded-lg"
               />
