@@ -52,18 +52,18 @@ import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
-import Home from './pages/Home';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
 import Projects from './pages/Projects';
+import Secret from './pages/Secret';
 import ServiceBrownstone from './pages/ServiceBrownstone';
 import ServiceInteriorRenovations from './pages/ServiceInteriorRenovations';
 import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
-import Secret from './pages/Secret';
+import Home from './pages/Home';
 import __Layout from './Layout.jsx';
 
 
@@ -73,18 +73,18 @@ export const PAGES = {
     "Estimator": Estimator,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
-    "Home": Home,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
     "Projects": Projects,
+    "Secret": Secret,
     "ServiceBrownstone": ServiceBrownstone,
     "ServiceInteriorRenovations": ServiceInteriorRenovations,
     "ServiceKitchenBath": ServiceKitchenBath,
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
     "TermsOfService": TermsOfService,
-    "Secret": Secret,
+    "Home": Home,
 }
 
 export const pagesConfig = {

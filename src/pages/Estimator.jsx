@@ -27,7 +27,7 @@ export default function Estimator() {
         'Bathroom Remodeling',
         'Whole Home Renovation',
         'Basement Remodel',
-        'Brownstone Restoration',
+        'Brownstone Renovation',
         'Addition/Extension'
       ]
     },
