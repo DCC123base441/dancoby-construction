@@ -1,6 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 import { Resend } from 'npm:resend@4.0.0';
-import Replicate from 'npm:replicate';
 
 Deno.serve(async (req) => {
   try {
@@ -76,31 +75,64 @@ Respond with JSON:
     let visualizationUrl = null;
     if (imageUrl) {
       try {
-        const replicate = new Replicate({
-          auth: Deno.env.get("REPLICATE_API_TOKEN"),
+        const visualizationPrompt = `Photorealistic interior design of a ${roomType}, chic stylish finishes, contemporary elegance, sophisticated, ${finishLevel || 'modern'} style, ${priority === 'Luxury Finishes & Design' ? 'luxury high-end materials' : 'clean modern aesthetic'}, renovated, professional photography, 8k, highly detailed, interior architecture, bright lighting`;
+        
+        // REimagineHome API Implementation
+        const apiKey = Deno.env.get("REIMAGINEHOME_API_KEY");
+        if (!apiKey) throw new Error("REIMAGINEHOME_API_KEY not set");
+
+        // 1. Initiate Generation
+        const generateResponse = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'api-key': apiKey
+            },
+            body: JSON.stringify({
+                image_url: imageUrl,
+                prompt: visualizationPrompt + ", same layout, preserving room geometry, exact scale, same perspective, accurate dimensions"
+            })
         });
 
-        const visualizationPrompt = `Photorealistic interior design of a ${roomType}, chic stylish finishes, contemporary elegance, sophisticated, ${finishLevel || 'modern'} style, ${priority === 'Luxury Finishes & Design' ? 'luxury high-end materials' : 'clean modern aesthetic'}, renovated, professional photography, 8k, highly detailed, interior architecture, bright lighting`;
+        if (!generateResponse.ok) {
+            const errorText = await generateResponse.text();
+            throw new Error(`API Error: ${generateResponse.status} ${errorText}`);
+        }
 
-        const output = await replicate.run(
-          "rocketdigitalai/interior-design-sdxl:a3c091059a25590ce2d5ea13651fab63f447f21760e50c358d4b850e844f59ee",
-          {
-            input: {
-              image: imageUrl,
-              prompt: visualizationPrompt + ", same layout, preserving room geometry, exact scale, same perspective, accurate dimensions",
-              negative_prompt: "blurry, low quality, distorted, bad anatomy, watermark, text, signature, ugly, lowres, glitchy, artifacts, mirrored, flipped, inverted, changing layout, resizing room, distorted perspective",
-              guidance_scale: 7.5,
-              num_inference_steps: 30,
-              controlnet_conditioning_scale: 0.95 // Maximum structural adherence to preserve scale and layout
-            }
-          }
-        );
+        const generateData = await generateResponse.json();
+        const jobId = generateData?.data?.job_id;
+
+        if (!jobId) throw new Error("No job_id returned from REimagineHome");
+
+        // 2. Poll for Results
+        let attempts = 0;
+        const maxAttempts = 30; // 60 seconds max
         
-        // Output is typically an array of image URLs (or strings/streams)
-        if (Array.isArray(output) && output.length > 0) {
-            visualizationUrl = output[0];
-        } else if (typeof output === 'string') {
-            visualizationUrl = output;
+        while (attempts < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            const statusResponse = await fetch(`https://api.reimaginehome.ai/v1/generate_image/${jobId}`, {
+                method: 'GET',
+                headers: {
+                    'api-key': apiKey
+                }
+            });
+            
+            if (statusResponse.ok) {
+                const statusData = await statusResponse.json();
+                const jobStatus = statusData?.data?.job_status;
+                
+                if (jobStatus === 'done') {
+                    // Assuming structure based on docs (create_mask had masks array, generate_image likely has result_url or similar)
+                    // We'll look for result_url or images array
+                    const resultData = statusData.data;
+                    visualizationUrl = resultData.result_url || (resultData.images && resultData.images[0]?.url);
+                    break;
+                } else if (jobStatus === 'error') {
+                    throw new Error("Job failed with status: error");
+                }
+            }
+            attempts++;
         }
 
       } catch (vizError) {
