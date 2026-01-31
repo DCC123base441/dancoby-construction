@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, Camera } from 'lucide-react';
+import { useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { base44 } from '@/api/base44Client';
 
@@ -8,6 +9,8 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
+  const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
 
   const handleFileSelect = async (file) => {
     if (!file) return;
@@ -50,7 +53,8 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
       <div
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
-        className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-red-600 transition-colors bg-gray-50"
+        onClick={() => !preview && fileInputRef.current?.click()}
+        className={`border-2 border-dashed border-gray-300 rounded-lg p-12 text-center transition-colors bg-gray-50 ${!preview ? 'hover:border-red-600 cursor-pointer' : ''}`}
       >
         {preview ? (
           <motion.div
@@ -72,28 +76,58 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
             {uploading && <p className="text-sm text-gray-600">Uploading...</p>}
           </motion.div>
         ) : (
-          <div className="space-y-3">
-            <Upload className="w-12 h-12 text-gray-400 mx-auto" />
-            <div>
-              <p className="font-semibold text-gray-900">Drop your photo here or click to upload</p>
-              <p className="text-sm text-gray-600 mt-1">JPG, PNG up to 10MB</p>
+          <div className="space-y-4">
+            <div className="w-16 h-16 bg-gray-200/50 rounded-full flex items-center justify-center mx-auto">
+              <Upload className="w-8 h-8 text-gray-600" />
             </div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleFileSelect(e.target.files[0])}
-              className="hidden"
-              id="file-upload"
-              disabled={uploading}
-            />
-            <label htmlFor="file-upload">
-              <Button asChild className="bg-red-600 hover:bg-red-700 text-white">
-                <span>Choose Photo</span>
-              </Button>
-            </label>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Drop your photo here</h3>
+              <p className="text-gray-500">or click to browse</p>
+            </div>
           </div>
         )}
       </div>
+
+      {!preview && (
+        <>
+          <div className="grid grid-cols-2 gap-4">
+            <Button 
+              variant="outline" 
+              className="h-12 border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              onClick={() => cameraInputRef.current?.click()}
+            >
+              <Camera className="w-4 h-4 mr-2" />
+              Take Photo
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-12 border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Photo
+            </Button>
+          </div>
+
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            ref={cameraInputRef}
+            className="hidden"
+            onChange={(e) => handleFileSelect(e.target.files[0])}
+            disabled={uploading}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={(e) => handleFileSelect(e.target.files[0])}
+            disabled={uploading}
+          />
+        </>
+      )}
 
       <div className="text-center">
         <Button
