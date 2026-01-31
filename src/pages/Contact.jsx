@@ -219,6 +219,12 @@ export default function Contact() {
                 </select>
               </label>
 
+              <label>
+                <span className="label-text">Photos / Files (Optional)</span>
+                <input type="file" name="files" multiple className="pt-3" />
+                <span className="text-xs text-gray-500 mt-1 block">Upload photos of your space or architectural plans</span>
+              </label>
+
               <div className="form-row">
                 <label>
                   <span className="label-text">Budget Range (Optional)</span>
