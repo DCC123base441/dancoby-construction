@@ -256,12 +256,12 @@ export default function Contact() {
 
               <label>
                 <span className="label-text">Tell Us About Your Project</span>
-                <textarea name="contact.notes" placeholder="Describe your project, goals, and any questions..." />
+                <textarea name="account.name" required placeholder="Describe your project, goals, and any questions..." />
               </label>
 
               <label>
                 <span className="label-text">How'd You Hear About Us?</span>
-                <select name="account.custom.referral_source" required defaultValue="">
+                <select name="account.custom.22PR8AKFN5Tf" defaultValue="">
                   <option value="" disabled hidden>Select source</option>
                   <option value="Google">Google</option>
                   <option value="Referral">Referral</option>
@@ -276,7 +276,7 @@ export default function Contact() {
                 <div className="relative">
                   <input 
                     type="file" 
-                    name="files" 
+                    name="account.files" 
                     multiple 
                     className="pt-3 disabled:opacity-50" 
                     onChange={handleFileChange}
@@ -306,18 +306,18 @@ export default function Contact() {
               <div className="form-row">
                 <label>
                   <span className="label-text">Budget Range (Optional)</span>
-                  <select name="account.custom.budget" defaultValue="">
+                  <select name="location.custom.22PR84m6W9ta" defaultValue="">
                     <option value="" disabled hidden>Select budget</option>
-                    <option value="Under $10,000">Under $10,000</option>
-                    <option value="$10,000 - $25,000">$10,000 - $25,000</option>
-                    <option value="$25,000 - $50,000">$25,000 - $50,000</option>
-                    <option value="$50,000+">$50,000+</option>
-                    <option value="Not Sure Yet">Not Sure Yet</option>
+                    <option value="10000">Under $10,000</option>
+                    <option value="25000">$10,000 - $25,000</option>
+                    <option value="50000">$25,000 - $50,000</option>
+                    <option value="75000">$50,000+</option>
+                    <option value="0">Not Sure Yet</option>
                   </select>
                 </label>
                 <label>
                   <span className="label-text">Timeline (Optional)</span>
-                  <select name="account.custom.timeline" defaultValue="">
+                  <select name="account.custom.22NzJ8ngA26g" defaultValue="">
                     <option value="" disabled hidden>Select timeline</option>
                     <option value="ASAP">ASAP</option>
                     <option value="1-3 Months">1-3 Months</option>
