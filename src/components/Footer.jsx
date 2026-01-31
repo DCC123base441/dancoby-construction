@@ -78,7 +78,7 @@ export default function Footer() {
             <div className="flex gap-12">
               <ul className="space-y-3">
                 <li>
-                  <Link to={createPageUrl('Home')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Home')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Home
                   </Link>
                 </li>
