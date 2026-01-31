@@ -165,6 +165,21 @@ export default function Contact() {
               </div>
             </a>
 
+            <div className="flex gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-red-600 transition-all group">
+              <div className="w-12 h-12 min-w-[48px] bg-stone-50 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-all">
+                <Instagram className="w-5 h-5 text-red-600 group-hover:text-white transition-all" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold mb-1">Follow Us</h3>
+                <div className="flex items-center gap-3">
+                  <a href="https://www.instagram.com/dancobyconstruction" target="_blank" rel="noopener noreferrer" className="text-lg text-[#6b665e] font-semibold mb-0.5 hover:text-red-600 transition-colors">Instagram</a>
+                  <span className="text-gray-300">|</span>
+                  <a href="https://www.facebook.com/dancobyconstruction" target="_blank" rel="noopener noreferrer" className="text-lg text-[#6b665e] font-semibold mb-0.5 hover:text-red-600 transition-colors">Facebook</a>
+                </div>
+                <div className="text-sm text-gray-400">See our latest projects</div>
+              </div>
+            </div>
+
             <div className="bg-white border border-gray-200 rounded-xl p-6 mt-4">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-3">
                 <Clock className="w-5 h-5 text-red-600" />
@@ -187,29 +202,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-              <div className="flex gap-4">
-                <a 
-                  href="https://www.instagram.com/dancobyconstruction" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-12 h-12 bg-stone-50 rounded-lg text-gray-600 hover:bg-pink-600 hover:text-white transition-all"
-                  aria-label="Follow us on Instagram"
-                >
-                  <Instagram className="w-6 h-6" />
-                </a>
-                <a 
-                  href="https://www.facebook.com/dancobyconstruction" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center justify-center w-12 h-12 bg-stone-50 rounded-lg text-gray-600 hover:bg-blue-600 hover:text-white transition-all"
-                  aria-label="Follow us on Facebook"
-                >
-                  <Facebook className="w-6 h-6" />
-                </a>
-              </div>
-            </div>
+
           </div>
 
           {/* Form */}
