@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check, ShieldAlert, Loader2, Instagram, Facebook } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import { base44 } from '@/api/base44Client';
@@ -23,6 +23,12 @@ export default function Contact() {
   const updateField = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+
+  // Keep a ref to the latest form data to access it inside the event listener
+  const formDataRef = useRef(formData);
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
 
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
@@ -73,18 +79,21 @@ export default function Contact() {
     const handleSuccess = async (event) => {
       console.log('JobTread form submitted successfully', event.detail);
       
+      // Use ref to get the latest data (fixing stale closure issue)
+      const data = formDataRef.current;
+
       // Sync to internal database
       try {
         await base44.functions.invoke('createLead', {
-            name: formData.name,
-            phone: formData.phone,
-            email: formData.email,
-            address: formData.address,
-            serviceType: formData.service,
-            message: formData.message,
-            source: formData.source,
-            budget: formData.budget,
-            timeline: formData.timeline
+            name: data.name,
+            phone: data.phone,
+            email: data.email,
+            address: data.address,
+            serviceType: data.service,
+            message: data.message,
+            source: data.source,
+            budget: data.budget,
+            timeline: data.timeline
         });
         console.log('Lead synced to internal database');
       } catch (err) {
