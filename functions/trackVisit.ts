@@ -35,21 +35,32 @@ Deno.serve(async (req) => {
         console.log("Resolved IP:", ip);
         
         let locationData = {};
-        if (ip) {
+        
+        // Try Cloudflare headers first (most accurate if available)
+        const cfCity = req.headers.get("cf-ipcity");
+        const cfCountry = req.headers.get("cf-ipcountry");
+        const cfRegion = req.headers.get("cf-region"); // State code usually
+        
+        if (cfCity) {
+             locationData = {
+                 city: cfCity,
+                 state: cfRegion,
+                 country: cfCountry
+             };
+             console.log("Resolved location from headers:", locationData);
+        } else if (ip) {
             try {
-                // Using ip-api.com (free, no key required for basic use)
-                // Note: limited to 45 requests per minute
+                // Fallback to ip-api.com
                 const geoRes = await fetch(`http://ip-api.com/json/${ip}`);
                 const geo = await geoRes.json();
                 
-                // console.log("Geo API Response:", JSON.stringify(geo));
-
                 if (geo.status === 'success') {
                     locationData = {
                         city: geo.city,
-                        state: geo.region, // Use region code (e.g. NY) instead of full name
+                        state: geo.regionName || geo.region, // Prefer full name, fallback to code
                         country: geo.country
                     };
+                    console.log("Resolved location from API:", locationData);
                 } else {
                     console.warn("Geo lookup returned status:", geo.status, geo.message);
                 }
