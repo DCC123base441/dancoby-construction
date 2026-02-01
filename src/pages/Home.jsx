@@ -401,27 +401,6 @@ export default function Home() {
                 </motion.div>
               </div>
               
-              {/* Glowing Connected Status */}
-              <motion.div
-                className="flex items-center gap-2 text-sm"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 1.5 }}
-              >
-                <motion.div
-                  className="w-2 h-2 rounded-full bg-[#FFA875]"
-                  animate={{ 
-                    boxShadow: [
-                      "0 0 0 0 rgba(255, 168, 117, 0.4)",
-                      "0 0 0 8px rgba(255, 168, 117, 0)",
-                      "0 0 0 0 rgba(255, 168, 117, 0)"
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-                <span className="text-gray-500">Connected & Synced</span>
-              </motion.div>
             </div>
             
             <p className="text-lg text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
