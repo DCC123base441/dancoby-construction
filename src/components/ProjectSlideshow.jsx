@@ -51,7 +51,26 @@ export default function ProjectSlideshow({ images }) {
         </div>
       </div>
 
-
+      {/* Thumbnails */}
+      {images.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          {images.map((image, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden transition-all ${
+                currentSlide === idx ? 'ring-2 ring-red-600 ring-offset-2' : 'opacity-60 hover:opacity-100'
+              }`}
+            >
+              <img 
+                src={image}
+                alt={`Thumbnail ${idx + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
