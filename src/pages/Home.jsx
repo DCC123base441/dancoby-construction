@@ -148,9 +148,9 @@ export default function Home() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      className="cursor-pointer"
+                      className=""
                       >
-                      <Link to={createPageUrl(service.page)} className="block h-full">
+                      <div className="block h-full">
                         <img 
                           src={service.image}
                           alt={service.title}
@@ -158,7 +158,7 @@ export default function Home() {
                         />
                         <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{service.title}</h4>
                         <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
-                      </Link>
+                      </div>
                     </motion.div>
                   ))}
                 </div>
