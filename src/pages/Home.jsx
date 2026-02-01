@@ -389,10 +389,9 @@ export default function Home() {
                 >
                   {/* JobTread Logo */}
                   <motion.img 
-                    src="https://cdn.brandfetch.io/id1TsnZaim/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1670531046955"
+                    src="https://cdn.prod.website-files.com/62e2b0a584a140441ab30e30/66c5f58e3a2b2b8b000edf4d_jobtread-logo.svg"
                     alt="JobTread"
                     className="h-6 sm:h-8"
-                    style={{ filter: 'brightness(0) saturate(100%) invert(72%) sepia(43%) saturate(1057%) hue-rotate(336deg) brightness(101%) contrast(101%)' }}
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
