@@ -5,8 +5,11 @@ import { Input } from "@/components/ui/input";
 import { base44 } from '@/api/base44Client';
 import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
 import { createPageUrl } from '../utils';
+import { useLocation } from 'react-router-dom';
 
 export default function ChatBot() {
+  const location = useLocation();
+  const [allChatMessages, setAllChatMessages] = useState([]);
   const location = useLocation();
   const [allChatMessages, setAllChatMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
