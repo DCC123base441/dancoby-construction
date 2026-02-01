@@ -92,7 +92,8 @@ export default function AdminProjects() {
             description: formData.get('description'),
             location: formData.get('location'),
             timeline: formData.get('timeline'),
-            mainImage: formData.get('mainImage'),
+            mainImage: currentImages[0] || "",
+            images: currentImages.slice(1),
             // Basic handling for now
             featured: false
         };
