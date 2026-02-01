@@ -14,8 +14,20 @@ import {
     Plus,
     ArrowRight,
     Clock,
-    MoreHorizontal
+    MoreHorizontal,
+    Trash2
 } from 'lucide-react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell, CartesianGrid } from "recharts";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -36,6 +48,21 @@ import {
 } from "@/components/ui/select";
 
 export default function AdminDashboard() {
+    const [isResetting, setIsResetting] = React.useState(false);
+    const queryClient = useQueryClient();
+
+    const handleReset = async () => {
+        setIsResetting(true);
+        try {
+            await base44.functions.invoke('resetAnalytics', { target: 'all' });
+            queryClient.invalidateQueries();
+        } catch (error) {
+            console.error("Failed to reset data", error);
+        } finally {
+            setIsResetting(false);
+        }
+    };
+
     // Queries
     const { data: leads = [] } = useQuery({
         queryKey: ['leads'],
@@ -183,7 +210,30 @@ export default function AdminDashboard() {
             title="Overview" 
             actions={
                 <div className="flex items-center gap-2">
-                    <span className="text-sm text-slate-500 mr-2 hidden sm:inline-block">
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="outline" className="bg-white text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100">
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Reset All Data
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Reset All Admin Data?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will permanently delete ALL data (visits, leads, projects, blog posts, estimates). This action cannot be undone.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
+                                    {isResetting ? "Resetting..." : "Yes, Delete Everything"}
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+
+                    <span className="text-sm text-slate-500 mr-2 hidden sm:inline-block border-l pl-4 ml-2">
                         {new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                     </span>
                     <Button asChild size="sm" className="bg-slate-900 shadow-sm">

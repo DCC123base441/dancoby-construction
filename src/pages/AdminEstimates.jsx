@@ -12,8 +12,21 @@ import {
     ImageIcon,
     ArrowRight,
     Search,
-    Filter
+    Filter,
+    Trash2
 } from 'lucide-react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useQueryClient } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,6 +48,20 @@ import {
 export default function AdminEstimates() {
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
+    const [isResetting, setIsResetting] = useState(false);
+    const queryClient = useQueryClient();
+
+    const handleReset = async () => {
+        setIsResetting(true);
+        try {
+            await base44.functions.invoke('resetAnalytics', { target: 'estimates' });
+            queryClient.invalidateQueries({ queryKey: ['estimates'] });
+        } catch (error) {
+            console.error("Failed to reset estimates", error);
+        } finally {
+            setIsResetting(false);
+        }
+    };
 
     const { data: estimates = [], isLoading } = useQuery({
         queryKey: ['estimates'],
@@ -72,7 +99,33 @@ export default function AdminEstimates() {
     });
 
     return (
-        <AdminLayout title="Estimator Analytics">
+        <AdminLayout 
+            title="Estimator Analytics"
+            actions={
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="outline" className="bg-white text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100">
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Reset Estimates
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Reset All Estimates?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This will permanently delete all estimate submissions. This action cannot be undone.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
+                                {isResetting ? "Resetting..." : "Yes, Delete All"}
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            }
+        >
             {/* Top Stats Cards */}
             <div className="grid gap-4 md:grid-cols-3 mb-8">
                 <Card className="bg-white border-slate-200 shadow-sm">

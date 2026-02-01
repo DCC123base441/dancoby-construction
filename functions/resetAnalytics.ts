@@ -60,7 +60,29 @@ Deno.serve(async (req) => {
             deletedEstimates = await deleteBatch('Estimate');
         }
 
-        return Response.json({ success: true, deletedVisits, deletedEstimates });
+        let deletedProjects = 0;
+        if (target === 'projects' || target === 'all') {
+            deletedProjects = await deleteBatch('Project');
+        }
+
+        let deletedBlogs = 0;
+        if (target === 'blogs' || target === 'all') {
+            deletedBlogs = await deleteBatch('BlogPost');
+        }
+
+        let deletedLeads = 0;
+        if (target === 'leads' || target === 'all') {
+            deletedLeads = await deleteBatch('Lead');
+        }
+
+        return Response.json({ 
+            success: true, 
+            deletedVisits, 
+            deletedEstimates,
+            deletedProjects,
+            deletedBlogs,
+            deletedLeads
+        });
 
     } catch (error) {
         console.error("Reset analytics error:", error);

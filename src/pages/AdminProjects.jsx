@@ -13,6 +13,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -22,7 +33,20 @@ export default function AdminProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [isResetting, setIsResetting] = useState(false);
     const queryClient = useQueryClient();
+
+    const handleReset = async () => {
+        setIsResetting(true);
+        try {
+            await base44.functions.invoke('resetAnalytics', { target: 'projects' });
+            queryClient.invalidateQueries({ queryKey: ['projects'] });
+        } catch (error) {
+            console.error("Failed to reset projects", error);
+        } finally {
+            setIsResetting(false);
+        }
+    };
 
     const { data: projects = [], isLoading } = useQuery({
         queryKey: ['projects'],
@@ -87,9 +111,34 @@ export default function AdminProjects() {
         <AdminLayout 
             title="Projects" 
             actions={
-                <Button onClick={() => { setEditingProject(null); setIsDialogOpen(true); }} className="bg-slate-900">
-                    <Plus className="w-4 h-4 mr-2" /> Add Project
-                </Button>
+                <div className="flex gap-2">
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="outline" className="bg-white text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100">
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Reset
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Reset All Projects?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will permanently delete all projects. This action cannot be undone.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
+                                    {isResetting ? "Resetting..." : "Yes, Delete All"}
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+
+                    <Button onClick={() => { setEditingProject(null); setIsDialogOpen(true); }} className="bg-slate-900">
+                        <Plus className="w-4 h-4 mr-2" /> Add Project
+                    </Button>
+                </div>
             }
         >
             <div className="mb-6">

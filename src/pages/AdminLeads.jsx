@@ -7,10 +7,34 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Mail, Phone, Calendar, MessageSquare } from 'lucide-react';
+import { Mail, Phone, Calendar, MessageSquare, Trash2 } from 'lucide-react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function AdminLeads() {
+    const [isResetting, setIsResetting] = React.useState(false);
     const queryClient = useQueryClient();
+
+    const handleReset = async () => {
+        setIsResetting(true);
+        try {
+            await base44.functions.invoke('resetAnalytics', { target: 'leads' });
+            queryClient.invalidateQueries({ queryKey: ['leads'] });
+        } catch (error) {
+            console.error("Failed to reset leads", error);
+        } finally {
+            setIsResetting(false);
+        }
+    };
 
     const { data: leads = [], isLoading } = useQuery({
         queryKey: ['leads'],
@@ -37,7 +61,33 @@ export default function AdminLeads() {
     };
 
     return (
-        <AdminLayout title="Lead Management">
+        <AdminLayout 
+            title="Lead Management"
+            actions={
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="outline" className="bg-white text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100">
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Reset Leads
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Reset All Leads?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This will permanently delete all leads. This action cannot be undone.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
+                                {isResetting ? "Resetting..." : "Yes, Delete All"}
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            }
+        >
             <div className="grid gap-4">
                 {leads.map((lead) => (
                     <Card key={lead.id} className="overflow-hidden">

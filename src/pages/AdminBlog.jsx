@@ -13,6 +13,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -24,7 +35,20 @@ export default function AdminBlog() {
     const [editingPost, setEditingPost] = useState(null);
     const [aiPrompt, setAiPrompt] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
+    const [isResetting, setIsResetting] = useState(false);
     const queryClient = useQueryClient();
+
+    const handleReset = async () => {
+        setIsResetting(true);
+        try {
+            await base44.functions.invoke('resetAnalytics', { target: 'blogs' });
+            queryClient.invalidateQueries({ queryKey: ['blogPosts'] });
+        } catch (error) {
+            console.error("Failed to reset blog posts", error);
+        } finally {
+            setIsResetting(false);
+        }
+    };
 
     const { data: posts = [], isLoading } = useQuery({
         queryKey: ['blogPosts'],
@@ -100,6 +124,29 @@ export default function AdminBlog() {
             title="Blog Posts" 
             actions={
                 <div className="flex gap-2">
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="outline" className="bg-white text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100">
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Reset
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Reset All Blog Posts?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will permanently delete all blog posts. This action cannot be undone.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
+                                    {isResetting ? "Resetting..." : "Yes, Delete All"}
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+
                     <Button onClick={() => setIsAIModalOpen(true)} variant="outline" className="border-green-600 text-green-700 hover:bg-green-50">
                         <Sparkles className="w-4 h-4 mr-2" /> AI Writer
                     </Button>
