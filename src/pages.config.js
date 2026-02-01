@@ -61,6 +61,7 @@ import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
+import Home from './pages/Home';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
@@ -70,14 +71,13 @@ import ServiceInteriorRenovations from './pages/ServiceInteriorRenovations';
 import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
-import Step from './pages/Step';
-import StepBuilder from './pages/StepBuilder';
-import StepDashboard from './pages/StepDashboard';
-import StepSuccess from './pages/StepSuccess';
-import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import Home from './pages/Home';
+import Step from './pages/Step';
+import StepDashboard from './pages/StepDashboard';
+import StepBuilder from './pages/StepBuilder';
+import StepSummary from './pages/StepSummary';
+import StepSuccess from './pages/StepSuccess';
 import __Layout from './Layout.jsx';
 
 
@@ -96,6 +96,7 @@ export const PAGES = {
     "Estimator": Estimator,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
+    "Home": Home,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
@@ -105,14 +106,13 @@ export const PAGES = {
     "ServiceKitchenBath": ServiceKitchenBath,
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
-    "Step": Step,
-    "StepBuilder": StepBuilder,
-    "StepDashboard": StepDashboard,
-    "StepSuccess": StepSuccess,
-    "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "Home": Home,
+    "Step": Step,
+    "StepDashboard": StepDashboard,
+    "StepBuilder": StepBuilder,
+    "StepSummary": StepSummary,
+    "StepSuccess": StepSuccess,
 }
 
 export const pagesConfig = {
