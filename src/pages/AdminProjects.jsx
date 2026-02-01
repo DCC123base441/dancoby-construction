@@ -5,7 +5,7 @@ import AdminLayout from '../components/admin/AdminLayout';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Search, Pencil, Trash2, Image as ImageIcon, X, Upload, Loader2 } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Image as ImageIcon, X, Upload, Loader2, Star } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import {
   Dialog,
@@ -34,6 +34,7 @@ export default function AdminProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
     const [galleryImages, setGalleryImages] = useState([]);
+    const [mainImage, setMainImage] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [isResetting, setIsResetting] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
@@ -203,7 +204,12 @@ export default function AdminProjects() {
                         </AlertDialogContent>
                     </AlertDialog>
 
-                    <Button onClick={() => { setEditingProject(null); setGalleryImages([]); setIsDialogOpen(true); }} className="bg-slate-900">
+                    <Button onClick={() => { 
+                        setEditingProject(null); 
+                        setGalleryImages([]); 
+                        setMainImage("");
+                        setIsDialogOpen(true); 
+                    }} className="bg-slate-900">
                         <Plus className="w-4 h-4 mr-2" /> Add Project
                     </Button>
                 </div>
@@ -249,6 +255,7 @@ export default function AdminProjects() {
                                     onClick={() => { 
                                         setEditingProject(project); 
                                         setGalleryImages((project.images || []).map(url => ({ id: Math.random().toString(36).substr(2, 9), url }))); 
+                                        setMainImage(project.mainImage || "");
                                         setIsDialogOpen(true); 
                                     }}
                                 >
@@ -305,7 +312,12 @@ export default function AdminProjects() {
                         </div>
                         <div className="space-y-2">
                             <Label>Main Image URL</Label>
-                            <Input name="mainImage" defaultValue={editingProject?.mainImage} placeholder="https://..." />
+                            <Input 
+                                name="mainImage" 
+                                value={mainImage} 
+                                onChange={(e) => setMainImage(e.target.value)}
+                                placeholder="https://..." 
+                            />
                         </div>
                         
                         <div className="space-y-2">
@@ -334,14 +346,34 @@ export default function AdminProjects() {
                                                             {...provided.dragHandleProps}
                                                             className="relative group w-20 h-20 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm cursor-move"
                                                         >
-                                                            <img src={img.url} alt="" className="w-full h-full object-cover pointer-events-none" />
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => setGalleryImages(prev => prev.filter((_, i) => i !== idx))}
-                                                                className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-red-700 shadow-sm z-10"
-                                                            >
-                                                                <X className="w-3 h-3" />
-                                                            </button>
+                                                            <img src={img.url} alt="" className={`w-full h-full object-cover pointer-events-none ${mainImage === img.url ? 'opacity-80' : ''}`} />
+                                                            {mainImage === img.url && (
+                                                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
+                                                                    <Star className="w-8 h-8 text-yellow-400 fill-yellow-400 drop-shadow-md" />
+                                                                </div>
+                                                            )}
+                                                            <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-all z-10">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => setMainImage(img.url)}
+                                                                    title="Set as Main Image"
+                                                                    className={`p-1 rounded-full shadow-sm transition-colors ${
+                                                                        mainImage === img.url 
+                                                                            ? 'bg-yellow-400 text-white cursor-default' 
+                                                                            : 'bg-white text-yellow-500 hover:bg-yellow-50'
+                                                                    }`}
+                                                                >
+                                                                    <Star className={`w-3 h-3 ${mainImage === img.url ? 'fill-current' : ''}`} />
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => setGalleryImages(prev => prev.filter((_, i) => i !== idx))}
+                                                                    title="Remove Image"
+                                                                    className="bg-red-600 text-white p-1 rounded-full hover:bg-red-700 shadow-sm"
+                                                                >
+                                                                    <X className="w-3 h-3" />
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     )}
                                                 </Draggable>
