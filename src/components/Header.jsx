@@ -11,10 +11,10 @@ export default function Header() {
     { name: 'Home', path: 'Home' },
     { name: 'Services', path: 'Services' },
     { name: 'Projects', path: 'Projects' },
+    { name: 'Blog', path: 'Blog' },
     { name: 'About', path: 'About' },
     { name: 'Press', path: 'Press' },
     { name: 'Careers', path: 'HiringApplication' },
-
   ];
 
   return (
@@ -35,7 +35,7 @@ export default function Header() {
                           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-12">
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
                                 <Link
                                   key={link.name}
