@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Search, Pencil, Trash2, Image as ImageIcon } from 'lucide-react';
+import ProjectGalleryManager from '../components/admin/ProjectGalleryManager';
 import {
   Dialog,
   DialogContent,
