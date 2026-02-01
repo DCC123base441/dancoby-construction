@@ -37,6 +37,7 @@ export default function AdminProjects() {
     const [searchQuery, setSearchQuery] = useState("");
     const [isResetting, setIsResetting] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
+    const [isDraggingOver, setIsDraggingOver] = useState(false);
     const queryClient = useQueryClient();
 
     const handleReset = async () => {
@@ -119,15 +120,13 @@ export default function AdminProjects() {
         setGalleryImages(items);
     };
 
-    const handleImageUpload = async (e) => {
-        const files = Array.from(e.target.files);
+    const uploadFiles = async (files) => {
         if (files.length === 0) return;
 
         setIsUploading(true);
         const toastId = toast.loading(`Uploading ${files.length} image${files.length > 1 ? 's' : ''}...`);
 
         try {
-            // Upload in parallel
             const uploadPromises = files.map(file => base44.integrations.Core.UploadFile({ file }));
             const results = await Promise.all(uploadPromises);
             
@@ -143,8 +142,37 @@ export default function AdminProjects() {
             toast.error("Failed to upload some images", { id: toastId });
         } finally {
             setIsUploading(false);
-            e.target.value = ''; // Reset input
         }
+    };
+
+    const handleImageUpload = (e) => {
+        const files = Array.from(e.target.files);
+        uploadFiles(files);
+        e.target.value = '';
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDraggingOver(false);
+        const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+        if (files.length > 0) {
+            uploadFiles(files);
+        }
+    };
+    
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer.types.includes('Files')) {
+            setIsDraggingOver(true);
+        }
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDraggingOver(false);
     };
 
     return (
@@ -281,14 +309,21 @@ export default function AdminProjects() {
                         </div>
                         
                         <div className="space-y-2">
-                            <Label>Gallery Images (Drag to rearrange)</Label>
+                            <Label>Gallery Images (Drag to rearrange, Drop files to upload)</Label>
                             <DragDropContext onDragEnd={onDragEnd}>
                                 <Droppable droppableId="gallery" direction="horizontal">
                                     {(provided) => (
                                         <div 
                                             {...provided.droppableProps}
                                             ref={provided.innerRef}
-                                            className="flex flex-wrap gap-2 mb-2 p-2 bg-slate-50 rounded-lg border border-slate-100 min-h-[100px]"
+                                            onDrop={handleDrop}
+                                            onDragOver={handleDragOver}
+                                            onDragLeave={handleDragLeave}
+                                            className={`flex flex-wrap gap-2 mb-2 p-2 rounded-lg border min-h-[100px] transition-all duration-200 ${
+                                                isDraggingOver 
+                                                    ? 'bg-blue-50 border-blue-400 border-dashed ring-2 ring-blue-100' 
+                                                    : 'bg-slate-50 border-slate-100'
+                                            }`}
                                         >
                                             {galleryImages.map((img, idx) => (
                                                 <Draggable key={img.id} draggableId={img.id} index={idx}>
