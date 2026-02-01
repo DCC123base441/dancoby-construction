@@ -20,7 +20,7 @@ const engagingMessages = [
 ];
 
 export default function ChatBot() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
