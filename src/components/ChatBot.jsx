@@ -31,7 +31,9 @@ export default function ChatBot() {
     if (isOpen || !allChatMessages || allChatMessages.length === 0) return;
 
     // Find a welcome message for this page (prioritize specific page match)
-    const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === location.pathname);
+    // Normalize home page paths: both "/" and "/Home" should match targetPage="/"
+    const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
+    const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPath);
     const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
     const welcomeMsg = specificWelcome || genericWelcome;
 
@@ -62,7 +64,8 @@ export default function ChatBot() {
       // This is for when opening via the floating button directly.
       
       // Find default welcome message for this page (prioritize specific page match)
-      const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === location.pathname);
+      const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
+      const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPath);
       const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
       const welcomeMsg = specificWelcome || genericWelcome;
 
@@ -92,9 +95,10 @@ export default function ChatBot() {
       if (!allChatMessages || allChatMessages.length === 0) return;
 
       // Filter messages relevant to current page or 'all'
+      const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
       const relevantMessages = allChatMessages.filter(m => 
         !m.isPageWelcome && // Don't use welcome messages as random bubbles
-        (m.targetPage === 'all' || m.targetPage === location.pathname)
+        (m.targetPage === 'all' || m.targetPage === currentPath)
       );
 
       if (relevantMessages.length === 0) return;

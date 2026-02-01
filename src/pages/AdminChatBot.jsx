@@ -165,7 +165,7 @@ export default function AdminChatBot() {
                                                     </Badge>
                                                     {message.targetPage && message.targetPage !== 'all' && (
                                                         <Badge variant="secondary" className="font-mono text-xs">
-                                                            {message.targetPage === '/' ? 'Home (/)' : message.targetPage}
+                                                            {message.targetPage === '/' ? 'Home' : message.targetPage}
                                                         </Badge>
                                                     )}
                                                     {message.targetPage === 'all' && (
@@ -257,7 +257,7 @@ export default function AdminChatBot() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">All Pages</SelectItem>
-                                        <SelectItem value="/">Home (/)</SelectItem>
+                                        <SelectItem value="/">Home</SelectItem>
                                         <SelectItem value="/Contact">Contact</SelectItem>
                                         <SelectItem value="/Services">Services</SelectItem>
                                         <SelectItem value="/Projects">Projects</SelectItem>
