@@ -6,21 +6,10 @@ import { base44 } from '@/api/base44Client';
 import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
 import { createPageUrl } from '../utils';
 
-const engagingMessages = [
-  "🔨 Did you know? The average kitchen renovation takes 6-8 weeks. Good thing patience is a virtue!",
-  "🏠 Fun fact: Brownstones got their name from the brown Triassic sandstone used on their facades. The more you know!",
-  "💡 Pro tip: LED under-cabinet lighting can make your kitchen look like a million bucks... for way less!",
-  "🛁 Here's a thought: A well-designed bathroom can increase your home value by up to 20%!",
-  "🪜 Random thought: If walls could talk, ours would probably say 'Thanks for the makeover!'",
-  "🎨 Color trivia: White kitchens are timeless, but navy blue is having a moment right now!",
-  "🔧 Dad joke alert: Why did the contractor break up with the calculator? They just couldn't count on each other!",
-  "✨ Just browsing? That's cool! I'm here if you want to chat about turning your space into something amazing.",
-  "🏗️ Contractor humor: Our team is so good, even our mistakes are load-bearing! (Just kidding, we don't make mistakes 😉)",
-  "💭 Thinking about renovating? Studies show 87% of homeowners wish they'd started sooner!",
-  "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!",
-];
-
 export default function ChatBot() {
+  const [engagingMessages, setEngagingMessages] = useState([
+    "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
+  ]);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -41,17 +30,33 @@ export default function ChatBot() {
     }
   }, [isOpen]);
 
-  const [messages, setMessages] = useState(() => {
-    // Always show welcome messages
-    return [{
-      role: 'assistant',
-      content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What are we tearing down today?"
-    },
-    {
-      role: 'assistant',
-      content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
-    }];
-  });
+  const [messages, setMessages] = useState([{
+    role: 'assistant',
+    content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
+  }]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const allMessages = await base44.entities.ChatBotMessage.list();
+        const active = allMessages.filter(m => m.isActive !== false);
+        
+        // Update engaging messages
+        const engaging = active.filter(m => m.category === 'engaging').map(m => m.content);
+        if (engaging.length > 0) setEngagingMessages(engaging);
+        
+        // Update welcome messages if we haven't started chatting yet (length <= 2 implies initial state)
+        // Or just overwrite initial state
+        const welcome = active.filter(m => m.category === 'welcome').sort((a,b) => a.order - b.order);
+        if (welcome.length > 0 && messages.length <= 2) {
+             setMessages(welcome.map(m => ({ role: 'assistant', content: m.content })));
+        }
+      } catch (e) {
+        console.error("Failed to fetch chatbot messages", e);
+      }
+    };
+    fetchMessages();
+  }, []);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');
@@ -68,6 +73,7 @@ export default function ChatBot() {
     }
 
     const showRandomBubble = () => {
+      if (engagingMessages.length === 0) return;
       const randomMessage = engagingMessages[Math.floor(Math.random() * engagingMessages.length)];
       setBubbleMessage(randomMessage);
       setShowBubble(true);
