@@ -23,17 +23,33 @@ export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, []);
-  const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What are we tearing down today?"
+    // Only auto-open if we haven't shown the welcome message yet
+    const hasShown = sessionStorage.getItem('chatbot_welcome_shown');
+    if (!hasShown) {
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+      }, 5000);
+      return () => clearTimeout(timer);
     }
-  ]);
+  }, []);
+
+  // Mark as shown whenever the chat opens
+  useEffect(() => {
+    if (isOpen) {
+      sessionStorage.setItem('chatbot_welcome_shown', 'true');
+    }
+  }, [isOpen]);
+
+  const [messages, setMessages] = useState(() => {
+    const hasShown = sessionStorage.getItem('chatbot_welcome_shown');
+    if (!hasShown) {
+      return [{
+        role: 'assistant',
+        content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What are we tearing down today?"
+      }];
+    }
+    return [];
+  });
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');
