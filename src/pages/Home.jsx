@@ -301,88 +301,126 @@ export default function Home() {
           <motion.div {...fadeIn} className="text-center mb-16">
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Technology Partners</p>
             
-            {/* Animated Powered by JobTread */}
-            <div className="flex items-center justify-center gap-4 mb-6">
+            {/* Animated Powered by JobTread with Official Branding */}
+            <div className="flex flex-col items-center justify-center gap-6 mb-6">
               <motion.span 
                 className="text-4xl md:text-5xl font-light text-gray-900"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
                 Powered by
               </motion.span>
               
-              {/* Plug Animation */}
-              <motion.div 
-                className="relative flex items-center"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-              >
-                {/* Connection Line */}
+              {/* Plug-in Animation Container */}
+              <div className="relative flex items-center justify-center">
+                {/* Dancoby Side */}
                 <motion.div
-                  className="absolute right-full mr-1 h-1 bg-gradient-to-r from-transparent via-[#6b665e] to-[#6b665e] rounded-full"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: 40 }}
+                  className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-l-xl"
+                  initial={{ x: -50, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.8, duration: 0.4 }}
-                />
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  <span className="text-red-500 font-bold">D</span>
+                  <span className="text-sm font-medium hidden sm:inline">Dancoby</span>
+                </motion.div>
                 
-                {/* Plug Icon */}
+                {/* Connection Plug Animation */}
+                <motion.div 
+                  className="relative flex items-center"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                >
+                  {/* Left Prong */}
+                  <motion.div
+                    className="w-3 h-6 bg-gray-700 rounded-r-sm"
+                    initial={{ x: -10 }}
+                    whileInView={{ x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.8, duration: 0.3, type: "spring" }}
+                  />
+                  
+                  {/* Spark Effects */}
+                  <motion.div
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ 
+                      scale: [0, 1.5, 0], 
+                      opacity: [0, 1, 0] 
+                    }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 1.1, duration: 0.4 }}
+                  >
+                    <div className="w-6 h-6 bg-[#FFA875] rounded-full blur-md" />
+                  </motion.div>
+                  <motion.div
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ 
+                      scale: [0, 2, 0], 
+                      opacity: [0, 0.8, 0] 
+                    }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 1.15, duration: 0.3 }}
+                  >
+                    <div className="w-4 h-4 bg-[#2439B0] rounded-full blur-sm" />
+                  </motion.div>
+                  
+                  {/* Right Prong / Socket */}
+                  <motion.div
+                    className="w-3 h-6 bg-[#2439B0] rounded-l-sm"
+                    initial={{ x: 10 }}
+                    whileInView={{ x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.8, duration: 0.3, type: "spring" }}
+                  />
+                </motion.div>
+                
+                {/* JobTread Side with Official Colors */}
                 <motion.div
-                  className="relative z-10"
+                  className="flex items-center gap-3 px-4 py-2 rounded-r-xl"
+                  style={{ background: 'linear-gradient(135deg, #2439B0 0%, #1a2d8a 100%)' }}
                   initial={{ x: 50, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.4, duration: 0.5, type: "spring", stiffness: 100 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
                 >
-                  <motion.div
-                    animate={{ 
-                      scale: [1, 1.05, 1],
-                    }}
-                    transition={{ delay: 1.4, duration: 0.3 }}
-                  >
-                    {/* JobTread Logo/Text */}
-                    <motion.div 
-                      className="flex items-center gap-2 bg-[#6b665e] text-white px-5 py-2 rounded-lg shadow-lg"
-                      animate={{
-                        boxShadow: [
-                          "0 4px 20px rgba(107, 102, 94, 0.3)",
-                          "0 8px 30px rgba(107, 102, 94, 0.5)",
-                          "0 4px 20px rgba(107, 102, 94, 0.3)"
-                        ]
-                      }}
-                      transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
-                    >
-                      {/* JobTread Icon */}
-                      <motion.svg 
-                        className="w-7 h-7" 
-                        viewBox="0 0 24 24" 
-                        fill="none"
-                        initial={{ rotate: -180, opacity: 0 }}
-                        whileInView={{ rotate: 0, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 1.2, duration: 0.5 }}
-                      >
-                        <rect x="3" y="3" width="18" height="18" rx="3" fill="white"/>
-                        <path d="M7 12h10M12 7v10" stroke="#6b665e" strokeWidth="2" strokeLinecap="round"/>
-                      </motion.svg>
-                      <span className="text-2xl md:text-3xl font-semibold tracking-tight">JobTread</span>
-                    </motion.div>
-                  </motion.div>
+                  {/* JobTread Logo */}
+                  <motion.img 
+                    src="https://cdn.brandfetch.io/id1TsnZaim/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1670531046955"
+                    alt="JobTread"
+                    className="h-6 sm:h-8"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 1.3, duration: 0.3 }}
+                  />
                 </motion.div>
-                
-                {/* Spark Effect */}
+              </div>
+              
+              {/* Glowing Connected Status */}
+              <motion.div
+                className="flex items-center gap-2 text-sm"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 1.5 }}
+              >
                 <motion.div
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2"
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: [0, 1.5, 0], opacity: [0, 1, 0] }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 1.2, duration: 0.4 }}
-                >
-                  <div className="w-4 h-4 bg-[#a39e96] rounded-full blur-sm" />
-                </motion.div>
+                  className="w-2 h-2 rounded-full bg-[#FFA875]"
+                  animate={{ 
+                    boxShadow: [
+                      "0 0 0 0 rgba(255, 168, 117, 0.4)",
+                      "0 0 0 8px rgba(255, 168, 117, 0)",
+                      "0 0 0 0 rgba(255, 168, 117, 0)"
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+                <span className="text-gray-500">Connected & Synced</span>
               </motion.div>
             </div>
             
