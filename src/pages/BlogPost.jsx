@@ -102,9 +102,9 @@ export default function BlogPost() {
                 </header>
 
                 {/* Content */}
-                <div className="prose prose-lg prose-slate mx-auto prose-headings:font-serif prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-600 prose-p:leading-8 prose-a:text-red-600 hover:prose-a:text-red-700 prose-img:rounded-xl prose-img:shadow-lg prose-li:text-gray-600">
+                <div className="prose prose-lg prose-slate mx-auto prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-gray-900 prose-p:text-gray-600 prose-p:leading-loose prose-li:text-gray-600 prose-a:text-red-600 hover:prose-a:text-red-700 prose-img:rounded-xl prose-img:shadow-lg">
                     <ReactMarkdown>
-                        {post.content}
+                        {post.content?.replace(/\[your construction company name\]|\[company name\]|\[Construction Company Name\]/gi, "Dancoby Construction")}
                     </ReactMarkdown>
                 </div>
 
