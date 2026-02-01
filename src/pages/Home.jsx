@@ -3,6 +3,9 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from "@/components/ui/skeleton";
 
 import EstimatorButton from '../components/EstimatorButton';
 import TestimonialsSection from '../components/TestimonialsSection';
@@ -17,6 +20,12 @@ export default function Home() {
     viewport: { once: true },
     transition: { duration: 0.6 }
   };
+
+  const { data: featuredProjects = [], isLoading } = useQuery({
+    queryKey: ['featuredProjects'],
+    queryFn: () => base44.entities.Project.list('-created_date', 4),
+    initialData: []
+  });
 
   return (
     <main className="min-h-screen bg-white">
@@ -227,67 +236,80 @@ export default function Home() {
       <section className="py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { id: "697c5e88074fc8d96b14a823", title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
-              { id: "697cede5ec09b851f1e8fe80", title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
-              { id: "697d0e3c6291ff1c55121181", title: "Modern hotel spa inspired suite with marble flooring and walnut accent paneling", logo: "Hotel Inspired Suite", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
-              { id: "697cede5ec09b851f1e8fe80", title: "Elegant Kitchen Renovation with Custom Cabinetry", logo: "Kitchen Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }
-            ].map((project, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group flex flex-col h-full"
-              >
-                <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
-                  {project.beforeImage ? (
-                    <div className="relative w-full h-96">
-                      <img 
-                        src={project.image}
-                        alt={project.logo}
-                        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                      />
-                      <img 
-                        src={project.beforeImage}
-                        alt={`${project.logo} - Before`}
-                        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      <img 
-                        src={project.image}
-                        alt={project.logo}
-                        className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
-                    </>
-                  )}
-                </Link>
-
-                <div className="flex flex-col flex-1">
-                  <div className="h-12 flex items-center">
-                    <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                      {project.logo}
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
-                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="hover:text-red-600 transition-colors">
-                      {project.title}
-                    </Link>
-                  </h3>
-                  <div className="mt-auto">
-                    <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
-                      <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-                        View Project
-                      </Link>
-                    </Button>
-                  </div>
+            {isLoading ? (
+              Array(4).fill(0).map((_, i) => (
+                <div key={i} className="flex flex-col h-full">
+                  <Skeleton className="w-full h-96 mb-6 rounded-none bg-gray-200" />
+                  <Skeleton className="h-4 w-24 mb-2 bg-gray-200" />
+                  <Skeleton className="h-6 w-3/4 mb-4 bg-gray-200" />
+                  <Skeleton className="h-10 w-32 mt-auto bg-gray-200" />
                 </div>
-              </motion.div>
-            ))}
+              ))
+            ) : featuredProjects.length > 0 ? (
+              featuredProjects.map((project, idx) => {
+                const image = project.mainImage || project.images?.[0] || 'https://placehold.co/600x400';
+                const logo = project.logoText || project.category || 'Renovation';
+                
+                return (
+                  <motion.div
+                    key={project.id || idx}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="group flex flex-col h-full"
+                  >
+                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
+                      {project.beforeImage ? (
+                        <div className="relative w-full h-96">
+                          <img 
+                            src={image}
+                            alt={logo}
+                            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                          />
+                          <img 
+                            src={project.beforeImage}
+                            alt={`${logo} - Before`}
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <img 
+                            src={image}
+                            alt={logo}
+                            className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                        </>
+                      )}
+                    </Link>
+
+                    <div className="flex flex-col flex-1">
+                      <div className="h-12 flex items-center">
+                        <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                          {logo}
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
+                        <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="hover:text-red-600 transition-colors">
+                          {project.title}
+                        </Link>
+                      </h3>
+                      <div className="mt-auto">
+                        <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
+                          <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
+                            View Project
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })
+            ) : (
+              <p className="col-span-4 text-center text-gray-500">No projects found.</p>
+            )}
           </div>
 
           <div className="text-center mt-16">
