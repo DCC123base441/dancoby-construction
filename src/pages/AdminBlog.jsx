@@ -39,21 +39,25 @@ export default function AdminBlog() {
     const [currentTitle, setCurrentTitle] = useState("");
     const [currentCoverImage, setCurrentCoverImage] = useState("");
     const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+    const [imagePrompt, setImagePrompt] = useState("");
     const queryClient = useQueryClient();
 
     useEffect(() => {
         if (isDialogOpen) {
             setCurrentTitle(editingPost?.title || "");
             setCurrentCoverImage(editingPost?.coverImage || "");
+            setImagePrompt("");
         }
     }, [isDialogOpen, editingPost]);
 
     const handleGenerateImage = async () => {
-        if (!currentTitle) return toast.error("Please enter a title first");
+        const promptToUse = imagePrompt || `Professional architectural photography or construction photo for a blog post titled: "${currentTitle}". High quality, realistic, 4k.`;
+        if (!currentTitle && !imagePrompt) return toast.error("Please enter a title or describe the image");
+        
         setIsGeneratingImage(true);
         try {
             const res = await base44.integrations.Core.GenerateImage({
-                prompt: `Professional architectural photography or construction photo for a blog post titled: "${currentTitle}". High quality, realistic, 4k.`,
+                prompt: promptToUse,
             });
             setCurrentCoverImage(res.url);
             toast.success("Image generated!");
@@ -257,7 +261,7 @@ export default function AdminBlog() {
                         </div>
                         <div className="space-y-2">
                             <Label>Cover Image URL</Label>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 mb-2">
                                 <Input 
                                     name="coverImage" 
                                     value={currentCoverImage} 
@@ -265,16 +269,39 @@ export default function AdminBlog() {
                                     placeholder="https://..." 
                                     className="flex-1"
                                 />
-                                <Button 
-                                    type="button" 
-                                    variant="outline"
-                                    onClick={handleGenerateImage}
-                                    disabled={isGeneratingImage || !currentTitle}
-                                    title="Generate AI Image from Title"
-                                >
-                                    {isGeneratingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImageIcon className="w-4 h-4" />}
-                                </Button>
                             </div>
+                            
+                            <div className="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                                <Label className="text-xs text-slate-500 mb-2 block">AI Image Generator</Label>
+                                <div className="flex gap-2">
+                                    <Input 
+                                        value={imagePrompt}
+                                        onChange={(e) => setImagePrompt(e.target.value)}
+                                        placeholder={`Describe image (defaults to: "${currentTitle}")`}
+                                        className="flex-1 bg-white"
+                                    />
+                                    <Button 
+                                        type="button" 
+                                        variant="outline"
+                                        onClick={handleGenerateImage}
+                                        disabled={isGeneratingImage || (!currentTitle && !imagePrompt)}
+                                        className="bg-white"
+                                    >
+                                        {isGeneratingImage ? (
+                                            <>
+                                                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                                Generating...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <ImageIcon className="w-4 h-4 mr-2" />
+                                                Generate
+                                            </>
+                                        )}
+                                    </Button>
+                                </div>
+                            </div>
+
                             {currentCoverImage && (
                                 <div className="mt-2 relative aspect-video w-full max-w-xs rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
                                     <img src={currentCoverImage} alt="Preview" className="w-full h-full object-cover" />
