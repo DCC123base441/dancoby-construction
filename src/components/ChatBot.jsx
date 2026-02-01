@@ -69,32 +69,39 @@ export default function ChatBot() {
         const engaging = active.filter(m => m.category === 'engaging').map(m => m.content);
         if (engaging.length > 0) setEngagingMessages(engaging);
         
-        // Check for page-specific triggers (welcome messages)
+        // Check for triggers (welcome messages)
         const currentPath = location.pathname;
         const triggers = active.filter(m => m.category === 'welcome');
         
         triggers.forEach(msg => {
-            // Check if matches this page (or is global)
-            const isMatch = (!msg.page_path && !sessionStorage.getItem('global_welcome_shown')) || 
-                            (msg.page_path === currentPath);
+            // Normalize paths for comparison (remove trailing slashes, ensure case insensitive if needed)
+            const msgPath = msg.page_path ? msg.page_path.replace(/\/$/, '') : '';
+            const currPath = currentPath.replace(/\/$/, '') || '/';
             
-            if (isMatch) {
-                // Check if already shown in this session
+            // Check match:
+            // 1. Specific Page: path matches exactly
+            // 2. Global: no path set AND no global shown yet
+            const isSpecificMatch = msgPath && (msgPath === currPath || msgPath === currentPath);
+            const isGlobalMatch = !msgPath && !sessionStorage.getItem('global_welcome_shown');
+            
+            if (isSpecificMatch || isGlobalMatch) {
+                // Check if this specific message ID was already shown in this session
                 const seenKey = `chat_trigger_${msg.id}`;
                 if (!sessionStorage.getItem(seenKey)) {
                     // Mark as seen
                     sessionStorage.setItem(seenKey, 'true');
-                    if (!msg.page_path) sessionStorage.setItem('global_welcome_shown', 'true');
+                    if (isGlobalMatch) sessionStorage.setItem('global_welcome_shown', 'true');
                     
                     // Add to chat
                     setMessages(prev => {
-                        // Avoid duplicates in current state just in case
                         if (prev.some(p => p.content === msg.content)) return prev;
                         return [...prev, { role: 'assistant', content: msg.content }];
                     });
                     
-                    // Open chat if it's a specific page trigger
-                    if (msg.page_path) {
+                    // Auto-open logic
+                    // If it's a specific page trigger, we force open
+                    // If it's a global trigger, we rely on the generic auto-open logic or just let it be there
+                    if (isSpecificMatch) {
                         setIsOpen(true);
                     }
                 }

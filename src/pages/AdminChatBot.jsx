@@ -119,7 +119,7 @@ export default function AdminChatBot() {
                     <p className="text-gray-500">No messages found. Create one to get started.</p>
                 </div>
             ) : (
-                items.map((message, idx) => (
+                items.map((message) => (
                     <Card key={message.id} className="overflow-hidden">
                         <div className="flex items-start justify-between p-4 gap-4">
                             <div className="flex items-start gap-3 flex-1">
