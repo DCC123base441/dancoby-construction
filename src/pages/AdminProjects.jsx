@@ -107,16 +107,16 @@ export default function AdminProjects() {
     const updateOrderMutation = useMutation({
         mutationFn: async (newOrderProjects) => {
             // Update all projects with their new order index
-            await Promise.all(newOrderProjects.map((p, index) => 
-                base44.entities.Project.update(p.id, { order: index })
+            await Promise.all(newOrderProjects.map((p) => 
+                base44.entities.Project.update(p.id, { order: p.order })
             ));
+            return newOrderProjects;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['projects'] });
-            // Don't turn off isReordering immediately to prevent flickering old order
-            // It will be reset when the new data comes in via the useEffect if we logic it right, 
-            // but simpler: keep isReordering true until we are sure, or just toggle it off.
-            // Better UX: toggle off, but the useEffect change above handles the data sync safely.
+        onSuccess: (updatedProjects) => {
+            // Update cache directly to avoid race conditions with eventual consistency
+            queryClient.setQueryData(['projects'], updatedProjects);
+            
+            setOrderedProjects(updatedProjects);
             setIsReordering(false);
             toast.success("Project order saved");
         },
@@ -138,7 +138,16 @@ export default function AdminProjects() {
     };
 
     const saveOrder = () => {
-        updateOrderMutation.mutate(orderedProjects);
+        // Create a copy of the projects with updated 'order' property based on their current index
+        const updatedProjects = orderedProjects.map((p, index) => ({
+            ...p,
+            order: index
+        }));
+        
+        // Optimistically update local state to reflect the new 'order' properties
+        setOrderedProjects(updatedProjects);
+        
+        updateOrderMutation.mutate(updatedProjects);
     };
 
     const deleteMutation = useMutation({
