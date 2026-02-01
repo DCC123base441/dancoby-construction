@@ -15,6 +15,7 @@ import {
     ArrowRight,
     Clock,
     MoreHorizontal,
+    MousePointerClick,
     Trash2
 } from 'lucide-react';
 import {
@@ -164,6 +165,8 @@ export default function AdminDashboard() {
         return Object.values(grouped).sort((a, b) => a.sort - b.sort);
     }, [visits, timeRange]);
 
+    const visitsInRange = React.useMemo(() => trafficData.reduce((sum, d) => sum + (d.value || 0), 0), [trafficData]);
+
     const engagementRate = useMemo(() => {
         if (!visits.length) return { value: "0%", label: "No visits yet" };
         const rate = (leads.length / visits.length) * 100;
@@ -174,6 +177,15 @@ export default function AdminDashboard() {
     }, [visits, leads]);
 
     const stats = [
+        {
+            title: "Site Visits",
+            value: visitsInRange,
+            change: "in selected period",
+            trend: "neutral",
+            icon: MousePointerClick,
+            color: "text-indigo-600",
+            bg: "bg-indigo-100/50"
+        },
         {
             title: "Total Leads",
             value: totalLeads,
