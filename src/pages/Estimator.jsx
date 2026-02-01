@@ -449,6 +449,12 @@ export default function Estimator() {
           exit={{ opacity: 0, y: -20 }}
           className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 md:p-12"
         >
+          {step.id === 'photo' && (
+            <div className="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-lg mb-6 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+              <p className="text-sm font-medium">Notice, our devs are working hard to get you accurate renders, if they come out wacky. Sorry.</p>
+            </div>
+          )}
           <div className="mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
               {step.question}
