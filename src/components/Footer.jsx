@@ -83,39 +83,39 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Services')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Services')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Services
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Projects')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Projects')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Projects
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('About')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('About')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     About
                   </Link>
                 </li>
               </ul>
               <ul className="space-y-3">
                 <li>
-                  <Link to={createPageUrl('Press')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Press')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Press
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('HiringApplication')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('HiringApplication')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('VendorIntake')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('VendorIntake')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Partner With Us
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('AdminLogin')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('AdminLogin')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Admin
                   </Link>
                 </li>
