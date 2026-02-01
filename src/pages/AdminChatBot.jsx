@@ -42,7 +42,7 @@ export default function AdminChatBot() {
         queryFn: async () => {
             const data = await base44.entities.ChatBotMessage.list();
             // Sort: Page Welcome messages first, then by created date
-            return data.sort((a, b) => (b.isPageWelcome === a.isPageWelcome) ? 0 : b.isPageWelcome ? 1 : -1);
+            return data.sort((a, b) => (b.is_page_welcome === a.is_page_welcome) ? 0 : b.is_page_welcome ? 1 : -1);
         },
     });
 
@@ -80,8 +80,8 @@ export default function AdminChatBot() {
         content: "",
         category: "engaging", // Legacy field, keeping default
         isActive: true,
-        targetPage: "all",
-        isPageWelcome: false
+        target_page: "all",
+        is_page_welcome: false
     });
 
     useEffect(() => {
@@ -90,16 +90,16 @@ export default function AdminChatBot() {
                 content: editingMessage.content,
                 category: editingMessage.category || "engaging",
                 isActive: editingMessage.isActive,
-                targetPage: editingMessage.targetPage || "all",
-                isPageWelcome: editingMessage.isPageWelcome || false
+                target_page: editingMessage.target_page || "all",
+                is_page_welcome: editingMessage.is_page_welcome || false
             });
         } else {
             setFormData({
                 content: "",
                 category: "engaging",
                 isActive: true,
-                targetPage: "all",
-                isPageWelcome: false
+                target_page: "all",
+                is_page_welcome: false
             });
         }
     }, [editingMessage, isDialogOpen]);
@@ -155,13 +155,13 @@ export default function AdminChatBot() {
                                     {messages.map((message) => (
                                         <div key={message.id} className="flex items-start justify-between p-4 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
                                             <div className="flex items-start gap-3 flex-1">
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.isPageWelcome ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600'}`}>
-                                                    {message.isPageWelcome ? <Clock className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.is_page_welcome ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600'}`}>
+                                                    {message.is_page_welcome ? <Clock className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
                                                 </div>
                                                 <div className="space-y-1.5 flex-1">
                                                     <p className="text-sm font-medium text-gray-900 leading-relaxed">{message.content}</p>
                                                     <div className="flex flex-wrap gap-2">
-                                                        {message.isPageWelcome ? (
+                                                        {message.is_page_welcome ? (
                                                             <Badge variant="default" className="bg-blue-600 hover:bg-blue-700">Page Welcome (5s delay)</Badge>
                                                         ) : (
                                                             <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-200">Random Bubble</Badge>
@@ -169,7 +169,7 @@ export default function AdminChatBot() {
                                                         
                                                         <Badge variant="outline" className="flex items-center gap-1">
                                                             <Globe className="w-3 h-3" />
-                                                            {PAGE_OPTIONS.find(p => p.value === message.targetPage)?.label || message.targetPage}
+                                                            {PAGE_OPTIONS.find(p => p.value === message.target_page)?.label || message.target_page}
                                                         </Badge>
                                                         
                                                         {!message.isActive && <Badge variant="destructive">Inactive</Badge>}
@@ -216,8 +216,8 @@ export default function AdminChatBot() {
                                 <div className="space-y-2">
                                     <Label>Target Page</Label>
                                     <Select 
-                                        value={formData.targetPage} 
-                                        onValueChange={(value) => setFormData({...formData, targetPage: value})}
+                                        value={formData.target_page} 
+                                        onValueChange={(value) => setFormData({...formData, target_page: value})}
                                     >
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select page" />
@@ -254,8 +254,8 @@ export default function AdminChatBot() {
                                         </p>
                                     </div>
                                     <Switch 
-                                        checked={formData.isPageWelcome}
-                                        onCheckedChange={(checked) => setFormData({...formData, isPageWelcome: checked})}
+                                        checked={formData.is_page_welcome}
+                                        onCheckedChange={(checked) => setFormData({...formData, is_page_welcome: checked})}
                                     />
                                 </div>
                             </div>

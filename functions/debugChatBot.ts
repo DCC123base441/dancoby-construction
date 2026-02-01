@@ -7,16 +7,16 @@ Deno.serve(async (req) => {
         // 1. Create a message
         const created = await base44.entities.ChatBotMessage.create({
             content: "Debug Message " + Date.now(),
-            targetPage: "all",
-            isPageWelcome: false
+            target_page: "all",
+            is_page_welcome: false
         });
         
         console.log("Created:", created);
 
         // 2. Update the message
         const updated = await base44.entities.ChatBotMessage.update(created.id, {
-            targetPage: "/Projects",
-            isPageWelcome: true
+            target_page: "/Projects",
+            is_page_welcome: true
         });
         
         console.log("Updated:", updated);
@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
             created, 
             updated, 
             fetched,
-            match: fetched.targetPage === "/Projects" && fetched.isPageWelcome === true
+            match: fetched.target_page === "/Projects" && fetched.is_page_welcome === true
         });
     } catch (error) {
         return Response.json({ error: error.message, stack: error.stack }, { status: 500 });

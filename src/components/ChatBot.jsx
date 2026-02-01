@@ -39,8 +39,8 @@ export default function ChatBot() {
 
     // Find a welcome message for this page
     const welcomeMsg = allChatMessages.find(m => 
-      m.isPageWelcome && 
-      (m.targetPage === 'all' || m.targetPage === location.pathname)
+      m.is_page_welcome && 
+      (m.target_page === 'all' || m.target_page === location.pathname)
     );
 
     if (welcomeMsg) {
@@ -74,8 +74,8 @@ export default function ChatBot() {
 
       // Filter messages relevant to current page or 'all'
       const relevantMessages = allChatMessages.filter(m => 
-        !m.isPageWelcome && // Don't use welcome messages as random bubbles
-        (m.targetPage === 'all' || m.targetPage === location.pathname)
+        !m.is_page_welcome && // Don't use welcome messages as random bubbles
+        (m.target_page === 'all' || m.target_page === location.pathname)
       );
 
       if (relevantMessages.length === 0) return;
