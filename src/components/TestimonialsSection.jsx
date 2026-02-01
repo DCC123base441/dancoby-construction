@@ -100,8 +100,15 @@ export default function TestimonialsSection() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="w-16 h-16 rounded-full bg-stone-800 flex items-center justify-center mb-6">
-                <span className="text-2xl font-light text-white">{testimonial.initial}</span>
+              <div className="flex justify-between items-start mb-6">
+                <div className="w-16 h-16 rounded-full bg-stone-800 flex items-center justify-center">
+                  <span className="text-2xl font-light text-white">{testimonial.initial}</span>
+                </div>
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-stone-900 text-stone-900" />
+                  ))}
+                </div>
               </div>
               
               <p className="text-xl md:text-2xl font-light leading-relaxed text-stone-800 mb-8">
