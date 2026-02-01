@@ -288,7 +288,7 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-16">
-            <Button asChild className="bg-gray-900 hover:bg-black text-white px-8">
+            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10">
               <Link to={createPageUrl('Projects')}>Featured Projects</Link>
             </Button>
           </div>
