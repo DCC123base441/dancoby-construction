@@ -18,6 +18,21 @@ export default function Home() {
     transition: { duration: 0.6 }
   };
 
+  // Load Current Projects from CMS
+  const [projects, setProjects] = React.useState([]);
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const data = await base44.entities.CurrentProject.list();
+        const sorted = [...data].sort((a,b) => (a.order ?? 0) - (b.order ?? 0));
+        setProjects(sorted);
+      } catch (e) {
+        console.warn('Failed to load CurrentProject, falling back to static');
+        setProjects([]);
+      }
+    })();
+  }, []);
+
   return (
     <main className="min-h-screen bg-white">
       <SEOHead 
