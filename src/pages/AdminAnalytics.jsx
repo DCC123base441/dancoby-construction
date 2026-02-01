@@ -124,6 +124,7 @@ export default function AdminAnalytics() {
         }
 
         // Filter and count visits
+        // Total within selected period
         let totalCount = 0;
         const pageViews = {};
         const locationCounts = {};
