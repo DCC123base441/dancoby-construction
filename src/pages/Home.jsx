@@ -19,7 +19,7 @@ function WarrantyCounter() {
       const duration = 2000;
       const startTime = Date.now();
       const startValue = 1;
-      const endValue = 5;
+      const endValue = 3;
 
       const animate = () => {
         const elapsed = Date.now() - startTime;
