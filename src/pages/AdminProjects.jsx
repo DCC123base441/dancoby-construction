@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Search, Pencil, Trash2, Image as ImageIcon } from 'lucide-react';
-import ProjectImageManager from '../components/admin/ProjectImageManager';
 import {
   Dialog,
   DialogContent,
@@ -33,20 +32,6 @@ import { toast } from "sonner";
 export default function AdminProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
-    // State for the image manager
-    const [projectImages, setProjectImages] = useState([]);
-    const [mainImage, setMainImage] = useState("");
-
-    // Update local state when editingProject changes
-    React.useEffect(() => {
-        if (editingProject) {
-            setProjectImages(editingProject.images || []);
-            setMainImage(editingProject.mainImage || "");
-        } else {
-            setProjectImages([]);
-            setMainImage("");
-        }
-    }, [editingProject]);
     const [searchQuery, setSearchQuery] = useState("");
     const [isResetting, setIsResetting] = useState(false);
     const queryClient = useQueryClient();
@@ -105,8 +90,8 @@ export default function AdminProjects() {
             description: formData.get('description'),
             location: formData.get('location'),
             timeline: formData.get('timeline'),
-            mainImage: mainImage,
-            images: projectImages,
+            mainImage: formData.get('mainImage'),
+            // Basic handling for now
             featured: false
         };
 
@@ -246,19 +231,10 @@ export default function AdminProjects() {
                             <Label>Timeline</Label>
                             <Input name="timeline" defaultValue={editingProject?.timeline} placeholder="e.g., 4 months" />
                         </div>
-                        
                         <div className="space-y-2">
-                            <Label>Project Images</Label>
-                            <ProjectImageManager 
-                                images={projectImages}
-                                mainImage={mainImage}
-                                onChange={({ images, mainImage }) => {
-                                    setProjectImages(images);
-                                    setMainImage(mainImage);
-                                }}
-                            />
+                            <Label>Main Image URL</Label>
+                            <Input name="mainImage" defaultValue={editingProject?.mainImage} placeholder="https://..." />
                         </div>
-
                         <div className="space-y-2">
                             <Label>Description</Label>
                             <Textarea name="description" defaultValue={editingProject?.description} className="h-32" required />

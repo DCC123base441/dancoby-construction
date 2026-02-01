@@ -48,12 +48,12 @@
  * The mainPage value must match a key in the PAGES object exactly.
  */
 import About from './pages/About';
-import AdminAnalytics from './pages/AdminAnalytics';
 import AdminBlog from './pages/AdminBlog';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminEstimates from './pages/AdminEstimates';
 import AdminLeads from './pages/AdminLeads';
 import AdminLogin from './pages/AdminLogin';
+import AdminProjects from './pages/AdminProjects';
 import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
@@ -70,18 +70,18 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import AdminProjects from './pages/AdminProjects';
+import AdminAnalytics from './pages/AdminAnalytics';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "About": About,
-    "AdminAnalytics": AdminAnalytics,
     "AdminBlog": AdminBlog,
     "AdminDashboard": AdminDashboard,
     "AdminEstimates": AdminEstimates,
     "AdminLeads": AdminLeads,
     "AdminLogin": AdminLogin,
+    "AdminProjects": AdminProjects,
     "Contact": Contact,
     "Estimator": Estimator,
     "Hiring": Hiring,
@@ -98,7 +98,7 @@ export const PAGES = {
     "Services": Services,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "AdminProjects": AdminProjects,
+    "AdminAnalytics": AdminAnalytics,
 }
 
 export const pagesConfig = {

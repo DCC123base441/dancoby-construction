@@ -216,7 +216,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center">
             <h3 className="text-4xl md:text-5xl font-bold text-white">
-              3-Year Warranty on All Projects
+              5-Year Warranty on All Projects
             </h3>
           </motion.div>
         </div>
@@ -531,7 +531,7 @@ export default function Home() {
               { number: "20+", label: "YEARS EXPERIENCE", sublabel: "Trusted craftsmanship since 2004" },
               { number: "500+", label: "PROJECTS COMPLETED", sublabel: "Across the NYC metro area" },
               { number: "5.0", label: "GOOGLE RATING", sublabel: "Based on 50+ reviews" },
-              { number: "3-Year", label: "WARRANTY", sublabel: "On all our projects" }
+              { number: "5-Year", label: "WARRANTY", sublabel: "On all our projects" }
             ].map((stat, idx) => (
               <motion.div
                 key={idx}
