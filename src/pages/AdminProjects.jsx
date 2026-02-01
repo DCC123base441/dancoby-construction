@@ -5,7 +5,7 @@ import AdminLayout from '../components/admin/AdminLayout';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Search, Pencil, Trash2, Image as ImageIcon, X } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Image as ImageIcon, X, Upload, Loader2 } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import {
   Dialog,
@@ -36,6 +36,7 @@ export default function AdminProjects() {
     const [galleryImages, setGalleryImages] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [isResetting, setIsResetting] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const queryClient = useQueryClient();
 
     const handleReset = async () => {
@@ -116,6 +117,26 @@ export default function AdminProjects() {
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
         setGalleryImages(items);
+    };
+
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        const toastId = toast.loading("Uploading image...");
+
+        try {
+            const { file_url } = await base44.integrations.Core.UploadFile({ file });
+            setGalleryImages([...galleryImages, file_url]);
+            toast.success("Image uploaded", { id: toastId });
+        } catch (error) {
+            console.error("Upload failed", error);
+            toast.error("Failed to upload image", { id: toastId });
+        } finally {
+            setIsUploading(false);
+            e.target.value = ''; // Reset input
+        }
     };
 
     return (
@@ -289,27 +310,42 @@ export default function AdminProjects() {
                                 </Droppable>
                             </DragDropContext>
                             <div className="flex gap-2">
-                                <Input 
-                                    placeholder="Add image URL..." 
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault();
-                                            if (e.currentTarget.value) {
-                                                setGalleryImages([...galleryImages, e.currentTarget.value]);
-                                                e.currentTarget.value = '';
+                                <div className="relative">
+                                    <input 
+                                        type="file" 
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
+                                        onChange={handleImageUpload} 
+                                        accept="image/*"
+                                        disabled={isUploading}
+                                    />
+                                    <Button type="button" variant="outline" disabled={isUploading}>
+                                        {isUploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
+                                        Upload
+                                    </Button>
+                                </div>
+                                <div className="flex-1 flex gap-2">
+                                    <Input 
+                                        placeholder="Or paste image URL..." 
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                if (e.currentTarget.value) {
+                                                    setGalleryImages([...galleryImages, e.currentTarget.value]);
+                                                    e.currentTarget.value = '';
+                                                }
                                             }
+                                        }}
+                                    />
+                                    <Button type="button" variant="outline" onClick={(e) => {
+                                        const input = e.currentTarget.previousElementSibling;
+                                        if (input.value) {
+                                            setGalleryImages([...galleryImages, input.value]);
+                                            input.value = '';
                                         }
-                                    }}
-                                />
-                                <Button type="button" variant="outline" onClick={(e) => {
-                                    const input = e.currentTarget.previousElementSibling;
-                                    if (input.value) {
-                                        setGalleryImages([...galleryImages, input.value]);
-                                        input.value = '';
-                                    }
-                                }}>
-                                    <Plus className="w-4 h-4" />
-                                </Button>
+                                    }}>
+                                        <Plus className="w-4 h-4" />
+                                    </Button>
+                                </div>
                             </div>
                         </div>
 
