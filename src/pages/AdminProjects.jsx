@@ -137,7 +137,11 @@ export default function AdminProjects() {
                         </AlertDialogContent>
                     </AlertDialog>
 
-                    <Button onClick={() => { setEditingProject(null); setIsDialogOpen(true); }} className="bg-slate-900">
+                    <Button onClick={() => { 
+    setEditingProject(null); 
+    setCurrentImages([]); 
+    setIsDialogOpen(true); 
+}} className="bg-slate-900">
                         <Plus className="w-4 h-4 mr-2" /> Add Project
                     </Button>
                 </div>
