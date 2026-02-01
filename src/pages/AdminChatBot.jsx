@@ -258,9 +258,13 @@ export default function AdminChatBot() {
                                     <SelectContent>
                                         <SelectItem value="all">All Pages</SelectItem>
                                         <SelectItem value="/">Home</SelectItem>
-                                        <SelectItem value="/Contact">Contact</SelectItem>
                                         <SelectItem value="/Services">Services</SelectItem>
                                         <SelectItem value="/Projects">Projects</SelectItem>
+                                        <SelectItem value="/Blog">Blog</SelectItem>
+                                        <SelectItem value="/About">About</SelectItem>
+                                        <SelectItem value="/Press">Press</SelectItem>
+                                        <SelectItem value="/HiringApplication">Careers</SelectItem>
+                                        <SelectItem value="/Contact">Contact</SelectItem>
                                         <SelectItem value="/Step">Step Platform</SelectItem>
                                         <SelectItem value="/Estimator">Estimator</SelectItem>
                                     </SelectContent>
