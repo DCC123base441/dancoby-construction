@@ -20,39 +20,16 @@ export default function Projects() {
     initialData: []
   });
 
-  // Custom order for cohesive color flow (warm tones → neutral → cool → dark)
-  const customOrder = [
-    // Warm wood tones
-    'Warm Oak Kitchen with Statement Marble',
-    '15th Street Modern Dining',
-    'Coffee Shop Buildout',
-    // Neutral/warm browns & travertine
-    'Modern Bathroom with Chevron Tile & Travertine',
-    'Vibrant Pink & Brass Bathroom',
-    // White/bright spaces
-    'Elegant Kitchen Renovation with Custom Cabinetry',
-    'Brooklyn Kitchen Renovation',
-    'Open-Concept Kitchen and Living Space with Custom Millwork',
-    // Marble/stone tones
-    'Judith Marble Bathroom',
-    'Master Bathroom Renovation with Heated Marble Floors',
-    'Modern powder room with marble flooring and walnut accent paneling',
-    // Classic/exterior
-    'Woodmere Front Entrance',
-    'Westminster Townhouse Living Room',
-    'Brownstone Restoration',
-    'Penthouse Upgrade'
-  ];
-
   const filteredProjects = projects
     .filter(p => category === 'all' || p.category === category)
     .sort((a, b) => {
       if (sort === 'curated') {
-        const indexA = customOrder.indexOf(a.title);
-        const indexB = customOrder.indexOf(b.title);
-        const orderA = indexA === -1 ? 999 : indexA;
-        const orderB = indexB === -1 ? 999 : indexB;
-        return orderA - orderB;
+        // Use the 'order' field for sorting, falling back to 0 if not set
+        // If orders are equal, fallback to created_date
+        const orderA = a.order !== undefined ? a.order : 999;
+        const orderB = b.order !== undefined ? b.order : 999;
+        if (orderA !== orderB) return orderA - orderB;
+        return new Date(b.created_date) - new Date(a.created_date);
       }
       switch(sort) {
         case 'oldest':
