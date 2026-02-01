@@ -6,7 +6,15 @@ import { Label } from "@/components/ui/label";
 import { base44 } from '@/api/base44Client';
 
 export default function CurrentProjectForm({ project, onSubmit, onCancel, submitting }) {
-  const [form, setForm] = React.useState(project || {
+  const [form, setForm] = React.useState(project ? {
+    title: project.title || '',
+    location: project.location || '',
+    status: project.status || '0% Complete',
+    progress: typeof project.progress === 'number' ? project.progress : Number((String(project.status || '').match(/\d+/)?.[0]) || 0),
+    description: project.description || '',
+    image: project.image || '',
+    order: typeof project.order === 'number' ? project.order : 0,
+  } : {
     title: '',
     location: '',
     status: '0% Complete',
