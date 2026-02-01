@@ -72,6 +72,9 @@ export default function AdminChatBot() {
             setIsDialogOpen(false);
             setEditingMessage(null);
             toast.success("Message updated successfully");
+        },
+        onError: (error) => {
+            toast.error(error?.message || 'Failed to update message');
         }
     });
 
