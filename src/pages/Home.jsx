@@ -199,7 +199,7 @@ export default function Home() {
                   {/* Image */}
                   <motion.div {...fadeIn} className="relative mt-8 lg:mt-0 h-full">
                     <img 
-                      src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
+                      src="https://drive.google.com/uc?export=view&id=1GLd0j1Fqd4sjaUMegjRrluXupvhj1yUI"
                       alt="Modern Kitchen"
                       className="w-full h-full object-cover shadow-2xl rounded-sm"
                     />
