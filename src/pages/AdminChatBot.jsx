@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Trash2, Edit2, Save, X, MessageSquare, Sparkles, MoveUp, MoveDown } from 'lucide-react';
+import { Plus, Trash2, Edit2, Save, X, MessageSquare, Sparkles, MoveUp, MoveDown, ExternalLink } from 'lucide-react';
 import { toast } from "sonner";
 import {
   Dialog,
@@ -152,7 +152,14 @@ export default function AdminChatBot() {
                                     <div className="flex gap-2 flex-wrap">
                                         {!message.isActive && <Badge variant="secondary">Inactive</Badge>}
                                         {type === 'welcome' && <Badge variant="outline">Order: {message.order}</Badge>}
-                                        {message.page_path && <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200">Page: {message.page_path}</Badge>}
+                                        {message.page_path && (
+                                            <a href={message.page_path} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                                <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200 cursor-pointer flex items-center gap-1">
+                                                    Page: {message.page_path}
+                                                    <ExternalLink className="w-3 h-3" />
+                                                </Badge>
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>
