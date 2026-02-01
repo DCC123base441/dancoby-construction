@@ -187,11 +187,13 @@ export default function AdminAnalytics() {
 
         const topPages = Object.entries(pageViews)
             .map(([name, value]) => ({ name, value }))
+            .filter(p => name && typeof p.name === 'string' && p.name.trim())
             .sort((a, b) => b.value - a.value)
             .slice(0, 5);
 
         const topLocations = Object.entries(locationCounts)
             .map(([name, value]) => ({ name, value }))
+            .filter(l => l.name && typeof l.name === 'string' && l.name.trim())
             .sort((a, b) => b.value - a.value)
             .slice(0, 5);
 
