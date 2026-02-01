@@ -71,13 +71,13 @@ import ServiceInteriorRenovations from './pages/ServiceInteriorRenovations';
 import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
+import Step from './pages/Step';
+import StepBuilder from './pages/StepBuilder';
+import StepDashboard from './pages/StepDashboard';
+import StepSuccess from './pages/StepSuccess';
+import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import Step from './pages/Step';
-import StepDashboard from './pages/StepDashboard';
-import StepBuilder from './pages/StepBuilder';
-import StepSummary from './pages/StepSummary';
-import StepSuccess from './pages/StepSuccess';
 import __Layout from './Layout.jsx';
 
 
@@ -106,13 +106,13 @@ export const PAGES = {
     "ServiceKitchenBath": ServiceKitchenBath,
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
+    "Step": Step,
+    "StepBuilder": StepBuilder,
+    "StepDashboard": StepDashboard,
+    "StepSuccess": StepSuccess,
+    "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "Step": Step,
-    "StepDashboard": StepDashboard,
-    "StepBuilder": StepBuilder,
-    "StepSummary": StepSummary,
-    "StepSuccess": StepSuccess,
 }
 
 export const pagesConfig = {

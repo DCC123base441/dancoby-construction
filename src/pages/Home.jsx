@@ -241,7 +241,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="group flex flex-col h-full"
               >
-                <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
+                <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200 cursor-pointer">
                   {project.beforeImage ? (
                     <div className="relative w-full h-96">
                       <img 
@@ -256,14 +256,14 @@ export default function Home() {
                       />
                     </div>
                   ) : (
-                    <>
+                    <div className="relative w-full h-96">
                       <img 
                         src={project.image}
                         alt={project.logo}
-                        className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
-                    </>
+                    </div>
                   )}
                 </Link>
 
@@ -279,11 +279,12 @@ export default function Home() {
                     </Link>
                   </h3>
                   <div className="mt-auto">
-                    <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
-                      <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-                        View Project
-                      </Link>
-                    </Button>
+                    <Link 
+                      to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}
+                      className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white shadow hover:bg-red-700 h-auto py-2 px-4 text-sm"
+                    >
+                      View Project
+                    </Link>
                   </div>
                 </div>
               </motion.div>
