@@ -40,10 +40,10 @@ Deno.serve(async (req) => {
         console.log("Step 1: Generating image (skipping manual mask creation)...");
         console.log("Using API Key:", apiKey?.substring(0, 5) + "...");
 
-        const generateResponse = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
+        const generateResponse = await fetch('https://api.reimage.io/api/v1/generate_image', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
+                'Authorization': apiKey,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -80,14 +80,14 @@ Deno.serve(async (req) => {
             await new Promise(r => setTimeout(r, 2000));
             
             // Try get_job_details first
-            let statusResponse = await fetch(`https://api.reimaginehome.ai/v1/get_job_details/${jobId}`, {
-                headers: { 'Authorization': `Bearer ${apiKey}` }
+            let statusResponse = await fetch(`https://api.reimage.io/api/v1/get_job_details/${jobId}`, {
+                headers: { 'Authorization': apiKey }
             });
 
             // Fallback to generate_image/{id} if 404
             if (statusResponse.status === 404) {
-                statusResponse = await fetch(`https://api.reimaginehome.ai/v1/generate_image/${jobId}`, {
-                    headers: { 'Authorization': `Bearer ${apiKey}` }
+                statusResponse = await fetch(`https://api.reimage.io/api/v1/generate_image/${jobId}`, {
+                    headers: { 'Authorization': apiKey }
                 });
             }
 

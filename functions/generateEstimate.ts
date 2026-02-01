@@ -89,10 +89,10 @@ Respond with JSON:
              maskCategory = "furnishing"; 
         }
 
-        const generateResponse = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
+        const generateResponse = await fetch('https://api.reimage.io/api/v1/generate_image', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`, // Using Bearer token
+                'Authorization': apiKey, 
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
