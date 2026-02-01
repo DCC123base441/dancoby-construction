@@ -79,20 +79,32 @@ export default function Contact() {
     const handleSuccess = async (event) => {
       console.log('JobTread form submitted successfully', event.detail);
       
-      // Fetch values directly from DOM to ensure we get exactly what was submitted
-      // This bypasses any React state sync issues with the 3rd party script
-      const getValue = (name) => document.querySelector(`[name="${name}"]`)?.value || '';
+      // Robust data extraction: Try Event Data -> DOM -> React State
+      const detail = event.detail || {};
+      const getDomValue = (name) => document.querySelector(`[name="${name}"]`)?.value;
+      const stateData = formDataRef.current || {};
+      
+      // Helper to cascade through sources to find the value
+      const resolve = (fieldName, stateField) => {
+          // 1. Check event detail (support both exact key and simple key)
+          if (detail[fieldName]) return detail[fieldName];
+          // 2. Check DOM
+          const domVal = getDomValue(fieldName);
+          if (domVal) return domVal;
+          // 3. Check React State
+          return stateData[stateField] || '';
+      };
 
       const submissionData = {
-          name: getValue('contact.name'),
-          phone: getValue('contact.custom.22NypE6NdPYC'),
-          email: getValue('contact.custom.22NypE69XMG8'),
-          address: getValue('location.address'),
-          serviceType: getValue('account.custom.22PRFdDPtXvQ'),
-          message: getValue('account.custom.22PRFWNyVQrW'),
-          source: getValue('account.custom.22PR8AKFN5Tf'),
-          budget: getValue('account.custom.22PRFYviBvXA'),
-          timeline: getValue('account.custom.22PRFZL4uPuM')
+          name: resolve('contact.name', 'name'),
+          phone: resolve('contact.custom.22NypE6NdPYC', 'phone'),
+          email: resolve('contact.custom.22NypE69XMG8', 'email'),
+          address: resolve('location.address', 'address'),
+          serviceType: resolve('account.custom.22PRFdDPtXvQ', 'service'),
+          message: resolve('account.custom.22PRFWNyVQrW', 'message'),
+          source: resolve('account.custom.22PR8AKFN5Tf', 'source'),
+          budget: resolve('account.custom.22PRFYviBvXA', 'budget'),
+          timeline: resolve('account.custom.22PRFZL4uPuM', 'timeline')
       };
 
       console.log('Syncing data to internal DB:', submissionData);
