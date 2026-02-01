@@ -21,9 +21,10 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white">
       <SEOHead 
-        title="Dancoby Construction Company | NYC Home Renovation Experts"
-        description="NYC's premier home renovation contractor. Kitchen & bath remodeling, brownstone restorations, interior renovations. 20+ years experience, 500+ projects, 5-year warranty. Brooklyn & Long Island."
+        title="Dancoby Construction | Sophisticated Home Renovations NYC"
+        description="Transform your home with NYC's premier renovation experts. Specializing in high-end kitchens, bathrooms, and brownstone restorations. 20+ years of excellence."
         keywords="home renovation Brooklyn, kitchen remodeling NYC, bathroom renovation New York, brownstone restoration, interior renovation contractor, construction company Brooklyn, NYC general contractor"
+        ogImage="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_90/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
       />
       {/* Hero Section */}
               <section className="relative h-screen overflow-hidden">
