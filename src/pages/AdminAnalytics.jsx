@@ -136,7 +136,9 @@ export default function AdminAnalytics() {
             cutoffDate.setHours(0, 0, 0, 0);
         }
 
-        visits.forEach(visit => {
+        const visitsArray = Array.isArray(visits) ? visits : (visits?.items || []);
+        const isValid = (s) => typeof s === 'string' && s.trim() && !/^(unknown|undefined|null|n\/a)$/i.test(s.trim());
+        visitsArray.forEach(visit => {
             const vDate = new Date(visit.created_date);
             if (vDate < cutoffDate) return;
 
@@ -159,19 +161,26 @@ export default function AdminAnalytics() {
             // Count for top pages
             pageViews[visit.page] = (pageViews[visit.page] || 0) + 1;
 
-            // Count for top locations
-            let loc = 'Unknown';
-            if (visit.city && visit.state) {
-                loc = `${visit.city}, ${visit.state}`;
-            } else if (visit.city && visit.country) {
-                loc = `${visit.city}, ${visit.country}`;
-            } else if (visit.state && visit.country) {
-                loc = `${visit.state}, ${visit.country}`;
-            } else if (visit.country) {
-                loc = visit.country;
+            // Count for top locations (skip unknown/invalid)
+            const city = typeof visit.city === 'string' ? visit.city.trim() : '';
+            const state = typeof visit.state === 'string' ? visit.state.trim() : '';
+            const country = typeof visit.country === 'string' ? visit.country.trim() : '';
+
+            let loc = null;
+            if (isValid(city) && isValid(state)) {
+                const st = state.length <= 3 ? state.toUpperCase() : state;
+                loc = `${city}, ${st}`;
+            } else if (isValid(city) && isValid(country)) {
+                loc = `${city}, ${country}`;
+            } else if (isValid(state) && isValid(country)) {
+                loc = `${state}, ${country}`;
+            } else if (isValid(country)) {
+                loc = country;
             }
 
-            locationCounts[loc] = (locationCounts[loc] || 0) + 1;
+            if (loc) {
+                locationCounts[loc] = (locationCounts[loc] || 0) + 1;
+            }
         });
 
         const chartData = Object.values(grouped).sort((a, b) => a.sort - b.sort);
