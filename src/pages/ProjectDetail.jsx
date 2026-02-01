@@ -122,6 +122,11 @@ export default function ProjectDetail() {
               </div>
             )}
 
+            {/* Gallery */}
+            {project.images && project.images.length > 0 && (
+              <ProjectGallery images={project.images} />
+            )}
+
             {/* Testimonials */}
             {project.testimonials && project.testimonials.length > 0 && (
               <div>
