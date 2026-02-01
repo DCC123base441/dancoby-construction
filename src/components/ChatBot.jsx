@@ -17,6 +17,7 @@ const engagingMessages = [
   "✨ Just browsing? That's cool! I'm here if you want to chat about turning your space into something amazing.",
   "🏗️ Contractor humor: Our team is so good, even our mistakes are load-bearing! (Just kidding, we don't make mistakes 😉)",
   "💭 Thinking about renovating? Studies show 87% of homeowners wish they'd started sooner!",
+  "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!",
 ];
 
 export default function ChatBot() {
@@ -46,6 +47,10 @@ export default function ChatBot() {
       return [{
         role: 'assistant',
         content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What are we tearing down today?"
+      },
+      {
+        role: 'assistant',
+        content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
       }];
     }
     return [];
