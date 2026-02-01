@@ -73,9 +73,16 @@ export default function ChatBot() {
     }
 
     const showRandomBubble = () => {
-      if (engagingMessages.length === 0) return;
-      const randomMessage = engagingMessages[Math.floor(Math.random() * engagingMessages.length)];
-      setBubbleMessage(randomMessage);
+      // Filter messages relevant to current page or 'all'
+      const relevantMessages = allChatMessages.filter(m => 
+        !m.isPageWelcome && // Don't use welcome messages as random bubbles
+        (m.targetPage === 'all' || m.targetPage === location.pathname)
+      );
+
+      if (relevantMessages.length === 0) return;
+      
+      const randomMessage = relevantMessages[Math.floor(Math.random() * relevantMessages.length)];
+      setBubbleMessage(randomMessage.content);
       setShowBubble(true);
       
       // Hide bubble after 8 seconds
