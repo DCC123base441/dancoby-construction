@@ -26,30 +26,33 @@ export default function ChatBot() {
     fetchMessages();
   }, []);
 
-  // Handle Page Welcome Messages (5s delay)
+  // Handle Page Welcome Messages - show immediately when entering a new page
   useEffect(() => {
     if (isOpen || !allChatMessages || allChatMessages.length === 0) return;
 
-    // Find a welcome message for this page (prioritize specific page match)
     // Normalize home page paths: both "/" and "/Home" should match targetPage="/"
     const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
+    
+    // Find a welcome message for this specific page first, then fall back to 'all'
     const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPath);
     const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
     const welcomeMsg = specificWelcome || genericWelcome;
 
     if (welcomeMsg) {
-      // Check if we've already shown this specific message in this session
-      const hasShown = sessionStorage.getItem(`chatbot_welcome_${welcomeMsg.id}`);
+      // Track by page path, not message ID - so each page shows its welcome once per session
+      const sessionKey = `chatbot_welcome_page_${currentPath}`;
+      const hasShownOnThisPage = sessionStorage.getItem(sessionKey);
       
-      if (!hasShown) {
+      if (!hasShownOnThisPage) {
+        // Show after a brief delay (2 seconds) when entering the page
         const timer = setTimeout(() => {
           setBubbleMessage(welcomeMsg.content);
           setShowBubble(true);
-          sessionStorage.setItem(`chatbot_welcome_${welcomeMsg.id}`, 'true');
+          sessionStorage.setItem(sessionKey, 'true');
           
           // Hide after 10 seconds
           setTimeout(() => setShowBubble(false), 10000);
-        }, 5000);
+        }, 2000);
 
         return () => clearTimeout(timer);
       }
