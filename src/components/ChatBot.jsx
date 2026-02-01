@@ -70,6 +70,10 @@ export default function ChatBot() {
       clearTimeout(welcomeTimerRef.current);
       welcomeTimerRef.current = null;
     }
+    // Reset transcript on navigation so page-specific welcome can seed correctly
+    if (!isOpen) {
+      setMessages([]);
+    }
   }, [location.pathname]);
 
   // Scroll-to-bottom on new messages
@@ -98,7 +102,7 @@ export default function ChatBot() {
     if (!welcomeMsg) return;
 
     // Use versioned key to avoid stale sessions from previous implementations
-    const sessionKey = `cb_v2_welcome_${currentPagePath}`;
+    const sessionKey = `cb_v3_welcome_${currentPagePath}`;
     const alreadyShown = sessionStorage.getItem(sessionKey);
     if (alreadyShown) return;
 
