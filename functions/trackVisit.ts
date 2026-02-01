@@ -15,10 +15,16 @@ Deno.serve(async (req) => {
         const base44 = createClientFromRequest(req);
         const { page, userAgent, referrer } = await req.json();
         
-        let ip = req.headers.get("x-forwarded-for");
+        // Debug logging
+        console.log("Request Headers:", JSON.stringify(Object.fromEntries(req.headers.entries())));
+
+        let ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip");
+        console.log("Raw IP Header:", ip);
+
         if (ip) {
             ip = ip.split(',')[0].trim();
         }
+        console.log("Resolved IP:", ip);
         
         let locationData = {};
         if (ip) {
@@ -27,6 +33,7 @@ Deno.serve(async (req) => {
                 // Note: limited to 45 requests per minute
                 const geoRes = await fetch(`http://ip-api.com/json/${ip}`);
                 const geo = await geoRes.json();
+                console.log("Geo API Response:", JSON.stringify(geo));
                 
                 if (geo.status === 'success') {
                     locationData = {
