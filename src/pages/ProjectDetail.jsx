@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import ProjectSlideshow from '../components/ProjectSlideshow';
 import TestimonialCard from '../components/TestimonialCard';
 import ProjectStats from '../components/ProjectStats';
+import ProjectGallery from '../components/ProjectGallery';
 
 export default function ProjectDetail() {
   const [searchParams] = useSearchParams();
