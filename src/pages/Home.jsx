@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
 import EstimatorButton from '../components/EstimatorButton';
 import TestimonialsSection from '../components/TestimonialsSection';
@@ -17,6 +19,15 @@ export default function Home() {
     viewport: { once: true },
     transition: { duration: 0.6 }
   };
+
+  const { data: currentProjects = [] } = useQuery({
+    queryKey: ['currentProjects'],
+    queryFn: () => base44.entities.CurrentProject.list(),
+    initialData: []
+  });
+  const visibleProjects = currentProjects
+    .filter(p => p.active !== false)
+    .sort((a,b)=> (a.order ?? 999) - (b.order ?? 999));
 
   return (
     <main className="min-h-screen bg-white">
@@ -442,36 +453,7 @@ export default function Home() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12">
-            {[
-              {
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/78deec984_Photo12.jpg",
-                status: "50% Complete",
-                title: "Entire Home",
-                location: "Hewlett Harbor, New York",
-                description: "Full-scale renovation featuring custom millwork, marble bathrooms, and smart home integration."
-              },
-              {
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/2c339618d_Photo9.jpg",
-                status: "60% Complete",
-                title: "Townhouse Renovation",
-                location: "Greenpoint, Brooklyn",
-                description: "Contemporary kitchen design with premium custom cabinetry."
-              },
-              {
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/b3aa5d359_Photo5.jpg",
-                status: "95% Complete",
-                title: "Mudroom Addition",
-                location: "Woodmere, New York",
-                description: "Mudroom addition and powder room."
-              },
-              {
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/bd8398692_Photo51.jpg",
-                status: "25% Complete",
-                title: "Entire Home",
-                location: "Hewlett, New York",
-                description: "Full home renovation featuring luxury baths."
-              }
-            ].map((project, idx) => (
+            {visibleProjects.map((project, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 30 }}
