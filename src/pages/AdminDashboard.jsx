@@ -297,7 +297,7 @@ export default function AdminDashboard() {
                         />
                         <motion.div
                             className="w-8 h-0.5 rounded-full"
-                            style={{ background: 'linear-gradient(to right, #FFA875, #2439B0)' }}
+                            style={{ background: 'linear-gradient(to right, #FFA875, #FFA875)' }}
                             initial={{ width: 0 }}
                             animate={{ width: 32 }}
                             transition={{ delay: 1.3, duration: 0.4 }}
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
                             alt="JobTread"
                             className="h-5"
                             animate={{ 
-                                filter: ["drop-shadow(0 0 0px #2439B0)", "drop-shadow(0 0 8px #2439B0)", "drop-shadow(0 0 0px #2439B0)"]
+                                filter: ["drop-shadow(0 0 0px #FFA875)", "drop-shadow(0 0 8px #FFA875)", "drop-shadow(0 0 0px #FFA875)"]
                             }}
                             transition={{ delay: 1.8, duration: 2, repeat: Infinity, repeatDelay: 2 }}
                         />
