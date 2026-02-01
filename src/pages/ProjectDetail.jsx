@@ -6,7 +6,7 @@ import { createPageUrl } from '../utils';
 import { ArrowLeft } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import ProjectSlideshow from '../components/ProjectSlideshow';
+
 import TestimonialCard from '../components/TestimonialCard';
 import ProjectStats from '../components/ProjectStats';
 import ProjectGallery from '../components/ProjectGallery';
@@ -55,26 +55,7 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      {/* Project Image/Gallery */}
-      <section className="py-12">
-        <div className="max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            {project.images && project.images.length > 0 ? (
-              <ProjectSlideshow images={project.images} />
-            ) : (
-              <img 
-                src={project.mainImage}
-                alt={project.title}
-                className="w-full h-auto object-contain rounded-lg"
-              />
-            )}
-          </motion.div>
-        </div>
-      </section>
+
 
       {/* Project Details */}
       <section className="py-20 bg-gray-50">
