@@ -17,6 +17,52 @@ export default function ProjectGalleryManager({ images = [], onChange }) {
         onChange(items);
     };
 
+    // Compress image function
+    const compressImage = async (file) => {
+        return new Promise((resolve) => {
+            const maxWidth = 1920;
+            const maxHeight = 1080;
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    canvas.toBlob((blob) => {
+                        // Create new file with same name but jpeg extension/type
+                        const newFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+                            type: 'image/jpeg',
+                            lastModified: Date.now(),
+                        });
+                        resolve(newFile);
+                    }, 'image/jpeg', 0.85); // 0.85 quality
+                };
+            };
+            reader.onerror = () => resolve(file); // Fallback to original
+        });
+    };
+
     const handleUpload = async (e) => {
         const files = Array.from(e.target.files || []);
         if (files.length === 0) return;
@@ -25,11 +71,13 @@ export default function ProjectGalleryManager({ images = [], onChange }) {
         try {
             const newUrls = [];
             // Show loading toast
-            const toastId = toast.loading("Uploading images...");
+            const toastId = toast.loading("Optimizing and uploading images...");
             
             // Upload in parallel
             await Promise.all(files.map(async (file) => {
-                const { file_url } = await base44.integrations.Core.UploadFile({ file });
+                // Compress first
+                const compressedFile = await compressImage(file);
+                const { file_url } = await base44.integrations.Core.UploadFile({ file: compressedFile });
                 newUrls.push(file_url);
             }));
             

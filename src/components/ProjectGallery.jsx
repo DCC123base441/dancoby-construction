@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 
 export default function ProjectGallery({ images }) {
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -38,12 +39,13 @@ export default function ProjectGallery({ images }) {
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.2 }}
                     >
-                        <img 
+                        <OptimizedImage 
                             src={image} 
                             alt={`Gallery image ${idx + 1}`}
-                            className="h-full w-full object-cover transition-all duration-300 group-hover:scale-110"
+                            fill
+                            className="transition-transform duration-500 group-hover:scale-110"
                         />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 z-20">
                             <Maximize2 className="w-6 h-6 text-white drop-shadow-md" />
                         </div>
                     </motion.div>
