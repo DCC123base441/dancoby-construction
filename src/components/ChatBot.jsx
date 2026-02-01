@@ -1,198 +1,176 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { base44 } from '@/api/base44Client';
-import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
-import { createPageUrl } from '../utils';
+import { X, Send, Loader } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import { createPageUrl } from '../utils';
+
+// Helper to normalize paths from Admin settings and current route
+function normalizeTargetPage(input) {
+  if (input == null) return '';
+  let p = String(input).trim();
+  if (!p) return '';
+  if (p === 'all') return 'all';
+
+  // Treat Home special-cases
+  const lower = p.toLowerCase();
+  if (lower === 'home' || lower === '/home') return '/';
+
+  // Ensure leading slash
+  if (!p.startsWith('/')) p = `/${p}`;
+
+  // Remove trailing slash except root
+  if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+
+  return p;
+}
 
 export default function ChatBot() {
   const location = useLocation();
-  const [allChatMessages, setAllChatMessages] = useState([]);
+
+  // State
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]); // Empty initially, no welcome sequence
+  const [allChatMessages, setAllChatMessages] = useState([]); // active messages from Admin
+  const [messages, setMessages] = useState([]); // chat transcript
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const [currentPagePath, setCurrentPagePath] = useState('');
 
-  // Normalize target pages from Admin settings and current route
-  const normalizeTargetPage = (p) => {
-    if (!p) return '';
-    if (p === 'all') return 'all';
-    let path = String(p).trim();
-    const lower = path.toLowerCase();
-    if (lower === '/home' || lower === 'home') return '/';
-    if (!path.startsWith('/')) path = `/${path}`;
-    return path;
-  };
+  // Welcome bubble state
+  const [showBubble, setShowBubble] = useState(false);
+  const [bubbleMessage, setBubbleMessage] = useState('');
 
+  // Refs
+  const welcomeTimerRef = useRef(null);
+  const messagesEndRef = useRef(null);
+
+  // Load active messages from Admin
   useEffect(() => {
-    const fetchMessages = async () => {
+    const load = async () => {
       try {
-        const allMessages = await base44.entities.ChatBotMessage.list();
-        const active = allMessages.filter(m => m.isActive !== false);
+        const data = await base44.entities.ChatBotMessage.list();
+        const active = data.filter((m) => m.isActive !== false);
         setAllChatMessages(active);
       } catch (e) {
-        console.error("Failed to fetch chatbot messages", e);
+        console.error('Failed to load ChatBot messages', e);
       }
     };
-    fetchMessages();
+    load();
   }, []);
 
-  // Track page changes
+  // Track current page (normalized)
   useEffect(() => {
     setCurrentPagePath(normalizeTargetPage(location.pathname));
   }, [location.pathname]);
 
-  // Handle Page Welcome Messages - show when entering a new page
+  // Scroll-to-bottom on new messages
   useEffect(() => {
-    if (isOpen || !allChatMessages || allChatMessages.length === 0 || !currentPagePath) return;
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-    // Find a welcome message for this specific page first, then fall back to 'all'
-    const specificWelcome = allChatMessages.find(m => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath);
-    const genericWelcome = allChatMessages.find(m => m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all');
+  // Show page-specific welcome automatically after 5 seconds (once per page per session)
+  useEffect(() => {
+    // Cleanup previous timer
+    if (welcomeTimerRef.current) {
+      clearTimeout(welcomeTimerRef.current);
+      welcomeTimerRef.current = null;
+    }
+
+    if (!currentPagePath || allChatMessages.length === 0) return;
+
+    const specificWelcome = allChatMessages.find(
+      (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath
+    );
+    const genericWelcome = allChatMessages.find(
+      (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all'
+    );
+
     const welcomeMsg = specificWelcome || genericWelcome;
+    if (!welcomeMsg) return;
 
-    if (welcomeMsg) {
-      // Track by page path - so each page shows its welcome once per session
-      const sessionKey = `chatbot_welcome_page_${currentPagePath}`;
-      const hasShownOnThisPage = sessionStorage.getItem(sessionKey);
-      
-      if (!hasShownOnThisPage) {
-        // Show after a brief delay (2 seconds) when entering the page
-        const timer = setTimeout(() => {
-          setBubbleMessage(welcomeMsg.content);
-          setShowBubble(true);
-          sessionStorage.setItem(sessionKey, 'true');
-          
-          // Hide after 10 seconds
-          setTimeout(() => setShowBubble(false), 10000);
-        }, 5000);
+    // Use versioned key to avoid stale sessions from previous implementations
+    const sessionKey = `cb_v2_welcome_${currentPagePath}`;
+    const alreadyShown = sessionStorage.getItem(sessionKey);
+    if (alreadyShown) return;
 
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [currentPagePath, allChatMessages, isOpen]);
-
-  // Handle Initial Chat Message (when opening chat manually or via bubble)
-  useEffect(() => {
-    if (isOpen && messages.length === 0 && currentPagePath) {
-      // Find default welcome message for this page (prioritize specific page match)
-      const specificWelcome = allChatMessages.find(m => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath);
-      const genericWelcome = allChatMessages.find(m => m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all');
-      const welcomeMsg = specificWelcome || genericWelcome;
-
-      if (welcomeMsg) {
-        setMessages([{ role: 'assistant', content: welcomeMsg.content }]);
+    welcomeTimerRef.current = setTimeout(() => {
+      if (isOpen) {
+        // If chat is open, inject message directly
+        setMessages((prev) => [
+          ...prev,
+          { role: 'assistant', content: welcomeMsg.content },
+        ]);
       } else {
-        setMessages([{ role: 'assistant', content: "Hi! I'm Sarah, your Dancoby design assistant. How can I help you transform your home today?" }]);
+        // Otherwise, show a bubble and seed content when clicked
+        setBubbleMessage(welcomeMsg.content);
+        setShowBubble(true);
       }
-    }
-  }, [isOpen, currentPagePath, allChatMessages]);
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [bubbleMessage, setBubbleMessage] = useState('');
-  const [showBubble, setShowBubble] = useState(false);
-  const messagesEndRef = useRef(null);
-  const bubbleTimerRef = useRef(null);
-  const hasShownInitialBubble = useRef(false);
-
-  // Show engaging bubble messages periodically when chat is closed
-  useEffect(() => {
-    if (isOpen) {
-      setShowBubble(false);
-      return;
-    }
-
-    const showRandomBubble = () => {
-      if (!allChatMessages || allChatMessages.length === 0) return;
-
-      // Filter messages relevant to current page or 'all'
-      const relevantMessages = allChatMessages.filter(m => 
-        !m.isPageWelcome && // Don't use welcome messages as random bubbles
-        (normalizeTargetPage(m.targetPage) === 'all' || normalizeTargetPage(m.targetPage) === currentPagePath)
-      );
-
-      if (relevantMessages.length === 0) return;
-      
-      const randomMessage = relevantMessages[Math.floor(Math.random() * relevantMessages.length)];
-      setBubbleMessage(randomMessage.content);
-      setShowBubble(true);
-      
-      // Hide bubble after 8 seconds
-      setTimeout(() => setShowBubble(false), 8000);
-    };
-
-    // Show first bubble after 15 seconds
-    if (!hasShownInitialBubble.current) {
-      const initialTimer = setTimeout(() => {
-        showRandomBubble();
-        hasShownInitialBubble.current = true;
-      }, 15000);
-      
-      return () => clearTimeout(initialTimer);
-    }
-
-    // Then show bubbles every 45-60 seconds
-    bubbleTimerRef.current = setInterval(() => {
-      if (!isOpen) {
-        showRandomBubble();
-      }
-    }, 45000 + Math.random() * 15000);
+      sessionStorage.setItem(sessionKey, 'true');
+    }, 5000);
 
     return () => {
-      if (bubbleTimerRef.current) {
-        clearInterval(bubbleTimerRef.current);
+      if (welcomeTimerRef.current) {
+        clearTimeout(welcomeTimerRef.current);
+        welcomeTimerRef.current = null;
       }
     };
-  }, [isOpen, allChatMessages, currentPagePath]);
+  }, [currentPagePath, allChatMessages, isOpen]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const handleOpenChat = () => {
+    setIsOpen(true);
+    setShowBubble(false);
+
+    if (messages.length === 0) {
+      // Seed chat with the correct welcome for the current page
+      const specificWelcome = allChatMessages.find(
+        (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath
+      );
+      const genericWelcome = allChatMessages.find(
+        (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all'
+      );
+      const welcomeMsg = specificWelcome || genericWelcome;
+
+      const initial = bubbleMessage || welcomeMsg?.content ||
+        "Hi! I'm Sarah, your Dancoby design assistant. How can I help you today?";
+
+      setMessages([{ role: 'assistant', content: initial }]);
+    }
   };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    // Add user message
-    const userMessage = inputValue;
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    const userMessage = inputValue.trim();
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setInputValue('');
-    
-    // Secret phrase check
-    if (userMessage.toLowerCase().includes("whats cooking") || userMessage.toLowerCase().includes("what's cooking")) {
+
+    // Secret phrase behavior retained
+    const lower = userMessage.toLowerCase();
+    if (lower.includes("whats cooking") || lower.includes("what's cooking")) {
       window.location.href = createPageUrl('Secret');
       return;
     }
-    
-    setIsLoading(true);
 
+    setIsLoading(true);
     try {
       const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are a friendly, witty renovation expert for Dancoby Construction Company in NYC. Your personality is warm, helpful, and occasionally funny—throw in a light joke or pun when appropriate! Answer questions about home renovations, kitchen and bath remodeling, brownstone restorations, and construction services.
-
-Guidelines:
-- Keep responses concise but engaging (2-4 sentences max)
-- Be helpful and knowledgeable
-- Add personality—a light joke, fun fact, or playful comment is welcome
-- If relevant, suggest scheduling a consultation
-- Use emojis sparingly but effectively
-- Never be annoying or over-the-top
-
-User question: ${userMessage}`,
-        add_context_from_internet: false
+        prompt: `You are a friendly, witty renovation expert for Dancoby Construction Company in NYC. Keep answers concise (2-4 sentences), helpful, and optionally add a light joke. If relevant, suggest scheduling a consultation. User question: ${userMessage}`,
+        add_context_from_internet: false,
       });
-
-      setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-    } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'Sorry, I encountered an error. Please try again or contact us directly at info@dancoby.com' 
-      }]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            'Sorry, I ran into an error. Please try again or contact us at info@dancoby.com.',
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -200,28 +178,22 @@ User question: ${userMessage}`,
 
   return (
     <>
-      {/* Engaging Bubble */}
+      {/* Welcome Bubble */}
       <AnimatePresence>
         {showBubble && !isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            initial={{ opacity: 0, y: 10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+            exit={{ opacity: 0, y: 10, scale: 0.98 }}
             className="fixed bottom-24 right-6 z-40 max-w-xs bg-white rounded-xl shadow-lg border border-gray-200 p-4 cursor-pointer"
-            onClick={() => {
-              setShowBubble(false);
-              setIsOpen(true);
-              if (messages.length === 0) {
-                setMessages([{ role: 'assistant', content: bubbleMessage }]);
-              }
-            }}
+            onClick={handleOpenChat}
           >
-            <div className="flex items-start gap-2">
-              <Sparkles className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-gray-700 leading-relaxed">{bubbleMessage}</p>
-            </div>
-            <button 
-              onClick={(e) => { e.stopPropagation(); setShowBubble(false); }}
+            <p className="text-sm text-gray-700 leading-relaxed">{bubbleMessage}</p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowBubble(false);
+              }}
               className="absolute -top-2 -right-2 w-6 h-6 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-xs"
             >
               ✕
@@ -238,12 +210,12 @@ User question: ${userMessage}`,
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            onClick={() => setIsOpen(true)}
+            onClick={handleOpenChat}
             className="fixed bottom-6 right-6 z-40 w-16 h-16 bg-white rounded-full shadow-xl flex items-center justify-center transition-all overflow-hidden border-2 border-green-500 p-0.5"
           >
-            <img 
-              src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200" 
-              alt="AI Assistant" 
+            <img
+              src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200"
+              alt="AI Assistant"
               className="w-full h-full rounded-full object-cover hover:scale-110 transition-transform duration-300"
             />
           </motion.button>
@@ -262,53 +234,43 @@ User question: ${userMessage}`,
             {/* Header */}
             <div className="bg-red-600 text-white p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="relative">
-                  <img 
-                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100" 
-                    alt="AI Assistant" 
-                    className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
-                  />
-                  {isLoading && (
-                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-red-600 rounded-full animate-pulse" />
-                  )}
-                </div>
+                <img
+                  src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
+                  alt="AI Assistant"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
+                />
                 <div>
                   <h3 className="font-semibold">Sarah</h3>
-                  <p className="text-xs text-red-100 flex items-center gap-1">
-                    {isLoading ? 'Speaking...' : 'AI Assistant'}
-                  </p>
+                  <p className="text-xs text-red-100">{isLoading ? 'Speaking…' : 'AI Assistant'}</p>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-red-700 p-1 rounded transition-colors"
-              >
+              <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-1 rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((message, idx) => (
+              {messages.map((m, idx) => (
                 <div
                   key={idx}
-                  className={`flex items-end gap-2 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  {message.role === 'assistant' && (
-                    <img 
-                      src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100" 
-                      alt="AI" 
+                  {m.role === 'assistant' && (
+                    <img
+                      src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
+                      alt="AI"
                       className="w-6 h-6 rounded-full object-cover mb-1 flex-shrink-0"
                     />
                   )}
                   <div
                     className={`max-w-xs px-4 py-2 rounded-2xl ${
-                      message.role === 'user'
+                      m.role === 'user'
                         ? 'bg-red-600 text-white rounded-br-none'
                         : 'bg-gray-100 text-gray-900 rounded-bl-none'
                     }`}
                   >
-                    <p className="text-sm leading-relaxed">{message.content}</p>
+                    <p className="text-sm leading-relaxed">{m.content}</p>
                   </div>
                 </div>
               ))}
