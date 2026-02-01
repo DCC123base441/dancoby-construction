@@ -37,16 +37,6 @@ export default function AdminChatBot() {
     const engagingMessages = messages.filter(m => m.category === 'engaging');
     const welcomeMessages = messages.filter(m => m.category === 'welcome').sort((a, b) => a.order - b.order);
 
-    // Grouping
-    const globalWelcomeMessages = welcomeMessages.filter(m => !m.page_path);
-    const groupedPageMessages = welcomeMessages.reduce((acc, m) => {
-        if (m.page_path) {
-            if (!acc[m.page_path]) acc[m.page_path] = [];
-            acc[m.page_path].push(m);
-        }
-        return acc;
-    }, {});
-
     // Mutations
     const createMutation = useMutation({
         mutationFn: (data) => base44.entities.ChatBotMessage.create(data),
@@ -125,14 +115,14 @@ export default function AdminChatBot() {
         }
     };
 
-    const handleMoveOrder = async (message, direction, contextList) => {
-        const currentIndex = contextList.findIndex(m => m.id === message.id);
+    const handleMoveOrder = async (message, direction) => {
+        const currentIndex = welcomeMessages.findIndex(m => m.id === message.id);
         if (currentIndex === -1) return;
         
         const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-        if (newIndex < 0 || newIndex >= contextList.length) return;
+        if (newIndex < 0 || newIndex >= welcomeMessages.length) return;
 
-        const otherMessage = contextList[newIndex];
+        const otherMessage = welcomeMessages[newIndex];
         
         // Swap orders
         await Promise.all([
@@ -146,8 +136,8 @@ export default function AdminChatBot() {
     const MessageList = ({ items, type }) => (
         <div className="space-y-4">
             {items.length === 0 ? (
-                <div className="text-center py-6 bg-white rounded-lg border border-dashed border-gray-300">
-                    <p className="text-gray-500 text-sm">No messages found in this group.</p>
+                <div className="text-center py-12 bg-white rounded-lg border border-dashed border-gray-300">
+                    <p className="text-gray-500">No messages found. Create one to get started.</p>
                 </div>
             ) : (
                 items.map((message, idx) => (
@@ -174,7 +164,7 @@ export default function AdminChatBot() {
                                             size="icon" 
                                             className="h-6 w-6" 
                                             disabled={idx === 0}
-                                            onClick={() => handleMoveOrder(message, 'up', items)}
+                                            onClick={() => handleMoveOrder(message, 'up')}
                                         >
                                             <MoveUp className="w-3 h-3" />
                                         </Button>
@@ -183,7 +173,7 @@ export default function AdminChatBot() {
                                             size="icon" 
                                             className="h-6 w-6"
                                             disabled={idx === items.length - 1}
-                                            onClick={() => handleMoveOrder(message, 'down', items)}
+                                            onClick={() => handleMoveOrder(message, 'down')}
                                         >
                                             <MoveDown className="w-3 h-3" />
                                         </Button>
@@ -242,20 +232,8 @@ export default function AdminChatBot() {
                                     These messages appear automatically when a user opens the chat for the first time, in the order specified.
                                 </CardDescription>
                             </CardHeader>
-                            <CardContent className="space-y-8">
-                                {/* Global Messages */}
-                                <div>
-                                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Global (All Pages)</h3>
-                                    <MessageList items={globalWelcomeMessages} type="welcome" />
-                                </div>
-
-                                {/* Page Specific Groups */}
-                                {Object.entries(groupedPageMessages).map(([path, msgs]) => (
-                                    <div key={path}>
-                                        <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Page: {path}</h3>
-                                        <MessageList items={msgs} type="welcome" />
-                                    </div>
-                                ))}
+                            <CardContent>
+                                <MessageList items={welcomeMessages} type="welcome" />
                             </CardContent>
                         </Card>
                     </TabsContent>
