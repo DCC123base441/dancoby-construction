@@ -24,7 +24,7 @@ export default function ChatBot() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: 'Hey there! 👋 I\'m your renovation buddy. Whether you\'re dreaming about a chef\'s kitchen or a spa-like bathroom, I\'m here to help. Ask me anything—or just say hi!'
+      content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What area we tearing down today?"
     }
   ]);
   const [inputValue, setInputValue] = useState('');
