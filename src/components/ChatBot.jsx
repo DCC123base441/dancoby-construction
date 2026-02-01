@@ -42,18 +42,15 @@ export default function ChatBot() {
   }, [isOpen]);
 
   const [messages, setMessages] = useState(() => {
-    const hasShown = sessionStorage.getItem('chatbot_welcome_shown');
-    if (!hasShown) {
-      return [{
-        role: 'assistant',
-        content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What are we tearing down today?"
-      },
-      {
-        role: 'assistant',
-        content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
-      }];
-    }
-    return [];
+    // Always show welcome messages
+    return [{
+      role: 'assistant',
+      content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What are we tearing down today?"
+    },
+    {
+      role: 'assistant',
+      content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
+    }];
   });
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
