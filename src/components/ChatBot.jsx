@@ -7,56 +7,52 @@ import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
 import { createPageUrl } from '../utils';
 
 export default function ChatBot() {
-  const [engagingMessages, setEngagingMessages] = useState([
-    "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
-  ]);
+  const location = useLocation();
+  const [allChatMessages, setAllChatMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    // Only auto-open if we haven't shown the welcome message yet
-    const hasShown = sessionStorage.getItem('chatbot_welcome_shown');
-    if (!hasShown) {
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  // Mark as shown whenever the chat opens
-  useEffect(() => {
-    if (isOpen) {
-      sessionStorage.setItem('chatbot_welcome_shown', 'true');
-    }
-  }, [isOpen]);
-
-  const [messages, setMessages] = useState([{
-    role: 'assistant',
-    content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
-  }]);
+  const [messages, setMessages] = useState([]); // Empty initially, no welcome sequence
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const allMessages = await base44.entities.ChatBotMessage.list();
         const active = allMessages.filter(m => m.isActive !== false);
-        
-        // Update engaging messages
-        const engaging = active.filter(m => m.category === 'engaging').map(m => m.content);
-        if (engaging.length > 0) setEngagingMessages(engaging);
-        
-        // Update welcome messages if we haven't started chatting yet (length <= 2 implies initial state)
-        // Or just overwrite initial state
-        const welcome = active.filter(m => m.category === 'welcome').sort((a,b) => a.order - b.order);
-        if (welcome.length > 0 && messages.length <= 2) {
-             setMessages(welcome.map(m => ({ role: 'assistant', content: m.content })));
-        }
+        setAllChatMessages(active);
       } catch (e) {
         console.error("Failed to fetch chatbot messages", e);
       }
     };
     fetchMessages();
   }, []);
+
+  // Handle Page Welcome Messages (5s delay)
+  useEffect(() => {
+    if (isOpen || allChatMessages.length === 0) return;
+
+    // Find a welcome message for this page
+    const welcomeMsg = allChatMessages.find(m => 
+      m.isPageWelcome && 
+      (m.targetPage === 'all' || m.targetPage === location.pathname)
+    );
+
+    if (welcomeMsg) {
+      // Check if we've already shown this specific message in this session
+      const hasShown = sessionStorage.getItem(`chatbot_welcome_${welcomeMsg.id}`);
+      
+      if (!hasShown) {
+        const timer = setTimeout(() => {
+          setBubbleMessage(welcomeMsg.content);
+          setShowBubble(true);
+          sessionStorage.setItem(`chatbot_welcome_${welcomeMsg.id}`, 'true');
+          
+          // Hide after 10 seconds
+          setTimeout(() => setShowBubble(false), 10000);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location.pathname, allChatMessages, isOpen]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');
@@ -73,6 +69,8 @@ export default function ChatBot() {
     }
 
     const showRandomBubble = () => {
+      if (!allChatMessages || allChatMessages.length === 0) return;
+
       // Filter messages relevant to current page or 'all'
       const relevantMessages = allChatMessages.filter(m => 
         !m.isPageWelcome && // Don't use welcome messages as random bubbles
