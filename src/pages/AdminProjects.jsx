@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Search, Pencil, Trash2, Image as ImageIcon, X } from 'lucide-react';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import {
   Dialog,
   DialogContent,
@@ -108,6 +109,14 @@ export default function AdminProjects() {
         p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.category?.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const onDragEnd = (result) => {
+        if (!result.destination) return;
+        const items = Array.from(galleryImages);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+        setGalleryImages(items);
+    };
 
     return (
         <AdminLayout 
@@ -239,26 +248,46 @@ export default function AdminProjects() {
                         </div>
                         
                         <div className="space-y-2">
-                            <Label>Gallery Images</Label>
-                            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-2 p-2 bg-slate-50 rounded-lg border border-slate-100">
-                                {galleryImages.map((img, idx) => (
-                                    <div key={idx} className="relative group aspect-square bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
-                                        <img src={img} alt="" className="w-full h-full object-cover" />
-                                        <button
-                                            type="button"
-                                            onClick={() => setGalleryImages(prev => prev.filter((_, i) => i !== idx))}
-                                            className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-red-700 shadow-sm"
+                            <Label>Gallery Images (Drag to rearrange)</Label>
+                            <DragDropContext onDragEnd={onDragEnd}>
+                                <Droppable droppableId="gallery" direction="horizontal">
+                                    {(provided) => (
+                                        <div 
+                                            {...provided.droppableProps}
+                                            ref={provided.innerRef}
+                                            className="flex flex-wrap gap-2 mb-2 p-2 bg-slate-50 rounded-lg border border-slate-100 min-h-[100px]"
                                         >
-                                            <X className="w-3 h-3" />
-                                        </button>
-                                    </div>
-                                ))}
-                                {galleryImages.length === 0 && (
-                                    <div className="col-span-full text-center py-4 text-sm text-slate-400">
-                                        No gallery images yet
-                                    </div>
-                                )}
-                            </div>
+                                            {galleryImages.map((img, idx) => (
+                                                <Draggable key={`${img}-${idx}`} draggableId={`${img}-${idx}`} index={idx}>
+                                                    {(provided) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            className="relative group w-20 h-20 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm cursor-move"
+                                                        >
+                                                            <img src={img} alt="" className="w-full h-full object-cover pointer-events-none" />
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setGalleryImages(prev => prev.filter((_, i) => i !== idx))}
+                                                                className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-red-700 shadow-sm z-10"
+                                                            >
+                                                                <X className="w-3 h-3" />
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                            {galleryImages.length === 0 && (
+                                                <div className="w-full text-center py-8 text-sm text-slate-400">
+                                                    No gallery images yet
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Droppable>
+                            </DragDropContext>
                             <div className="flex gap-2">
                                 <Input 
                                     placeholder="Add image URL..." 
