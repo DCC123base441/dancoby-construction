@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -8,57 +8,6 @@ import EstimatorButton from '../components/EstimatorButton';
 import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
-
-function WarrantyCounter() {
-  const [showThree, setShowThree] = useState(false);
-  const ref = React.useRef(null);
-  const isInView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (isInView) {
-      const timer = setTimeout(() => {
-        setShowThree(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [isInView]);
-
-  return (
-    <h3 ref={ref} className="text-4xl md:text-5xl font-bold text-white flex justify-center items-center gap-1">
-      <div className="relative h-[1.2em] w-[0.8ch] overflow-hidden flex justify-center">
-        <AnimatePresence mode="wait">
-          {!showThree ? (
-            <motion.span
-              key="1"
-              initial={{ y: 0 }}
-              exit={{ y: -60, opacity: 0, filter: "blur(5px)" }}
-              transition={{ duration: 0.5, ease: "backIn" }}
-              className="absolute inset-0 flex justify-center"
-            >
-              1
-            </motion.span>
-          ) : (
-            <motion.span
-              key="3"
-              initial={{ y: 60, opacity: 0, scale: 0.5 }}
-              animate={{ y: 0, opacity: 1, scale: 1.2 }}
-              transition={{ 
-                type: "spring", 
-                stiffness: 300, 
-                damping: 15,
-                mass: 1.2 
-              }}
-              className="absolute inset-0 text-yellow-300 flex justify-center drop-shadow-md"
-            >
-              3
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </div>
-      <span>-Year Warranty on All Projects</span>
-    </h3>
-  );
-}
 
 export default function Home() {
 
@@ -266,7 +215,9 @@ export default function Home() {
       <section className="py-16 bg-red-600">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center">
-            <WarrantyCounter />
+            <h3 className="text-4xl md:text-5xl font-bold text-white">
+              5-Year Warranty on All Projects
+            </h3>
           </motion.div>
         </div>
       </section>
