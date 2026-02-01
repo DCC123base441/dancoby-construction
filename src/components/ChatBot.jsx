@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +7,6 @@ import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
 import { createPageUrl } from '../utils';
 
 export default function ChatBot() {
-  const location = useLocation();
   const [engagingMessages, setEngagingMessages] = useState([
     "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
   ]);
@@ -32,35 +30,13 @@ export default function ChatBot() {
     }
   }, [isOpen]);
 
-  const [messages, setMessages] = useState([]);
-  
-  // Load initial messages from session storage if available to persist chat across pages
-  useEffect(() => {
-    const saved = sessionStorage.getItem('chatbot_history');
-    if (saved) {
-      try {
-        setMessages(JSON.parse(saved));
-      } catch (e) {
-        // invalid json
-      }
-    } else {
-      // Default initial message if nothing saved
-      setMessages([{
-        role: 'assistant',
-        content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
-      }]);
-    }
-  }, []);
-
-  // Save messages to session storage whenever they change
-  useEffect(() => {
-    if (messages.length > 0) {
-      sessionStorage.setItem('chatbot_history', JSON.stringify(messages));
-    }
-  }, [messages]);
+  const [messages, setMessages] = useState([{
+    role: 'assistant',
+    content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
+  }]);
 
   useEffect(() => {
-    const checkTriggers = async () => {
+    const fetchMessages = async () => {
       try {
         const allMessages = await base44.entities.ChatBotMessage.list();
         const active = allMessages.filter(m => m.isActive !== false);
@@ -69,51 +45,18 @@ export default function ChatBot() {
         const engaging = active.filter(m => m.category === 'engaging').map(m => m.content);
         if (engaging.length > 0) setEngagingMessages(engaging);
         
-        // Check for triggers (welcome messages)
-        const currentPath = location.pathname;
-        const triggers = active.filter(m => m.category === 'welcome');
-        
-        triggers.forEach(msg => {
-            // Normalize paths for comparison (remove trailing slashes, ensure case insensitive if needed)
-            const msgPath = msg.page_path ? msg.page_path.replace(/\/$/, '') : '';
-            const currPath = currentPath.replace(/\/$/, '') || '/';
-            
-            // Check match:
-            // 1. Specific Page: path matches exactly
-            // 2. Global: no path set AND no global shown yet
-            const isSpecificMatch = msgPath && (msgPath === currPath || msgPath === currentPath);
-            const isGlobalMatch = !msgPath && !sessionStorage.getItem('global_welcome_shown');
-            
-            if (isSpecificMatch || isGlobalMatch) {
-                // Check if this specific message ID was already shown in this session
-                const seenKey = `chat_trigger_${msg.id}`;
-                if (!sessionStorage.getItem(seenKey)) {
-                    // Mark as seen
-                    sessionStorage.setItem(seenKey, 'true');
-                    if (isGlobalMatch) sessionStorage.setItem('global_welcome_shown', 'true');
-                    
-                    // Add to chat
-                    setMessages(prev => {
-                        if (prev.some(p => p.content === msg.content)) return prev;
-                        return [...prev, { role: 'assistant', content: msg.content }];
-                    });
-                    
-                    // Auto-open logic
-                    // If it's a specific page trigger, we force open
-                    // If it's a global trigger, we rely on the generic auto-open logic or just let it be there
-                    if (isSpecificMatch) {
-                        setIsOpen(true);
-                    }
-                }
-            }
-        });
-
+        // Update welcome messages if we haven't started chatting yet (length <= 2 implies initial state)
+        // Or just overwrite initial state
+        const welcome = active.filter(m => m.category === 'welcome').sort((a,b) => a.order - b.order);
+        if (welcome.length > 0 && messages.length <= 2) {
+             setMessages(welcome.map(m => ({ role: 'assistant', content: m.content })));
+        }
       } catch (e) {
         console.error("Failed to fetch chatbot messages", e);
       }
     };
-    checkTriggers();
-  }, [location.pathname]);
+    fetchMessages();
+  }, []);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');
