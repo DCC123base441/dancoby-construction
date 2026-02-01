@@ -65,6 +65,7 @@ Deno.serve(async (req) => {
             page,
             userAgent,
             referrer,
+            ip,
             ...locationData
         });
 
