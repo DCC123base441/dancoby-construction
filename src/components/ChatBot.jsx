@@ -28,7 +28,7 @@ export default function ChatBot() {
 
   // Handle Page Welcome Messages (5s delay)
   useEffect(() => {
-    if (isOpen || allChatMessages.length === 0) return;
+    if (isOpen || !allChatMessages || allChatMessages.length === 0) return;
 
     // Find a welcome message for this page
     const welcomeMsg = allChatMessages.find(m => 
@@ -110,7 +110,7 @@ export default function ChatBot() {
         clearInterval(bubbleTimerRef.current);
       }
     };
-  }, [isOpen]);
+  }, [isOpen, allChatMessages, location.pathname]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
