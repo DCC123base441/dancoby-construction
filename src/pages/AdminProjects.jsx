@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Search, Pencil, Trash2, Image as ImageIcon } from 'lucide-react';
 import ProjectGalleryManager from '../components/admin/ProjectGalleryManager';
 import TestimonialsManager from '../components/admin/TestimonialsManager';
+import AIProjectWriter from '../components/admin/AIProjectWriter';
 import {
   Dialog,
   DialogContent,
@@ -38,6 +39,14 @@ export default function AdminProjects() {
     const [isResetting, setIsResetting] = useState(false);
     const [currentImages, setCurrentImages] = useState([]);
     const [currentTestimonials, setCurrentTestimonials] = useState([]);
+    
+    // Form State
+    const [title, setTitle] = useState("");
+    const [category, setCategory] = useState("Residential");
+    const [location, setLocation] = useState("");
+    const [timeline, setTimeline] = useState("");
+    const [budget, setBudget] = useState("");
+    const [description, setDescription] = useState("");
     const queryClient = useQueryClient();
 
     const handleReset = async () => {
@@ -87,18 +96,17 @@ export default function AdminProjects() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
+        // Use state values instead of formData where available
         const data = {
-            title: formData.get('title'),
-            category: formData.get('category'),
-            description: formData.get('description'),
-            location: formData.get('location'),
-            timeline: formData.get('timeline'),
+            title,
+            category,
+            description,
+            location,
+            timeline,
+            budget,
             mainImage: currentImages[0] || "",
             images: currentImages.slice(1),
-            budget: formData.get('budget'),
             testimonials: currentTestimonials,
-            // Basic handling for now
             featured: false
         };
 
@@ -144,6 +152,13 @@ export default function AdminProjects() {
 
                     <Button onClick={() => { 
     setEditingProject(null); 
+    // Reset form
+    setTitle("");
+    setCategory("Residential");
+    setLocation("");
+    setTimeline("");
+    setBudget("");
+    setDescription("");
     setCurrentImages([]); 
     setCurrentTestimonials([]);
     setIsDialogOpen(true); 
@@ -192,6 +207,14 @@ export default function AdminProjects() {
                                     size="icon"
                                     onClick={() => { 
                                         setEditingProject(project); 
+                                        // Populate form
+                                        setTitle(project.title || "");
+                                        setCategory(project.category || "Residential");
+                                        setLocation(project.location || "");
+                                        setTimeline(project.timeline || "");
+                                        setBudget(project.budget || "");
+                                        setDescription(project.description || "");
+
                                         const otherImages = (project.images || []).filter(img => img !== project.mainImage);
                                         setCurrentImages([project.mainImage, ...otherImages].filter(Boolean));
                                         setCurrentTestimonials(project.testimonials || []);
@@ -223,12 +246,12 @@ export default function AdminProjects() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
                             <Label>Project Title</Label>
-                            <Input name="title" defaultValue={editingProject?.title} required />
+                            <Input value={title} onChange={(e) => setTitle(e.target.value)} required />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label>Category</Label>
-                                <Select name="category" defaultValue={editingProject?.category || "Residential"}>
+                                <Select value={category} onValueChange={setCategory}>
                                     <SelectTrigger>
                                         <SelectValue />
                                     </SelectTrigger>
@@ -242,16 +265,16 @@ export default function AdminProjects() {
                             </div>
                             <div className="space-y-2">
                                 <Label>Location</Label>
-                                <Input name="location" defaultValue={editingProject?.location} />
+                                <Input value={location} onChange={(e) => setLocation(e.target.value)} />
                             </div>
                         </div>
                         <div className="space-y-2">
                             <Label>Timeline</Label>
-                            <Input name="timeline" defaultValue={editingProject?.timeline} placeholder="e.g., 4 months" />
+                            <Input value={timeline} onChange={(e) => setTimeline(e.target.value)} placeholder="e.g., 4 months" />
                         </div>
                         <div className="space-y-2">
                             <Label>Budget</Label>
-                            <Input name="budget" defaultValue={editingProject?.budget} placeholder="e.g. $50k - $75k" />
+                            <Input value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="e.g. $50k - $75k" />
                         </div>
                         <div className="space-y-2">
                             <ProjectGalleryManager 
@@ -266,8 +289,20 @@ export default function AdminProjects() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label>Description</Label>
-                            <Textarea name="description" defaultValue={editingProject?.description} className="h-32" required />
+                            <div className="flex justify-between items-center">
+                                <Label>Description</Label>
+                                <AIProjectWriter 
+                                    onGenerate={setDescription}
+                                    context={{
+                                        title,
+                                        category,
+                                        location,
+                                        timeline,
+                                        budget
+                                    }}
+                                />
+                            </div>
+                            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} className="h-32" required />
                         </div>
                         <div className="flex justify-end gap-2 pt-4">
                             <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
