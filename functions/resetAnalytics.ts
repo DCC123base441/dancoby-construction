@@ -15,27 +15,39 @@ Deno.serve(async (req) => {
         let deletedVisits = 0;
         let deletedEstimates = 0;
 
-        // Function to batch delete using Service Role to bypass RLS/permission issues
+        // Helper for delay
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // Function to batch delete using Service Role with rate limiting
         const deleteBatch = async (entityName) => {
             let count = 0;
-            // Use service role for admin operations
             const serviceRoleEntities = base44.asServiceRole.entities[entityName];
             
+            // Loop until no more items
             while (true) {
-                // Fetch a batch
-                const items = await serviceRoleEntities.list('-created_date', 50);
-                
-                // Handle potential different return formats (array vs object)
+                // Fetch a smaller batch
+                const items = await serviceRoleEntities.list('-created_date', 20);
                 const records = Array.isArray(items) ? items : (items?.items || []);
                 
                 if (!records || records.length === 0) break;
 
-                // Delete concurrently
-                await Promise.all(records.map(item => serviceRoleEntities.delete(item.id)));
+                // Process in smaller chunks to avoid rate limits
+                // Delete 3 at a time
+                const chunkSize = 3;
+                for (let i = 0; i < records.length; i += chunkSize) {
+                    const chunk = records.slice(i, i + chunkSize);
+                    await Promise.all(chunk.map(item => serviceRoleEntities.delete(item.id)));
+                    // Small delay between chunks
+                    await delay(200);
+                }
+
                 count += records.length;
                 
                 // Safety break
                 if (count > 2000) break; 
+                
+                // Delay between main batches
+                await delay(500);
             }
             return count;
         };
