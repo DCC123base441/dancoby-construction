@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Search, Pencil, Trash2, Image as ImageIcon } from 'lucide-react';
 import ProjectGalleryManager from '../components/admin/ProjectGalleryManager';
+import TestimonialsManager from '../components/admin/TestimonialsManager';
 import {
   Dialog,
   DialogContent,
@@ -36,6 +37,7 @@ export default function AdminProjects() {
     const [searchQuery, setSearchQuery] = useState("");
     const [isResetting, setIsResetting] = useState(false);
     const [currentImages, setCurrentImages] = useState([]);
+    const [currentTestimonials, setCurrentTestimonials] = useState([]);
     const queryClient = useQueryClient();
 
     const handleReset = async () => {
@@ -94,6 +96,8 @@ export default function AdminProjects() {
             timeline: formData.get('timeline'),
             mainImage: currentImages[0] || "",
             images: currentImages.slice(1),
+            budget: formData.get('budget'),
+            testimonials: currentTestimonials,
             // Basic handling for now
             featured: false
         };
@@ -141,6 +145,7 @@ export default function AdminProjects() {
                     <Button onClick={() => { 
     setEditingProject(null); 
     setCurrentImages([]); 
+    setCurrentTestimonials([]);
     setIsDialogOpen(true); 
 }} className="bg-slate-900">
                         <Plus className="w-4 h-4 mr-2" /> Add Project
@@ -189,6 +194,7 @@ export default function AdminProjects() {
                                         setEditingProject(project); 
                                         const otherImages = (project.images || []).filter(img => img !== project.mainImage);
                                         setCurrentImages([project.mainImage, ...otherImages].filter(Boolean));
+                                        setCurrentTestimonials(project.testimonials || []);
                                         setIsDialogOpen(true); 
                                     }}
                                 >
@@ -244,9 +250,19 @@ export default function AdminProjects() {
                             <Input name="timeline" defaultValue={editingProject?.timeline} placeholder="e.g., 4 months" />
                         </div>
                         <div className="space-y-2">
+                            <Label>Budget</Label>
+                            <Input name="budget" defaultValue={editingProject?.budget} placeholder="e.g. $50k - $75k" />
+                        </div>
+                        <div className="space-y-2">
                             <ProjectGalleryManager 
                                 images={currentImages} 
                                 onChange={setCurrentImages} 
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <TestimonialsManager 
+                                testimonials={currentTestimonials}
+                                onChange={setCurrentTestimonials}
                             />
                         </div>
                         <div className="space-y-2">
