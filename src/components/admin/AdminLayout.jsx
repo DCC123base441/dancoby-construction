@@ -13,7 +13,8 @@ import {
     LogOut,
     Menu,
     X,
-    ExternalLink
+    ExternalLink,
+    MessageSquare
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -49,6 +50,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
         { name: 'Leads', href: 'AdminLeads', icon: Users },
         { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
+        { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
     ];
 
     const handleLogout = async () => {
