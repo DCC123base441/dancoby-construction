@@ -15,16 +15,16 @@ Deno.serve(async (req) => {
         const base44 = createClientFromRequest(req);
         const { page, userAgent, referrer } = await req.json();
         
-        // Debug logging
-        console.log("Request Headers:", JSON.stringify(Object.fromEntries(req.headers.entries())));
+        // Debug logging (using error for visibility)
+        console.error("Request Headers:", JSON.stringify(Object.fromEntries(req.headers.entries())));
 
-        let ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip");
-        console.log("Raw IP Header:", ip);
+        let ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || req.headers.get("cf-connecting-ip");
+        console.error("Raw IP Header:", ip);
 
         if (ip) {
             ip = ip.split(',')[0].trim();
         }
-        console.log("Resolved IP:", ip);
+        console.error("Resolved IP:", ip);
         
         let locationData = {};
         if (ip) {
