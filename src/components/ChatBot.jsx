@@ -14,6 +14,17 @@ export default function ChatBot() {
   const [messages, setMessages] = useState([]); // Empty initially, no welcome sequence
   const [currentPagePath, setCurrentPagePath] = useState('');
 
+  // Normalize target pages from Admin settings and current route
+  const normalizeTargetPage = (p) => {
+    if (!p) return '';
+    if (p === 'all') return 'all';
+    let path = String(p).trim();
+    const lower = path.toLowerCase();
+    if (lower === '/home' || lower === 'home') return '/';
+    if (!path.startsWith('/')) path = `/${path}`;
+    return path;
+  };
+
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -29,8 +40,7 @@ export default function ChatBot() {
 
   // Track page changes
   useEffect(() => {
-    const normalizedPath = location.pathname === '/Home' ? '/' : location.pathname;
-    setCurrentPagePath(normalizedPath);
+    setCurrentPagePath(normalizeTargetPage(location.pathname));
   }, [location.pathname]);
 
   // Handle Page Welcome Messages - show when entering a new page
@@ -38,8 +48,8 @@ export default function ChatBot() {
     if (isOpen || !allChatMessages || allChatMessages.length === 0 || !currentPagePath) return;
 
     // Find a welcome message for this specific page first, then fall back to 'all'
-    const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPagePath);
-    const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
+    const specificWelcome = allChatMessages.find(m => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath);
+    const genericWelcome = allChatMessages.find(m => m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all');
     const welcomeMsg = specificWelcome || genericWelcome;
 
     if (welcomeMsg) {
@@ -56,7 +66,7 @@ export default function ChatBot() {
           
           // Hide after 10 seconds
           setTimeout(() => setShowBubble(false), 10000);
-        }, 2000);
+        }, 5000);
 
         return () => clearTimeout(timer);
       }
@@ -67,8 +77,8 @@ export default function ChatBot() {
   useEffect(() => {
     if (isOpen && messages.length === 0 && currentPagePath) {
       // Find default welcome message for this page (prioritize specific page match)
-      const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPagePath);
-      const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
+      const specificWelcome = allChatMessages.find(m => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath);
+      const genericWelcome = allChatMessages.find(m => m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all');
       const welcomeMsg = specificWelcome || genericWelcome;
 
       if (welcomeMsg) {
@@ -99,7 +109,7 @@ export default function ChatBot() {
       // Filter messages relevant to current page or 'all'
       const relevantMessages = allChatMessages.filter(m => 
         !m.isPageWelcome && // Don't use welcome messages as random bubbles
-        (m.targetPage === 'all' || m.targetPage === currentPagePath)
+        (normalizeTargetPage(m.targetPage) === 'all' || normalizeTargetPage(m.targetPage) === currentPagePath)
       );
 
       if (relevantMessages.length === 0) return;
