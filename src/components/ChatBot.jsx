@@ -70,6 +70,8 @@ export default function ChatBot() {
 
       if (welcomeMsg) {
         setMessages([{ role: 'assistant', content: welcomeMsg.content }]);
+      } else {
+        setMessages([{ role: 'assistant', content: "Hi! I'm Sarah, your Dancoby design assistant. How can I help you transform your home today?" }]);
       }
     }
   }, [isOpen, location.pathname, allChatMessages]);
