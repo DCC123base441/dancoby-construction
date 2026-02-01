@@ -134,7 +134,7 @@ export default function ChatBot() {
         clearInterval(bubbleTimerRef.current);
       }
     };
-  }, [isOpen, allChatMessages, location.pathname]);
+  }, [isOpen, allChatMessages, currentPagePath]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
