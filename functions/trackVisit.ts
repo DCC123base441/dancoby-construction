@@ -15,16 +15,24 @@ Deno.serve(async (req) => {
         const base44 = createClientFromRequest(req);
         const { page, userAgent, referrer } = await req.json();
         
-        // Debug logging (using error for visibility)
-        console.error("Request Headers:", JSON.stringify(Object.fromEntries(req.headers.entries())));
+        // Debug logging
+        // console.error("Request Headers:", JSON.stringify(Object.fromEntries(req.headers.entries())));
 
-        let ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || req.headers.get("cf-connecting-ip");
-        console.error("Raw IP Header:", ip);
-
-        if (ip) {
-            ip = ip.split(',')[0].trim();
+        // Prioritize cf-connecting-ip as it's the most reliable on Deno/Cloudflare
+        let ip = req.headers.get("cf-connecting-ip");
+        
+        if (!ip) {
+             const forwarded = req.headers.get("x-forwarded-for");
+             if (forwarded) {
+                 ip = forwarded.split(',')[0].trim();
+             }
         }
-        console.error("Resolved IP:", ip);
+        
+        if (!ip) {
+            ip = req.headers.get("x-real-ip");
+        }
+
+        console.log("Resolved IP:", ip);
         
         let locationData = {};
         if (ip) {
@@ -33,8 +41,9 @@ Deno.serve(async (req) => {
                 // Note: limited to 45 requests per minute
                 const geoRes = await fetch(`http://ip-api.com/json/${ip}`);
                 const geo = await geoRes.json();
-                console.error("Geo API Response:", JSON.stringify(geo));
                 
+                // console.log("Geo API Response:", JSON.stringify(geo));
+
                 if (geo.status === 'success') {
                     locationData = {
                         city: geo.city,
