@@ -47,9 +47,6 @@ export default function AdminLogin() {
                         <Lock className="w-6 h-6 text-white" />
                     </div>
                     <CardTitle className="text-2xl font-bold tracking-tight">Admin Sign In</CardTitle>
-                    <p className="text-sm text-slate-500">
-                        Enter your credentials to access the dashboard
-                    </p>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleLogin} className="space-y-4">
