@@ -197,11 +197,11 @@ export default function Home() {
                   </motion.div>
 
                   {/* Image */}
-                  <motion.div {...fadeIn} className="relative mt-8 lg:mt-0 h-full">
+                  <motion.div {...fadeIn} className="relative mt-8 lg:mt-0">
                     <img 
                       src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/19bd7549b_Dancoby_PenthouseFinished_Shot13.jpg"
                       alt="Modern Kitchen"
-                      className="w-full h-full object-cover shadow-2xl rounded-sm"
+                      className="w-full shadow-2xl rounded-sm"
                     />
                   </motion.div>
                 </div>
