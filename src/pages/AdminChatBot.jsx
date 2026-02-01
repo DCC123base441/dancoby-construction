@@ -165,7 +165,7 @@ export default function AdminChatBot() {
                                                     </Badge>
                                                     {message.targetPage && message.targetPage !== 'all' && (
                                                         <Badge variant="secondary" className="font-mono text-xs">
-                                                            {message.targetPage}
+                                                            {message.targetPage === '/' ? 'Home (/)' : message.targetPage}
                                                         </Badge>
                                                     )}
                                                     {message.targetPage === 'all' && (

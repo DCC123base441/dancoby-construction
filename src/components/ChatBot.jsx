@@ -30,11 +30,10 @@ export default function ChatBot() {
   useEffect(() => {
     if (isOpen || !allChatMessages || allChatMessages.length === 0) return;
 
-    // Find a welcome message for this page
-    const welcomeMsg = allChatMessages.find(m => 
-      m.isPageWelcome && 
-      (m.targetPage === 'all' || m.targetPage === location.pathname)
-    );
+    // Find a welcome message for this page (prioritize specific page match)
+    const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === location.pathname);
+    const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
+    const welcomeMsg = specificWelcome || genericWelcome;
 
     if (welcomeMsg) {
       // Check if we've already shown this specific message in this session
@@ -62,11 +61,10 @@ export default function ChatBot() {
       // But we handle that in the click handler.
       // This is for when opening via the floating button directly.
       
-      // Find default welcome message for this page
-      const welcomeMsg = allChatMessages.find(m => 
-        m.isPageWelcome && 
-        (m.targetPage === 'all' || m.targetPage === location.pathname)
-      );
+      // Find default welcome message for this page (prioritize specific page match)
+      const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === location.pathname);
+      const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
+      const welcomeMsg = specificWelcome || genericWelcome;
 
       if (welcomeMsg) {
         setMessages([{ role: 'assistant', content: welcomeMsg.content }]);
