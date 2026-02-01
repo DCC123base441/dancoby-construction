@@ -460,12 +460,12 @@ export default function Home() {
                   <div className="absolute top-4 right-4 bg-white/95 p-4 min-w-[160px] shadow-sm backdrop-blur-sm">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-[10px] font-bold tracking-widest uppercase text-gray-500">Progress</span>
-                      <span className="text-xs font-bold text-red-600">{parseInt(project.status)}%</span>
+                      <span className="text-xs font-bold text-red-600">{(project.status || '').match(/\d+/)?.[0] || (project.progress ?? 0)}%</span>
                     </div>
                     <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                       <motion.div 
                         initial={{ width: 0 }}
-                        whileInView={{ width: `${parseInt(project.status)}%` }}
+                        whileInView={{ width: `${(project.status || '').match(/\d+/)?.[0] || (project.progress ?? 0)}%` }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
                         className="h-full bg-red-600"
