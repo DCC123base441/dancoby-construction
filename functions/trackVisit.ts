@@ -31,9 +31,11 @@ Deno.serve(async (req) => {
                 if (geo.status === 'success') {
                     locationData = {
                         city: geo.city,
-                        state: geo.regionName,
+                        state: geo.region, // Use region code (e.g. NY) instead of full name
                         country: geo.country
                     };
+                } else {
+                    console.warn("Geo lookup returned status:", geo.status, geo.message);
                 }
             } catch (e) {
                 console.error("Geo lookup failed", e);
