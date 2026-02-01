@@ -36,10 +36,21 @@ export default function AdminCurrentProjects() {
   const handleSubmit = async (form) => {
     setSubmitting(true);
     try {
+      const derivedProgress = typeof form.progress === 'number' ? form.progress : Number((String(form.status || '').match(/\d+/)?.[0]) || 0);
+      const payload = {
+        title: form.title?.trim() || '',
+        location: form.location?.trim() || '',
+        status: (form.status && String(form.status).trim()) || `${derivedProgress}% Complete`,
+        progress: derivedProgress,
+        description: form.description || '',
+        image: form.image || '',
+        order: typeof form.order === 'number' ? form.order : Number(form.order || 0),
+      };
+
       if (editing) {
-        await updateMut.mutateAsync({ id: editing.id, data: form });
+        await updateMut.mutateAsync({ id: editing.id, data: payload });
       } else {
-        await createMut.mutateAsync(form);
+        await createMut.mutateAsync(payload);
       }
       setOpen(false);
       setEditing(null);
