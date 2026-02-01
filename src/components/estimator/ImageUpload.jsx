@@ -12,82 +12,17 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
 
-  const resizeImage = (file) => {
-    return new Promise((resolve) => {
-      const MAX_SIZE = 1536; // Lowered to be safe (limit is 2048)
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (event) => {
-        const img = new Image();
-        img.src = event.target.result;
-        img.onload = () => {
-          let width = img.width;
-          let height = img.height;
-          console.log(`Original image size: ${width}x${height}`);
-          
-          if (width <= MAX_SIZE && height <= MAX_SIZE) {
-            console.log("Image is small enough, skipping resize");
-            resolve(file);
-            return;
-          }
+  const handleFileSelect = async (file) => {
+    if (!file) return;
 
-          if (width > height) {
-            if (width > MAX_SIZE) {
-              height *= MAX_SIZE / width;
-              width = MAX_SIZE;
-            }
-          } else {
-            if (height > MAX_SIZE) {
-              width *= MAX_SIZE / height;
-              height = MAX_SIZE;
-            }
-          }
-
-          width = Math.floor(width);
-          height = Math.floor(height);
-          console.log(`Resizing image to: ${width}x${height}`);
-
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          
-          canvas.toBlob((blob) => {
-            if (!blob) {
-                console.error("Canvas toBlob failed");
-                resolve(file); // Fallback
-                return;
-            }
-            const resizedFile = new File([blob], file.name, {
-              type: file.type,
-              lastModified: Date.now(),
-            });
-            resolve(resizedFile);
-          }, file.type, 0.9); // 0.9 quality
-        };
-        img.onerror = (e) => {
-            console.error("Image load failed", e);
-            resolve(file);
-        };
-      };
-    });
-  };
-
-  const handleFileSelect = async (originalFile) => {
-    if (!originalFile) return;
-
-    // Create preview immediately with original file
+    // Create preview
     const reader = new FileReader();
     reader.onload = (e) => setPreview(e.target.result);
-    reader.readAsDataURL(originalFile);
+    reader.readAsDataURL(file);
 
+    // Upload file
     setUploading(true);
     try {
-      // Resize image if needed (max 2048x2048)
-      const file = await resizeImage(originalFile);
-
-      // Upload file
       const result = await base44.integrations.Core.UploadFile({ file });
       const fileUrl = result.file_url || result?.data?.file_url;
       setImage(fileUrl);
@@ -95,7 +30,6 @@ export default function ImageUpload({ onImageUpload, onSkip }) {
     } catch (error) {
       console.error('Upload failed:', error);
       setPreview(null);
-      alert("Failed to upload image. Please try again.");
     } finally {
       setUploading(false);
     }

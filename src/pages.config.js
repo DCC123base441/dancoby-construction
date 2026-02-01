@@ -71,7 +71,6 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import VirtualStaging from './pages/VirtualStaging';
 import __Layout from './Layout.jsx';
 
 
@@ -100,7 +99,6 @@ export const PAGES = {
     "Services": Services,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "VirtualStaging": VirtualStaging,
 }
 
 export const pagesConfig = {

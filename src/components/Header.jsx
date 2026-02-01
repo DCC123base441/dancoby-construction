@@ -11,7 +11,6 @@ export default function Header() {
     { name: 'Home', path: 'Home' },
     { name: 'Services', path: 'Services' },
     { name: 'Projects', path: 'Projects' },
-    { name: 'Virtual Staging', path: 'VirtualStaging' },
     { name: 'About', path: 'About' },
     { name: 'Press', path: 'Press' },
     { name: 'Careers', path: 'HiringApplication' },
