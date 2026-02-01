@@ -79,23 +79,28 @@ export default function Contact() {
     const handleSuccess = async (event) => {
       console.log('JobTread form submitted successfully', event.detail);
       
-      // Use ref to get the latest data (fixing stale closure issue)
-      const data = formDataRef.current;
+      // Fetch values directly from DOM to ensure we get exactly what was submitted
+      // This bypasses any React state sync issues with the 3rd party script
+      const getValue = (name) => document.querySelector(`[name="${name}"]`)?.value || '';
+
+      const submissionData = {
+          name: getValue('contact.name'),
+          phone: getValue('contact.custom.22NypE6NdPYC'),
+          email: getValue('contact.custom.22NypE69XMG8'),
+          address: getValue('location.address'),
+          serviceType: getValue('account.custom.22PRFdDPtXvQ'),
+          message: getValue('account.custom.22PRFWNyVQrW'),
+          source: getValue('account.custom.22PR8AKFN5Tf'),
+          budget: getValue('account.custom.22PRFYviBvXA'),
+          timeline: getValue('account.custom.22PRFZL4uPuM')
+      };
+
+      console.log('Syncing data to internal DB:', submissionData);
 
       // Sync to internal database
       try {
-        await base44.functions.invoke('createLead', {
-            name: data.name,
-            phone: data.phone,
-            email: data.email,
-            address: data.address,
-            serviceType: data.service,
-            message: data.message,
-            source: data.source,
-            budget: data.budget,
-            timeline: data.timeline
-        });
-        console.log('Lead synced to internal database');
+        await base44.functions.invoke('createLead', submissionData);
+        console.log('Lead synced to internal database successfully');
       } catch (err) {
         console.error('Failed to sync lead:', err);
       }
