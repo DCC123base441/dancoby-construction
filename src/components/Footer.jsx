@@ -5,12 +5,6 @@ import { createPageUrl } from '../utils';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  
-  const scrollToTop = () => {
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
-  };
 
   return (
     <footer className="bg-[#1a1a1a] text-white">
@@ -84,39 +78,39 @@ export default function Footer() {
             <div className="flex gap-12">
               <ul className="space-y-3">
                 <li>
-                  <Link to={createPageUrl('Home')} onClick={scrollToTop} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Home')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Services')} onClick={scrollToTop} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Services')} className="text-white/50 hover:text-white text-sm transition-colors">
                     Services
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Projects')} onClick={scrollToTop} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Projects')} className="text-white/50 hover:text-white text-sm transition-colors">
                     Projects
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('About')} onClick={scrollToTop} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('About')} className="text-white/50 hover:text-white text-sm transition-colors">
                     About
                   </Link>
                 </li>
               </ul>
               <ul className="space-y-3">
                 <li>
-                  <Link to={createPageUrl('Press')} onClick={scrollToTop} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Press')} className="text-white/50 hover:text-white text-sm transition-colors">
                     Press
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('HiringApplication')} onClick={scrollToTop} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('HiringApplication')} className="text-white/50 hover:text-white text-sm transition-colors">
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('VendorIntake')} onClick={scrollToTop} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('VendorIntake')} className="text-white/50 hover:text-white text-sm transition-colors">
                     Partner With Us
                   </Link>
                 </li>
