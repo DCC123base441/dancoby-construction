@@ -81,7 +81,7 @@ export default function Step() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-12 px-8 text-base">
-                <Link to={createPageUrl('Contact')}>Get Early Access</Link>
+                <Link to={createPageUrl('StepDashboard')}>Launch Platform</Link>
               </Button>
               <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900 h-12 px-8 text-base bg-transparent">
                 <a href="#how-it-works">How It Works</a>
@@ -203,7 +203,7 @@ export default function Step() {
               Join the future of material procurement. Whether you're building, designing, or supplying, Step makes it simple.
             </p>
             <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-14 px-10 text-lg rounded-full shadow-lg shadow-red-900/20">
-              <Link to={createPageUrl('Contact')}>Contact Us for Details</Link>
+              <Link to={createPageUrl('StepDashboard')}>Start Your Project Now</Link>
             </Button>
           </motion.div>
         </div>
