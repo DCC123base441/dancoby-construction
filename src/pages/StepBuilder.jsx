@@ -104,7 +104,7 @@ export default function StepBuilder() {
                 
                 {/* Main Builder Area */}
                 <div className="space-y-6">
-                    {buildData.sections.map((section) => {
+                    {buildData.sections.map((section, idx) => {
                         const selectedItem = selections[section.id];
                         const isExpanded = expandedSection === section.id;
 
