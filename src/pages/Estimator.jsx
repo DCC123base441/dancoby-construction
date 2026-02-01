@@ -480,6 +480,7 @@ export default function Estimator() {
                 }}
                 onSkip={() => {
                   setImageUrl(null);
+                  handleNext();
                 }}
               />
             </div>
@@ -521,7 +522,7 @@ export default function Estimator() {
             </Button>
             <Button
               onClick={handleNext}
-              disabled={step.type !== 'photo' && step.type !== 'finishes' && step.id !== 'phone' && !answers[step.id]}
+              disabled={(step.type === 'photo' && !imageUrl) || (step.type !== 'photo' && step.type !== 'finishes' && step.id !== 'phone' && !answers[step.id])}
               className="flex-1 bg-red-600 hover:bg-red-700 text-white h-12 text-base"
             >
               {currentStep === steps.length - 1 ? 'Get Estimate' : 'Continue'}
