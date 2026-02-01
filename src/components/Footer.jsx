@@ -149,7 +149,7 @@ export default function Footer() {
           {/* Quick Contact */}
           <div>
             <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Call Us</h4>
-            <a href="tel:+15166849766" className="text-2xl font-light text-white hover:text-red-500 transition-colors">
+            <a href="tel:+15166849766" className="text-lg font-light text-white hover:text-red-500 transition-colors">
               (516) 684-9766
             </a>
             <p className="text-white/40 text-xs mt-2">Mon–Fri 8am–8pm</p>
