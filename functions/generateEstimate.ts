@@ -77,11 +77,11 @@ Respond with JSON:
       try {
         const visualizationPrompt = `Photorealistic interior design of a ${roomType}, chic stylish finishes, contemporary elegance, sophisticated, ${finishLevel || 'modern'} style, ${priority === 'Luxury Finishes & Design' ? 'luxury high-end materials' : 'clean modern aesthetic'}, renovated, professional photography, 8k, highly detailed, interior architecture, bright lighting`;
         
-        // Reimage.io API Implementation
+        // ReimagineHome API Implementation
         const apiKey = Deno.env.get("REIMAGINEHOME_API_KEY");
         if (!apiKey) throw new Error("REIMAGINEHOME_API_KEY not set");
 
-        console.log('Generating image with Reimage.io...');
+        console.log('Generating image with ReimagineHome...');
 
         // Determine mask category based on room type
         let maskCategory = "architectural";
@@ -89,10 +89,10 @@ Respond with JSON:
              maskCategory = "furnishing"; 
         }
 
-        const generateResponse = await fetch('https://api.reimage.io/api/v1/generate_image', {
+        const generateResponse = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
             method: 'POST',
             headers: {
-                'Authorization': apiKey, 
+                'Authorization': `Bearer ${apiKey}`, // Using Bearer token
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -121,21 +121,20 @@ Respond with JSON:
         while (attempts < maxAttempts) {
             await new Promise(r => setTimeout(r, 2000)); // Wait 2s
             
-            // Try get_job_details first
-            let statusResponse = await fetch(`https://api.reimage.io/api/v1/get_job_details/${jobId}`, {
+            const statusResponse = await fetch(`https://api.reimaginehome.ai/v1/get_job_details/${jobId}`, { // Guessing endpoint, might be /generate_image/{id}
                  method: 'GET',
                  headers: {
-                     'Authorization': apiKey
+                     'Authorization': `Bearer ${apiKey}`
                  }
             });
             
             // If get_job_details 404s, try generate_image/{id}
             let statusData;
             if (statusResponse.status === 404) {
-                 const statusResponse2 = await fetch(`https://api.reimage.io/api/v1/generate_image/${jobId}`, {
+                 const statusResponse2 = await fetch(`https://api.reimaginehome.ai/v1/generate_image/${jobId}`, {
                      method: 'GET',
                      headers: {
-                         'Authorization': apiKey
+                         'Authorization': `Bearer ${apiKey}`
                      }
                 });
                 if (!statusResponse2.ok) throw new Error("Failed to check job status");
