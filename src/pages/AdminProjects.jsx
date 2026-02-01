@@ -69,7 +69,11 @@ export default function AdminProjects() {
         queryFn: async () => {
             const data = await base44.entities.Project.list();
             // Sort by order initially
-            return data.sort((a, b) => (a.order || 999) - (b.order || 999));
+            return data.sort((a, b) => {
+                const orderA = a.order !== undefined ? a.order : 999;
+                const orderB = b.order !== undefined ? b.order : 999;
+                return orderA - orderB;
+            });
         },
     });
 
