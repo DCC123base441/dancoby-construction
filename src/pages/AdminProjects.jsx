@@ -244,8 +244,10 @@ export default function AdminProjects() {
                             <Input name="timeline" defaultValue={editingProject?.timeline} placeholder="e.g., 4 months" />
                         </div>
                         <div className="space-y-2">
-                            <Label>Main Image URL</Label>
-                            <Input name="mainImage" defaultValue={editingProject?.mainImage} placeholder="https://..." />
+                            <ProjectGalleryManager 
+                                images={currentImages} 
+                                onChange={setCurrentImages} 
+                            />
                         </div>
                         <div className="space-y-2">
                             <Label>Description</Label>
