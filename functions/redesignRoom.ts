@@ -36,79 +36,9 @@ Deno.serve(async (req) => {
             }
         }
 
-        // Two-step process: 1. Create Mask, 2. Generate Image
-        console.log("Step 1: Creating mask...");
-        
+        // Direct generation using generate_image with mask_category
+        console.log("Step 1: Generating image (skipping manual mask creation)...");
         console.log("Using API Key:", apiKey?.substring(0, 5) + "...");
-        
-        const maskResponse = await fetch('https://api.reimaginehome.ai/v1/create_mask', {
-            method: 'POST',
-            headers: {
-                'api-key': apiKey,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                image_url: imageUrl,
-                // We can optionally pass mask_prompt to auto-select? 
-                // Or maybe create_mask just returns all? 
-                // Let's try sending mask_prompt if architectural to limit?
-                // For now just image_url as per docs hint.
-            })
-        });
-
-        if (!maskResponse.ok) {
-             const err = await maskResponse.text();
-             console.error("Mask creation failed:", err);
-             throw new Error(`Mask creation failed: ${maskResponse.status} ${err}`);
-        }
-
-        const maskData = await maskResponse.json();
-        console.log("Mask data received:", JSON.stringify(maskData).substring(0, 200) + "...");
-
-        // Parse mask data to find the mask URL
-        // maskData usually contains job_id. We might need to poll for mask? 
-        // Or does it return immediately?
-        // If it returns job_id, we need to poll.
-        
-        // Assuming it works like generate_image and returns job_id
-        let maskJobId = maskData.data?.job_id || maskData.job_id;
-        let maskUrl = null;
-
-        if (maskJobId) {
-             // Poll for mask
-             console.log("Polling for mask job:", maskJobId);
-             for (let i=0; i<30; i++) {
-                 await new Promise(r => setTimeout(r, 2000));
-                 const check = await fetch(`https://api.reimaginehome.ai/v1/get_job_details/${maskJobId}`, {
-                      headers: { 'Authorization': `Bearer ${apiKey}` }
-                 });
-                 if (check.ok) {
-                      const d = await check.json();
-                      const status = d.data?.job_status;
-                      console.log("Mask job status:", status);
-                      if (status === 'done') {
-                          // Where is the mask?
-                          // d.data.result_url? or d.data.masks?
-                          // result_url might be a zip or a combined mask?
-                          // If we want segmentation, it might be d.data.segments?
-                          // Let's assume result_url is usable or we find it.
-                          maskUrl = d.data?.result_url || d.data?.mask_url;
-                          // If there are multiple masks, we might need to pick?
-                          // For now, let's just grab result_url.
-                          break;
-                      } else if (status === 'failed') {
-                          throw new Error("Mask job failed");
-                      }
-                 }
-             }
-        } else {
-             // Maybe it returned immediately?
-             maskUrl = maskData.data?.mask_url || maskData.mask_url;
-        }
-
-        if (!maskUrl) throw new Error("Could not retrieve mask URL");
-
-        console.log("Step 2: Generating image with mask:", maskUrl);
 
         const generateResponse = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
             method: 'POST',
@@ -119,8 +49,8 @@ Deno.serve(async (req) => {
             body: JSON.stringify({
                 image_url: imageUrl,
                 prompt: prompt || `Beautifully designed ${roomType || 'room'}, photorealistic, 8k, interior design`,
-                mask_urls: [maskUrl], // Provide the mask!
-                // mask_category: category, // Maybe remove this if we provide mask_urls
+                mask_category: category || "furnishing", // Use category instead of mask_urls
+                mask_prompt: "floor, wall, ceiling, furniture" // Providing mask_prompt to be safe
             })
         });
 
