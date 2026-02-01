@@ -42,9 +42,20 @@ export default function ChatBot() {
       if (!m.is_page_welcome) return false;
       if (m.target_page === 'all') return true;
       
-      // Normalize paths (case-insensitive, ignore trailing slashes)
-      const normalize = (p) => p ? p.toLowerCase().replace(/\/$/, '') : '';
-      return normalize(m.target_page) === normalize(location.pathname);
+      // Normalize paths (case-insensitive, ignore trailing slashes, ensure leading slash)
+      const normalize = (p) => {
+        if (!p) return '';
+        let path = p.toLowerCase().trim();
+        if (!path.startsWith('/')) path = '/' + path;
+        if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
+        return path;
+      };
+      
+      const target = normalize(m.target_page);
+      const current = normalize(location.pathname);
+      
+      console.log(`Checking match: Message Target '${target}' vs Current '${current}' (Original: '${m.target_page}')`);
+      return target === current;
     });
 
     // 2. Sort: Specific page messages (not 'all') come first
