@@ -10,8 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Trash2, Edit2, Save, X, MessageSquare, Sparkles, MoveUp, MoveDown, Globe, Clock } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Plus, Trash2, Edit2, Save, X, MessageSquare, Sparkles, MoveUp, MoveDown } from 'lucide-react';
 import { toast } from "sonner";
 import {
   Dialog,
@@ -35,8 +34,8 @@ export default function AdminChatBot() {
         queryFn: () => base44.entities.ChatBotMessage.list(),
     });
 
-    // Filter messages
-    const allMessages = messages || [];
+    const engagingMessages = messages.filter(m => m.category === 'engaging');
+    const welcomeMessages = messages.filter(m => m.category === 'welcome').sort((a, b) => a.order - b.order);
 
     // Mutations
     const createMutation = useMutation({
@@ -72,29 +71,26 @@ export default function AdminChatBot() {
         content: "",
         category: "engaging",
         isActive: true,
-        targetPage: "all",
-        isPageWelcome: false
+        order: 0
     });
 
     useEffect(() => {
         if (editingMessage) {
             setFormData({
                 content: editingMessage.content,
-                category: editingMessage.category || "engaging",
+                category: editingMessage.category,
                 isActive: editingMessage.isActive,
-                targetPage: editingMessage.targetPage || "all",
-                isPageWelcome: editingMessage.isPageWelcome || false
+                order: editingMessage.order || 0
             });
         } else {
             setFormData({
                 content: "",
-                category: "engaging",
+                category: activeTab,
                 isActive: true,
-                targetPage: "all",
-                isPageWelcome: false
+                order: activeTab === 'welcome' ? welcomeMessages.length : 0
             });
         }
-    }, [editingMessage, isDialogOpen]);
+    }, [editingMessage, activeTab, isDialogOpen, welcomeMessages.length]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -116,39 +112,69 @@ export default function AdminChatBot() {
         }
     };
 
-    // Order moving removed as welcome sequence is removed
+    const handleMoveOrder = async (message, direction) => {
+        const currentIndex = welcomeMessages.findIndex(m => m.id === message.id);
+        if (currentIndex === -1) return;
+        
+        const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+        if (newIndex < 0 || newIndex >= welcomeMessages.length) return;
 
-    const MessageList = ({ items }) => (
+        const otherMessage = welcomeMessages[newIndex];
+        
+        // Swap orders
+        await Promise.all([
+            base44.entities.ChatBotMessage.update(message.id, { order: otherMessage.order }),
+            base44.entities.ChatBotMessage.update(otherMessage.id, { order: message.order })
+        ]);
+        
+        queryClient.invalidateQueries(['chatBotMessages']);
+    };
+
+    const MessageList = ({ items, type }) => (
         <div className="space-y-4">
             {items.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-lg border border-dashed border-gray-300">
                     <p className="text-gray-500">No messages found. Create one to get started.</p>
                 </div>
             ) : (
-                items.map((message) => (
+                items.map((message, idx) => (
                     <Card key={message.id} className="overflow-hidden">
                         <div className="flex items-start justify-between p-4 gap-4">
                             <div className="flex items-start gap-3 flex-1">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.isPageWelcome ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600'}`}>
-                                    {message.isPageWelcome ? <Clock className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${type === 'welcome' ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600'}`}>
+                                    {type === 'welcome' ? <MessageSquare className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
                                 </div>
                                 <div className="space-y-1 flex-1">
                                     <p className="text-sm font-medium text-gray-900">{message.content}</p>
-                                    <div className="flex flex-wrap gap-2 mt-2">
-                                        <Badge variant="outline" className="flex items-center gap-1">
-                                            <Globe className="w-3 h-3" />
-                                            {message.targetPage === 'all' ? 'All Pages' : message.targetPage}
-                                        </Badge>
-                                        {message.isPageWelcome && (
-                                            <Badge variant="default" className="bg-blue-600 hover:bg-blue-700">
-                                                Page Welcome (5s delay)
-                                            </Badge>
-                                        )}
+                                    <div className="flex gap-2">
                                         {!message.isActive && <Badge variant="secondary">Inactive</Badge>}
+                                        {type === 'welcome' && <Badge variant="outline">Order: {message.order}</Badge>}
                                     </div>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
+                                {type === 'welcome' && (
+                                    <div className="flex flex-col gap-1 mr-2">
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-6 w-6" 
+                                            disabled={idx === 0}
+                                            onClick={() => handleMoveOrder(message, 'up')}
+                                        >
+                                            <MoveUp className="w-3 h-3" />
+                                        </Button>
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-6 w-6"
+                                            disabled={idx === items.length - 1}
+                                            onClick={() => handleMoveOrder(message, 'down')}
+                                        >
+                                            <MoveDown className="w-3 h-3" />
+                                        </Button>
+                                    </div>
+                                )}
                                 <Button variant="ghost" size="icon" onClick={() => handleEdit(message)}>
                                     <Edit2 className="w-4 h-4 text-gray-500" />
                                 </Button>
@@ -173,26 +199,50 @@ export default function AdminChatBot() {
                 </Button>
             }
         >
-            <div className="max-w-4xl mx-auto space-y-6">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Chat Messages & Bubbles</CardTitle>
-                        <CardDescription>
-                            Manage the messages that appear as bubbles to engage users. 
-                            Set "Page Welcome" to show a specific message 5 seconds after a user enters a page.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <MessageList items={allMessages} />
-                    </CardContent>
-                </Card>
+            <div className="max-w-4xl mx-auto">
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+                    <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
+                        <TabsTrigger value="engaging">Random Bubbles</TabsTrigger>
+                        <TabsTrigger value="welcome">Welcome Sequence</TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="engaging" className="space-y-4">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Engagement Bubbles</CardTitle>
+                                <CardDescription>
+                                    These messages appear randomly as popup bubbles when the chat is closed to encourage users to interact.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <MessageList items={engagingMessages} type="engaging" />
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    <TabsContent value="welcome" className="space-y-4">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Welcome Sequence</CardTitle>
+                                <CardDescription>
+                                    These messages appear automatically when a user opens the chat for the first time, in the order specified.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <MessageList items={welcomeMessages} type="welcome" />
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                </Tabs>
 
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogContent>
                         <DialogHeader>
                             <DialogTitle>{editingMessage ? 'Edit Message' : 'Create New Message'}</DialogTitle>
                             <DialogDescription>
-                                Configure the message content and where it should appear.
+                                {activeTab === 'engaging' 
+                                    ? "Add a fun, engaging message to appear as a bubble." 
+                                    : "Add a message to the welcome sequence."}
                             </DialogDescription>
                         </DialogHeader>
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -206,52 +256,19 @@ export default function AdminChatBot() {
                                     required
                                 />
                             </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label>Target Page</Label>
-                                    <Select 
-                                        value={formData.targetPage} 
-                                        onValueChange={(value) => setFormData({...formData, targetPage: value})}
-                                    >
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select page" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="all">All Pages</SelectItem>
-                                            <SelectItem value="/">Home (/)</SelectItem>
-                                            <SelectItem value="/Contact">Contact</SelectItem>
-                                            <SelectItem value="/Projects">Projects</SelectItem>
-                                            <SelectItem value="/About">About</SelectItem>
-                                            <SelectItem value="/Services">Services</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </div>
                             
-                            <div className="flex items-center justify-between border p-3 rounded-lg">
-                                <div className="space-y-0.5">
-                                    <Label className="text-base">Page Welcome Message</Label>
-                                    <div className="text-xs text-gray-500">
-                                        Show automatically 5 seconds after entering the page (once per session)
-                                    </div>
-                                </div>
-                                <Switch 
-                                    checked={formData.isPageWelcome}
-                                    onCheckedChange={(checked) => setFormData({...formData, isPageWelcome: checked})}
-                                />
-                            </div>
-
-                            <div className="flex items-center justify-between border p-3 rounded-lg">
+                            <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
                                     <Label>Active Status</Label>
-                                    <div className="text-xs text-gray-500">Enable or disable this message</div>
+                                    <div className="text-sm text-gray-500">Enable or disable this message</div>
                                 </div>
                                 <Switch 
                                     checked={formData.isActive}
                                     onCheckedChange={(checked) => setFormData({...formData, isActive: checked})}
                                 />
                             </div>
+
+                            <input type="hidden" value={activeTab} />
 
                             <DialogFooter>
                                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
