@@ -24,10 +24,10 @@ export default function Projects() {
     .filter(p => category === 'all' || p.category === category)
     .sort((a, b) => {
       if (sort === 'curated') {
-        // Use the 'order' field for sorting, falling back to 999 if not set (null/undefined)
+        // Use the 'order' field for sorting, falling back to 0 if not set
         // If orders are equal, fallback to created_date
-        const orderA = a.order ?? 999;
-        const orderB = b.order ?? 999;
+        const orderA = a.order !== undefined ? a.order : 999;
+        const orderB = b.order !== undefined ? b.order : 999;
         if (orderA !== orderB) return orderA - orderB;
         return new Date(b.created_date) - new Date(a.created_date);
       }
