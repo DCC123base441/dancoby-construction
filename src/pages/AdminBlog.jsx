@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Sparkles, Pencil, Trash2, Globe, Loader2, FileText } from 'lucide-react';
+import { Plus, Sparkles, Pencil, Trash2, Globe, Loader2, FileText, Image as ImageIcon } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -36,7 +36,33 @@ export default function AdminBlog() {
     const [aiPrompt, setAiPrompt] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
     const [isResetting, setIsResetting] = useState(false);
+    const [currentTitle, setCurrentTitle] = useState("");
+    const [currentCoverImage, setCurrentCoverImage] = useState("");
+    const [isGeneratingImage, setIsGeneratingImage] = useState(false);
     const queryClient = useQueryClient();
+
+    useEffect(() => {
+        if (isDialogOpen) {
+            setCurrentTitle(editingPost?.title || "");
+            setCurrentCoverImage(editingPost?.coverImage || "");
+        }
+    }, [isDialogOpen, editingPost]);
+
+    const handleGenerateImage = async () => {
+        if (!currentTitle) return toast.error("Please enter a title first");
+        setIsGeneratingImage(true);
+        try {
+            const res = await base44.integrations.Core.GenerateImage({
+                prompt: `Professional architectural photography or construction photo for a blog post titled: "${currentTitle}". High quality, realistic, 4k.`,
+            });
+            setCurrentCoverImage(res.url);
+            toast.success("Image generated!");
+        } catch (error) {
+            toast.error("Failed to generate image: " + error.message);
+        } finally {
+            setIsGeneratingImage(false);
+        }
+    };
 
     const handleReset = async () => {
         setIsResetting(true);
@@ -198,7 +224,12 @@ export default function AdminBlog() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
                             <Label>Title</Label>
-                            <Input name="title" defaultValue={editingPost?.title} required />
+                            <Input 
+                                name="title" 
+                                value={currentTitle} 
+                                onChange={(e) => setCurrentTitle(e.target.value)} 
+                                required 
+                            />
                         </div>
                         <div className="space-y-2">
                             <Label>Excerpt</Label>
@@ -210,7 +241,29 @@ export default function AdminBlog() {
                         </div>
                         <div className="space-y-2">
                             <Label>Cover Image URL</Label>
-                            <Input name="coverImage" defaultValue={editingPost?.coverImage} placeholder="https://..." />
+                            <div className="flex gap-2">
+                                <Input 
+                                    name="coverImage" 
+                                    value={currentCoverImage} 
+                                    onChange={(e) => setCurrentCoverImage(e.target.value)} 
+                                    placeholder="https://..." 
+                                    className="flex-1"
+                                />
+                                <Button 
+                                    type="button" 
+                                    variant="outline"
+                                    onClick={handleGenerateImage}
+                                    disabled={isGeneratingImage || !currentTitle}
+                                    title="Generate AI Image from Title"
+                                >
+                                    {isGeneratingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImageIcon className="w-4 h-4" />}
+                                </Button>
+                            </div>
+                            {currentCoverImage && (
+                                <div className="mt-2 relative aspect-video w-full max-w-xs rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
+                                    <img src={currentCoverImage} alt="Preview" className="w-full h-full object-cover" />
+                                </div>
+                            )}
                         </div>
                         <div className="flex justify-end gap-2 pt-4">
                             <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
