@@ -25,7 +25,7 @@ export default function ChatBot() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 3000);
+    }, 5000);
     return () => clearTimeout(timer);
   }, []);
   const [messages, setMessages] = useState([
