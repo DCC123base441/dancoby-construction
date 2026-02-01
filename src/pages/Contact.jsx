@@ -1,11 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check, ShieldAlert, Loader2, Instagram, Facebook } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import { base44 } from '@/api/base44Client';
 
 export default function Contact() {
   const [fileError, setFileError] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
-  const [customerName, setCustomerName] = useState('');
+  
+  // Form State
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
+    service: '',
+    message: '',
+    source: '',
+    budget: '',
+    timeline: ''
+  });
+
+  const updateField = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
@@ -53,8 +70,27 @@ export default function Contact() {
     document.body.appendChild(script);
 
     // Success handler
-    const handleSuccess = (event) => {
+    const handleSuccess = async (event) => {
       console.log('JobTread form submitted successfully', event.detail);
+      
+      // Sync to internal database
+      try {
+        await base44.functions.invoke('createLead', {
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            address: formData.address,
+            serviceType: formData.service,
+            message: formData.message,
+            source: formData.source,
+            budget: formData.budget,
+            timeline: formData.timeline
+        });
+        console.log('Lead synced to internal database');
+      } catch (err) {
+        console.error('Failed to sync lead:', err);
+      }
+
       const successMessage = document.getElementById('successMessage');
       if (successMessage) {
         successMessage.classList.add('show');
@@ -63,6 +99,19 @@ export default function Contact() {
           successMessage.classList.remove('show');
         }, 5000);
       }
+      
+      // Reset form state
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        address: '',
+        service: '',
+        message: '',
+        source: '',
+        budget: '',
+        timeline: ''
+      });
     };
 
     // Error handler
@@ -223,18 +272,38 @@ export default function Contact() {
               <div className="form-row">
                 <label>
                   <span className="label-text">Name <span className="required">*</span></span>
-                  <input type="text" required name="contact.name" placeholder="Your name" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+                  <input 
+                    type="text" 
+                    required 
+                    name="contact.name" 
+                    placeholder="Your name" 
+                    value={formData.name} 
+                    onChange={(e) => updateField('name', e.target.value)} 
+                  />
                 </label>
                 <label>
                   <span className="label-text">Phone <span className="required">*</span></span>
-                  <input type="tel" required name="contact.custom.22NypE6NdPYC" placeholder="(516) 555-0123" />
+                  <input 
+                    type="tel" 
+                    required 
+                    name="contact.custom.22NypE6NdPYC" 
+                    placeholder="(516) 555-0123"
+                    value={formData.phone}
+                    onChange={(e) => updateField('phone', e.target.value)}
+                  />
                 </label>
               </div>
 
               <div className="form-row">
                 <label>
                   <span className="label-text">Email</span>
-                  <input type="email" name="contact.custom.22NypE69XMG8" placeholder="you@email.com" />
+                  <input 
+                    type="email" 
+                    name="contact.custom.22NypE69XMG8" 
+                    placeholder="you@email.com"
+                    value={formData.email}
+                    onChange={(e) => updateField('email', e.target.value)}
+                  />
                 </label>
                 <label>
                   <span className="label-text">Address <span className="required">*</span></span>
@@ -244,13 +313,19 @@ export default function Contact() {
                     required 
                     placeholder="Start typing your address..." 
                     autoComplete="street-address"
+                    value={formData.address}
+                    onChange={(e) => updateField('address', e.target.value)}
                   />
                 </label>
               </div>
 
               <label>
                 <span className="label-text">Service Needed</span>
-                <select name="account.custom.22PRFdDPtXvQ" defaultValue="">
+                <select 
+                    name="account.custom.22PRFdDPtXvQ" 
+                    value={formData.service}
+                    onChange={(e) => updateField('service', e.target.value)}
+                >
                   <option value="" disabled hidden>Select a service</option>
                   <option value="Kitchen Renovation">Kitchen Renovation</option>
                   <option value="Bathroom Remodeling">Bathroom Remodeling</option>
@@ -263,13 +338,23 @@ export default function Contact() {
 
               <label>
                 <span className="label-text">Tell Us About Your Project</span>
-                <input type="hidden" name="account.name" value={customerName} />
-                <textarea name="account.custom.22PRFWNyVQrW" required placeholder="Describe your project, goals, and any questions..." />
+                <input type="hidden" name="account.name" value={formData.name} />
+                <textarea 
+                    name="account.custom.22PRFWNyVQrW" 
+                    required 
+                    placeholder="Describe your project, goals, and any questions..."
+                    value={formData.message}
+                    onChange={(e) => updateField('message', e.target.value)}
+                />
               </label>
 
               <label>
                 <span className="label-text">How'd You Hear About Us?</span>
-                <select name="account.custom.22PR8AKFN5Tf" defaultValue="">
+                <select 
+                    name="account.custom.22PR8AKFN5Tf" 
+                    value={formData.source}
+                    onChange={(e) => updateField('source', e.target.value)}
+                >
                   <option value="" disabled hidden>Select source</option>
                   <option value="Google">Google</option>
                   <option value="Referral">Referral</option>
@@ -314,7 +399,11 @@ export default function Contact() {
               <div className="form-row">
                 <label>
                   <span className="label-text">Budget Range (Optional)</span>
-                  <select name="account.custom.22PRFYviBvXA" defaultValue="">
+                  <select 
+                    name="account.custom.22PRFYviBvXA" 
+                    value={formData.budget}
+                    onChange={(e) => updateField('budget', e.target.value)}
+                  >
                     <option value="" disabled hidden>Select budget</option>
                     <option value="Under $10,000">Under $10,000</option>
                     <option value="$10,000-$25,000">$10,000 - $25,000</option>
@@ -325,7 +414,11 @@ export default function Contact() {
                 </label>
                 <label>
                   <span className="label-text">Timeline (Optional)</span>
-                  <select name="account.custom.22PRFZL4uPuM" defaultValue="">
+                  <select 
+                    name="account.custom.22PRFZL4uPuM" 
+                    value={formData.timeline}
+                    onChange={(e) => updateField('timeline', e.target.value)}
+                  >
                     <option value="" disabled hidden>Select timeline</option>
                     <option value="ASAP">ASAP</option>
                     <option value="1-3 Months">1-3 Months</option>
