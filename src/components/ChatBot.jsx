@@ -6,12 +6,24 @@ import { base44 } from '@/api/base44Client';
 import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
 import { createPageUrl } from '../utils';
 import { useLocation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+
+// Helper for safe path normalization
+const normalizePath = (p) => {
+  if (!p) return '/'; // Default to root/all if undefined? No, explicit 'all' is distinct. 
+  // If p is undefined, we shouldn't match against pathname unless logic says so.
+  // But here we return formatted string.
+  
+  let path = p.toLowerCase().trim();
+  if (!path.startsWith('/')) path = '/' + path;
+  if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
+  return path;
+};
 
 export default function ChatBot() {
   const location = useLocation();
-  const [allChatMessages, setAllChatMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]); // Empty initially, no welcome sequence
+  const [messages, setMessages] = useState([]); 
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');
@@ -20,71 +32,62 @@ export default function ChatBot() {
   const bubbleTimerRef = useRef(null);
   const hasShownInitialBubble = useRef(false);
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const allMessages = await base44.entities.ChatBotMessage.list();
-        const active = allMessages.filter(m => m.isActive !== false);
-        setAllChatMessages(active);
-      } catch (e) {
-        console.error("Failed to fetch chatbot messages", e);
-      }
-    };
-    fetchMessages();
-  }, []);
+  // Robust data fetching with React Query
+  const { data: allChatMessages = [] } = useQuery({
+    queryKey: ['chatbot-messages'],
+    queryFn: async () => {
+      const msgs = await base44.entities.ChatBotMessage.list();
+      return msgs.filter(m => m.isActive !== false);
+    }
+  });
 
   // Handle Page Welcome Messages (5s delay)
   useEffect(() => {
-    if (isOpen || !allChatMessages || allChatMessages.length === 0) return;
+    if (isOpen || !allChatMessages.length) return;
 
-    // 1. Filter messages applicable to current page
+    const currentPath = normalizePath(location.pathname);
+
+    // 1. Find applicable welcome messages
     const applicableMessages = allChatMessages.filter(m => {
       if (!m.is_page_welcome) return false;
-      if (m.target_page === 'all') return true;
       
-      // Normalize paths (case-insensitive, ignore trailing slashes, ensure leading slash)
-      const normalize = (p) => {
-        if (!p) return '';
-        let path = p.toLowerCase().trim();
-        if (!path.startsWith('/')) path = '/' + path;
-        if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
-        return path;
-      };
+      const target = m.target_page || 'all';
+      if (target === 'all') return true;
       
-      const target = normalize(m.target_page);
-      const current = normalize(location.pathname);
-      
-      console.log(`Checking match: Message Target '${target}' vs Current '${current}' (Original: '${m.target_page}')`);
-      return target === current;
+      return normalizePath(target) === currentPath;
     });
 
-    // 2. Sort: Specific page messages (not 'all') come first
+    // 2. Sort: Specific page messages first
     applicableMessages.sort((a, b) => {
-      if (a.target_page === 'all' && b.target_page !== 'all') return 1;
-      if (a.target_page !== 'all' && b.target_page === 'all') return -1;
+      const aTarget = a.target_page || 'all';
+      const bTarget = b.target_page || 'all';
+      if (aTarget === 'all' && bTarget !== 'all') return 1;
+      if (aTarget !== 'all' && bTarget === 'all') return -1;
       return 0;
     });
 
-    // 3. Find the first one that hasn't been shown yet
+    // 3. Find first unseen message
     const welcomeMsg = applicableMessages.find(m => 
-      !sessionStorage.getItem(`chatbot_welcome_v2_${m.id}`)
+      !sessionStorage.getItem(`chatbot_welcome_v3_${m.id}`)
     );
 
     if (welcomeMsg) {
+      console.log('Scheduling welcome message:', welcomeMsg.content);
       const timer = setTimeout(() => {
-        setBubbleMessage(welcomeMsg.content);
-        setShowBubble(true);
-        sessionStorage.setItem(`chatbot_welcome_v2_${welcomeMsg.id}`, 'true');
-        
-        // Hide after 10 seconds
-        setTimeout(() => setShowBubble(false), 10000);
+        if (!isOpen) { // Double check not open
+          setBubbleMessage(welcomeMsg.content);
+          setShowBubble(true);
+          sessionStorage.setItem(`chatbot_welcome_v3_${welcomeMsg.id}`, 'true');
+          
+          setTimeout(() => setShowBubble(false), 10000);
+        }
       }, 5000);
 
       return () => clearTimeout(timer);
     }
   }, [location.pathname, allChatMessages, isOpen]);
 
-  // Show engaging bubble messages periodically when chat is closed
+  // Show engaging bubble messages periodically
   useEffect(() => {
     if (isOpen) {
       setShowBubble(false);
@@ -92,13 +95,17 @@ export default function ChatBot() {
     }
 
     const showRandomBubble = () => {
-      if (!allChatMessages || allChatMessages.length === 0) return;
+      if (!allChatMessages.length) return;
 
-      // Filter messages relevant to current page or 'all'
-      const relevantMessages = allChatMessages.filter(m => 
-        !m.is_page_welcome && // Don't use welcome messages as random bubbles
-        (m.target_page === 'all' || m.target_page === location.pathname)
-      );
+      const currentPath = normalizePath(location.pathname);
+
+      // Filter messages: Not welcome messages, and matches target (or all/undefined)
+      const relevantMessages = allChatMessages.filter(m => {
+        if (m.is_page_welcome) return false;
+        
+        const target = m.target_page || 'all';
+        return target === 'all' || normalizePath(target) === currentPath;
+      });
 
       if (relevantMessages.length === 0) return;
       
@@ -106,7 +113,6 @@ export default function ChatBot() {
       setBubbleMessage(randomMessage.content);
       setShowBubble(true);
       
-      // Hide bubble after 8 seconds
       setTimeout(() => setShowBubble(false), 8000);
     };
 
