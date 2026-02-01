@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Trash2, Edit2, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { Plus, Trash2, Edit2, Image as ImageIcon, Loader2, FolderKanban } from 'lucide-react';
 import { toast } from "sonner";
 import {
   Dialog,
