@@ -25,29 +25,28 @@ Deno.serve(async (req) => {
             
             // Loop until no more items
             while (true) {
-                // Fetch a smaller batch
-                const items = await serviceRoleEntities.list('-created_date', 20);
+                // Fetch a larger batch
+                const items = await serviceRoleEntities.list('-created_date', 100);
                 const records = Array.isArray(items) ? items : (items?.items || []);
                 
                 if (!records || records.length === 0) break;
 
-                // Process in smaller chunks to avoid rate limits
-                // Delete 3 at a time
-                const chunkSize = 3;
+                // Process in larger chunks
+                const chunkSize = 10;
                 for (let i = 0; i < records.length; i += chunkSize) {
                     const chunk = records.slice(i, i + chunkSize);
                     await Promise.all(chunk.map(item => serviceRoleEntities.delete(item.id)));
                     // Small delay between chunks
-                    await delay(200);
+                    await delay(50);
                 }
 
                 count += records.length;
                 
-                // Safety break
-                if (count > 2000) break; 
+                // Safety break - increase limit
+                if (count > 5000) break; 
                 
-                // Delay between main batches
-                await delay(500);
+                // Minimal delay between main batches
+                await delay(100);
             }
             return count;
         };
