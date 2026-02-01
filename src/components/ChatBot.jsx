@@ -12,6 +12,7 @@ export default function ChatBot() {
   const [allChatMessages, setAllChatMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]); // Empty initially, no welcome sequence
+  const [currentPagePath, setCurrentPagePath] = useState('');
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -26,21 +27,24 @@ export default function ChatBot() {
     fetchMessages();
   }, []);
 
-  // Handle Page Welcome Messages - show immediately when entering a new page
+  // Track page changes
   useEffect(() => {
-    if (isOpen || !allChatMessages || allChatMessages.length === 0) return;
+    const normalizedPath = location.pathname === '/Home' ? '/' : location.pathname;
+    setCurrentPagePath(normalizedPath);
+  }, [location.pathname]);
 
-    // Normalize home page paths: both "/" and "/Home" should match targetPage="/"
-    const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
-    
+  // Handle Page Welcome Messages - show when entering a new page
+  useEffect(() => {
+    if (isOpen || !allChatMessages || allChatMessages.length === 0 || !currentPagePath) return;
+
     // Find a welcome message for this specific page first, then fall back to 'all'
-    const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPath);
+    const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPagePath);
     const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
     const welcomeMsg = specificWelcome || genericWelcome;
 
     if (welcomeMsg) {
-      // Track by page path, not message ID - so each page shows its welcome once per session
-      const sessionKey = `chatbot_welcome_page_${currentPath}`;
+      // Track by page path - so each page shows its welcome once per session
+      const sessionKey = `chatbot_welcome_page_${currentPagePath}`;
       const hasShownOnThisPage = sessionStorage.getItem(sessionKey);
       
       if (!hasShownOnThisPage) {
@@ -57,18 +61,13 @@ export default function ChatBot() {
         return () => clearTimeout(timer);
       }
     }
-  }, [location.pathname, allChatMessages, isOpen]);
+  }, [currentPagePath, allChatMessages, isOpen]);
 
   // Handle Initial Chat Message (when opening chat manually or via bubble)
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      // If opened via bubble click, bubbleMessage might be set. 
-      // But we handle that in the click handler.
-      // This is for when opening via the floating button directly.
-      
+    if (isOpen && messages.length === 0 && currentPagePath) {
       // Find default welcome message for this page (prioritize specific page match)
-      const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
-      const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPath);
+      const specificWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === currentPagePath);
       const genericWelcome = allChatMessages.find(m => m.isPageWelcome && m.targetPage === 'all');
       const welcomeMsg = specificWelcome || genericWelcome;
 
@@ -78,7 +77,7 @@ export default function ChatBot() {
         setMessages([{ role: 'assistant', content: "Hi! I'm Sarah, your Dancoby design assistant. How can I help you transform your home today?" }]);
       }
     }
-  }, [isOpen, location.pathname, allChatMessages]);
+  }, [isOpen, currentPagePath, allChatMessages]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');
@@ -98,10 +97,9 @@ export default function ChatBot() {
       if (!allChatMessages || allChatMessages.length === 0) return;
 
       // Filter messages relevant to current page or 'all'
-      const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
       const relevantMessages = allChatMessages.filter(m => 
         !m.isPageWelcome && // Don't use welcome messages as random bubbles
-        (m.targetPage === 'all' || m.targetPage === currentPath)
+        (m.targetPage === 'all' || m.targetPage === currentPagePath)
       );
 
       if (relevantMessages.length === 0) return;
