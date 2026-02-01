@@ -148,16 +148,16 @@ export default function Home() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      className="group cursor-pointer"
-                    >
+                      className="cursor-pointer"
+                      >
                       <Link to={createPageUrl(service.page)} className="block h-full">
                         <img 
                           src={service.image}
                           alt={service.title}
-                          className="w-full mb-6 aspect-[3/4] object-cover group-hover:opacity-80 transition-opacity"
+                          className="w-full mb-6 aspect-[3/4] object-cover"
                         />
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 group-hover:text-gray-600 transition-colors">{service.title}</h4>
-                        <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-900 transition-colors">{service.description}</p>
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{service.title}</h4>
+                        <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
                       </Link>
                     </motion.div>
                   ))}
