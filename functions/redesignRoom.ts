@@ -40,7 +40,7 @@ Deno.serve(async (req) => {
         console.log("Step 1: Generating image (skipping manual mask creation)...");
         console.log("Using API Key:", apiKey?.substring(0, 5) + "...");
 
-        const generateResponse = await fetch('https://api.reimage.io/api/v1/generate_image', {
+        const generateResponse = await fetch('https://api.reimaginehome.ai/v1/generate_image', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
