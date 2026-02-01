@@ -10,15 +10,15 @@ import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
 
 function WarrantyCounter() {
-  const [count, setCount] = useState(3);
+  const [count, setCount] = useState(1);
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
     if (isInView) {
-      const duration = 1500;
+      const duration = 2000;
       const startTime = Date.now();
-      const startValue = 3;
+      const startValue = 1;
       const endValue = 5;
 
       const animate = () => {
@@ -39,7 +39,16 @@ function WarrantyCounter() {
 
   return (
     <h3 ref={ref} className="text-4xl md:text-5xl font-bold text-white">
-      {count}-Year Warranty on All Projects
+      <motion.span
+        key={count}
+        initial={{ opacity: 0, y: -20, scale: 1.2 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.2 }}
+        className="inline-block"
+      >
+        {count}
+      </motion.span>
+      -Year Warranty on All Projects
     </h3>
   );
 }
