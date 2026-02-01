@@ -37,28 +37,39 @@ export default function ChatBot() {
   useEffect(() => {
     if (isOpen || !allChatMessages || allChatMessages.length === 0) return;
 
-    // Find a welcome message for this page
-    const welcomeMsg = allChatMessages.find(m => 
-      m.is_page_welcome && 
-      (m.target_page === 'all' || m.target_page === location.pathname)
+    // 1. Filter messages applicable to current page
+    const applicableMessages = allChatMessages.filter(m => {
+      if (!m.is_page_welcome) return false;
+      if (m.target_page === 'all') return true;
+      
+      // Normalize paths (case-insensitive, ignore trailing slashes)
+      const normalize = (p) => p ? p.toLowerCase().replace(/\/$/, '') : '';
+      return normalize(m.target_page) === normalize(location.pathname);
+    });
+
+    // 2. Sort: Specific page messages (not 'all') come first
+    applicableMessages.sort((a, b) => {
+      if (a.target_page === 'all' && b.target_page !== 'all') return 1;
+      if (a.target_page !== 'all' && b.target_page === 'all') return -1;
+      return 0;
+    });
+
+    // 3. Find the first one that hasn't been shown yet
+    const welcomeMsg = applicableMessages.find(m => 
+      !sessionStorage.getItem(`chatbot_welcome_v2_${m.id}`)
     );
 
     if (welcomeMsg) {
-      // Check if we've already shown this specific message in this session
-      const hasShown = sessionStorage.getItem(`chatbot_welcome_v2_${welcomeMsg.id}`);
-      
-      if (!hasShown) {
-        const timer = setTimeout(() => {
-          setBubbleMessage(welcomeMsg.content);
-          setShowBubble(true);
-          sessionStorage.setItem(`chatbot_welcome_v2_${welcomeMsg.id}`, 'true');
-          
-          // Hide after 10 seconds
-          setTimeout(() => setShowBubble(false), 10000);
-        }, 5000);
+      const timer = setTimeout(() => {
+        setBubbleMessage(welcomeMsg.content);
+        setShowBubble(true);
+        sessionStorage.setItem(`chatbot_welcome_v2_${welcomeMsg.id}`, 'true');
+        
+        // Hide after 10 seconds
+        setTimeout(() => setShowBubble(false), 10000);
+      }, 5000);
 
-        return () => clearTimeout(timer);
-      }
+      return () => clearTimeout(timer);
     }
   }, [location.pathname, allChatMessages, isOpen]);
 
