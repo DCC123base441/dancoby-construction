@@ -137,9 +137,20 @@ export default function AdminBlog() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
+        const title = formData.get('title');
+        
+        // Generate safe slug
+        let slug = title.toLowerCase()
+            .replace(/ /g, '-')
+            .replace(/[^\w-]+/g, '');
+            
+        if (!slug) {
+            slug = `post-${Date.now()}`;
+        }
+
         const data = {
-            title: formData.get('title'),
-            slug: formData.get('slug') || formData.get('title').toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
+            title: title,
+            slug: slug,
             excerpt: formData.get('excerpt'),
             content: formData.get('content'),
             coverImage: formData.get('coverImage'),
@@ -225,7 +236,7 @@ export default function AdminBlog() {
                     <DialogHeader>
                         <DialogTitle>{editingPost?.id ? 'Edit Post' : 'New Post'}</DialogTitle>
                     </DialogHeader>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form key={editingPost?.id || 'new'} onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
                             <Label>Title</Label>
                             <Input 
@@ -271,7 +282,10 @@ export default function AdminBlog() {
                         </div>
                         <div className="flex justify-end gap-2 pt-4">
                             <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                            <Button type="submit" className="bg-slate-900">Publish Post</Button>
+                            <Button type="submit" className="bg-slate-900" disabled={saveMutation.isPending}>
+                                {saveMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                                {saveMutation.isPending ? "Publishing..." : "Publish Post"}
+                            </Button>
                         </div>
                     </form>
                 </DialogContent>
