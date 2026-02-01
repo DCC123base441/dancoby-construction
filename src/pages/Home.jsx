@@ -29,15 +29,6 @@ export default function Home() {
     .filter(p => p.active !== false)
     .sort((a,b)=> (a.order ?? 999) - (b.order ?? 999));
 
-  const { data: allProjects = [] } = useQuery({
-    queryKey: ['projectsHome'],
-    queryFn: () => base44.entities.Project.list(),
-    initialData: []
-  });
-  const featuredProjects = allProjects
-    .filter(p => p.featured)
-    .sort((a,b)=> (a.order ?? 999) - (b.order ?? 999));
-
   return (
     <main className="min-h-screen bg-white">
       <SEOHead 
@@ -247,9 +238,14 @@ export default function Home() {
       <section className="py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProjects.map((project, idx) => (
+            {[
+              { id: "697c5e88074fc8d96b14a823", title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
+              { id: "697cede5ec09b851f1e8fe80", title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
+              { id: "697d0e3c6291ff1c55121181", title: "Modern hotel spa inspired suite with marble flooring and walnut accent paneling", logo: "Hotel Inspired Suite", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
+              { id: "697cede5ec09b851f1e8fe80", title: "Elegant Kitchen Renovation with Custom Cabinetry", logo: "Kitchen Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }
+            ].map((project, idx) => (
               <motion.div
-                key={project.id || idx}
+                key={idx}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -257,18 +253,35 @@ export default function Home() {
                 className="group flex flex-col h-full"
               >
                 <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
-                  <img 
-                    src={project.mainImage}
-                    alt={project.title}
-                    className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                  {project.beforeImage ? (
+                    <div className="relative w-full h-96">
+                      <img 
+                        src={project.image}
+                        alt={project.logo}
+                        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                      />
+                      <img 
+                        src={project.beforeImage}
+                        alt={`${project.logo} - Before`}
+                        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <img 
+                        src={project.image}
+                        alt={project.logo}
+                        className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                    </>
+                  )}
                 </Link>
 
                 <div className="flex flex-col flex-1">
                   <div className="h-12 flex items-center">
                     <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                      {project.logoText || project.category}
+                      {project.logo}
                     </div>
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
