@@ -94,7 +94,7 @@ export default function AdminProjects() {
             location: formData.get('location'),
             timeline: formData.get('timeline'),
             mainImage: formData.get('mainImage'),
-            images: galleryImages,
+            images: galleryImages.map(img => img.url),
             // Basic handling for now
             featured: false
         };
@@ -120,19 +120,27 @@ export default function AdminProjects() {
     };
 
     const handleImageUpload = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
 
         setIsUploading(true);
-        const toastId = toast.loading("Uploading image...");
+        const toastId = toast.loading(`Uploading ${files.length} image${files.length > 1 ? 's' : ''}...`);
 
         try {
-            const { file_url } = await base44.integrations.Core.UploadFile({ file });
-            setGalleryImages([...galleryImages, file_url]);
-            toast.success("Image uploaded", { id: toastId });
+            // Upload in parallel
+            const uploadPromises = files.map(file => base44.integrations.Core.UploadFile({ file }));
+            const results = await Promise.all(uploadPromises);
+            
+            const newImages = results.map(res => ({
+                id: Math.random().toString(36).substr(2, 9),
+                url: res.file_url
+            }));
+            
+            setGalleryImages(prev => [...prev, ...newImages]);
+            toast.success("Images uploaded", { id: toastId });
         } catch (error) {
             console.error("Upload failed", error);
-            toast.error("Failed to upload image", { id: toastId });
+            toast.error("Failed to upload some images", { id: toastId });
         } finally {
             setIsUploading(false);
             e.target.value = ''; // Reset input
@@ -210,7 +218,11 @@ export default function AdminProjects() {
                                 <Button 
                                     variant="ghost" 
                                     size="icon"
-                                    onClick={() => { setEditingProject(project); setGalleryImages(project.images || []); setIsDialogOpen(true); }}
+                                    onClick={() => { 
+                                        setEditingProject(project); 
+                                        setGalleryImages((project.images || []).map(url => ({ id: Math.random().toString(36).substr(2, 9), url }))); 
+                                        setIsDialogOpen(true); 
+                                    }}
                                 >
                                     <Pencil className="w-4 h-4 text-slate-500" />
                                 </Button>
@@ -279,7 +291,7 @@ export default function AdminProjects() {
                                             className="flex flex-wrap gap-2 mb-2 p-2 bg-slate-50 rounded-lg border border-slate-100 min-h-[100px]"
                                         >
                                             {galleryImages.map((img, idx) => (
-                                                <Draggable key={`${img}-${idx}`} draggableId={`${img}-${idx}`} index={idx}>
+                                                <Draggable key={img.id} draggableId={img.id} index={idx}>
                                                     {(provided) => (
                                                         <div
                                                             ref={provided.innerRef}
@@ -287,7 +299,7 @@ export default function AdminProjects() {
                                                             {...provided.dragHandleProps}
                                                             className="relative group w-20 h-20 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm cursor-move"
                                                         >
-                                                            <img src={img} alt="" className="w-full h-full object-cover pointer-events-none" />
+                                                            <img src={img.url} alt="" className="w-full h-full object-cover pointer-events-none" />
                                                             <button
                                                                 type="button"
                                                                 onClick={() => setGalleryImages(prev => prev.filter((_, i) => i !== idx))}
@@ -317,6 +329,7 @@ export default function AdminProjects() {
                                         onChange={handleImageUpload} 
                                         accept="image/*"
                                         disabled={isUploading}
+                                        multiple
                                     />
                                     <Button type="button" variant="outline" disabled={isUploading}>
                                         {isUploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
@@ -330,7 +343,7 @@ export default function AdminProjects() {
                                             if (e.key === 'Enter') {
                                                 e.preventDefault();
                                                 if (e.currentTarget.value) {
-                                                    setGalleryImages([...galleryImages, e.currentTarget.value]);
+                                                    setGalleryImages([...galleryImages, { id: Math.random().toString(36).substr(2, 9), url: e.currentTarget.value }]);
                                                     e.currentTarget.value = '';
                                                 }
                                             }
@@ -339,7 +352,7 @@ export default function AdminProjects() {
                                     <Button type="button" variant="outline" onClick={(e) => {
                                         const input = e.currentTarget.previousElementSibling;
                                         if (input.value) {
-                                            setGalleryImages([...galleryImages, input.value]);
+                                            setGalleryImages([...galleryImages, { id: Math.random().toString(36).substr(2, 9), url: input.value }]);
                                             input.value = '';
                                         }
                                     }}>

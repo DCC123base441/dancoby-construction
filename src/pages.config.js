@@ -50,13 +50,16 @@
 import About from './pages/About';
 import AdminAnalytics from './pages/AdminAnalytics';
 import AdminBlog from './pages/AdminBlog';
+import AdminDashboard from './pages/AdminDashboard';
 import AdminEstimates from './pages/AdminEstimates';
 import AdminLeads from './pages/AdminLeads';
+import AdminLogin from './pages/AdminLogin';
 import AdminProjects from './pages/AdminProjects';
 import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
+import Home from './pages/Home';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
@@ -68,9 +71,6 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import Home from './pages/Home';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminLogin from './pages/AdminLogin';
 import __Layout from './Layout.jsx';
 
 
@@ -78,13 +78,16 @@ export const PAGES = {
     "About": About,
     "AdminAnalytics": AdminAnalytics,
     "AdminBlog": AdminBlog,
+    "AdminDashboard": AdminDashboard,
     "AdminEstimates": AdminEstimates,
     "AdminLeads": AdminLeads,
+    "AdminLogin": AdminLogin,
     "AdminProjects": AdminProjects,
     "Contact": Contact,
     "Estimator": Estimator,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
+    "Home": Home,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
@@ -96,9 +99,6 @@ export const PAGES = {
     "Services": Services,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "Home": Home,
-    "AdminDashboard": AdminDashboard,
-    "AdminLogin": AdminLogin,
 }
 
 export const pagesConfig = {
