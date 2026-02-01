@@ -382,7 +382,6 @@ export default function Home() {
                 {/* JobTread Side with Official Colors */}
                 <motion.div
                   className="flex items-center gap-3 px-4 py-2 rounded-r-xl"
-                  style={{ background: 'linear-gradient(135deg, #2439B0 0%, #1a2d8a 100%)' }}
                   initial={{ x: 50, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   viewport={{ once: true }}
