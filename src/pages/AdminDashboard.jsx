@@ -1,8 +1,12 @@
 import React, { useMemo } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { 
     Users, 
@@ -31,6 +35,7 @@ import {
   } from "@/components/ui/alert-dialog";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell, CartesianGrid } from "recharts";
 import { Link } from 'react-router-dom';
+import ProjectGalleryManager from '../components/admin/ProjectGalleryManager';
 import { createPageUrl } from '../utils';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -84,6 +89,55 @@ export default function AdminDashboard() {
         queryKey: ['siteVisits'],
         queryFn: () => base44.entities.SiteVisit.list('-created_date', 1000),
     });
+
+    // Project quick editor state
+    const [isProjectDialogOpen, setIsProjectDialogOpen] = React.useState(false);
+    const [editingProject, setEditingProject] = React.useState(null);
+    const [title, setTitle] = React.useState("");
+    const [category, setCategory] = React.useState("Residential");
+    const [location, setLocation] = React.useState("");
+    const [timeline, setTimeline] = React.useState("");
+    const [budget, setBudget] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const [currentImages, setCurrentImages] = React.useState([]);
+
+    const openProjectEditor = (project) => {
+        setEditingProject(project);
+        setTitle(project.title || "");
+        setCategory(project.category || "Residential");
+        setLocation(project.location || "");
+        setTimeline(project.timeline || "");
+        setBudget(project.budget || "");
+        setDescription(project.description || "");
+        const otherImages = (project.images || []).filter(img => img !== project.mainImage);
+        setCurrentImages([project.mainImage, ...otherImages].filter(Boolean));
+        setIsProjectDialogOpen(true);
+    };
+
+    const updateProjectMutation = useMutation({
+        mutationFn: ({ id, data }) => base44.entities.Project.update(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['projects'] });
+            setIsProjectDialogOpen(false);
+            setEditingProject(null);
+        },
+    });
+
+    const handleSaveProject = (e) => {
+        e.preventDefault();
+        if (!editingProject) return;
+        const payload = {
+            title,
+            category,
+            location,
+            timeline,
+            budget,
+            description,
+            mainImage: currentImages[0] || "",
+            images: currentImages.slice(1),
+        };
+        updateProjectMutation.mutate({ id: editingProject.id, data: payload });
+    };
 
     // Calculate stats
     const totalLeads = leads.length;
@@ -463,6 +517,93 @@ export default function AdminDashboard() {
                         </Card>
                     </Link>
                 </div>
+
+                {/* Current Projects */}
+                <Card className="border-slate-200/60 shadow-sm">
+                    <CardHeader>
+                        <CardTitle>Current Projects</CardTitle>
+                        <CardDescription>Quickly edit details and manage images from here.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            {projects.map((p) => (
+                                <div key={p.id} className="flex items-center gap-3 p-3 border rounded-lg">
+                                    <div className="h-16 w-16 bg-slate-100 rounded-md overflow-hidden flex-shrink-0">
+                                        {p.mainImage ? (
+                                            <img src={p.mainImage} alt={p.title} className="h-full w-full object-cover" />
+                                        ) : (
+                                            <div className="h-full w-full flex items-center justify-center text-slate-400 text-xs">No Image</div>
+                                        )}
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-sm font-medium text-slate-900 truncate">{p.title || 'Untitled'}</p>
+                                        <p className="text-xs text-slate-500 truncate">{p.category} • {p.location || 'No location'}</p>
+                                    </div>
+                                    <Button size="sm" variant="outline" onClick={() => openProjectEditor(p)}>Edit</Button>
+                                </div>
+                            ))}
+                            {projects.length === 0 && (
+                                <p className="text-sm text-slate-500">No projects yet.</p>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Edit Project Dialog */}
+                <Dialog open={isProjectDialogOpen} onOpenChange={setIsProjectDialogOpen}>
+                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>Edit Project</DialogTitle>
+                        </DialogHeader>
+                        <form onSubmit={handleSaveProject} className="space-y-4">
+                            <div className="space-y-2">
+                                <Label>Project Title</Label>
+                                <Input value={title} onChange={(e) => setTitle(e.target.value)} required />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label>Category</Label>
+                                    <Select value={category} onValueChange={setCategory}>
+                                        <SelectTrigger>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Residential">Residential</SelectItem>
+                                            <SelectItem value="Commercial">Commercial</SelectItem>
+                                            <SelectItem value="Renovation">Renovation</SelectItem>
+                                            <SelectItem value="Restoration">Restoration</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Location</Label>
+                                    <Input value={location} onChange={(e) => setLocation(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Timeline</Label>
+                                <Input value={timeline} onChange={(e) => setTimeline(e.target.value)} placeholder="e.g., 4 months" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Budget</Label>
+                                <Input value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="e.g. $50k - $75k" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Gallery</Label>
+                                <ProjectGalleryManager images={currentImages} onChange={setCurrentImages} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Description</Label>
+                                <Textarea value={description} onChange={(e) => setDescription(e.target.value)} className="h-32" required />
+                            </div>
+                            <div className="flex justify-end gap-2 pt-2">
+                                <Button type="button" variant="outline" onClick={() => setIsProjectDialogOpen(false)}>Cancel</Button>
+                                <Button type="submit" className="bg-slate-900">Save</Button>
+                            </div>
+                        </form>
+                    </DialogContent>
+                </Dialog>
+
             </div>
         </AdminLayout>
     );
