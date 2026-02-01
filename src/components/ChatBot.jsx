@@ -31,7 +31,7 @@ export default function ChatBot() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What area are we tearing down today?"
+      content: "Fresh arrival detected. Nice boots—don't track mud on my virtual floors. What are we tearing down today?"
     }
   ]);
   const [inputValue, setInputValue] = useState('');
