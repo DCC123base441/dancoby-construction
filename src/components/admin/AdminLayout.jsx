@@ -47,7 +47,6 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Dashboard', href: 'AdminDashboard', icon: LayoutDashboard },
         { name: 'Estimates', href: 'AdminEstimates', icon: Calculator },
         { name: 'Projects', href: 'AdminProjects', icon: FolderKanban },
-        { name: 'Current Projects', href: 'AdminCurrentProjects', icon: BarChart3 },
         { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
         { name: 'Leads', href: 'AdminLeads', icon: Users },
         { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
