@@ -240,7 +240,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="group flex flex-col h-full"
               >
-                <div className="relative overflow-hidden mb-6 bg-gray-200">
+                <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
                   {project.beforeImage ? (
                     <div className="relative w-full h-96">
                       <img 
@@ -264,7 +264,7 @@ export default function Home() {
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
                     </>
                   )}
-                </div>
+                </Link>
 
                 <div className="flex flex-col flex-1">
                   <div className="h-12 flex items-center">
@@ -273,7 +273,9 @@ export default function Home() {
                     </div>
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
-                    {project.title}
+                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="hover:text-red-600 transition-colors">
+                      {project.title}
+                    </Link>
                   </h3>
                   <div className="mt-auto">
                     <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
