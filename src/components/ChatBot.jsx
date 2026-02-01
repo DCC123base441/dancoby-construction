@@ -6,6 +6,7 @@ import { base44 } from '@/api/base44Client';
 import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
 import { createPageUrl } from '../utils';
 import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export default function ChatBot() {
   const location = useLocation();
