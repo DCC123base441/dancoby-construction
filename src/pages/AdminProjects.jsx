@@ -74,7 +74,8 @@ export default function AdminProjects() {
     });
 
     useEffect(() => {
-        if (projects.length > 0) {
+        // Only sync from server if we're not currently reordering locally
+        if (projects.length > 0 && !isReordering) {
             setOrderedProjects(projects);
         }
     }, [projects]);
@@ -107,9 +108,17 @@ export default function AdminProjects() {
             ));
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['projects']);
+            queryClient.invalidateQueries({ queryKey: ['projects'] });
+            // Don't turn off isReordering immediately to prevent flickering old order
+            // It will be reset when the new data comes in via the useEffect if we logic it right, 
+            // but simpler: keep isReordering true until we are sure, or just toggle it off.
+            // Better UX: toggle off, but the useEffect change above handles the data sync safely.
             setIsReordering(false);
             toast.success("Project order saved");
+        },
+        onError: (error) => {
+            console.error("Failed to save order:", error);
+            toast.error("Failed to save order. Please try again.");
         }
     });
 
@@ -212,8 +221,16 @@ export default function AdminProjects() {
                     </Button>
                     
                     {isReordering && (
-                        <Button onClick={saveOrder} className="bg-green-600 hover:bg-green-700 text-white">
-                            <Save className="w-4 h-4 mr-2" /> Save Order
+                        <Button 
+                            onClick={saveOrder} 
+                            disabled={updateOrderMutation.isPending}
+                            className="bg-green-600 hover:bg-green-700 text-white"
+                        >
+                            {updateOrderMutation.isPending ? (
+                                <>Saving...</>
+                            ) : (
+                                <><Save className="w-4 h-4 mr-2" /> Save Order</>
+                            )}
                         </Button>
                     )}
                 </div>
