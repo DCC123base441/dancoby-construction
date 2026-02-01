@@ -28,12 +28,40 @@ import {
     MousePointerClick,
     ArrowUpRight,
     Calendar,
-    MapPin
+    MapPin,
+    Trash2
 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AdminAnalytics() {
     const [timeRange, setTimeRange] = useState('week');
+    const [isResetting, setIsResetting] = useState(false);
+    const queryClient = useQueryClient();
+
+    const handleReset = async () => {
+        setIsResetting(true);
+        try {
+            await base44.functions.invoke('resetAnalytics', { target: 'visits' });
+            queryClient.invalidateQueries({ queryKey: ['siteVisits'] });
+        } catch (error) {
+            console.error("Failed to reset analytics", error);
+        } finally {
+            setIsResetting(false);
+        }
+    };
 
     // Fetch Data
     const { data: visits = [] } = useQuery({
@@ -198,17 +226,42 @@ export default function AdminAnalytics() {
         <AdminLayout 
             title="Analytics Dashboard"
             actions={
-                <Select value={timeRange} onValueChange={setTimeRange}>
-                    <SelectTrigger className="w-[180px] bg-white">
-                        <SelectValue placeholder="Select range" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="day">Last 24 Hours</SelectItem>
-                        <SelectItem value="week">Last 7 Days</SelectItem>
-                        <SelectItem value="month">Last 30 Days</SelectItem>
-                        <SelectItem value="year">Last 12 Months</SelectItem>
-                    </SelectContent>
-                </Select>
+                <div className="flex items-center gap-2">
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="outline" className="bg-white text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100">
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Reset Data
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Reset Analytics Data?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will permanently delete all recorded site visits history. This action cannot be undone.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
+                                    {isResetting ? "Resetting..." : "Yes, Delete History"}
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+
+                    <Select value={timeRange} onValueChange={setTimeRange}>
+                        <SelectTrigger className="w-[180px] bg-white">
+                            <SelectValue placeholder="Select range" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="day">Last 24 Hours</SelectItem>
+                            <SelectItem value="week">Last 7 Days</SelectItem>
+                            <SelectItem value="month">Last 30 Days</SelectItem>
+                            <SelectItem value="year">Last 12 Months</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
             }
         >
             <Tabs defaultValue="traffic" className="space-y-8">
