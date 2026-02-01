@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +8,7 @@ import { X, Send, MessageCircle, Loader, Sparkles } from 'lucide-react';
 import { createPageUrl } from '../utils';
 
 export default function ChatBot() {
+  const location = useLocation();
   const [engagingMessages, setEngagingMessages] = useState([
     "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
   ]);
@@ -45,18 +47,30 @@ export default function ChatBot() {
         const engaging = active.filter(m => m.category === 'engaging').map(m => m.content);
         if (engaging.length > 0) setEngagingMessages(engaging);
         
-        // Update welcome messages if we haven't started chatting yet (length <= 2 implies initial state)
-        // Or just overwrite initial state
-        const welcome = active.filter(m => m.category === 'welcome').sort((a,b) => a.order - b.order);
-        if (welcome.length > 0 && messages.length <= 2) {
-             setMessages(welcome.map(m => ({ role: 'assistant', content: m.content })));
+        // Filter welcome messages based on current page
+        const currentPath = location.pathname;
+        const welcome = active.filter(m => {
+          if (m.category !== 'welcome') return false;
+          // Include if no page path is set (global) OR if it matches current path
+          return !m.page_path || m.page_path === currentPath;
+        }).sort((a,b) => a.order - b.order);
+
+        // Update messages if we haven't started chatting yet
+        // Check if message count is low (initial state)
+        if (welcome.length > 0 && messages.length <= 5) {
+             // Only reset if we are in "initial" state - simple heuristic
+             // If user has chatted (role=user exists), don't overwrite
+             const hasUserMessage = messages.some(m => m.role === 'user');
+             if (!hasUserMessage) {
+                 setMessages(welcome.map(m => ({ role: 'assistant', content: m.content })));
+             }
         }
       } catch (e) {
         console.error("Failed to fetch chatbot messages", e);
       }
     };
     fetchMessages();
-  }, []);
+  }, [location.pathname]); // Re-fetch/update when location changes
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');

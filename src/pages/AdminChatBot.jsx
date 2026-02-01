@@ -70,6 +70,7 @@ export default function AdminChatBot() {
     const [formData, setFormData] = useState({
         content: "",
         category: "engaging",
+        page_path: "",
         isActive: true,
         order: 0
     });
@@ -79,6 +80,7 @@ export default function AdminChatBot() {
             setFormData({
                 content: editingMessage.content,
                 category: editingMessage.category,
+                page_path: editingMessage.page_path || "",
                 isActive: editingMessage.isActive,
                 order: editingMessage.order || 0
             });
@@ -86,6 +88,7 @@ export default function AdminChatBot() {
             setFormData({
                 content: "",
                 category: activeTab,
+                page_path: "",
                 isActive: true,
                 order: activeTab === 'welcome' ? welcomeMessages.length : 0
             });
@@ -146,9 +149,10 @@ export default function AdminChatBot() {
                                 </div>
                                 <div className="space-y-1 flex-1">
                                     <p className="text-sm font-medium text-gray-900">{message.content}</p>
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 flex-wrap">
                                         {!message.isActive && <Badge variant="secondary">Inactive</Badge>}
                                         {type === 'welcome' && <Badge variant="outline">Order: {message.order}</Badge>}
+                                        {message.page_path && <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200">Page: {message.page_path}</Badge>}
                                     </div>
                                 </div>
                             </div>
@@ -256,6 +260,18 @@ export default function AdminChatBot() {
                                     required
                                 />
                             </div>
+
+                            {activeTab === 'welcome' && (
+                                <div className="space-y-2">
+                                    <Label>Page Path (Optional)</Label>
+                                    <Input 
+                                        value={formData.page_path}
+                                        onChange={(e) => setFormData({...formData, page_path: e.target.value})}
+                                        placeholder="e.g. /Projects (Leave empty for all pages)"
+                                    />
+                                    <p className="text-xs text-gray-500">If set, this message will only appear when the chat is opened on this specific page.</p>
+                                </div>
+                            )}
                             
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
