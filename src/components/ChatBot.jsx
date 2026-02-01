@@ -37,11 +37,15 @@ export default function ChatBot() {
   useEffect(() => {
     if (isOpen || !allChatMessages || allChatMessages.length === 0) return;
 
+    const currentPath = location.pathname.toLowerCase().replace(/\/$/, "") || "/";
+
     // Find a welcome message for this page
-    const welcomeMsg = allChatMessages.find(m => 
-      m.isPageWelcome && 
-      (m.targetPage === 'all' || m.targetPage === location.pathname)
-    );
+    const welcomeMsg = allChatMessages.find(m => {
+      if (!m.isPageWelcome) return false;
+      if (m.targetPage === 'all') return true;
+      const targetPath = m.targetPage.toLowerCase().replace(/\/$/, "") || "/";
+      return targetPath === currentPath;
+    });
 
     if (welcomeMsg) {
       // Check if we've already shown this specific message in this session
@@ -53,7 +57,14 @@ export default function ChatBot() {
           setShowBubble(true);
           sessionStorage.setItem(`chatbot_welcome_${welcomeMsg.id}`, 'true');
           
-          // Hide after 10 seconds
+          // Add to chat history as the first message
+          setMessages(prev => {
+            // Avoid duplicates if it's already there
+            if (prev.some(msg => msg.content === welcomeMsg.content)) return prev;
+            return [{ role: 'assistant', content: welcomeMsg.content }, ...prev];
+          });
+
+          // Hide bubble after 10 seconds
           setTimeout(() => setShowBubble(false), 10000);
         }, 5000);
 
@@ -72,11 +83,15 @@ export default function ChatBot() {
     const showRandomBubble = () => {
       if (!allChatMessages || allChatMessages.length === 0) return;
 
+      const currentPath = location.pathname.toLowerCase().replace(/\/$/, "") || "/";
+
       // Filter messages relevant to current page or 'all'
-      const relevantMessages = allChatMessages.filter(m => 
-        !m.isPageWelcome && // Don't use welcome messages as random bubbles
-        (m.targetPage === 'all' || m.targetPage === location.pathname)
-      );
+      const relevantMessages = allChatMessages.filter(m => {
+        if (m.isPageWelcome) return false; // Don't use welcome messages as random bubbles
+        if (m.targetPage === 'all') return true;
+        const targetPath = m.targetPage.toLowerCase().replace(/\/$/, "") || "/";
+        return targetPath === currentPath;
+      });
 
       if (relevantMessages.length === 0) return;
       
