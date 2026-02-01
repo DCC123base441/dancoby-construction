@@ -47,6 +47,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { motion } from "framer-motion";
 
 export default function AdminDashboard() {
     const [isResetting, setIsResetting] = React.useState(false);
@@ -255,6 +256,66 @@ export default function AdminDashboard() {
             }
         >
             <div className="space-y-8">
+                {/* Powered by JobTread Animation */}
+                <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-center gap-3 py-3 px-4 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-xl shadow-lg"
+                >
+                    <motion.div 
+                        className="flex items-center gap-2"
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                    >
+                        <span className="text-white font-semibold text-sm">Dancoby Construction</span>
+                    </motion.div>
+                    
+                    <motion.div 
+                        className="flex items-center gap-1"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                    >
+                        <motion.div
+                            className="w-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-emerald-400"
+                            initial={{ width: 0 }}
+                            animate={{ width: 32 }}
+                            transition={{ delay: 0.7, duration: 0.4 }}
+                        />
+                        <motion.div
+                            className="w-3 h-3 rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/50"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: [0, 1.3, 1] }}
+                            transition={{ delay: 1.1, duration: 0.3 }}
+                        />
+                        <motion.div
+                            className="w-8 h-0.5 bg-gradient-to-r from-emerald-400 via-emerald-400 to-transparent"
+                            initial={{ width: 0 }}
+                            animate={{ width: 32 }}
+                            transition={{ delay: 1.3, duration: 0.4 }}
+                        />
+                    </motion.div>
+                    
+                    <motion.div 
+                        className="flex items-center gap-2"
+                        initial={{ x: 20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 1.6 }}
+                    >
+                        <span className="text-slate-400 text-xs">powered by</span>
+                        <motion.span 
+                            className="text-emerald-400 font-bold text-sm"
+                            animate={{ 
+                                textShadow: ["0 0 0px #34d399", "0 0 10px #34d399", "0 0 0px #34d399"]
+                            }}
+                            transition={{ delay: 1.8, duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+                        >
+                            JobTread
+                        </motion.span>
+                    </motion.div>
+                </motion.div>
+
                 {/* Stats Grid */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {stats.map((stat, index) => (
