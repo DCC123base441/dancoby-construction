@@ -197,7 +197,7 @@ export default function VendorIntake() {
 
             <div className="text-center mb-10">
               <h2 className="text-3xl font-serif text-gray-900 mb-4">Vendor Registration</h2>
-              <p className="text-gray-500">Please complete the form below to join our bidder's list.</p>
+              <p className="text-gray-500">Please complete the form to join our sub-contractor network.</p>
             </div>
 
             <form className="jtwf" data-jobtread-web-form="true" data-key="22TGXQ6uZYnsy4evWGXsitueqjVLnNsTSa">
