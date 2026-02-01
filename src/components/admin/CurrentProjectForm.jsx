@@ -25,9 +25,19 @@ export default function CurrentProjectForm({ project, onSubmit, onCancel, submit
   });
 
   React.useEffect(() => {
-    setForm(project || {
-      title: '', location: '', status: '0% Complete', progress: 0, description: '', image: '', order: 0,
-    });
+    if (project) {
+      setForm({
+        title: project.title || '',
+        location: project.location || '',
+        status: project.status || '0% Complete',
+        progress: typeof project.progress === 'number' ? project.progress : Number((String(project.status || '').match(/\d+/)?.[0]) || 0),
+        description: project.description || '',
+        image: project.image || '',
+        order: typeof project.order === 'number' ? project.order : 0,
+      });
+    } else {
+      setForm({ title: '', location: '', status: '0% Complete', progress: 0, description: '', image: '', order: 0 });
+    }
   }, [project]);
 
   const handleUpload = async (e) => {
