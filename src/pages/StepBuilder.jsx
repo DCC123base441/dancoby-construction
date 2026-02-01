@@ -11,7 +11,9 @@ import {
     Check, 
     RefreshCcw, 
     Truck,
-    CreditCard
+    CreditCard,
+    ShieldCheck,
+    CheckCircle2
 } from 'lucide-react';
 import { stepData } from '../components/step/stepData';
 import { toast } from "sonner";
