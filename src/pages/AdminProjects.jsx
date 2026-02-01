@@ -184,7 +184,12 @@ export default function AdminProjects() {
                                 <Button 
                                     variant="ghost" 
                                     size="icon"
-                                    onClick={() => { setEditingProject(project); setIsDialogOpen(true); }}
+                                    onClick={() => { 
+                                        setEditingProject(project); 
+                                        const otherImages = (project.images || []).filter(img => img !== project.mainImage);
+                                        setCurrentImages([project.mainImage, ...otherImages].filter(Boolean));
+                                        setIsDialogOpen(true); 
+                                    }}
                                 >
                                     <Pencil className="w-4 h-4 text-slate-500" />
                                 </Button>
