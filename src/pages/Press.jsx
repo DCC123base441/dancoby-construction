@@ -65,7 +65,7 @@ export default function Press() {
                       {article.excerpt}
                     </p>
                     <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white w-fit">
-                      <a href={article.link} target="_blank" rel="noopener noreferrer">
+                      <a href={article.link}>
                         Read Full Article
                         <ExternalLink className="w-4 h-4 ml-2" />
                       </a>
