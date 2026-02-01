@@ -515,13 +515,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-xs tracking-[2px] text-[#78716b] uppercase mb-4">Interested in working with us?</p>
           <h2 className="text-3xl md:text-4xl font-light mb-8">Let's Build Something Beautiful</h2>
-          <div className="flex flex-col items-center gap-6">
-            <Button asChild variant="outline" className="border border-white bg-transparent text-white hover:bg-white hover:text-[#1c1917] px-8 py-3 text-sm tracking-wider uppercase">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+            <Button asChild className="bg-white text-[#1c1917] hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase min-w-[200px]">
               <Link to={createPageUrl('Contact')}>Get In Touch</Link>
             </Button>
-            <Link to={createPageUrl('VendorIntake')} className="text-white/40 hover:text-white text-xs tracking-widest uppercase transition-colors border-b border-transparent hover:border-white/40 pb-0.5">
-              Subcontractor Registration
-            </Link>
+            <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-[#1c1917] bg-transparent px-8 py-6 text-sm tracking-wider uppercase min-w-[200px]">
+              <Link to={createPageUrl('VendorIntake')}>
+                Subcontractor Registration
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
