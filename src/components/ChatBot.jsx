@@ -54,6 +54,25 @@ export default function ChatBot() {
       }
     }
   }, [location.pathname, allChatMessages, isOpen]);
+
+  // Handle Initial Chat Message (when opening chat manually or via bubble)
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      // If opened via bubble click, bubbleMessage might be set. 
+      // But we handle that in the click handler.
+      // This is for when opening via the floating button directly.
+      
+      // Find default welcome message for this page
+      const welcomeMsg = allChatMessages.find(m => 
+        m.isPageWelcome && 
+        (m.targetPage === 'all' || m.targetPage === location.pathname)
+      );
+
+      if (welcomeMsg) {
+        setMessages([{ role: 'assistant', content: welcomeMsg.content }]);
+      }
+    }
+  }, [isOpen, location.pathname, allChatMessages]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');
@@ -177,6 +196,9 @@ User question: ${userMessage}`,
             onClick={() => {
               setShowBubble(false);
               setIsOpen(true);
+              if (messages.length === 0) {
+                setMessages([{ role: 'assistant', content: bubbleMessage }]);
+              }
             }}
           >
             <div className="flex items-start gap-2">
