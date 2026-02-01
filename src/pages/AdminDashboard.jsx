@@ -233,9 +233,7 @@ export default function AdminDashboard() {
                         </AlertDialogContent>
                     </AlertDialog>
 
-                    <span className="text-sm text-slate-500 mr-2 hidden sm:inline-block border-l pl-4 ml-2">
-                        {new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                    </span>
+
                     <Button asChild size="sm" className="bg-slate-900 shadow-sm">
                         <Link to={createPageUrl('AdminProjects')}>
                             <Plus className="w-4 h-4 mr-2" /> New Project
