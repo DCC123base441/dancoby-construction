@@ -44,15 +44,14 @@ export default function AdminLayout({ children, title, actions }) {
     }, []);
     
     const navigation = [
-                { name: 'Dashboard', href: 'AdminDashboard', icon: LayoutDashboard },
-                { name: 'Estimates', href: 'AdminEstimates', icon: Calculator },
-                { name: 'Projects', href: 'AdminProjects', icon: FolderKanban },
-                { name: 'Current Projects', href: 'AdminCurrentProjects', icon: FolderKanban },
-                { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
-                { name: 'Leads', href: 'AdminLeads', icon: Users },
-                { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
-                { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
-            ];
+        { name: 'Dashboard', href: 'AdminDashboard', icon: LayoutDashboard },
+        { name: 'Estimates', href: 'AdminEstimates', icon: Calculator },
+        { name: 'Projects', href: 'AdminProjects', icon: FolderKanban },
+        { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
+        { name: 'Leads', href: 'AdminLeads', icon: Users },
+        { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
+        { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
+    ];
 
     const handleLogout = async () => {
         localStorage.removeItem('admin_bypass');
