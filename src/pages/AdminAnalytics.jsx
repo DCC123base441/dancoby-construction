@@ -405,37 +405,6 @@ export default function AdminAnalytics() {
                                     </div>
                                 </CardContent>
                             </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Recent Visits</CardTitle>
-                                    <CardDescription>Latest raw traffic data</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        {visits.slice(0, 5).map((visit, i) => (
-                                            <div key={i} className="flex flex-col gap-1 border-b border-slate-100 last:border-0 pb-2 last:pb-0">
-                                                <div className="flex items-center justify-between">
-                                                    <span className="text-sm font-medium truncate max-w-[150px]">{visit.page}</span>
-                                                    <span className="text-xs text-slate-400">
-                                                        {new Date(visit.created_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                    </span>
-                                                </div>
-                                                <div className="flex items-center justify-between text-xs text-slate-500">
-                                                    <div className="flex items-center gap-1">
-                                                        <MapPin className="w-3 h-3" />
-                                                        <span>{visit.city ? `${visit.city}, ${visit.state || visit.country}` : 'Unknown Location'}</span>
-                                                    </div>
-                                                    <span>{visit.ip || 'No IP'}</span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {visits.length === 0 && (
-                                            <div className="text-center text-slate-500 py-4">No data yet</div>
-                                        )}
-                                    </div>
-                                </CardContent>
-                            </Card>
                         </div>
                     </div>
                 </TabsContent>
