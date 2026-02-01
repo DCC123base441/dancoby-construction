@@ -116,6 +116,20 @@ export default function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Initialize chat with welcome message on first open
+  useEffect(() => {
+    if (isOpen && messages.length === 0 && allChatMessages.length > 0) {
+      const welcomeMsg = allChatMessages.find(m => 
+        m.isPageWelcome && 
+        (m.targetPage === 'all' || m.targetPage === location.pathname)
+      );
+
+      if (welcomeMsg) {
+        setMessages([{ role: 'assistant', content: welcomeMsg.content }]);
+      }
+    }
+  }, [isOpen, allChatMessages, location.pathname, messages.length]);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
