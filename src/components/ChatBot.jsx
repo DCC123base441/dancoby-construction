@@ -32,13 +32,35 @@ export default function ChatBot() {
     }
   }, [isOpen]);
 
-  const [messages, setMessages] = useState([{
-    role: 'assistant',
-    content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
-  }]);
+  const [messages, setMessages] = useState([]);
+  
+  // Load initial messages from session storage if available to persist chat across pages
+  useEffect(() => {
+    const saved = sessionStorage.getItem('chatbot_history');
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch (e) {
+        // invalid json
+      }
+    } else {
+      // Default initial message if nothing saved
+      setMessages([{
+        role: 'assistant',
+        content: "Greetings from the digital jobsite! I don't do dust, delays, or 'We'll be there Tuesday' lies. But I do have killer ideas for your remodel. Spill the details!"
+      }]);
+    }
+  }, []);
+
+  // Save messages to session storage whenever they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      sessionStorage.setItem('chatbot_history', JSON.stringify(messages));
+    }
+  }, [messages]);
 
   useEffect(() => {
-    const fetchMessages = async () => {
+    const checkTriggers = async () => {
       try {
         const allMessages = await base44.entities.ChatBotMessage.list();
         const active = allMessages.filter(m => m.isActive !== false);
@@ -47,30 +69,44 @@ export default function ChatBot() {
         const engaging = active.filter(m => m.category === 'engaging').map(m => m.content);
         if (engaging.length > 0) setEngagingMessages(engaging);
         
-        // Filter welcome messages based on current page
+        // Check for page-specific triggers (welcome messages)
         const currentPath = location.pathname;
-        const welcome = active.filter(m => {
-          if (m.category !== 'welcome') return false;
-          // Include if no page path is set (global) OR if it matches current path
-          return !m.page_path || m.page_path === currentPath;
-        }).sort((a,b) => a.order - b.order);
+        const triggers = active.filter(m => m.category === 'welcome');
+        
+        triggers.forEach(msg => {
+            // Check if matches this page (or is global)
+            const isMatch = (!msg.page_path && !sessionStorage.getItem('global_welcome_shown')) || 
+                            (msg.page_path === currentPath);
+            
+            if (isMatch) {
+                // Check if already shown in this session
+                const seenKey = `chat_trigger_${msg.id}`;
+                if (!sessionStorage.getItem(seenKey)) {
+                    // Mark as seen
+                    sessionStorage.setItem(seenKey, 'true');
+                    if (!msg.page_path) sessionStorage.setItem('global_welcome_shown', 'true');
+                    
+                    // Add to chat
+                    setMessages(prev => {
+                        // Avoid duplicates in current state just in case
+                        if (prev.some(p => p.content === msg.content)) return prev;
+                        return [...prev, { role: 'assistant', content: msg.content }];
+                    });
+                    
+                    // Open chat if it's a specific page trigger
+                    if (msg.page_path) {
+                        setIsOpen(true);
+                    }
+                }
+            }
+        });
 
-        // Update messages if we haven't started chatting yet
-        // Check if message count is low (initial state)
-        if (welcome.length > 0 && messages.length <= 5) {
-             // Only reset if we are in "initial" state - simple heuristic
-             // If user has chatted (role=user exists), don't overwrite
-             const hasUserMessage = messages.some(m => m.role === 'user');
-             if (!hasUserMessage) {
-                 setMessages(welcome.map(m => ({ role: 'assistant', content: m.content })));
-             }
-        }
       } catch (e) {
         console.error("Failed to fetch chatbot messages", e);
       }
     };
-    fetchMessages();
-  }, [location.pathname]); // Re-fetch/update when location changes
+    checkTriggers();
+  }, [location.pathname]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');

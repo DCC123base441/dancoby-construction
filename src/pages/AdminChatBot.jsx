@@ -35,7 +35,7 @@ export default function AdminChatBot() {
     });
 
     const engagingMessages = messages.filter(m => m.category === 'engaging');
-    const welcomeMessages = messages.filter(m => m.category === 'welcome').sort((a, b) => a.order - b.order);
+    const welcomeMessages = messages.filter(m => m.category === 'welcome');
 
     // Mutations
     const createMutation = useMutation({
@@ -71,8 +71,7 @@ export default function AdminChatBot() {
         content: "",
         category: "engaging",
         page_path: "",
-        isActive: true,
-        order: 0
+        isActive: true
     });
 
     useEffect(() => {
@@ -81,19 +80,17 @@ export default function AdminChatBot() {
                 content: editingMessage.content,
                 category: editingMessage.category,
                 page_path: editingMessage.page_path || "",
-                isActive: editingMessage.isActive,
-                order: editingMessage.order || 0
+                isActive: editingMessage.isActive
             });
         } else {
             setFormData({
                 content: "",
                 category: activeTab,
                 page_path: "",
-                isActive: true,
-                order: activeTab === 'welcome' ? welcomeMessages.length : 0
+                isActive: true
             });
         }
-    }, [editingMessage, activeTab, isDialogOpen, welcomeMessages.length]);
+    }, [editingMessage, activeTab, isDialogOpen]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -115,24 +112,6 @@ export default function AdminChatBot() {
         }
     };
 
-    const handleMoveOrder = async (message, direction) => {
-        const currentIndex = welcomeMessages.findIndex(m => m.id === message.id);
-        if (currentIndex === -1) return;
-        
-        const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-        if (newIndex < 0 || newIndex >= welcomeMessages.length) return;
-
-        const otherMessage = welcomeMessages[newIndex];
-        
-        // Swap orders
-        await Promise.all([
-            base44.entities.ChatBotMessage.update(message.id, { order: otherMessage.order }),
-            base44.entities.ChatBotMessage.update(otherMessage.id, { order: message.order })
-        ]);
-        
-        queryClient.invalidateQueries(['chatBotMessages']);
-    };
-
     const MessageList = ({ items, type }) => (
         <div className="space-y-4">
             {items.length === 0 ? (
@@ -151,34 +130,11 @@ export default function AdminChatBot() {
                                     <p className="text-sm font-medium text-gray-900">{message.content}</p>
                                     <div className="flex gap-2 flex-wrap">
                                         {!message.isActive && <Badge variant="secondary">Inactive</Badge>}
-                                        {type === 'welcome' && <Badge variant="outline">Order: {message.order}</Badge>}
                                         {message.page_path && <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200">Page: {message.page_path}</Badge>}
                                     </div>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
-                                {type === 'welcome' && (
-                                    <div className="flex flex-col gap-1 mr-2">
-                                        <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            className="h-6 w-6" 
-                                            disabled={idx === 0}
-                                            onClick={() => handleMoveOrder(message, 'up')}
-                                        >
-                                            <MoveUp className="w-3 h-3" />
-                                        </Button>
-                                        <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            className="h-6 w-6"
-                                            disabled={idx === items.length - 1}
-                                            onClick={() => handleMoveOrder(message, 'down')}
-                                        >
-                                            <MoveDown className="w-3 h-3" />
-                                        </Button>
-                                    </div>
-                                )}
                                 <Button variant="ghost" size="icon" onClick={() => handleEdit(message)}>
                                     <Edit2 className="w-4 h-4 text-gray-500" />
                                 </Button>
@@ -227,9 +183,9 @@ export default function AdminChatBot() {
                     <TabsContent value="welcome" className="space-y-4">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Welcome Sequence</CardTitle>
+                                <CardTitle>Page Triggers</CardTitle>
                                 <CardDescription>
-                                    These messages appear automatically when a user opens the chat for the first time, in the order specified.
+                                    These messages appear automatically when a user visits a specific page (or global if no page is set), once per visit.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
