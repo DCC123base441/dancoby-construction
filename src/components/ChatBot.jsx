@@ -23,10 +23,17 @@ export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 5000);
-    return () => clearTimeout(timer);
+    // Check if user is on the home page and if the chat has already been opened in this session
+    const isHomePage = window.location.pathname === '/';
+    const hasOpened = sessionStorage.getItem('chatAutoOpened');
+
+    if (isHomePage && !hasOpened) {
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+        sessionStorage.setItem('chatAutoOpened', 'true');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
   }, []);
   const [messages, setMessages] = useState([
     {
