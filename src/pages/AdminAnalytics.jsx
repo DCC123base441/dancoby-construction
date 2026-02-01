@@ -160,14 +160,18 @@ export default function AdminAnalytics() {
             pageViews[visit.page] = (pageViews[visit.page] || 0) + 1;
 
             // Count for top locations
+            let loc = 'Unknown';
             if (visit.city && visit.state) {
-                const loc = `${visit.city}, ${visit.state}`;
-                locationCounts[loc] = (locationCounts[loc] || 0) + 1;
+                loc = `${visit.city}, ${visit.state}`;
+            } else if (visit.city && visit.country) {
+                loc = `${visit.city}, ${visit.country}`;
+            } else if (visit.state && visit.country) {
+                loc = `${visit.state}, ${visit.country}`;
             } else if (visit.country) {
-                locationCounts[visit.country] = (locationCounts[visit.country] || 0) + 1;
-            } else {
-                locationCounts['Unknown'] = (locationCounts['Unknown'] || 0) + 1;
+                loc = visit.country;
             }
+
+            locationCounts[loc] = (locationCounts[loc] || 0) + 1;
         });
 
         const chartData = Object.values(grouped).sort((a, b) => a.sort - b.sort);
