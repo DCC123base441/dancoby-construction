@@ -57,7 +57,7 @@ export default function BlogPost() {
                 transition={{ duration: 0.5 }}
             />
 
-            <article className="max-w-4xl mx-auto px-6 py-12 md:py-20">
+            <article className="max-w-7xl mx-auto px-6 py-12 md:py-20">
                 {/* Back Link */}
                 <Link 
                     to={createPageUrl('Blog')}
@@ -68,7 +68,7 @@ export default function BlogPost() {
                 </Link>
 
                 {/* Header */}
-                <header className="mb-12">
+                <header className="mb-12 max-w-4xl mx-auto">
                     <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
                         <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium">
                             Blog
@@ -101,35 +101,72 @@ export default function BlogPost() {
                     )}
                 </header>
 
-                {/* Content */}
-                <div className="prose prose-lg prose-slate mx-auto prose-headings:font-serif prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-600 prose-p:leading-8 prose-a:text-red-600 hover:prose-a:text-red-700 prose-img:rounded-xl prose-img:shadow-lg prose-li:text-gray-600">
-                    <ReactMarkdown>
-                        {post.content}
-                    </ReactMarkdown>
-                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    {/* Main Content */}
+                    <div className="lg:col-span-8">
+                        <div className="prose prose-lg prose-slate prose-headings:font-serif prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-600 prose-p:leading-8 prose-a:text-red-600 hover:prose-a:text-red-700 prose-img:rounded-xl prose-img:shadow-lg prose-li:text-gray-600 max-w-none">
+                            <ReactMarkdown>
+                                {post.content}
+                            </ReactMarkdown>
+                        </div>
+                        
+                        {/* Share / Footer */}
+                        <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div className="text-gray-500 text-sm font-medium">
+                                Share this article:
+                            </div>
+                            <div className="flex gap-4">
+                                <Button variant="outline" size="icon" className="rounded-full hover:bg-blue-50 hover:text-blue-600 border-gray-200" title="Share on Facebook">
+                                    <Facebook className="w-4 h-4" />
+                                </Button>
+                                <Button variant="outline" size="icon" className="rounded-full hover:bg-sky-50 hover:text-sky-500 border-gray-200" title="Share on Twitter">
+                                    <Twitter className="w-4 h-4" />
+                                </Button>
+                                <Button variant="outline" size="icon" className="rounded-full hover:bg-blue-50 hover:text-blue-700 border-gray-200" title="Share on LinkedIn">
+                                    <Linkedin className="w-4 h-4" />
+                                </Button>
+                                <Button variant="outline" size="icon" className="rounded-full hover:bg-gray-50 border-gray-200" title="Copy Link" onClick={() => {
+                                    navigator.clipboard.writeText(window.location.href);
+                                    alert('Link copied to clipboard!');
+                                }}>
+                                    <Share2 className="w-4 h-4" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
 
-                {/* Share / Footer */}
-                <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="text-gray-500 text-sm font-medium">
-                        Share this article:
-                    </div>
-                    <div className="flex gap-4">
-                        <Button variant="outline" size="icon" className="rounded-full hover:bg-blue-50 hover:text-blue-600 border-gray-200" title="Share on Facebook">
-                            <Facebook className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="icon" className="rounded-full hover:bg-sky-50 hover:text-sky-500 border-gray-200" title="Share on Twitter">
-                            <Twitter className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="icon" className="rounded-full hover:bg-blue-50 hover:text-blue-700 border-gray-200" title="Share on LinkedIn">
-                            <Linkedin className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="icon" className="rounded-full hover:bg-gray-50 border-gray-200" title="Copy Link" onClick={() => {
-                            navigator.clipboard.writeText(window.location.href);
-                            alert('Link copied to clipboard!');
-                        }}>
-                            <Share2 className="w-4 h-4" />
-                        </Button>
-                    </div>
+                    {/* Sidebar / Context */}
+                    <aside className="lg:col-span-4 space-y-8">
+                        {/* Services Widget */}
+                        <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 sticky top-24">
+                            <h3 className="font-serif font-bold text-xl mb-4 text-gray-900">Our Expertise</h3>
+                            <p className="text-gray-600 text-sm mb-6">
+                                We specialize in transforming spaces with high-end craftsmanship and attention to detail.
+                            </p>
+                            <nav className="space-y-3">
+                                <Link to={createPageUrl('ServiceInteriorRenovations')} className="block p-3 bg-white rounded-lg border border-gray-200 hover:border-red-200 hover:shadow-sm transition-all group">
+                                    <div className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors">Interior Renovations</div>
+                                    <div className="text-xs text-gray-500">Full home & apartment transformations</div>
+                                </Link>
+                                <Link to={createPageUrl('ServiceKitchenBath')} className="block p-3 bg-white rounded-lg border border-gray-200 hover:border-red-200 hover:shadow-sm transition-all group">
+                                    <div className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors">Kitchens & Baths</div>
+                                    <div className="text-xs text-gray-500">Luxury remodeling & restoration</div>
+                                </Link>
+                                <Link to={createPageUrl('ServiceBrownstone')} className="block p-3 bg-white rounded-lg border border-gray-200 hover:border-red-200 hover:shadow-sm transition-all group">
+                                    <div className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors">Brownstones</div>
+                                    <div className="text-xs text-gray-500">Historic preservation & updates</div>
+                                </Link>
+                            </nav>
+                            
+                            <div className="mt-8 pt-6 border-t border-gray-200">
+                                <h4 className="font-bold text-gray-900 mb-2">Ready to start?</h4>
+                                <p className="text-sm text-gray-600 mb-4">Get a free estimate for your next project.</p>
+                                <Button asChild className="w-full bg-red-600 hover:bg-red-700 text-white">
+                                    <Link to={createPageUrl('Contact')}>Get an Estimate</Link>
+                                </Button>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             </article>
 
