@@ -12,13 +12,6 @@ export default function ChatBot() {
   const [allChatMessages, setAllChatMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]); // Empty initially, no welcome sequence
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [bubbleMessage, setBubbleMessage] = useState('');
-  const [showBubble, setShowBubble] = useState(false);
-  const messagesEndRef = useRef(null);
-  const bubbleTimerRef = useRef(null);
-  const hasShownInitialBubble = useRef(false);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -61,6 +54,13 @@ export default function ChatBot() {
       }
     }
   }, [location.pathname, allChatMessages, isOpen]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [bubbleMessage, setBubbleMessage] = useState('');
+  const [showBubble, setShowBubble] = useState(false);
+  const messagesEndRef = useRef(null);
+  const bubbleTimerRef = useRef(null);
+  const hasShownInitialBubble = useRef(false);
 
   // Show engaging bubble messages periodically when chat is closed
   useEffect(() => {
@@ -115,20 +115,6 @@ export default function ChatBot() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  // Initialize chat with welcome message on first open
-  useEffect(() => {
-    if (isOpen && messages.length === 0 && allChatMessages.length > 0) {
-      const welcomeMsg = allChatMessages.find(m => 
-        m.isPageWelcome && 
-        (m.targetPage === 'all' || m.targetPage === location.pathname)
-      );
-
-      if (welcomeMsg) {
-        setMessages([{ role: 'assistant', content: welcomeMsg.content }]);
-      }
-    }
-  }, [isOpen, allChatMessages, location.pathname, messages.length]);
 
   useEffect(() => {
     scrollToBottom();
