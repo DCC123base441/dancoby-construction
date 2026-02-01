@@ -54,7 +54,7 @@ export default function Header() {
               asChild
               className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10"
             >
-              <Link to={createPageUrl('Contact')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Contact</Link>
+              <Link to={createPageUrl('Contact')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Get In Touch</Link>
             </Button>
           </div>
 
@@ -85,7 +85,7 @@ export default function Header() {
               className="w-full bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide mt-4"
             >
               <Link to={createPageUrl('Contact')} onClick={() => { setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-                Contact
+                Get In Touch
               </Link>
             </Button>
           </nav>
