@@ -65,6 +65,8 @@ export default function ProjectSlideshow({ images }) {
               <img 
                 src={image}
                 alt={`Thumbnail ${idx + 1}`}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </button>

@@ -30,6 +30,38 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
+const resizeImage = (file, maxWidth = 1600) => {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const elem = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = height * (maxWidth / width);
+                    width = maxWidth;
+                }
+
+                elem.width = width;
+                elem.height = height;
+                const ctx = elem.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                ctx.canvas.toBlob((blob) => {
+                    resolve(new File([blob], file.name, {
+                        type: 'image/jpeg',
+                        lastModified: Date.now()
+                    }));
+                }, 'image/jpeg', 0.8);
+            };
+        };
+    });
+};
+
 export default function AdminProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
@@ -128,7 +160,9 @@ export default function AdminProjects() {
         const toastId = toast.loading(`Uploading ${files.length} image${files.length > 1 ? 's' : ''}...`);
 
         try {
-            const uploadPromises = files.map(file => base44.integrations.Core.UploadFile({ file }));
+            // Resize images before uploading
+            const resizedFiles = await Promise.all(files.map(file => resizeImage(file)));
+            const uploadPromises = resizedFiles.map(file => base44.integrations.Core.UploadFile({ file }));
             const results = await Promise.all(uploadPromises);
             
             const newImages = results.map(res => ({
@@ -346,7 +380,7 @@ export default function AdminProjects() {
                                                             {...provided.dragHandleProps}
                                                             className="relative group w-20 h-20 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm cursor-move"
                                                         >
-                                                            <img src={img.url} alt="" className={`w-full h-full object-cover pointer-events-none ${mainImage === img.url ? 'opacity-80' : ''}`} />
+                                                            <img src={img.url} alt="" loading="lazy" decoding="async" className={`w-full h-full object-cover pointer-events-none ${mainImage === img.url ? 'opacity-80' : ''}`} />
                                                             {mainImage === img.url && (
                                                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
                                                                     <Star className="w-8 h-8 text-yellow-400 fill-yellow-400 drop-shadow-md" />
