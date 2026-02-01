@@ -90,8 +90,8 @@ export default function AdminBlog() {
     });
 
     const saveMutation = useMutation({
-        mutationFn: (data) => editingPost 
-            ? base44.entities.BlogPost.update(editingPost.id, data)
+        mutationFn: ({ id, data }) => id
+            ? base44.entities.BlogPost.update(id, data)
             : base44.entities.BlogPost.create(data),
         onSuccess: () => {
             queryClient.invalidateQueries(['blogPosts']);
@@ -157,7 +157,8 @@ export default function AdminBlog() {
             author: "Dancoby Team",
             status: "published"
         };
-        saveMutation.mutate(data);
+        console.log("Submitting blog post:", { id: editingPost?.id, data });
+        saveMutation.mutate({ id: editingPost?.id, data });
     };
 
     return (
@@ -282,9 +283,8 @@ export default function AdminBlog() {
                         </div>
                         <div className="flex justify-end gap-2 pt-4">
                             <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                            <Button type="submit" className="bg-slate-900" disabled={saveMutation.isPending}>
-                                {saveMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                                {saveMutation.isPending ? "Publishing..." : "Publish Post"}
+                            <Button type="submit" className="bg-slate-900">
+                                Publish Post
                             </Button>
                         </div>
                     </form>
