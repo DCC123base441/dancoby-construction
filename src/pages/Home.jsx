@@ -9,6 +9,41 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
 
+function WarrantyCounter() {
+  const [count, setCount] = useState(3);
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (isInView) {
+      const duration = 1500;
+      const startTime = Date.now();
+      const startValue = 3;
+      const endValue = 5;
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const currentValue = startValue + (endValue - startValue) * easeOut;
+        setCount(Math.round(currentValue));
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+
+      requestAnimationFrame(animate);
+    }
+  }, [isInView]);
+
+  return (
+    <h3 ref={ref} className="text-4xl md:text-5xl font-bold text-white">
+      {count}-Year Warranty on All Projects
+    </h3>
+  );
+}
+
 export default function Home() {
 
   const fadeIn = {
