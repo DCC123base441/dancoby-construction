@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
                 // Note: limited to 45 requests per minute
                 const geoRes = await fetch(`http://ip-api.com/json/${ip}`);
                 const geo = await geoRes.json();
-                console.log("Geo API Response:", JSON.stringify(geo));
+                console.error("Geo API Response:", JSON.stringify(geo));
                 
                 if (geo.status === 'success') {
                     locationData = {
