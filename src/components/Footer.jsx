@@ -78,22 +78,22 @@ export default function Footer() {
             <div className="flex gap-12">
               <ul className="space-y-3">
                 <li>
-                  <Link to={createPageUrl('Home')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Home')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-white/50 hover:text-white text-sm transition-colors">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Services')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Services')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-white/50 hover:text-white text-sm transition-colors">
                     Services
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Projects')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Projects')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-white/50 hover:text-white text-sm transition-colors">
                     Projects
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('About')} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('About')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-white/50 hover:text-white text-sm transition-colors">
                     About
                   </Link>
                 </li>
