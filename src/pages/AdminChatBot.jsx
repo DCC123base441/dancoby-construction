@@ -27,19 +27,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Normalize page value like the ChatBot widget
-function normalizeTargetPage(input) {
-    if (input == null) return 'all';
-    let p = String(input).trim();
-    if (!p) return 'all';
-    if (p === 'all') return 'all';
-    const lower = p.toLowerCase();
-    if (lower === 'home' || lower === '/home') return '/';
-    if (!p.startsWith('/')) p = `/${p}`;
-    if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
-    return p;
-}
-
 export default function AdminChatBot() {
     const queryClient = useQueryClient();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -59,9 +46,6 @@ export default function AdminChatBot() {
             setIsDialogOpen(false);
             setEditingMessage(null);
             toast.success("Message created successfully");
-        },
-        onError: (error) => {
-            toast.error(error?.message || 'Failed to save message');
         }
     });
 
@@ -72,9 +56,6 @@ export default function AdminChatBot() {
             setIsDialogOpen(false);
             setEditingMessage(null);
             toast.success("Message updated successfully");
-        },
-        onError: (error) => {
-            toast.error(error?.message || 'Failed to update message');
         }
     });
 
@@ -117,9 +98,8 @@ export default function AdminChatBot() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const normalized = { ...formData, targetPage: normalizeTargetPage(formData.targetPage) };
         const dataToSave = {
-            ...normalized,
+            ...formData,
             category: "engaging" // Force category to single type as requested
         };
 
@@ -296,10 +276,8 @@ export default function AdminChatBot() {
 
                             <DialogFooter className="pt-4">
                                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                                <Button type="submit" className="bg-red-600 hover:bg-red-700" disabled={createMutation.isPending || updateMutation.isPending}>
-                                    {editingMessage 
-                                        ? (updateMutation.isPending ? 'Saving...' : 'Save Changes') 
-                                        : (createMutation.isPending ? 'Creating...' : 'Create Message')}
+                                <Button type="submit" className="bg-red-600 hover:bg-red-700">
+                                    {editingMessage ? 'Save Changes' : 'Create Message'}
                                 </Button>
                             </DialogFooter>
                         </form>
