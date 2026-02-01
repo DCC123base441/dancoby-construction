@@ -20,22 +20,19 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function AdminLayout({ children, title, actions }) {
     const location = useLocation();
-    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+    const [isCheckingAuth, setIsCheckingAuth] = useState(false);
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 // Check for bypass token first
                 if (localStorage.getItem('admin_bypass') === 'true') {
-                    setIsCheckingAuth(false);
                     return;
                 }
 
                 const isAuthenticated = await base44.auth.isAuthenticated();
                 if (!isAuthenticated) {
                     window.location.href = createPageUrl('AdminLogin');
-                } else {
-                    setIsCheckingAuth(false);
                 }
             } catch (error) {
                 console.error("Auth check failed", error);
@@ -76,7 +73,7 @@ export default function AdminLayout({ children, title, actions }) {
                     return (
                         <Link
                             key={item.name}
-                            to={createPageUrl(item.href)}
+                            to={`/${item.href}`}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                                 isActive 
                                     ? 'bg-red-600 text-white' 
