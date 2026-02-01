@@ -45,13 +45,13 @@ export default function ChatBot() {
 
     if (welcomeMsg) {
       // Check if we've already shown this specific message in this session
-      const hasShown = sessionStorage.getItem(`chatbot_welcome_${welcomeMsg.id}`);
+      const hasShown = sessionStorage.getItem(`chatbot_welcome_v2_${welcomeMsg.id}`);
       
       if (!hasShown) {
         const timer = setTimeout(() => {
           setBubbleMessage(welcomeMsg.content);
           setShowBubble(true);
-          sessionStorage.setItem(`chatbot_welcome_${welcomeMsg.id}`, 'true');
+          sessionStorage.setItem(`chatbot_welcome_v2_${welcomeMsg.id}`, 'true');
           
           // Hide after 10 seconds
           setTimeout(() => setShowBubble(false), 10000);
@@ -177,6 +177,9 @@ User question: ${userMessage}`,
             onClick={() => {
               setShowBubble(false);
               setIsOpen(true);
+              if (messages.length === 0) {
+                setMessages([{ role: 'assistant', content: bubbleMessage }]);
+              }
             }}
           >
             <div className="flex items-start gap-2">
