@@ -114,6 +114,11 @@ export default function Footer() {
                     Partner With Us
                   </Link>
                 </li>
+                <li>
+                  <Link to={createPageUrl('AdminDashboard')} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Admin
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
