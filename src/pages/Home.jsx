@@ -3,6 +3,9 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
+import { Image as ImageIcon } from 'lucide-react';
 
 import EstimatorButton from '../components/EstimatorButton';
 import TestimonialsSection from '../components/TestimonialsSection';
@@ -10,6 +13,18 @@ import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
 
 export default function Home() {
+
+  const { data: featuredProjects = [] } = useQuery({
+    queryKey: ['featured-projects'],
+    queryFn: async () => {
+      const projects = await base44.entities.Project.list();
+      return projects
+        .filter(p => p.featured)
+        .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+        .slice(0, 4);
+    },
+    initialData: []
+  });
 
   const fadeIn = {
     initial: { opacity: 0, y: 30 },
@@ -225,71 +240,65 @@ export default function Home() {
       {/* Featured Projects Grid */}
       <section className="py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { id: 1, title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
-              { id: 2, title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
-              { id: 3, title: "Modern powder room with marble flooring and walnut accent paneling", logo: "Hotel Inspired Suite", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
-              { id: 4, title: "Statement Island Stone Feature With Seamless Bocci Integration", logo: "Bocci Outlets", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }
-            ].map((project, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group flex flex-col h-full"
-              >
-                <div className="relative overflow-hidden mb-6 bg-gray-200">
-                  {project.beforeImage ? (
-                    <div className="relative w-full h-96">
-                      <img 
-                        src={project.image}
-                        alt={project.logo}
-                        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                      />
-                      <img 
-                        src={project.beforeImage}
-                        alt={`${project.logo} - Before`}
-                        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      <img 
-                        src={project.image}
-                        alt={project.logo}
-                        className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
-                    </>
-                  )}
-                </div>
+          {featuredProjects.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {featuredProjects.map((project, idx) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="group flex flex-col h-full"
+                >
+                  <div className="relative overflow-hidden mb-6 bg-gray-200">
+                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative w-full h-96">
+                      {project.mainImage ? (
+                        <>
+                          <img 
+                            src={project.mainImage}
+                            alt={project.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                        </>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300">
+                          <ImageIcon className="w-12 h-12" />
+                        </div>
+                      )}
+                    </Link>
+                  </div>
 
-                <div className="flex flex-col flex-1">
-                  <div className="h-12 flex items-center">
-                    <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                      {project.logo}
+                  <div className="flex flex-col flex-1">
+                    <div className="h-12 flex items-center">
+                      <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                        {project.logoText || project.category}
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
+                      {project.title}
+                    </h3>
+                    <div className="mt-auto">
+                      <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
+                        <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
+                          View Project
+                        </Link>
+                      </Button>
                     </div>
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
-                    {project.title}
-                  </h3>
-                  <div className="mt-auto">
-                    <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
-                      <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-                        View Project
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 py-12">
+              <p>No featured projects yet.</p>
+            </div>
+          )}
 
           <div className="text-center mt-16">
             <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-8">
-              <Link to={createPageUrl('Projects')}>Featured Projects</Link>
+              <Link to={createPageUrl('Projects')}>All Projects</Link>
             </Button>
           </div>
         </div>

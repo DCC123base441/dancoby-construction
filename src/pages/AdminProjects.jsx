@@ -68,8 +68,8 @@ export default function AdminProjects() {
         queryKey: ['projects'],
         queryFn: async () => {
             const data = await base44.entities.Project.list();
-            // Sort by order initially
-            return data.sort((a, b) => (a.order || 999) - (b.order || 999));
+            // Sort by order initially (using nullish coalescing to preserve 0 index)
+            return data.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
         },
     });
 
