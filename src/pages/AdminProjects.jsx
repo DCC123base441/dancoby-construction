@@ -5,7 +5,7 @@ import AdminLayout from '../components/admin/AdminLayout';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Search, Pencil, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Image as ImageIcon, X } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -32,6 +32,7 @@ import { toast } from "sonner";
 export default function AdminProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
+    const [galleryImages, setGalleryImages] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [isResetting, setIsResetting] = useState(false);
     const queryClient = useQueryClient();
@@ -91,6 +92,7 @@ export default function AdminProjects() {
             location: formData.get('location'),
             timeline: formData.get('timeline'),
             mainImage: formData.get('mainImage'),
+            images: galleryImages,
             // Basic handling for now
             featured: false
         };
@@ -135,7 +137,7 @@ export default function AdminProjects() {
                         </AlertDialogContent>
                     </AlertDialog>
 
-                    <Button onClick={() => { setEditingProject(null); setIsDialogOpen(true); }} className="bg-slate-900">
+                    <Button onClick={() => { setEditingProject(null); setGalleryImages([]); setIsDialogOpen(true); }} className="bg-slate-900">
                         <Plus className="w-4 h-4 mr-2" /> Add Project
                     </Button>
                 </div>
@@ -178,7 +180,7 @@ export default function AdminProjects() {
                                 <Button 
                                     variant="ghost" 
                                     size="icon"
-                                    onClick={() => { setEditingProject(project); setIsDialogOpen(true); }}
+                                    onClick={() => { setEditingProject(project); setGalleryImages(project.images || []); setIsDialogOpen(true); }}
                                 >
                                     <Pencil className="w-4 h-4 text-slate-500" />
                                 </Button>
@@ -235,6 +237,53 @@ export default function AdminProjects() {
                             <Label>Main Image URL</Label>
                             <Input name="mainImage" defaultValue={editingProject?.mainImage} placeholder="https://..." />
                         </div>
+                        
+                        <div className="space-y-2">
+                            <Label>Gallery Images</Label>
+                            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-2 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                                {galleryImages.map((img, idx) => (
+                                    <div key={idx} className="relative group aspect-square bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
+                                        <img src={img} alt="" className="w-full h-full object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => setGalleryImages(prev => prev.filter((_, i) => i !== idx))}
+                                            className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-red-700 shadow-sm"
+                                        >
+                                            <X className="w-3 h-3" />
+                                        </button>
+                                    </div>
+                                ))}
+                                {galleryImages.length === 0 && (
+                                    <div className="col-span-full text-center py-4 text-sm text-slate-400">
+                                        No gallery images yet
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex gap-2">
+                                <Input 
+                                    placeholder="Add image URL..." 
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            if (e.currentTarget.value) {
+                                                setGalleryImages([...galleryImages, e.currentTarget.value]);
+                                                e.currentTarget.value = '';
+                                            }
+                                        }
+                                    }}
+                                />
+                                <Button type="button" variant="outline" onClick={(e) => {
+                                    const input = e.currentTarget.previousElementSibling;
+                                    if (input.value) {
+                                        setGalleryImages([...galleryImages, input.value]);
+                                        input.value = '';
+                                    }
+                                }}>
+                                    <Plus className="w-4 h-4" />
+                                </Button>
+                            </div>
+                        </div>
+
                         <div className="space-y-2">
                             <Label>Description</Label>
                             <Textarea name="description" defaultValue={editingProject?.description} className="h-32" required />
