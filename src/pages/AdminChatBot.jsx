@@ -21,6 +21,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function AdminChatBot() {
     const queryClient = useQueryClient();
@@ -116,13 +122,16 @@ export default function AdminChatBot() {
     };
 
     const handleMoveOrder = async (message, direction) => {
-        const currentIndex = welcomeMessages.findIndex(m => m.id === message.id);
+        // Filter to only messages in the same group (same page_path)
+        const siblings = welcomeMessages.filter(m => (m.page_path || "") === (message.page_path || ""));
+        const currentIndex = siblings.findIndex(m => m.id === message.id);
+        
         if (currentIndex === -1) return;
         
         const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-        if (newIndex < 0 || newIndex >= welcomeMessages.length) return;
+        if (newIndex < 0 || newIndex >= siblings.length) return;
 
-        const otherMessage = welcomeMessages[newIndex];
+        const otherMessage = siblings[newIndex];
         
         // Swap orders
         await Promise.all([
@@ -132,6 +141,15 @@ export default function AdminChatBot() {
         
         queryClient.invalidateQueries(['chatBotMessages']);
     };
+
+    const groupedWelcomeMessages = welcomeMessages.reduce((groups, message) => {
+        const key = message.page_path ? message.page_path : "Global (All Pages)";
+        if (!groups[key]) {
+            groups[key] = [];
+        }
+        groups[key].push(message);
+        return groups;
+    }, {});
 
     const MessageList = ({ items, type }) => (
         <div className="space-y-4">
@@ -229,11 +247,31 @@ export default function AdminChatBot() {
                             <CardHeader>
                                 <CardTitle>Welcome Sequence</CardTitle>
                                 <CardDescription>
-                                    These messages appear automatically when a user opens the chat for the first time, in the order specified.
+                                    These messages appear automatically when a user opens the chat. Organized by page.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <MessageList items={welcomeMessages} type="welcome" />
+                                {Object.keys(groupedWelcomeMessages).length === 0 ? (
+                                    <div className="text-center py-12 border border-dashed rounded-lg text-gray-500">
+                                        No welcome messages found. Create one to get started.
+                                    </div>
+                                ) : (
+                                    <Accordion type="single" collapsible className="w-full" defaultValue="Global (All Pages)">
+                                        {Object.entries(groupedWelcomeMessages).map(([page, msgs]) => (
+                                            <AccordionItem value={page} key={page}>
+                                                <AccordionTrigger className="hover:no-underline">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="font-medium text-left">{page}</span>
+                                                        <Badge variant="secondary" className="ml-2">{msgs.length}</Badge>
+                                                    </div>
+                                                </AccordionTrigger>
+                                                <AccordionContent className="pt-4 px-1">
+                                                     <MessageList items={msgs} type="welcome" />
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        ))}
+                                    </Accordion>
+                                )}
                             </CardContent>
                         </Card>
                     </TabsContent>
