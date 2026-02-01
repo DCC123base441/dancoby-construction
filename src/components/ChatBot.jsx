@@ -61,9 +61,15 @@ export default function ChatBot() {
     load();
   }, []);
 
-  // Track current page (normalized)
+  // Track current page (normalized) and reset any pending bubble/timers
   useEffect(() => {
     setCurrentPagePath(normalizeTargetPage(location.pathname));
+    setShowBubble(false);
+    setBubbleMessage('');
+    if (welcomeTimerRef.current) {
+      clearTimeout(welcomeTimerRef.current);
+      welcomeTimerRef.current = null;
+    }
   }, [location.pathname]);
 
   // Scroll-to-bottom on new messages
