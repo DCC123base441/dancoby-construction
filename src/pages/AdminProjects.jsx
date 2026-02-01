@@ -35,6 +35,7 @@ export default function AdminProjects() {
     const [editingProject, setEditingProject] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [isResetting, setIsResetting] = useState(false);
+    const [currentImages, setCurrentImages] = useState([]);
     const queryClient = useQueryClient();
 
     const handleReset = async () => {
