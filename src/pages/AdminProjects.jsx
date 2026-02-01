@@ -5,8 +5,7 @@ import AdminLayout from '../components/admin/AdminLayout';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Search, Pencil, Trash2, Image as ImageIcon, X, Upload, Loader2, Star } from 'lucide-react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { Plus, Search, Pencil, Trash2, Image as ImageIcon } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -30,47 +29,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
-const resizeImage = (file, maxWidth = 1280) => {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
-            const img = new Image();
-            img.src = event.target.result;
-            img.onload = () => {
-                const elem = document.createElement('canvas');
-                let width = img.width;
-                let height = img.height;
-
-                if (width > maxWidth) {
-                    height = height * (maxWidth / width);
-                    width = maxWidth;
-                }
-
-                elem.width = width;
-                elem.height = height;
-                const ctx = elem.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
-                ctx.canvas.toBlob((blob) => {
-                    resolve(new File([blob], file.name, {
-                        type: 'image/jpeg',
-                        lastModified: Date.now()
-                    }));
-                }, 'image/jpeg', 0.8);
-            };
-        };
-    });
-};
-
 export default function AdminProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
-    const [galleryImages, setGalleryImages] = useState([]);
-    const [mainImage, setMainImage] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [isResetting, setIsResetting] = useState(false);
-    const [isUploading, setIsUploading] = useState(false);
-    const [isDraggingOver, setIsDraggingOver] = useState(false);
     const queryClient = useQueryClient();
 
     const handleReset = async () => {
@@ -128,7 +91,6 @@ export default function AdminProjects() {
             location: formData.get('location'),
             timeline: formData.get('timeline'),
             mainImage: formData.get('mainImage'),
-            images: galleryImages.map(img => img.url),
             // Basic handling for now
             featured: false
         };
@@ -144,71 +106,6 @@ export default function AdminProjects() {
         p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.category?.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
-    const onDragEnd = (result) => {
-        if (!result.destination) return;
-        const items = Array.from(galleryImages);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-        setGalleryImages(items);
-    };
-
-    const uploadFiles = async (files) => {
-        if (files.length === 0) return;
-
-        setIsUploading(true);
-        const toastId = toast.loading(`Uploading ${files.length} image${files.length > 1 ? 's' : ''}...`);
-
-        try {
-            // Resize images before uploading
-            const resizedFiles = await Promise.all(files.map(file => resizeImage(file)));
-            const uploadPromises = resizedFiles.map(file => base44.integrations.Core.UploadFile({ file }));
-            const results = await Promise.all(uploadPromises);
-            
-            const newImages = results.map(res => ({
-                id: Math.random().toString(36).substr(2, 9),
-                url: res.file_url
-            }));
-            
-            setGalleryImages(prev => [...prev, ...newImages]);
-            toast.success("Images uploaded", { id: toastId });
-        } catch (error) {
-            console.error("Upload failed", error);
-            toast.error("Failed to upload some images", { id: toastId });
-        } finally {
-            setIsUploading(false);
-        }
-    };
-
-    const handleImageUpload = (e) => {
-        const files = Array.from(e.target.files);
-        uploadFiles(files);
-        e.target.value = '';
-    };
-
-    const handleDrop = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDraggingOver(false);
-        const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
-        if (files.length > 0) {
-            uploadFiles(files);
-        }
-    };
-    
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (e.dataTransfer.types.includes('Files')) {
-            setIsDraggingOver(true);
-        }
-    };
-
-    const handleDragLeave = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDraggingOver(false);
-    };
 
     return (
         <AdminLayout 
@@ -238,12 +135,7 @@ export default function AdminProjects() {
                         </AlertDialogContent>
                     </AlertDialog>
 
-                    <Button onClick={() => { 
-                        setEditingProject(null); 
-                        setGalleryImages([]); 
-                        setMainImage("");
-                        setIsDialogOpen(true); 
-                    }} className="bg-slate-900">
+                    <Button onClick={() => { setEditingProject(null); setIsDialogOpen(true); }} className="bg-slate-900">
                         <Plus className="w-4 h-4 mr-2" /> Add Project
                     </Button>
                 </div>
@@ -286,12 +178,7 @@ export default function AdminProjects() {
                                 <Button 
                                     variant="ghost" 
                                     size="icon"
-                                    onClick={() => { 
-                                        setEditingProject(project); 
-                                        setGalleryImages((project.images || []).map(url => ({ id: Math.random().toString(36).substr(2, 9), url }))); 
-                                        setMainImage(project.mainImage || "");
-                                        setIsDialogOpen(true); 
-                                    }}
+                                    onClick={() => { setEditingProject(project); setIsDialogOpen(true); }}
                                 >
                                     <Pencil className="w-4 h-4 text-slate-500" />
                                 </Button>
@@ -346,123 +233,8 @@ export default function AdminProjects() {
                         </div>
                         <div className="space-y-2">
                             <Label>Main Image URL</Label>
-                            <Input 
-                                name="mainImage" 
-                                value={mainImage} 
-                                onChange={(e) => setMainImage(e.target.value)}
-                                placeholder="https://..." 
-                            />
+                            <Input name="mainImage" defaultValue={editingProject?.mainImage} placeholder="https://..." />
                         </div>
-                        
-                        <div className="space-y-2">
-                            <Label>Gallery Images (Drag to rearrange, Drop files to upload)</Label>
-                            <DragDropContext onDragEnd={onDragEnd}>
-                                <Droppable droppableId="gallery" direction="horizontal">
-                                    {(provided) => (
-                                        <div 
-                                            {...provided.droppableProps}
-                                            ref={provided.innerRef}
-                                            onDrop={handleDrop}
-                                            onDragOver={handleDragOver}
-                                            onDragLeave={handleDragLeave}
-                                            className={`flex flex-wrap gap-2 mb-2 p-2 rounded-lg border min-h-[100px] transition-all duration-200 ${
-                                                isDraggingOver 
-                                                    ? 'bg-blue-50 border-blue-400 border-dashed ring-2 ring-blue-100' 
-                                                    : 'bg-slate-50 border-slate-100'
-                                            }`}
-                                        >
-                                            {galleryImages.map((img, idx) => (
-                                                <Draggable key={img.id} draggableId={img.id} index={idx}>
-                                                    {(provided) => (
-                                                        <div
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                            className="relative group w-20 h-20 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm cursor-move"
-                                                        >
-                                                            <img src={img.url} alt="" loading="lazy" decoding="async" className={`w-full h-full object-cover pointer-events-none ${mainImage === img.url ? 'opacity-80' : ''}`} />
-                                                            {mainImage === img.url && (
-                                                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                                                                    <Star className="w-8 h-8 text-yellow-400 fill-yellow-400 drop-shadow-md" />
-                                                                </div>
-                                                            )}
-                                                            <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-all z-10">
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => setMainImage(img.url)}
-                                                                    title="Set as Main Image"
-                                                                    className={`p-1 rounded-full shadow-sm transition-colors ${
-                                                                        mainImage === img.url 
-                                                                            ? 'bg-yellow-400 text-white cursor-default' 
-                                                                            : 'bg-white text-yellow-500 hover:bg-yellow-50'
-                                                                    }`}
-                                                                >
-                                                                    <Star className={`w-3 h-3 ${mainImage === img.url ? 'fill-current' : ''}`} />
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => setGalleryImages(prev => prev.filter((_, i) => i !== idx))}
-                                                                    title="Remove Image"
-                                                                    className="bg-red-600 text-white p-1 rounded-full hover:bg-red-700 shadow-sm"
-                                                                >
-                                                                    <X className="w-3 h-3" />
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                            ))}
-                                            {provided.placeholder}
-                                            {galleryImages.length === 0 && (
-                                                <div className="w-full text-center py-8 text-sm text-slate-400">
-                                                    No gallery images yet
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </Droppable>
-                            </DragDropContext>
-                            <div className="flex gap-2">
-                                <div className="relative">
-                                    <input 
-                                        type="file" 
-                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-                                        onChange={handleImageUpload} 
-                                        accept="image/*"
-                                        disabled={isUploading}
-                                        multiple
-                                    />
-                                    <Button type="button" variant="outline" disabled={isUploading}>
-                                        {isUploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
-                                        Upload
-                                    </Button>
-                                </div>
-                                <div className="flex-1 flex gap-2">
-                                    <Input 
-                                        placeholder="Or paste image URL..." 
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                e.preventDefault();
-                                                if (e.currentTarget.value) {
-                                                    setGalleryImages([...galleryImages, { id: Math.random().toString(36).substr(2, 9), url: e.currentTarget.value }]);
-                                                    e.currentTarget.value = '';
-                                                }
-                                            }
-                                        }}
-                                    />
-                                    <Button type="button" variant="outline" onClick={(e) => {
-                                        const input = e.currentTarget.previousElementSibling;
-                                        if (input.value) {
-                                            setGalleryImages([...galleryImages, { id: Math.random().toString(36).substr(2, 9), url: input.value }]);
-                                            input.value = '';
-                                        }
-                                    }}>
-                                        <Plus className="w-4 h-4" />
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-
                         <div className="space-y-2">
                             <Label>Description</Label>
                             <Textarea name="description" defaultValue={editingProject?.description} className="h-32" required />
