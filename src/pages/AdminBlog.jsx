@@ -98,6 +98,10 @@ export default function AdminBlog() {
             setIsDialogOpen(false);
             setEditingPost(null);
             toast.success("Post saved successfully");
+        },
+        onError: (error) => {
+            console.error("Failed to save post:", error);
+            toast.error(`Failed to save post: ${error.message || 'Unknown error'}`);
         }
     });
 
