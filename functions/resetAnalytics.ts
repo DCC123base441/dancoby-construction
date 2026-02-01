@@ -15,21 +15,27 @@ Deno.serve(async (req) => {
         let deletedVisits = 0;
         let deletedEstimates = 0;
 
-        // Function to batch delete
+        // Function to batch delete using Service Role to bypass RLS/permission issues
         const deleteBatch = async (entityName) => {
             let count = 0;
+            // Use service role for admin operations
+            const serviceRoleEntities = base44.asServiceRole.entities[entityName];
+            
             while (true) {
                 // Fetch a batch
-                const items = await base44.entities[entityName].list('-created_date', 50);
-                if (!items || items.length === 0) break;
+                const items = await serviceRoleEntities.list('-created_date', 50);
+                
+                // Handle potential different return formats (array vs object)
+                const records = Array.isArray(items) ? items : (items?.items || []);
+                
+                if (!records || records.length === 0) break;
 
                 // Delete concurrently
-                await Promise.all(items.map(item => base44.entities[entityName].delete(item.id)));
-                count += items.length;
+                await Promise.all(records.map(item => serviceRoleEntities.delete(item.id)));
+                count += records.length;
                 
-                // Safety break for single run execution time limits (though Deno deploy is generous)
-                // If we have thousands, this might take a while.
-                if (count > 1000) break; // Limit per request to prevent timeouts
+                // Safety break
+                if (count > 2000) break; 
             }
             return count;
         };
@@ -45,6 +51,7 @@ Deno.serve(async (req) => {
         return Response.json({ success: true, deletedVisits, deletedEstimates });
 
     } catch (error) {
+        console.error("Reset analytics error:", error);
         return Response.json({ error: error.message }, { status: 500 });
     }
 });
