@@ -4,13 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Trash2, Edit2, Save, X, MessageSquare, Sparkles, MoveUp, MoveDown } from 'lucide-react';
+import { Plus, Trash2, Edit2, MessageSquare, Sparkles, MapPin } from 'lucide-react';
 import { toast } from "sonner";
 import {
   Dialog,
@@ -19,23 +18,25 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function AdminChatBot() {
     const queryClient = useQueryClient();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingMessage, setEditingMessage] = useState(null);
-    const [activeTab, setActiveTab] = useState("engaging");
 
     // Fetch messages
     const { data: messages = [], isLoading } = useQuery({
         queryKey: ['chatBotMessages'],
         queryFn: () => base44.entities.ChatBotMessage.list(),
     });
-
-    const engagingMessages = messages.filter(m => m.category === 'engaging');
-    const welcomeMessages = messages.filter(m => m.category === 'welcome').sort((a, b) => a.order - b.order);
 
     // Mutations
     const createMutation = useMutation({
@@ -71,33 +72,41 @@ export default function AdminChatBot() {
         content: "",
         category: "engaging",
         isActive: true,
-        order: 0
+        isPageWelcome: false,
+        targetPage: "all"
     });
 
     useEffect(() => {
         if (editingMessage) {
             setFormData({
                 content: editingMessage.content,
-                category: editingMessage.category,
+                category: "engaging",
                 isActive: editingMessage.isActive,
-                order: editingMessage.order || 0
+                isPageWelcome: editingMessage.isPageWelcome || false,
+                targetPage: editingMessage.targetPage || "all"
             });
         } else {
             setFormData({
                 content: "",
-                category: activeTab,
+                category: "engaging",
                 isActive: true,
-                order: activeTab === 'welcome' ? welcomeMessages.length : 0
+                isPageWelcome: false,
+                targetPage: "all"
             });
         }
-    }, [editingMessage, activeTab, isDialogOpen, welcomeMessages.length]);
+    }, [editingMessage, isDialogOpen]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const dataToSave = {
+            ...formData,
+            category: "engaging" // Force category to single type as requested
+        };
+
         if (editingMessage) {
-            updateMutation.mutate({ id: editingMessage.id, data: formData });
+            updateMutation.mutate({ id: editingMessage.id, data: dataToSave });
         } else {
-            createMutation.mutate(formData);
+            createMutation.mutate(dataToSave);
         }
     };
 
@@ -112,83 +121,6 @@ export default function AdminChatBot() {
         }
     };
 
-    const handleMoveOrder = async (message, direction) => {
-        const currentIndex = welcomeMessages.findIndex(m => m.id === message.id);
-        if (currentIndex === -1) return;
-        
-        const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-        if (newIndex < 0 || newIndex >= welcomeMessages.length) return;
-
-        const otherMessage = welcomeMessages[newIndex];
-        
-        // Swap orders
-        await Promise.all([
-            base44.entities.ChatBotMessage.update(message.id, { order: otherMessage.order }),
-            base44.entities.ChatBotMessage.update(otherMessage.id, { order: message.order })
-        ]);
-        
-        queryClient.invalidateQueries(['chatBotMessages']);
-    };
-
-    const MessageList = ({ items, type }) => (
-        <div className="space-y-4">
-            {items.length === 0 ? (
-                <div className="text-center py-12 bg-white rounded-lg border border-dashed border-gray-300">
-                    <p className="text-gray-500">No messages found. Create one to get started.</p>
-                </div>
-            ) : (
-                items.map((message, idx) => (
-                    <Card key={message.id} className="overflow-hidden">
-                        <div className="flex items-start justify-between p-4 gap-4">
-                            <div className="flex items-start gap-3 flex-1">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${type === 'welcome' ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600'}`}>
-                                    {type === 'welcome' ? <MessageSquare className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
-                                </div>
-                                <div className="space-y-1 flex-1">
-                                    <p className="text-sm font-medium text-gray-900">{message.content}</p>
-                                    <div className="flex gap-2">
-                                        {!message.isActive && <Badge variant="secondary">Inactive</Badge>}
-                                        {type === 'welcome' && <Badge variant="outline">Order: {message.order}</Badge>}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                {type === 'welcome' && (
-                                    <div className="flex flex-col gap-1 mr-2">
-                                        <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            className="h-6 w-6" 
-                                            disabled={idx === 0}
-                                            onClick={() => handleMoveOrder(message, 'up')}
-                                        >
-                                            <MoveUp className="w-3 h-3" />
-                                        </Button>
-                                        <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            className="h-6 w-6"
-                                            disabled={idx === items.length - 1}
-                                            onClick={() => handleMoveOrder(message, 'down')}
-                                        >
-                                            <MoveDown className="w-3 h-3" />
-                                        </Button>
-                                    </div>
-                                )}
-                                <Button variant="ghost" size="icon" onClick={() => handleEdit(message)}>
-                                    <Edit2 className="w-4 h-4 text-gray-500" />
-                                </Button>
-                                <Button variant="ghost" size="icon" onClick={() => handleDelete(message.id)}>
-                                    <Trash2 className="w-4 h-4 text-red-500" />
-                                </Button>
-                            </div>
-                        </div>
-                    </Card>
-                ))
-            )}
-        </div>
-    );
-
     return (
         <AdminLayout 
             title="AI Chat Bot Manager"
@@ -199,78 +131,146 @@ export default function AdminChatBot() {
                 </Button>
             }
         >
-            <div className="max-w-4xl mx-auto">
-                <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-                    <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
-                        <TabsTrigger value="engaging">Random Bubbles</TabsTrigger>
-                        <TabsTrigger value="welcome">Welcome Sequence</TabsTrigger>
-                    </TabsList>
-                    
-                    <TabsContent value="engaging" className="space-y-4">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Engagement Bubbles</CardTitle>
-                                <CardDescription>
-                                    These messages appear randomly as popup bubbles when the chat is closed to encourage users to interact.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <MessageList items={engagingMessages} type="engaging" />
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    <TabsContent value="welcome" className="space-y-4">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Welcome Sequence</CardTitle>
-                                <CardDescription>
-                                    These messages appear automatically when a user opens the chat for the first time, in the order specified.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <MessageList items={welcomeMessages} type="welcome" />
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-                </Tabs>
+            <div className="max-w-5xl mx-auto space-y-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Message Library</CardTitle>
+                        <CardDescription>
+                            Manage all chatbot messages. "Page Welcome" messages appear once when a user visits a specific page. "Random Bubbles" appear periodically to engage the user.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            {messages.length === 0 ? (
+                                <div className="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                                    <MessageSquare className="w-10 h-10 text-gray-400 mx-auto mb-3" />
+                                    <p className="text-gray-500 font-medium">No messages found</p>
+                                    <p className="text-sm text-gray-400 mt-1">Create your first engagement message to get started.</p>
+                                </div>
+                            ) : (
+                                messages.map((message) => (
+                                    <div key={message.id} className="flex items-start justify-between p-4 bg-white border rounded-lg hover:shadow-sm transition-shadow">
+                                        <div className="flex items-start gap-4 flex-1">
+                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${message.isPageWelcome ? 'bg-blue-100 text-blue-600' : 'bg-amber-100 text-amber-600'}`}>
+                                                {message.isPageWelcome ? <MapPin className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
+                                            </div>
+                                            <div className="space-y-2 flex-1">
+                                                <p className="text-sm text-gray-900 leading-relaxed">{message.content}</p>
+                                                <div className="flex flex-wrap gap-2">
+                                                    <Badge variant={message.isActive ? "default" : "secondary"} className={message.isActive ? "bg-green-600" : ""}>
+                                                        {message.isActive ? "Active" : "Inactive"}
+                                                    </Badge>
+                                                    <Badge variant="outline">
+                                                        {message.isPageWelcome ? "Page Welcome" : "Random Bubble"}
+                                                    </Badge>
+                                                    {message.targetPage && message.targetPage !== 'all' && (
+                                                        <Badge variant="secondary" className="font-mono text-xs">
+                                                            {message.targetPage}
+                                                        </Badge>
+                                                    )}
+                                                    {message.targetPage === 'all' && (
+                                                        <Badge variant="secondary" className="font-mono text-xs">
+                                                            All Pages
+                                                        </Badge>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-1 ml-4">
+                                            <Button variant="ghost" size="icon" onClick={() => handleEdit(message)}>
+                                                <Edit2 className="w-4 h-4 text-gray-500" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" onClick={() => handleDelete(message.id)}>
+                                                <Trash2 className="w-4 h-4 text-red-500" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
 
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogContent>
+                    <DialogContent className="sm:max-w-lg">
                         <DialogHeader>
                             <DialogTitle>{editingMessage ? 'Edit Message' : 'Create New Message'}</DialogTitle>
                             <DialogDescription>
-                                {activeTab === 'engaging' 
-                                    ? "Add a fun, engaging message to appear as a bubble." 
-                                    : "Add a message to the welcome sequence."}
+                                Configure how and where this message should appear.
                             </DialogDescription>
                         </DialogHeader>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form onSubmit={handleSubmit} className="space-y-6 py-4">
                             <div className="space-y-2">
                                 <Label>Message Content</Label>
                                 <Textarea 
                                     value={formData.content}
                                     onChange={(e) => setFormData({...formData, content: e.target.value})}
-                                    placeholder="Type your message here..."
-                                    className="min-h-[100px]"
+                                    placeholder="e.g., Need help with your kitchen renovation?"
+                                    className="min-h-[100px] text-base"
                                     required
                                 />
                             </div>
                             
-                            <div className="flex items-center justify-between">
-                                <div className="space-y-0.5">
-                                    <Label>Active Status</Label>
-                                    <div className="text-sm text-gray-500">Enable or disable this message</div>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="space-y-3">
+                                    <Label>Message Type</Label>
+                                    <div className="flex items-center space-x-2">
+                                        <Switch 
+                                            id="page-welcome"
+                                            checked={formData.isPageWelcome}
+                                            onCheckedChange={(checked) => setFormData({...formData, isPageWelcome: checked})}
+                                        />
+                                        <Label htmlFor="page-welcome" className="font-normal cursor-pointer">
+                                            {formData.isPageWelcome ? "Page Welcome" : "Random Bubble"}
+                                        </Label>
+                                    </div>
+                                    <p className="text-xs text-gray-500">
+                                        {formData.isPageWelcome 
+                                            ? "Appears once immediately when visiting the page." 
+                                            : "Appears periodically while browsing."}
+                                    </p>
                                 </div>
-                                <Switch 
-                                    checked={formData.isActive}
-                                    onCheckedChange={(checked) => setFormData({...formData, isActive: checked})}
-                                />
+
+                                <div className="space-y-3">
+                                    <Label>Active Status</Label>
+                                    <div className="flex items-center space-x-2">
+                                        <Switch 
+                                            id="is-active"
+                                            checked={formData.isActive}
+                                            onCheckedChange={(checked) => setFormData({...formData, isActive: checked})}
+                                        />
+                                        <Label htmlFor="is-active" className="font-normal cursor-pointer">
+                                            {formData.isActive ? "Enabled" : "Disabled"}
+                                        </Label>
+                                    </div>
+                                </div>
                             </div>
 
-                            <input type="hidden" value={activeTab} />
+                            <div className="space-y-2">
+                                <Label>Target Page</Label>
+                                <Select 
+                                    value={formData.targetPage} 
+                                    onValueChange={(value) => setFormData({...formData, targetPage: value})}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select target page" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All Pages</SelectItem>
+                                        <SelectItem value="/">Home (/)</SelectItem>
+                                        <SelectItem value="/Contact">Contact</SelectItem>
+                                        <SelectItem value="/Services">Services</SelectItem>
+                                        <SelectItem value="/Projects">Projects</SelectItem>
+                                        <SelectItem value="/Step">Step Platform</SelectItem>
+                                        <SelectItem value="/Estimator">Estimator</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <p className="text-xs text-gray-500">
+                                    Select "All Pages" to show this message anywhere, or pick a specific page.
+                                </p>
+                            </div>
 
-                            <DialogFooter>
+                            <DialogFooter className="pt-4">
                                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
                                 <Button type="submit" className="bg-red-600 hover:bg-red-700">
                                     {editingMessage ? 'Save Changes' : 'Create Message'}
