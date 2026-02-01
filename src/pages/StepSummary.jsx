@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { createPageUrl } from '../../utils';
+import { createPageUrl } from '../utils';
 import { ArrowLeft, CheckCircle2, ShieldCheck, CreditCard, Building2, Truck } from 'lucide-react';
 
 export default function StepSummary() {

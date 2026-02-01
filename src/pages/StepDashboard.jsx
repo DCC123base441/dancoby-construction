@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from 'react-router-dom';
-import { createPageUrl } from '../../utils';
+import { createPageUrl } from '../utils';
 import { ArrowRight, ChevronRight, Package, ShieldCheck, Clock, CheckCircle2 } from 'lucide-react';
-import { stepData } from './stepData';
+import { stepData } from '../components/step/stepData';
 
 export default function StepDashboard() {
   const navigate = useNavigate();

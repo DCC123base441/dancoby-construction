@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { createPageUrl } from '../../utils';
+import { createPageUrl } from '../utils';
 import { CheckCircle2, Package, ArrowRight, Calendar } from 'lucide-react';
 
 export default function StepSuccess() {

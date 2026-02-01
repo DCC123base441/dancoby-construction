@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { createPageUrl } from '../../utils';
+import { createPageUrl } from '../utils';
 import { 
     ArrowLeft, 
     ShoppingCart, 
@@ -13,7 +13,7 @@ import {
     Truck,
     CreditCard
 } from 'lucide-react';
-import { stepData } from '../../components/step/stepData';
+import { stepData } from '../components/step/stepData';
 import { toast } from "sonner";
 
 export default function StepBuilder() {
