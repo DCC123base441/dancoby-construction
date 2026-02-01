@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -10,45 +10,52 @@ import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
 
 function WarrantyCounter() {
-  const [count, setCount] = useState(1);
+  const [showThree, setShowThree] = useState(false);
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
     if (isInView) {
-      const duration = 2000;
-      const startTime = Date.now();
-      const startValue = 1;
-      const endValue = 3;
-
-      const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const currentValue = startValue + (endValue - startValue) * easeOut;
-        setCount(Math.round(currentValue));
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
-      };
-
-      requestAnimationFrame(animate);
+      const timer = setTimeout(() => {
+        setShowThree(true);
+      }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [isInView]);
 
   return (
-    <h3 ref={ref} className="text-4xl md:text-5xl font-bold text-white">
-      <motion.span
-        key={count}
-        initial={{ opacity: 0, y: -20, scale: 1.2 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.2 }}
-        className="inline-block"
-      >
-        {count}
-      </motion.span>
-      -Year Warranty on All Projects
+    <h3 ref={ref} className="text-4xl md:text-5xl font-bold text-white flex justify-center items-center gap-1">
+      <div className="relative h-[1.2em] w-[0.8ch] overflow-hidden flex justify-center">
+        <AnimatePresence mode="wait">
+          {!showThree ? (
+            <motion.span
+              key="1"
+              initial={{ y: 0 }}
+              exit={{ y: -60, opacity: 0, filter: "blur(5px)" }}
+              transition={{ duration: 0.5, ease: "backIn" }}
+              className="absolute inset-0 flex justify-center"
+            >
+              1
+            </motion.span>
+          ) : (
+            <motion.span
+              key="3"
+              initial={{ y: 60, opacity: 0, scale: 0.5 }}
+              animate={{ y: 0, opacity: 1, scale: 1.2 }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 300, 
+                damping: 15,
+                mass: 1.2 
+              }}
+              className="absolute inset-0 text-yellow-300 flex justify-center drop-shadow-md"
+            >
+              3
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
+      <span>-Year Warranty on All Projects</span>
     </h3>
   );
 }
