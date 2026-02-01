@@ -187,7 +187,7 @@ export default function AdminAnalytics() {
 
         const topPages = Object.entries(pageViews)
             .map(([name, value]) => ({ name, value }))
-            .filter(p => name && typeof p.name === 'string' && p.name.trim())
+            .filter(p => typeof p.name === 'string' && isValid(p.name))
             .sort((a, b) => b.value - a.value)
             .slice(0, 5);
 
