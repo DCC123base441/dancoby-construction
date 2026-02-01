@@ -12,6 +12,13 @@ export default function ChatBot() {
   const [allChatMessages, setAllChatMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]); // Empty initially, no welcome sequence
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [bubbleMessage, setBubbleMessage] = useState('');
+  const [showBubble, setShowBubble] = useState(false);
+  const messagesEndRef = useRef(null);
+  const bubbleTimerRef = useRef(null);
+  const hasShownInitialBubble = useRef(false);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -54,13 +61,6 @@ export default function ChatBot() {
       }
     }
   }, [location.pathname, allChatMessages, isOpen]);
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [bubbleMessage, setBubbleMessage] = useState('');
-  const [showBubble, setShowBubble] = useState(false);
-  const messagesEndRef = useRef(null);
-  const bubbleTimerRef = useRef(null);
-  const hasShownInitialBubble = useRef(false);
 
   // Show engaging bubble messages periodically when chat is closed
   useEffect(() => {
