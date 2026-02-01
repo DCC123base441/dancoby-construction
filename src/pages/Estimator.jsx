@@ -172,11 +172,6 @@ export default function Estimator() {
 
   const handleAnswer = (answer) => {
     setAnswers({ ...answers, [step.id]: answer });
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      generateEstimate();
-    }
   };
 
   const handleTextInput = (value) => {
@@ -476,15 +471,9 @@ export default function Estimator() {
               <ImageUpload
                 onImageUpload={(url) => {
                   setImageUrl(url);
-                  if (currentStep < steps.length - 1) {
-                    setCurrentStep(currentStep + 1);
-                  }
                 }}
                 onSkip={() => {
                   setImageUrl(null);
-                  if (currentStep < steps.length - 1) {
-                    setCurrentStep(currentStep + 1);
-                  }
                 }}
               />
             </div>
@@ -501,7 +490,11 @@ export default function Estimator() {
                 <button
                   key={option}
                   onClick={() => handleAnswer(option)}
-                  className="w-full p-4 border-2 border-gray-200 rounded-lg text-left hover:border-red-600 hover:bg-red-50 transition-all text-base font-medium text-gray-900"
+                  className={`w-full p-4 border-2 rounded-lg text-left transition-all text-base font-medium text-gray-900 ${
+                    answers[step.id] === option
+                      ? 'border-red-600 bg-red-50'
+                      : 'border-gray-200 hover:border-red-600 hover:bg-red-50'
+                  }`}
                 >
                   {option}
                 </button>
