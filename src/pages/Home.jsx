@@ -300,73 +300,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center mb-16">
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Technology Partners</p>
-            
-            {/* Plug-in Animation */}
-            <div className="flex items-center justify-center gap-2 md:gap-4 mb-6 flex-wrap">
-              <motion.span 
-                className="text-2xl md:text-4xl lg:text-5xl font-light text-gray-900"
-                initial={{ x: -30, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
-                Dancoby Construction
-              </motion.span>
-              
-              <motion.div 
-                className="flex items-center gap-0"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
-              >
-                {/* Left plug prong */}
-                <motion.div
-                  className="w-6 md:w-10 h-1 bg-gradient-to-r from-transparent via-emerald-500 to-emerald-500 rounded-l"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: 40 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6, duration: 0.4 }}
-                />
-                {/* Connection spark */}
-                <motion.div
-                  className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-emerald-400 shadow-lg"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: [0, 1.5, 1] }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 1.0, duration: 0.4, type: "spring" }}
-                  style={{ boxShadow: "0 0 20px 5px rgba(52, 211, 153, 0.5)" }}
-                />
-                {/* Right plug prong */}
-                <motion.div
-                  className="w-6 md:w-10 h-1 bg-gradient-to-r from-emerald-500 via-emerald-500 to-transparent rounded-r"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: 40 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 1.3, duration: 0.4 }}
-                />
-              </motion.div>
-              
-              <motion.div 
-                className="flex items-center gap-2"
-                initial={{ x: 30, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 1.6, duration: 0.5 }}
-              >
-                <span className="text-gray-400 text-sm md:text-base">powered by</span>
-                <motion.span 
-                  className="text-2xl md:text-4xl lg:text-5xl font-semibold text-emerald-600"
-                  animate={{ 
-                    textShadow: ["0 0 0px #10b981", "0 0 15px #10b981", "0 0 0px #10b981"]
-                  }}
-                  transition={{ delay: 2, duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
-                >
-                  JobTread
-                </motion.span>
-              </motion.div>
-            </div>
-            
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">Powered by JobTread</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
               We use industry-leading construction management software to deliver better results, 
               keep projects on time and on budget, and provide you with complete transparency throughout your renovation.
