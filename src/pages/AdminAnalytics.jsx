@@ -37,18 +37,8 @@ export default function AdminAnalytics() {
 
     // Fetch Data
     const { data: visits = [] } = useQuery({
-        queryKey: ['siteVisits', timeRange],
-        queryFn: async () => {
-            const startDate = new Date();
-            if (timeRange === 'day') startDate.setHours(startDate.getHours() - 24);
-            else if (timeRange === 'week') startDate.setDate(startDate.getDate() - 7);
-            else if (timeRange === 'month') startDate.setDate(startDate.getDate() - 30);
-            else if (timeRange === 'year') startDate.setFullYear(startDate.getFullYear() - 1);
-            
-            return await base44.entities.SiteVisit.filter({
-                created_date: { $gte: startDate.toISOString() }
-            }, '-created_date', 5000);
-        },
+        queryKey: ['siteVisits'],
+        queryFn: () => base44.entities.SiteVisit.list('-created_date', 1000),
     });
 
     const { data: estimates = [] } = useQuery({
