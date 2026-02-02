@@ -57,7 +57,7 @@ export default function Services() {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1600596542815-374e2e3c5545?q=80&w=2070&auto=format&fit=crop)'
+            backgroundImage: 'url(https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070&auto=format&fit=crop)'
           }}
         />
         <div className="absolute inset-0 bg-black/40" />
