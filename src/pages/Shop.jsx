@@ -48,7 +48,7 @@ const MOCK_PRODUCTS = [
     name: 'Dancoby Trucker Hat',
     description: 'Classic mesh back trucker hat with embroidered logo. Adjustable snapback closure.',
     price: 25.00,
-    images: ['https://placehold.co/800x1000/f3f4f6/1c1917?text=Coming+Soon&font=montserrat'],
+    images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/28bf19810_image.jpg'],
     category: 'Accessories',
     sizes: ['One Size'],
     inStock: true,
