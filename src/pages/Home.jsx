@@ -519,7 +519,7 @@ export default function Home() {
             <Button asChild className="bg-white text-[#1c1917] hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase min-w-[200px]">
               <Link to={createPageUrl('Contact')}>Get In Touch</Link>
             </Button>
-            <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-[#1c1917] bg-transparent px-8 py-6 text-sm tracking-wider uppercase min-w-[200px]">
+            <Button asChild className="bg-white text-[#1c1917] hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase min-w-[200px]">
               <Link to={createPageUrl('VendorIntake')}>
                 Subcontractor Registration
               </Link>
