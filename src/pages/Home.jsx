@@ -493,7 +493,7 @@ export default function Home() {
                     </div>
                     <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                       <motion.div 
-                        initial={{ width: 0 }}
+                        initial={{ width: "0%" }}
                         whileInView={{ width: `${parseInt(project.status)}%` }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
