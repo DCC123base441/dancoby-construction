@@ -140,7 +140,7 @@ export default function SpinWheel() {
                                 >
                                     {/* Text correction */}
                                     <span 
-                                        className="absolute left-12 text-white font-bold text-sm md:text-base whitespace-nowrap"
+                                        className="absolute left-16 md:left-20 text-white font-bold text-xs md:text-base whitespace-nowrap"
                                         style={{
                                             transform: `skewY(30deg) rotate(90deg)`,
                                             textShadow: '0 1px 2px rgba(0,0,0,0.5)'
