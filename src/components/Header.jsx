@@ -51,7 +51,7 @@ export default function Header() {
           {/* Logo */}
           <Link 
                             to={createPageUrl('Home')} 
-                            className="group -ml-4"
+                            className="group -ml-8"
                             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                           >
                             <img 
