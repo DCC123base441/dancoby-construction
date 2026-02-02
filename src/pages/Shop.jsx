@@ -153,11 +153,6 @@ export default function Shop() {
                 transition={{ duration: 0.8 }}
                 className="flex flex-col items-center"
             >
-                <img 
-                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
-                    alt="Dancoby Logo"
-                    className="h-24 md:h-32 mb-8 drop-shadow-lg invert brightness-0" 
-                />
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
