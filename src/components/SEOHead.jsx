@@ -56,6 +56,15 @@ export default function SEOHead({
       link.setAttribute('href', canonical);
     }
 
+    // Favicon
+    let favicon = document.querySelector('link[rel="icon"]');
+    if (!favicon) {
+      favicon = document.createElement('link');
+      favicon.setAttribute('rel', 'icon');
+      document.head.appendChild(favicon);
+    }
+    favicon.setAttribute('href', 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png');
+
     // Structured Data (JSON-LD)
     const existingScript = document.querySelector('script[data-seo-structured]');
     if (existingScript) existingScript.remove();
