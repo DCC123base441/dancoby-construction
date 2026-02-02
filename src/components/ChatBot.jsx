@@ -247,7 +247,7 @@ export default function ChatBot() {
                 <img
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
                   alt="AI Assistant"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-white/30"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-green-500"
                 />
                 <div>
                   <h3 className="font-semibold">Sarah</h3>
