@@ -307,7 +307,7 @@ export default function Shop() {
         <motion.div 
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="fixed bottom-8 right-8 z-40"
+            className="fixed bottom-28 right-6 z-40"
         >
             <Button 
                 onClick={() => setIsCartOpen(true)}

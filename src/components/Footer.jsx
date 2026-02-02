@@ -15,7 +15,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#1a1a1a] text-white">
-      <div className="w-[90%] max-w-7xl mx-auto pt-12 pb-44 md:pt-16 md:pb-24">
+      <div className="w-[90%] max-w-7xl mx-auto pt-12 pb-64 md:pt-16 md:pb-24">
         {/* Top Section - Logo & Tagline */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 pb-12 border-b border-white/10">
           <div className="flex items-center gap-6">
