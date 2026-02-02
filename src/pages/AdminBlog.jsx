@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Sparkles, Pencil, Trash2, Globe, Loader2, FileText, Image as ImageIcon } from 'lucide-react';
+import { Plus, Sparkles, Pencil, Trash2, Globe, Loader2, FileText, Image as ImageIcon, Upload } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -40,6 +40,7 @@ export default function AdminBlog() {
     const [currentCoverImage, setCurrentCoverImage] = useState("");
     const [isGeneratingImage, setIsGeneratingImage] = useState(false);
     const [imagePrompt, setImagePrompt] = useState("");
+    const [isUploading, setIsUploading] = useState(false);
     const queryClient = useQueryClient();
 
     useEffect(() => {
@@ -65,6 +66,32 @@ export default function AdminBlog() {
             toast.error("Failed to generate image: " + error.message);
         } finally {
             setIsGeneratingImage(false);
+        }
+    };
+
+    const handleFileUpload = async (file) => {
+        if (!file) return;
+        setIsUploading(true);
+        try {
+            const result = await base44.integrations.Core.UploadFile({ file });
+            const fileUrl = result.file_url || result?.data?.file_url;
+            setCurrentCoverImage(fileUrl);
+            toast.success("Image uploaded!");
+        } catch (error) {
+            console.error("Upload failed:", error);
+            toast.error("Upload failed: " + error.message);
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            handleFileUpload(file);
+        } else {
+            toast.error("Please upload an image file");
         }
     };
 
@@ -260,13 +287,44 @@ export default function AdminBlog() {
                             <Textarea name="content" defaultValue={editingPost?.content} className="h-64 font-mono text-sm" required />
                         </div>
                         <div className="space-y-2">
-                            <Label>Cover Image URL</Label>
+                            <Label>Cover Image</Label>
+                            
+                            {/* Drag & Drop Zone */}
+                            <div 
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={handleDrop}
+                                className="border-2 border-dashed border-slate-200 rounded-lg p-6 hover:border-slate-400 transition-colors bg-slate-50 text-center mb-4"
+                            >
+                                <div className="flex flex-col items-center justify-center gap-2 cursor-pointer" onClick={() => document.getElementById('image-upload').click()}>
+                                    {isUploading ? (
+                                        <>
+                                            <Loader2 className="w-8 h-8 text-slate-400 animate-spin" />
+                                            <span className="text-sm text-slate-500">Uploading...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Upload className="w-8 h-8 text-slate-400" />
+                                            <span className="text-sm font-medium text-slate-600">Click to upload or drag & drop</span>
+                                            <span className="text-xs text-slate-400">SVG, PNG, JPG or GIF</span>
+                                        </>
+                                    )}
+                                </div>
+                                <input 
+                                    id="image-upload"
+                                    type="file" 
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => handleFileUpload(e.target.files[0])}
+                                    disabled={isUploading}
+                                />
+                            </div>
+
                             <div className="flex gap-2 mb-2">
                                 <Input 
                                     name="coverImage" 
                                     value={currentCoverImage} 
                                     onChange={(e) => setCurrentCoverImage(e.target.value)} 
-                                    placeholder="https://..." 
+                                    placeholder="Or enter image URL..." 
                                     className="flex-1"
                                 />
                             </div>
