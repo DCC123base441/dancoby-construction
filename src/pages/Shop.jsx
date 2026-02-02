@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sheet";
 import { toast } from "sonner";
 import { createPageUrl } from '../utils';
+import NotifyDialog from '../components/shop/NotifyDialog';
 
 // Fallback data
 const MOCK_PRODUCTS = [
@@ -70,6 +71,9 @@ export default function Shop() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [discountCode, setDiscountCode] = useState('');
   const [appliedDiscount, setAppliedDiscount] = useState(null);
+  const [notifyDialogOpen, setNotifyDialogOpen] = useState(false);
+  const [notifyProduct, setNotifyProduct] = useState(null);
+  const [notifySize, setNotifySize] = useState(null);
 
   const { data: dbProducts = [] } = useQuery({
     queryKey: ['products'],
@@ -321,15 +325,31 @@ export default function Shop() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
+            <ProductCard 
+                key={product.id} 
+                product={product} 
+                onAddToCart={addToCart} 
+                onNotify={(product, size) => {
+                    setNotifyProduct(product);
+                    setNotifySize(size);
+                    setNotifyDialogOpen(true);
+                }}
+            />
           ))}
         </div>
       </div>
+
+      <NotifyDialog 
+        open={notifyDialogOpen} 
+        onOpenChange={setNotifyDialogOpen}
+        product={notifyProduct}
+        size={notifySize}
+      />
     </div>
   );
 }
 
-function ProductCard({ product, onAddToCart }) {
+function ProductCard({ product, onAddToCart, onNotify }) {
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0]);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -364,7 +384,7 @@ function ProductCard({ product, onAddToCart }) {
                  ) : (
                     <Button 
                         className="w-full bg-white text-black hover:bg-gray-100"
-                        onClick={() => toast.success("You're on the list! We'll notify you when available.")}
+                        onClick={() => onNotify(product, selectedSize)}
                     >
                         <Bell className="w-4 h-4 mr-2" /> Notify Me
                     </Button>
