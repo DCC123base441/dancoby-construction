@@ -23,22 +23,42 @@ import { createPageUrl } from '../utils';
 const MOCK_PRODUCTS = [
   {
     id: 'mock-1',
-    name: 'Dancoby Signature Tee',
-    description: 'Premium heavyweight cotton. Built for the job site, styled for the street.',
-    price: 35.00,
+    name: 'Next Level T-Shirt',
+    description: 'Premium cotton classic fit t-shirt with our signature logo. Comfortable, durable, and stylish.',
+    price: 15.00,
     images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/59e798105_T-shirt.jpg'],
     category: 'Apparel',
-    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+    sizes: ['M', 'L'],
     inStock: true
   },
   {
     id: 'mock-2',
-    name: 'Site-Ready Hoodie',
-    description: 'Ultra-durable fleece blend. Features reinforced stitching and our classic logo.',
-    price: 65.00,
+    name: 'Champion Hoodie',
+    description: 'Ultra-soft fleece hoodie featuring the Dancoby branding. Perfect for colder days.',
+    price: 29.00,
     images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/fc470c4a1_HoodieBlackBig.jpg'],
     category: 'Apparel',
-    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+    sizes: ['M', 'L'],
+    inStock: true
+  },
+  {
+    id: 'mock-3',
+    name: 'Dancoby Trucker Hat',
+    description: 'Classic mesh back trucker hat with embroidered logo. Adjustable snapback closure.',
+    price: 25.00,
+    images: ['https://images.unsplash.com/photo-1556306535-38febf6782e7?auto=format&fit=crop&q=80&w=800'],
+    category: 'Accessories',
+    sizes: ['One Size'],
+    inStock: true
+  },
+  {
+    id: 'mock-4',
+    name: 'Worksite Beanie',
+    description: 'Warm knit beanie for winter projects. Features a subtle woven label.',
+    price: 18.00,
+    images: ['https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=80&w=800'],
+    category: 'Accessories',
+    sizes: ['One Size'],
     inStock: true
   }
 ];
@@ -125,13 +145,19 @@ export default function Shop() {
                 className="w-full h-full object-cover grayscale"
             />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-black/50 to-transparent" />
         <div className="relative z-10 text-center max-w-4xl px-6">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
+                className="flex flex-col items-center"
             >
+                <img 
+                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
+                    alt="Dancoby Logo"
+                    className="h-24 md:h-32 mb-8 drop-shadow-lg invert brightness-0" 
+                />
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
@@ -317,11 +343,11 @@ function ProductCard({ product, onAddToCart }) {
         onMouseLeave={() => setIsHovered(false)}
     >
         {/* Image Container */}
-        <div className="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative mb-6">
+        <div className="aspect-[4/5] bg-gray-50 rounded-2xl overflow-hidden relative mb-6 p-4">
             <img 
                 src={product.images[0]} 
                 alt={product.name}
-                className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
             />
             {!product.inStock && (
                 <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
