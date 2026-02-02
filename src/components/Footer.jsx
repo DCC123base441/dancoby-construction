@@ -128,12 +128,12 @@ export default function Footer() {
               </ul>
               <ul className="space-y-3">
                 <li>
-                  <Link to={createPageUrl('VendorIntake')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('VendorIntake')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('VendorIntake')}>
                     Partner With Us
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('AdminLogin')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('AdminLogin')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('AdminLogin')}>
                     Admin
                   </Link>
                 </li>
