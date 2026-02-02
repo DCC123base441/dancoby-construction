@@ -364,7 +364,7 @@ function ProductCard({ product, onAddToCart, onNotify }) {
         onMouseLeave={() => setIsHovered(false)}
     >
         {/* Image Container */}
-        <div className="aspect-[4/5] bg-gray-50 rounded-2xl overflow-hidden relative mb-6 p-4">
+        <div className="aspect-[4/5] bg-gray-50 rounded-2xl overflow-hidden relative mb-6 p-0">
             <img 
                 src={product.images[0]} 
                 alt={product.name}
