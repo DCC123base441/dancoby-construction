@@ -46,7 +46,7 @@ const MOCK_PRODUCTS = [
     name: 'Dancoby Trucker Hat',
     description: 'Classic mesh back trucker hat with embroidered logo. Adjustable snapback closure.',
     price: 25.00,
-    images: ['https://images.unsplash.com/photo-1556306535-38febf6782e7?auto=format&fit=crop&q=80&w=800'],
+    images: ['https://placehold.co/800x1000/f3f4f6/1c1917?text=Coming+Soon&font=montserrat'],
     category: 'Accessories',
     sizes: ['One Size'],
     inStock: true
@@ -56,7 +56,7 @@ const MOCK_PRODUCTS = [
     name: 'Worksite Beanie',
     description: 'Warm knit beanie for winter projects. Features a subtle woven label.',
     price: 18.00,
-    images: ['https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=80&w=800'],
+    images: ['https://placehold.co/800x1000/f3f4f6/1c1917?text=Coming+Soon&font=montserrat'],
     category: 'Accessories',
     sizes: ['One Size'],
     inStock: true
