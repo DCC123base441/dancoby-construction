@@ -33,7 +33,7 @@ export default function TestimonialsSection() {
 
   const { data: dbTestimonials = [] } = useQuery({
       queryKey: ['publicTestimonials'],
-      queryFn: () => base44.entities.Testimonial.list('-created_date'),
+      queryFn: () => base44.entities.Testimonial.list('order'),
   });
 
   // Use DB testimonials if available, otherwise use fallback
