@@ -16,7 +16,6 @@ export default function Footer() {
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
               alt="Dancoby"
               className="h-14 w-auto brightness-0 invert"
-              style={{ imageRendering: 'crisp-edges' }}
             />
             <div className="h-8 w-px bg-white/20 hidden md:block" />
             <p className="text-white/50 text-sm hidden md:block">
