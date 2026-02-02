@@ -105,6 +105,16 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link to={createPageUrl('Blog')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link to={createPageUrl('Shop')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Shop
+                  </Link>
+                </li>
+                <li>
                   <Link to={createPageUrl('HiringApplication')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Careers
                   </Link>
