@@ -49,7 +49,8 @@ const MOCK_PRODUCTS = [
     images: ['https://placehold.co/800x1000/f3f4f6/1c1917?text=Coming+Soon&font=montserrat'],
     category: 'Accessories',
     sizes: ['One Size'],
-    inStock: true
+    inStock: true,
+    comingSoon: true
   },
   {
     id: 'mock-4',
@@ -59,7 +60,8 @@ const MOCK_PRODUCTS = [
     images: ['https://placehold.co/800x1000/f3f4f6/1c1917?text=Coming+Soon&font=montserrat'],
     category: 'Accessories',
     sizes: ['One Size'],
-    inStock: true
+    inStock: true,
+    comingSoon: true
   }
 ];
 
@@ -352,7 +354,7 @@ function ProductCard({ product, onAddToCart }) {
             
             {/* Quick Add Overlay */}
             <div className={`absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-                 {product.inStock ? (
+                 {product.inStock && !product.comingSoon ? (
                     <Button 
                         className="w-full bg-white text-black hover:bg-gray-100"
                         onClick={() => onAddToCart(product, selectedSize)}
