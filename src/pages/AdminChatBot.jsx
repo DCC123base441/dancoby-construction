@@ -267,6 +267,7 @@ export default function AdminChatBot() {
                                         <SelectItem value="/Contact">Contact</SelectItem>
                                         <SelectItem value="/Step">Step Platform</SelectItem>
                                         <SelectItem value="/Estimator">Estimator</SelectItem>
+                                        <SelectItem value="/Shop">Shop</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <p className="text-xs text-gray-500">
