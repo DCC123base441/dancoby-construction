@@ -56,22 +56,22 @@ export default function Footer() {
             <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Services</h4>
             <ul className="space-y-3">
               <li>
-                <Link to={createPageUrl('ServiceInteriorRenovations')} className="text-white/50 hover:text-white text-sm transition-colors">
+                <Link to={createPageUrl('ServiceInteriorRenovations')} className={getLinkClass('ServiceInteriorRenovations')}>
                   Interior Renovations
                 </Link>
               </li>
               <li>
-                <Link to={createPageUrl('ServiceKitchenBath')} className="text-white/50 hover:text-white text-sm transition-colors">
+                <Link to={createPageUrl('ServiceKitchenBath')} className={getLinkClass('ServiceKitchenBath')}>
                   Kitchen & Bath
                 </Link>
               </li>
               <li>
-                <Link to={createPageUrl('ServiceBrownstone')} className="text-white/50 hover:text-white text-sm transition-colors">
+                <Link to={createPageUrl('ServiceBrownstone')} className={getLinkClass('ServiceBrownstone')}>
                   Brownstone Restoration
                 </Link>
               </li>
               <li>
-                <Link to={createPageUrl('ServiceTownhouses')} className="text-white/50 hover:text-white text-sm transition-colors">
+                <Link to={createPageUrl('ServiceTownhouses')} className={getLinkClass('ServiceTownhouses')}>
                   Townhouses & Apartments
                 </Link>
               </li>
