@@ -51,6 +51,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
         { name: 'Leads', href: 'AdminLeads', icon: Users },
         { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
+        { name: 'Testimonials', href: 'AdminTestimonials', icon: MessageSquare },
         { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
         { name: 'Merch Waitlist', href: 'AdminMerchWaitlist', icon: ShoppingBag },
     ];

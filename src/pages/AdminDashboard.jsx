@@ -449,6 +449,20 @@ export default function AdminDashboard() {
                         </Card>
                     </Link>
 
+                    <Link to={createPageUrl('AdminTestimonials')} className="group block">
+                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
+                            <CardContent className="p-6 flex items-center gap-4">
+                                <div className="p-3 rounded-lg bg-indigo-100 group-hover:bg-indigo-600 transition-colors">
+                                    <MessageSquare className="w-6 h-6 text-indigo-600 group-hover:text-white transition-colors" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-slate-900">Testimonials</h3>
+                                    <p className="text-sm text-slate-500">Manage client reviews</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+
                     <Link to={createPageUrl('AdminAnalytics')} className="group block">
                         <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
                             <CardContent className="p-6 flex items-center gap-4">

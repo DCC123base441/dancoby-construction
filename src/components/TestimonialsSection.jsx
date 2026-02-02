@@ -1,48 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star, ExternalLink } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
-const testimonials = [
+// Fallback data
+const fallbackTestimonials = [
   {
-    name: "Amanda O",
-    title: "Homeowner, Brooklyn, NY",
-    review: "Dancoby Construction did an absolutely incredible job renovating our entire home and they finished ON TIME! The owner, Ralph Abekassis, is open, transparent, fair and respectful. He was very communicative with regular onsite meetings, very clear around any changes or issues and while we were away he sent us daily updates with pictures on progress",
-    initial: "A"
+    client_name: "Amanda O",
+    role: "Homeowner, Brooklyn, NY",
+    quote: "Dancoby Construction did an absolutely incredible job renovating our entire home and they finished ON TIME! The owner, Ralph Abekassis, is open, transparent, fair and respectful. He was very communicative with regular onsite meetings, very clear around any changes or issues and while we were away he sent us daily updates with pictures on progress",
   },
   {
-    name: "Emma J",
-    title: "Homeowner, Brooklyn, NY",
-    review: "This is the second time we have used Ralph and his team… They do an excellent job. Ralph and his team are very professional, superb communicators, and always made sure we had a very pleasant experience throughout our renovation. Their work is beautiful and we could not recommend enough!",
-    initial: "E"
+    client_name: "Emma J",
+    role: "Homeowner, Brooklyn, NY",
+    quote: "This is the second time we have used Ralph and his team… They do an excellent job. Ralph and his team are very professional, superb communicators, and always made sure we had a very pleasant experience throughout our renovation. Their work is beautiful and we could not recommend enough!",
   },
   {
-    name: "Nelli C",
-    title: "Homeowner, Brooklyn, NY",
-    review: "OH MY GOD! Those are the three words you will say once you complete a home renovation with Ralph and his team. Ralph is a truly dependable professional, who is extremely knowledgeable and someone you can count on to get the job DONE.",
-    initial: "N"
+    client_name: "Nelli C",
+    role: "Homeowner, Brooklyn, NY",
+    quote: "OH MY GOD! Those are the three words you will say once you complete a home renovation with Ralph and his team. Ralph is a truly dependable professional, who is extremely knowledgeable and someone you can count on to get the job DONE.",
   },
   {
-    name: "Kyle M",
-    title: "Homeowner, Brooklyn, NY",
-    review: "Ralph is everything you want in a contractor: prompt, polite, organized, detail-oriented, knowledgeable, and a clear communicator. We worked with his team to renovate our home under a tight timeline and they delivered an outstanding result. NYC-area contractors are a bit of a mixed bag but I would highly recommend Dancoby to anyone.",
-    initial: "K"
+    client_name: "Kyle M",
+    role: "Homeowner, Brooklyn, NY",
+    quote: "Ralph is everything you want in a contractor: prompt, polite, organized, detail-oriented, knowledgeable, and a clear communicator. We worked with his team to renovate our home under a tight timeline and they delivered an outstanding result. NYC-area contractors are a bit of a mixed bag but I would highly recommend Dancoby to anyone.",
   }
 ];
 
 export default function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const { data: dbTestimonials = [] } = useQuery({
+      queryKey: ['publicTestimonials'],
+      queryFn: () => base44.entities.Testimonial.list('-created_date'),
+  });
+
+  // Use DB testimonials if available, otherwise use fallback
+  const testimonials = dbTestimonials.length > 0 ? dbTestimonials : fallbackTestimonials;
+
   useEffect(() => {
+    if (testimonials.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 8000);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials.length]);
 
   const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
+  if (testimonials.length === 0) return null;
+
   const testimonial = testimonials[currentIndex];
+  // Helper to get first char
+  const getInitial = (name) => name ? name.charAt(0) : '?';
 
   return (
     <section className="py-16 bg-stone-100">
@@ -86,7 +98,7 @@ export default function TestimonialsSection() {
                       : 'border-transparent text-stone-500 hover:border-stone-300'
                   }`}
                 >
-                  {t.name}
+                  {t.client_name}
                 </button>
               ))}
             </div>
@@ -102,7 +114,7 @@ export default function TestimonialsSection() {
             >
               <div className="flex justify-between items-start mb-6">
                 <div className="w-16 h-16 rounded-full bg-stone-800 flex items-center justify-center">
-                  <span className="text-2xl font-light text-white">{testimonial.initial}</span>
+                  <span className="text-2xl font-light text-white">{getInitial(testimonial.client_name)}</span>
                 </div>
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, i) => (
@@ -112,12 +124,12 @@ export default function TestimonialsSection() {
               </div>
               
               <p className="text-xl md:text-2xl font-light leading-relaxed text-stone-800 mb-8">
-                "{testimonial.review}"
+                "{testimonial.quote}"
               </p>
               
               <div className="mb-6">
-                <p className="text-lg text-stone-900 font-medium">{testimonial.name}</p>
-                <p className="text-sm text-stone-500">{testimonial.title}</p>
+                <p className="text-lg text-stone-900 font-medium">{testimonial.client_name}</p>
+                <p className="text-sm text-stone-500">{testimonial.role}</p>
               </div>
 
               {/* Mobile Navigation */}
