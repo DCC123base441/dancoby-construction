@@ -18,11 +18,11 @@ export default function Footer() {
       <div className="w-[90%] max-w-7xl mx-auto py-12 md:py-16">
         {/* Top Section - Logo & Tagline */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 pb-12 border-b border-white/10">
-          <div className="flex items-center gap-6 -ml-8">
+          <div className="flex items-center gap-6 -ml-6">
             <img 
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
               alt="Dancoby"
-              className="h-14 w-auto brightness-0 invert"
+              className="h-16 w-auto brightness-0 invert"
             />
             <div className="h-8 w-px bg-white/20 hidden md:block" />
             <p className="text-white/50 text-sm hidden md:block">
