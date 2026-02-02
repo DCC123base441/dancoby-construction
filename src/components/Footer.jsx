@@ -44,7 +44,7 @@ export default function Footer() {
         </div>
 
         {/* Main Links Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Services */}
           <div>
             <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Services</h4>
@@ -73,9 +73,9 @@ export default function Footer() {
           </div>
 
           {/* Company */}
-          <div>
+          <div className="md:col-span-2">
             <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Company</h4>
-            <div className="flex gap-12">
+            <div className="flex gap-8">
               <ul className="space-y-3">
                 <li>
                   <Link to={createPageUrl('Home')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
@@ -93,25 +93,20 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('About')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
-                    About
+                  <Link to={createPageUrl('Blog')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Blog
                   </Link>
                 </li>
               </ul>
               <ul className="space-y-3">
                 <li>
+                  <Link to={createPageUrl('About')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                    About
+                  </Link>
+                </li>
+                <li>
                   <Link to={createPageUrl('Press')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Press
-                  </Link>
-                </li>
-                <li>
-                  <Link to={createPageUrl('Blog')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link to={createPageUrl('Shop')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
-                    Shop
                   </Link>
                 </li>
                 <li>
@@ -119,6 +114,13 @@ export default function Footer() {
                     Careers
                   </Link>
                 </li>
+                <li>
+                  <Link to={createPageUrl('Shop')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                    Shop
+                  </Link>
+                </li>
+              </ul>
+              <ul className="space-y-3">
                 <li>
                   <Link to={createPageUrl('VendorIntake')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
                     Partner With Us
