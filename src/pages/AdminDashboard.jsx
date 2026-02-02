@@ -16,7 +16,8 @@ import {
     Clock,
     MoreHorizontal,
     MousePointerClick,
-    Trash2
+    Trash2,
+    MessageSquare
 } from 'lucide-react';
 import {
     AlertDialog,
