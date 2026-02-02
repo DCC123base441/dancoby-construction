@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,18 @@ export default function ProjectGallery({ images }) {
         if (e.key === 'ArrowRight') handleNext(e);
         if (e.key === 'Escape') setSelectedIndex(null);
     };
+
+    // Lock body scroll when lightbox is open
+    useEffect(() => {
+        if (selectedIndex !== null) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [selectedIndex]);
 
     return (
         <div className="space-y-6">
@@ -98,8 +110,9 @@ export default function ProjectGallery({ images }) {
                             <motion.img 
                                 layoutId={`gallery-image-${selectedIndex}`}
                                 src={images[selectedIndex]} 
+                                draggable={false}
                                 alt="Gallery preview"
-                                className="max-h-[85vh] max-w-[90vw] object-contain shadow-2xl"
+                                className="max-h-[85vh] max-w-[90vw] object-contain shadow-2xl select-none"
                             />
                         </div>
                     </motion.div>
