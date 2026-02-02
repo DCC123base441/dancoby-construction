@@ -19,6 +19,7 @@ import {
 import { toast } from "sonner";
 import { createPageUrl } from '../utils';
 import NotifyDialog from '../components/shop/NotifyDialog';
+import SpinWheel from '../components/shop/SpinWheel';
 
 // Fallback data
 const MOCK_PRODUCTS = [
@@ -175,6 +176,9 @@ export default function Shop() {
             </motion.div>
         </div>
       </section>
+
+      {/* Spin Wheel Section */}
+      <SpinWheel />
 
       {/* Cart Sheet */}
       <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
