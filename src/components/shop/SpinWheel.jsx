@@ -38,25 +38,10 @@ export default function SpinWheel() {
 
         setIsSpinning(true);
         
-        // Determine result (weighted random)
-        // 50% loss, 30% 10% off, 15% 20% off, 5% free hat
-        const rand = Math.random();
-        let selectedIndex;
-        
-        if (rand < 0.5) {
-            // Loss (indices 1, 3, 5)
-            const losses = [1, 3, 5];
-            selectedIndex = losses[Math.floor(Math.random() * losses.length)];
-        } else if (rand < 0.8) {
-            // 10% Off (index 0)
-            selectedIndex = 0;
-        } else if (rand < 0.95) {
-            // 20% Off (index 4)
-            selectedIndex = 4;
-        } else {
-            // Free Hat (index 2)
-            selectedIndex = 2;
-        }
+        // Determine result (Always loss)
+        // Indices 1, 3, 5 are loss
+        const losses = [1, 3, 5];
+        const selectedIndex = losses[Math.floor(Math.random() * losses.length)];
 
         const selectedSegment = SEGMENTS[selectedIndex];
         
@@ -99,7 +84,7 @@ export default function SpinWheel() {
         }
     };
 
-    if (hasSpun && !showResult) return null;
+    // if (hasSpun && !showResult) return null; // Keep visible
 
     return (
         <section className="py-16 bg-zinc-50 border-y border-gray-200 overflow-hidden relative">
