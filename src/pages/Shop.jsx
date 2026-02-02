@@ -51,8 +51,8 @@ const MOCK_PRODUCTS = [
     images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/28bf19810_image.jpg'],
     category: 'Accessories',
     sizes: ['One Size'],
-    inStock: true,
-    comingSoon: true
+    inStock: false,
+    comingSoon: false
   },
   {
     id: 'mock-4',
