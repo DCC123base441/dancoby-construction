@@ -106,22 +106,22 @@ export default function Footer() {
               </ul>
               <ul className="space-y-3">
                 <li>
-                  <Link to={createPageUrl('About')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('About')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('About')}>
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Press')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Press')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('Press')}>
                     Press
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('HiringApplication')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('HiringApplication')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('HiringApplication')}>
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link to={createPageUrl('Shop')} onClick={() => window.scrollTo(0, 0)} className="text-white/50 hover:text-white text-sm transition-colors">
+                  <Link to={createPageUrl('Shop')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('Shop')}>
                     Shop
                   </Link>
                 </li>
