@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingBag, X, Plus, Minus, ArrowRight, Tag, Sparkles } from 'lucide-react';
+import { ShoppingBag, X, Plus, Minus, ArrowRight, Tag, Sparkles, Bell } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import {
@@ -29,7 +29,7 @@ const MOCK_PRODUCTS = [
     images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/59e798105_T-shirt.jpg'],
     category: 'Apparel',
     sizes: ['M', 'L'],
-    inStock: true
+    inStock: false
   },
   {
     id: 'mock-2',
@@ -39,7 +39,7 @@ const MOCK_PRODUCTS = [
     images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/fc470c4a1_HoodieBlackBig.jpg'],
     category: 'Apparel',
     sizes: ['M', 'L'],
-    inStock: true
+    inStock: false
   },
   {
     id: 'mock-3',
@@ -352,13 +352,21 @@ function ProductCard({ product, onAddToCart }) {
             
             {/* Quick Add Overlay */}
             <div className={`absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-                 <Button 
-                    className="w-full bg-white text-black hover:bg-gray-100"
-                    onClick={() => onAddToCart(product, selectedSize)}
-                    disabled={!product.inStock}
-                 >
-                    <Plus className="w-4 h-4 mr-2" /> Add to Cart - ${product.price}
-                 </Button>
+                 {product.inStock ? (
+                    <Button 
+                        className="w-full bg-white text-black hover:bg-gray-100"
+                        onClick={() => onAddToCart(product, selectedSize)}
+                    >
+                        <Plus className="w-4 h-4 mr-2" /> Add to Cart - ${product.price}
+                    </Button>
+                 ) : (
+                    <Button 
+                        className="w-full bg-white text-black hover:bg-gray-100"
+                        onClick={() => toast.success("You're on the list! We'll notify you when available.")}
+                    >
+                        <Bell className="w-4 h-4 mr-2" /> Notify Me
+                    </Button>
+                 )}
             </div>
         </div>
 
