@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingBag, X, Plus, Minus, CreditCard, ArrowRight } from 'lucide-react';
+import { ShoppingBag, X, Plus, Minus, ArrowRight, Tag, Sparkles } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import {
@@ -16,14 +17,15 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { toast } from "sonner";
+import { createPageUrl } from '../utils';
 
-// Temporary fallback data until database is populated
+// Fallback data
 const MOCK_PRODUCTS = [
   {
     id: 'mock-1',
-    name: 'Dancoby Signature T-Shirt',
-    description: 'Premium cotton classic fit t-shirt with our signature logo. Comfortable, durable, and stylish for on-site or casual wear.',
-    price: 29.99,
+    name: 'Dancoby Signature Tee',
+    description: 'Premium heavyweight cotton. Built for the job site, styled for the street.',
+    price: 35.00,
     images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/59e798105_T-shirt.jpg'],
     category: 'Apparel',
     sizes: ['S', 'M', 'L', 'XL', '2XL'],
@@ -31,9 +33,9 @@ const MOCK_PRODUCTS = [
   },
   {
     id: 'mock-2',
-    name: 'Dancoby Heavyweight Hoodie',
-    description: 'Ultra-soft fleece hoodie featuring the Dancoby branding. Perfect for colder days on the job site.',
-    price: 54.99,
+    name: 'Site-Ready Hoodie',
+    description: 'Ultra-durable fleece blend. Features reinforced stitching and our classic logo.',
+    price: 65.00,
     images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/fc470c4a1_HoodieBlackBig.jpg'],
     category: 'Apparel',
     sizes: ['S', 'M', 'L', 'XL', '2XL'],
@@ -44,14 +46,14 @@ const MOCK_PRODUCTS = [
 export default function Shop() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [discountCode, setDiscountCode] = useState('');
+  const [appliedDiscount, setAppliedDiscount] = useState(null);
 
-  // Fetch products from DB
-  const { data: dbProducts = [], isLoading } = useQuery({
+  const { data: dbProducts = [] } = useQuery({
     queryKey: ['products'],
     queryFn: () => base44.entities.Product.list(),
   });
 
-  // Use DB products if available, otherwise fall back to mock data
   const products = dbProducts.length > 0 ? dbProducts : MOCK_PRODUCTS;
 
   const addToCart = (product, size) => {
@@ -72,6 +74,7 @@ export default function Shop() {
 
   const removeFromCart = (productId, size) => {
     setCart(prev => prev.filter(item => !(item.id === productId && item.size === size)));
+    if (cart.length <= 1) setAppliedDiscount(null);
   };
 
   const updateQuantity = (productId, size, delta) => {
@@ -84,117 +87,216 @@ export default function Shop() {
     }));
   };
 
-  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const discountAmount = appliedDiscount 
+    ? (appliedDiscount.type === 'percentage' ? subtotal * (appliedDiscount.value / 100) : appliedDiscount.value)
+    : 0;
+  const total = Math.max(0, subtotal - discountAmount);
 
-  const handleCheckout = async () => {
-    // This will be replaced with real Stripe integration
-    toast.info("Redirecting to checkout...");
-    try {
-        // Example of how we might call a checkout function later
-        // await base44.functions.invoke('createCheckoutSession', { cart });
-    } catch (e) {
-        console.error(e);
+  const handleApplyCode = async () => {
+    if (!discountCode.trim()) return;
+    
+    // In a real app, verify against database
+    // For demo: "WELCOME10" gives 10% off
+    if (discountCode.toUpperCase() === 'WELCOME10') {
+        setAppliedDiscount({ code: 'WELCOME10', type: 'percentage', value: 10 });
+        toast.success("Discount applied!");
+    } else if (discountCode.toUpperCase() === 'DANCOBY20') {
+        setAppliedDiscount({ code: 'DANCOBY20', type: 'percentage', value: 20 });
+        toast.success("Discount applied!");
+    } else {
+        toast.error("Invalid discount code");
     }
   };
 
+  const removeDiscount = () => {
+      setAppliedDiscount(null);
+      setDiscountCode('');
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center mb-12">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Dancoby Shop</h1>
-            <p className="text-lg text-gray-600">Official merchandise and apparel.</p>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-zinc-900">
+        <div className="absolute inset-0 opacity-40">
+            <img 
+                src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&q=80"
+                alt="Background"
+                className="w-full h-full object-cover grayscale"
+            />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent" />
+        <div className="relative z-10 text-center max-w-4xl px-6">
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+            >
+                <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+                    WEAR THE <span className="text-red-600">CRAFT</span>
+                </h1>
+                <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light">
+                    Official Dancoby apparel. Designed for the builders, the dreamers, and the doers.
+                </p>
+                <Button 
+                    size="lg" 
+                    className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
+                    onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
+                >
+                    Shop Collection
+                </Button>
+            </motion.div>
+        </div>
+      </section>
+
+      {/* Cart Sheet */}
+      <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+        <SheetContent className="w-full sm:max-w-md flex flex-col bg-white p-0">
+          <div className="p-6 border-b border-gray-100">
+            <SheetHeader>
+                <SheetTitle className="text-2xl font-bold">Your Cart</SheetTitle>
+                <SheetDescription>Free shipping on orders over $100</SheetDescription>
+            </SheetHeader>
           </div>
           
-          <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-            <SheetTrigger asChild>
-              <Button size="lg" className="relative bg-gray-900 hover:bg-gray-800">
-                <ShoppingBag className="w-5 h-5 mr-2" />
-                Cart
-                {cart.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-white">
-                    {cart.reduce((a, b) => a + b.quantity, 0)}
-                  </span>
-                )}
-              </Button>
-            </SheetTrigger>
-            <SheetContent className="w-full sm:max-w-lg flex flex-col">
-              <SheetHeader>
-                <SheetTitle>Your Shopping Cart</SheetTitle>
-                <SheetDescription>
-                  Review your items before checking out.
-                </SheetDescription>
-              </SheetHeader>
-              
-              <div className="flex-1 overflow-y-auto py-6">
-                {cart.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-full text-gray-400">
-                    <ShoppingBag className="w-16 h-16 mb-4 opacity-20" />
-                    <p>Your cart is empty</p>
-                    <Button variant="link" onClick={() => setIsCartOpen(false)}>
-                      Continue Shopping
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="space-y-6">
-                    {cart.map((item) => (
-                      <div key={`${item.id}-${item.size}`} className="flex gap-4">
-                        <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                          <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-gray-900">{item.name}</h4>
-                          <p className="text-sm text-gray-500 mb-2">Size: {item.size}</p>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 border rounded-md p-1">
-                              <button 
-                                onClick={() => updateQuantity(item.id, item.size, -1)}
-                                className="p-1 hover:bg-gray-100 rounded"
-                              >
-                                <Minus className="w-3 h-3" />
-                              </button>
-                              <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
-                              <button 
-                                onClick={() => updateQuantity(item.id, item.size, 1)}
-                                className="p-1 hover:bg-gray-100 rounded"
-                              >
-                                <Plus className="w-3 h-3" />
-                              </button>
-                            </div>
-                            <span className="font-bold">${(item.price * item.quantity).toFixed(2)}</span>
-                          </div>
-                        </div>
-                        <button 
-                          onClick={() => removeFromCart(item.id, item.size)}
-                          className="text-gray-400 hover:text-red-500 self-start"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
+          <div className="flex-1 overflow-y-auto p-6">
+            {cart.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full text-gray-400 space-y-4">
+                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center">
+                    <ShoppingBag className="w-8 h-8 opacity-20" />
+                </div>
+                <p>Your cart is currently empty.</p>
+                <Button variant="link" onClick={() => setIsCartOpen(false)}>
+                  Start Shopping
+                </Button>
               </div>
-
-              {cart.length > 0 && (
-                <SheetFooter className="flex-col sm:flex-col gap-4 border-t pt-6">
-                  <div className="flex justify-between items-center text-lg font-bold">
-                    <span>Total</span>
-                    <span>${cartTotal.toFixed(2)}</span>
+            ) : (
+              <div className="space-y-6">
+                {cart.map((item) => (
+                  <div key={`${item.id}-${item.size}`} className="flex gap-4 group">
+                    <div className="w-24 h-24 bg-gray-50 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100">
+                      <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
+                    </div>
+                    <div className="flex-1 flex flex-col justify-between py-1">
+                      <div>
+                        <div className="flex justify-between items-start">
+                            <h4 className="font-semibold text-gray-900 line-clamp-1">{item.name}</h4>
+                            <button 
+                                onClick={() => removeFromCart(item.id, item.size)}
+                                className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
+                        <p className="text-sm text-gray-500">Size: <span className="uppercase">{item.size}</span></p>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-1">
+                          <button 
+                            onClick={() => updateQuantity(item.id, item.size, -1)}
+                            className="p-1 hover:bg-white rounded-md transition-colors shadow-sm"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
+                          <button 
+                            onClick={() => updateQuantity(item.id, item.size, 1)}
+                            className="p-1 hover:bg-white rounded-md transition-colors shadow-sm"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                        <span className="font-bold text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <Button size="lg" className="w-full bg-red-600 hover:bg-red-700" onClick={handleCheckout}>
-                    Checkout <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                  <p className="text-xs text-center text-gray-400">
+                ))}
+              </div>
+            )}
+          </div>
+
+          {cart.length > 0 && (
+            <div className="bg-gray-50 p-6 space-y-4">
+                {/* Discount Code */}
+                <div className="space-y-2">
+                    {appliedDiscount ? (
+                        <div className="flex items-center justify-between bg-green-50 text-green-700 px-3 py-2 rounded-lg border border-green-100">
+                            <div className="flex items-center gap-2">
+                                <Tag className="w-4 h-4" />
+                                <span className="text-sm font-medium">Code: {appliedDiscount.code} applied</span>
+                            </div>
+                            <button onClick={removeDiscount} className="text-green-700 hover:text-green-900">
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="flex gap-2">
+                            <Input 
+                                placeholder="Discount code" 
+                                value={discountCode}
+                                onChange={(e) => setDiscountCode(e.target.value)}
+                                className="bg-white"
+                            />
+                            <Button variant="outline" onClick={handleApplyCode}>Apply</Button>
+                        </div>
+                    )}
+                </div>
+
+                {/* Totals */}
+                <div className="space-y-2 pt-2 border-t border-gray-200">
+                    <div className="flex justify-between text-gray-500 text-sm">
+                        <span>Subtotal</span>
+                        <span>${subtotal.toFixed(2)}</span>
+                    </div>
+                    {appliedDiscount && (
+                        <div className="flex justify-between text-green-600 text-sm font-medium">
+                            <span>Discount ({appliedDiscount.value}%)</span>
+                            <span>-${discountAmount.toFixed(2)}</span>
+                        </div>
+                    )}
+                    <div className="flex justify-between items-center text-xl font-bold text-gray-900 pt-2">
+                        <span>Total</span>
+                        <span>${total.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <Button size="lg" className="w-full bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200 h-14 text-lg">
+                    Checkout Securely <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+                <p className="text-xs text-center text-gray-400">
                     Secure checkout powered by Stripe
-                  </p>
-                </SheetFooter>
-              )}
-            </SheetContent>
-          </Sheet>
+                </p>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Floating Cart Button */}
+      {!isCartOpen && cart.length > 0 && (
+        <motion.div 
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="fixed bottom-8 right-8 z-40"
+        >
+            <Button 
+                onClick={() => setIsCartOpen(true)}
+                size="lg"
+                className="rounded-full w-16 h-16 bg-red-600 hover:bg-red-700 shadow-2xl flex flex-col items-center justify-center p-0 gap-0"
+            >
+                <ShoppingBag className="w-6 h-6" />
+                <span className="text-[10px] font-bold">{cart.reduce((a,b) => a + b.quantity, 0)} items</span>
+            </Button>
+        </motion.div>
+      )}
+
+      {/* Products Grid */}
+      <div id="products" className="max-w-7xl mx-auto px-6 py-24">
+        <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">The Collection</h2>
+            <div className="h-1 w-20 bg-red-600 mx-auto" />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
           ))}
@@ -206,60 +308,66 @@ export default function Shop() {
 
 function ProductCard({ product, onAddToCart }) {
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0]);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Card className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-shadow group">
-      <div className="aspect-square bg-white relative overflow-hidden">
-        <img 
-          src={product.images[0]} 
-          alt={product.name}
-          className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
-        />
-        {!product.inStock && (
-          <div className="absolute top-4 right-4 bg-gray-900 text-white text-xs font-bold px-2 py-1 rounded">
-            Out of Stock
-          </div>
-        )}
-      </div>
-      <CardContent className="p-6">
-        <div className="flex justify-between items-start mb-2">
-          <div>
-            <h3 className="font-bold text-gray-900 text-lg mb-1">{product.name}</h3>
-            <p className="text-sm text-gray-500 line-clamp-2">{product.description}</p>
-          </div>
-          <span className="font-bold text-lg text-red-600">${product.price}</span>
-        </div>
-        
-        {product.sizes && (
-          <div className="mt-4">
-            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wider block mb-2">Size</span>
-            <div className="flex gap-2">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`w-10 h-10 rounded-md flex items-center justify-center text-sm font-medium transition-colors ${
-                    selectedSize === size
-                      ? 'bg-gray-900 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {size}
-                </button>
-              ))}
+    <div 
+        className="group relative"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+    >
+        {/* Image Container */}
+        <div className="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative mb-6">
+            <img 
+                src={product.images[0]} 
+                alt={product.name}
+                className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
+            />
+            {!product.inStock && (
+                <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    Sold Out
+                </div>
+            )}
+            
+            {/* Quick Add Overlay */}
+            <div className={`absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+                 <Button 
+                    className="w-full bg-white text-black hover:bg-gray-100"
+                    onClick={() => onAddToCart(product, selectedSize)}
+                    disabled={!product.inStock}
+                 >
+                    <Plus className="w-4 h-4 mr-2" /> Add to Cart - ${product.price}
+                 </Button>
             </div>
-          </div>
-        )}
-      </CardContent>
-      <CardFooter className="p-6 pt-0">
-        <Button 
-          className="w-full bg-red-600 hover:bg-red-700" 
-          onClick={() => onAddToCart(product, selectedSize)}
-          disabled={!product.inStock}
-        >
-          <Plus className="w-4 h-4 mr-2" /> Add to Cart
-        </Button>
-      </CardFooter>
-    </Card>
+        </div>
+
+        {/* Info */}
+        <div className="space-y-3">
+            <div className="flex justify-between items-start">
+                <h3 className="text-xl font-bold text-gray-900">{product.name}</h3>
+                <span className="font-medium text-gray-900">${product.price}</span>
+            </div>
+            <p className="text-gray-500 text-sm line-clamp-2 leading-relaxed">{product.description}</p>
+            
+            {/* Sizes */}
+            {product.sizes && (
+                <div className="flex gap-2 pt-2">
+                    {product.sizes.map((size) => (
+                        <button
+                            key={size}
+                            onClick={() => setSelectedSize(size)}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
+                                selectedSize === size
+                                    ? 'bg-black text-white shadow-md scale-110'
+                                    : 'bg-white border border-gray-200 text-gray-600 hover:border-black'
+                            }`}
+                        >
+                            {size}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    </div>
   );
 }
