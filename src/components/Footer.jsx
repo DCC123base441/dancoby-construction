@@ -44,7 +44,7 @@ export default function Footer() {
         </div>
 
         {/* Main Links Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:flex md:justify-between gap-8 mb-12">
           {/* Services */}
           <div>
             <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Services</h4>
@@ -73,7 +73,7 @@ export default function Footer() {
           </div>
 
           {/* Company */}
-          <div className="md:col-span-2">
+          <div>
             <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Company</h4>
             <div className="flex gap-8">
               <ul className="space-y-3">
