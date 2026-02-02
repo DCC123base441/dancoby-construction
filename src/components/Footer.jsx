@@ -103,6 +103,11 @@ export default function Footer() {
                     Blog
                   </Link>
                 </li>
+                <li>
+                  <Link to={createPageUrl('VendorIntake')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('VendorIntake')}>
+                    Partner With Us
+                  </Link>
+                </li>
               </ul>
               <ul className="space-y-3">
                 <li>
@@ -125,19 +130,13 @@ export default function Footer() {
                     Shop
                   </Link>
                 </li>
-              </ul>
-              <ul className="space-y-3">
-                <li>
-                  <Link to={createPageUrl('VendorIntake')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('VendorIntake')}>
-                    Partner With Us
-                  </Link>
-                </li>
                 <li>
                   <Link to={createPageUrl('AdminLogin')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('AdminLogin')}>
                     Admin
                   </Link>
                 </li>
               </ul>
+
             </div>
           </div>
 
