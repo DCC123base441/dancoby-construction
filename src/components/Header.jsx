@@ -15,6 +15,7 @@ export default function Header() {
     { name: 'About', path: 'About' },
     { name: 'Press', path: 'Press' },
     { name: 'Careers', path: 'HiringApplication' },
+    { name: 'Shop', path: 'Shop' },
   ];
 
   return (
