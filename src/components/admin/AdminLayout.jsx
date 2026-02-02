@@ -14,7 +14,8 @@ import {
     Menu,
     X,
     ExternalLink,
-    MessageSquare
+    MessageSquare,
+    ShoppingBag
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -51,6 +52,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Leads', href: 'AdminLeads', icon: Users },
         { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
         { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
+        { name: 'Merch Waitlist', href: 'AdminMerchWaitlist', icon: ShoppingBag },
     ];
 
     const handleLogout = async () => {
