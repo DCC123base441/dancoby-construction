@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mail, MapPin, Instagram, Facebook } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
 export default function Footer() {
