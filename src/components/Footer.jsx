@@ -5,6 +5,13 @@ import { createPageUrl } from '../utils';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+
+  const getLinkClass = (page) => {
+    const path = createPageUrl(page);
+    const isActive = location.pathname === path;
+    return `text-sm transition-colors ${isActive ? 'text-red-500 font-medium' : 'text-white/50 hover:text-white'}`;
+  };
 
   return (
     <footer className="bg-[#1a1a1a] text-white">
