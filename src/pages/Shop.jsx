@@ -52,7 +52,7 @@ const MOCK_PRODUCTS = [
     images: ['https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/28bf19810_image.jpg'],
     category: 'Accessories',
     sizes: ['One Size'],
-    inStock: false,
+    inStock: true,
     comingSoon: false
   },
   {
@@ -318,23 +318,7 @@ export default function Shop() {
         </SheetContent>
       </Sheet>
 
-      {/* Floating Cart Button */}
-      {!isCartOpen && cart.length > 0 && (
-        <motion.div 
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="fixed bottom-8 right-8 z-40"
-        >
-            <Button 
-                onClick={() => setIsCartOpen(true)}
-                size="lg"
-                className="rounded-full w-16 h-16 bg-red-600 hover:bg-red-700 shadow-2xl flex flex-col items-center justify-center p-0 gap-0"
-            >
-                <ShoppingBag className="w-6 h-6" />
-                <span className="text-[10px] font-bold">{cart.reduce((a,b) => a + b.quantity, 0)} items</span>
-            </Button>
-        </motion.div>
-      )}
+
 
       {/* Products Grid */}
       <div id="products" className="max-w-7xl mx-auto px-6 py-24">
