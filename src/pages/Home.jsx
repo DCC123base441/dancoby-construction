@@ -504,24 +504,25 @@ export default function Home() {
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  {/* Progress bar removed from here */}
+                  <div className="absolute top-4 right-4 bg-white/95 p-4 min-w-[160px] shadow-sm backdrop-blur-sm">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-[10px] font-bold tracking-widest uppercase text-gray-500">Progress</span>
+                      <span className="text-xs font-bold text-red-600">{parseInt(project.status)}%</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${parseInt(project.status)}%` }}
+                        viewport={{ once: true, amount: 0.2 }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="h-full bg-red-600"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">{project.title}</h3>
                 <p className="text-sm text-[#78716b] mb-4 tracking-wider uppercase">{project.location}</p>
-                <p className="text-[#5b5854] leading-relaxed mb-6">{project.description}</p>
-
-                <div className="flex items-center gap-4">
-                  <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${parseInt(project.status)}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.2, ease: "easeOut" }}
-                      className="h-full bg-red-600"
-                    />
-                  </div>
-                  <span className="text-xs font-bold text-red-600 whitespace-nowrap">{parseInt(project.status)}% Complete</span>
-                </div>
+                <p className="text-[#5b5854] leading-relaxed">{project.description}</p>
               </motion.div>
             ))}
           </div>
