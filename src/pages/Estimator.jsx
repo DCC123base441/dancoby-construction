@@ -409,13 +409,13 @@ export default function Estimator() {
             <span className="text-sm font-semibold text-gray-600">
               Step {currentStep + 1} of {steps.length}
             </span>
-            <span className="text-sm font-semibold text-red-600">
+            <span className={`text-sm font-semibold ${progress < 33 ? 'text-red-600' : progress < 66 ? 'text-yellow-600' : 'text-green-600'}`}>
               {Math.round(progress)}% complete
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <motion.div
-              className="bg-red-600 h-2 rounded-full"
+              className={`h-2 rounded-full ${progress < 33 ? 'bg-red-600' : progress < 66 ? 'bg-yellow-500' : 'bg-green-600'}`}
               initial={{ width: '0%' }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}
