@@ -493,7 +493,20 @@ export default function Home() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 mb-16">
-            {displayProjects.filter(p => p.featuredOnHome).map((project, idx) => (
+            {displayProjects.filter(p => p.featuredOnHome).map((project, idx) => {
+              const status = parseInt(project.status);
+              const getColor = () => {
+                if (status >= 80) return "text-green-600";
+                if (status >= 40) return "text-yellow-500";
+                return "text-red-600";
+              };
+              const getBgColor = () => {
+                if (status >= 80) return "bg-green-600";
+                if (status >= 40) return "bg-yellow-500";
+                return "bg-red-600";
+              };
+
+              return (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 30 }}
@@ -511,15 +524,15 @@ export default function Home() {
                   <div className="absolute top-4 right-4 bg-white/95 p-4 min-w-[160px] shadow-sm backdrop-blur-sm">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-[10px] font-bold tracking-widest uppercase text-gray-500">Progress</span>
-                      <span className="text-xs font-bold text-red-600">{parseInt(project.status)}%</span>
+                      <span className={`text-xs font-bold ${getColor()}`}>{status}%</span>
                     </div>
                     <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                       <motion.div 
                         initial={{ width: 0 }}
-                        whileInView={{ width: `${parseInt(project.status)}%` }}
+                        whileInView={{ width: `${status}%` }}
                         viewport={{ once: true, amount: 0.2 }}
                         transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="h-full bg-red-600"
+                        className={`h-full ${getBgColor()}`}
                       />
                     </div>
                   </div>
@@ -528,7 +541,7 @@ export default function Home() {
                 <p className="text-xs font-bold tracking-wider uppercase text-red-600 mb-4">{project.location}</p>
                 <p className="text-[#5b5854] leading-relaxed">{project.description}</p>
               </motion.div>
-            ))}
+            )})}
           </div>
           
           <div className="flex justify-center">
