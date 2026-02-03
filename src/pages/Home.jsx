@@ -100,7 +100,7 @@ export default function Home() {
               </section>
 
       {/* Who We Are Section */}
-      <section className="py-24 bg-white overflow-hidden">
+      <section className="py-12 md:py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-stretch">
             {/* Text Content */}
@@ -210,7 +210,7 @@ export default function Home() {
             </section>
 
             {/* About Us Section */}
-            <section className="py-32 bg-white">
+            <section className="py-16 md:py-32 bg-white">
               <div className="max-w-7xl mx-auto px-6">
                 <div className="grid lg:grid-cols-2 gap-20 items-stretch">
                   {/* Text Content */}
@@ -267,7 +267,7 @@ export default function Home() {
       </section>
 
       {/* Featured Projects Grid */}
-      <section className="py-32 bg-gray-50">
+      <section className="py-16 md:py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -570,7 +570,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-white border-y border-gray-200">
+      <section className="py-12 md:py-24 bg-white border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12">
             {[
@@ -597,7 +597,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 bg-gray-900 text-white">
+      <section className="py-16 md:py-32 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
