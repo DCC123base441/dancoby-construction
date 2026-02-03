@@ -101,6 +101,20 @@ export default function Shop() {
     toast.success("Added to cart");
   };
 
+  const handleQuickDonate = () => {
+    const donationItem = {
+        id: 'donation',
+        name: 'ASPCA Donation',
+        price: 25.00,
+        images: ['https://images.unsplash.com/photo-1544391656-4edb49cf8ce8?auto=format&fit=crop&q=80'], // Puppies
+        size: 'N/A',
+        quantity: 1,
+        category: 'Donation'
+    };
+    setCart([donationItem]);
+    setCheckoutOpen(true);
+  };
+
   const removeFromCart = (productId, size) => {
     setCart(prev => prev.filter(item => !(item.id === productId && item.size === size)));
     if (cart.length <= 1) setAppliedDiscount(null);
