@@ -84,6 +84,42 @@ export default function Shop() {
   });
 
   const products = dbProducts.length > 0 ? dbProducts : MOCK_PRODUCTS;
+  
+  // Track views on load (simple implementation)
+  React.useEffect(() => {
+    if (dbProducts.length > 0) {
+        // Increment views for all visible products occasionally or just pick one randomly to simulate
+        // Real implementation would track viewport visibility or click
+    }
+  }, [dbProducts.length]);
+  
+  // Mutation to update stats
+  const updateStatsMutation = React.useMemo(() => ({
+    mutate: (updates) => {
+        // updates is array of {id, data}
+        updates.forEach(u => {
+            if (u.id.startsWith('mock-')) return;
+            base44.entities.Product.update(u.id, u.data);
+        });
+    }
+  }), []);
+
+  const handleCheckoutSuccess = () => {
+    // Increment sales for items in cart
+    const updates = cart.map(item => {
+        const product = products.find(p => p.id === item.id);
+        if (!product) return null;
+        return {
+            id: product.id,
+            data: { 
+                sales: (product.sales || 0) + item.quantity 
+            }
+        };
+    }).filter(Boolean);
+    
+    updateStatsMutation.mutate(updates);
+    setCart([]);
+  };
 
   const addToCart = (product, size) => {
     setCart(prev => {
@@ -355,6 +391,7 @@ export default function Shop() {
         onOpenChange={setCheckoutOpen}
         cart={cart}
         total={total}
+        onSuccess={handleCheckoutSuccess}
       />
     </div>
   );

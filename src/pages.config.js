@@ -84,6 +84,7 @@ import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
 import Shop from './pages/Shop';
+import AdminShop from './pages/AdminShop';
 import __Layout from './Layout.jsx';
 
 
@@ -125,6 +126,7 @@ export const PAGES = {
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
     "Shop": Shop,
+    "AdminShop": AdminShop,
 }
 
 export const pagesConfig = {

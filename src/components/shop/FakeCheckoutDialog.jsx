@@ -8,10 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Heart, CreditCard, ShieldCheck } from 'lucide-react';
 import { toast } from "sonner";
 
-export default function FakeCheckoutDialog({ open, onOpenChange, cart, total }) {
+export default function FakeCheckoutDialog({ open, onOpenChange, cart, total, onSuccess }) {
   const handlePayment = () => {
     onOpenChange(false);
     toast.success("Order placed successfully! Thank you for your donation.");
+    if (onSuccess) onSuccess();
   };
 
   const formattedTotal = typeof total === 'number' ? total.toFixed(2) : total;
