@@ -429,8 +429,22 @@ export default function AdminDashboard() {
                                     <FolderKanban className="w-6 h-6 text-violet-600 group-hover:text-white transition-colors" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-slate-900">Manage Projects</h3>
+                                    <h3 className="font-semibold text-slate-900">Manage Portfolio</h3>
                                     <p className="text-sm text-slate-500">Update portfolio & case studies</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+
+                    <Link to={createPageUrl('AdminCurrentProjects')} className="group block">
+                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
+                            <CardContent className="p-6 flex items-center gap-4">
+                                <div className="p-3 rounded-lg bg-pink-100 group-hover:bg-pink-600 transition-colors">
+                                    <Clock className="w-6 h-6 text-pink-600 group-hover:text-white transition-colors" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-slate-900">What We're Up To</h3>
+                                    <p className="text-sm text-slate-500">Manage active job sites</p>
                                 </div>
                             </CardContent>
                         </Card>
