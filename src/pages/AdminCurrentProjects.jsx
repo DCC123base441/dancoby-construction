@@ -19,6 +19,7 @@ export default function AdminCurrentProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
+    const [isFeatured, setIsFeatured] = useState(false);
     const queryClient = useQueryClient();
 
     // Fetch projects
@@ -68,9 +69,9 @@ export default function AdminCurrentProjects() {
             description: formData.get('description'),
             status: parseInt(formData.get('status')),
             image: formData.get('image'),
-            featuredOnHome: formData.get('featuredOnHome') === 'on',
+            featuredOnHome: isFeatured,
             order: editingProject ? editingProject.order : projects.length
-            };
+        };
 
             if (editingProject) {
             updateMutation.mutate({ id: editingProject.id, data });
@@ -82,6 +83,7 @@ export default function AdminCurrentProjects() {
     const handleEdit = (project) => {
         setEditingProject(project);
         setImageUrl(project.image);
+        setIsFeatured(project.featuredOnHome || false);
         setIsDialogOpen(true);
     };
 
@@ -95,7 +97,12 @@ export default function AdminCurrentProjects() {
         <AdminLayout 
             title="What We're Up To" 
             actions={
-                <Button onClick={() => { setEditingProject(null); setImageUrl(null); setIsDialogOpen(true); }}>
+                <Button onClick={() => { 
+                    setEditingProject(null); 
+                    setImageUrl(null); 
+                    setIsFeatured(false);
+                    setIsDialogOpen(true); 
+                }}>
                     <Plus className="w-4 h-4 mr-2" /> Add Project
                 </Button>
             }
@@ -149,6 +156,7 @@ export default function AdminCurrentProjects() {
                 if(!open) {
                     setEditingProject(null);
                     setImageUrl(null);
+                    setIsFeatured(false);
                 }
             }}>
                 <DialogContent className="max-w-lg">
@@ -206,8 +214,8 @@ export default function AdminCurrentProjects() {
                         <div className="flex items-center space-x-2 border p-3 rounded-md bg-gray-50">
                             <Switch 
                                 id="featuredOnHome" 
-                                name="featuredOnHome" 
-                                defaultChecked={editingProject?.featuredOnHome} 
+                                checked={isFeatured}
+                                onCheckedChange={setIsFeatured}
                             />
                             <Label htmlFor="featuredOnHome" className="font-medium cursor-pointer">
                                 Show on Home Page

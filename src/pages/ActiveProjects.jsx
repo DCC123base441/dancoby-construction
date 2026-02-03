@@ -15,21 +15,7 @@ export default function ActiveProjects() {
   });
 
   // Fallback data if DB is empty
-  const displayProjects = projects.length > 0 ? projects : [
-    {
-      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/78deec984_Photo12.jpg",
-      status: 50,
-      title: "Entire Home",
-      location: "Hewlett Harbor, New York",
-      description: "Full-scale renovation featuring custom millwork, marble bathrooms, and smart home integration."
-    },
-    {
-      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/2c339618d_Photo9.jpg",
-      status: 60,
-      title: "Townhouse Renovation",
-      location: "Greenpoint, Brooklyn",
-      description: "Contemporary kitchen design with premium custom cabinetry."
-    },
+  const displayProjects = projects.length > 0 ? projects.filter(p => !p.featuredOnHome) : [
     {
       image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/b3aa5d359_Photo5.jpg",
       status: 95,
