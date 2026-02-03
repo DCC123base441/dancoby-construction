@@ -190,7 +190,7 @@ export default function Shop() {
                 <img 
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/fc470c4a1_HoodieBlackBig.jpg"
                     alt="Official Dancoby Hoodie"
-                    className="w-full h-full object-cover grayscale"
+                    className="w-full h-full object-cover grayscale scale-150 object-center"
                 />
             </div>
             <div className="w-1/2 h-full">
