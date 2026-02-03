@@ -256,10 +256,10 @@ export default function Home() {
       <TestimonialsSection />
 
       {/* Awards Banner */}
-      <section className="py-16 bg-red-600">
+      <section className="py-16 bg-stone-900">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center">
-            <h3 className="text-4xl md:text-5xl font-bold text-white">
+            <h3 className="text-4xl md:text-5xl font-bold text-stone-50">
               3-Year Warranty on All Projects
             </h3>
           </motion.div>
