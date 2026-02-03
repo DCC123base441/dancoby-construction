@@ -105,7 +105,12 @@ export default function TestimonialsSection() {
           </div>
 
           {/* Content */}
-          <div className="bg-white p-8 rounded-xl shadow-sm">
+          <div className="bg-white p-8 rounded-xl shadow-sm relative overflow-hidden">
+            {currentIndex === 0 && (
+              <div className="absolute top-0 right-0 bg-red-600 text-white text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-bl-lg z-10">
+                New Review
+              </div>
+            )}
             <motion.div
               key={currentIndex}
               initial={{ opacity: 0, x: 20 }}
