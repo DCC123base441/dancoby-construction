@@ -16,6 +16,7 @@ import ImageUploader from '../components/estimator/ImageUploader';
 export default function AdminCurrentProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
     const queryClient = useQueryClient();
 
     // Fetch projects
@@ -77,6 +78,7 @@ export default function AdminCurrentProjects() {
 
     const handleEdit = (project) => {
         setEditingProject(project);
+        setImageUrl(project.image);
         setIsDialogOpen(true);
     };
 
@@ -90,7 +92,7 @@ export default function AdminCurrentProjects() {
         <AdminLayout 
             title="What We're Up To" 
             actions={
-                <Button onClick={() => { setEditingProject(null); setIsDialogOpen(true); }}>
+                <Button onClick={() => { setEditingProject(null); setImageUrl(null); setIsDialogOpen(true); }}>
                     <Plus className="w-4 h-4 mr-2" /> Add Project
                 </Button>
             }
@@ -132,7 +134,13 @@ export default function AdminCurrentProjects() {
                 )}
             </div>
 
-            <Dialog open={isDialogOpen} onOpenChange={(open) => { setIsDialogOpen(open); if(!open) setEditingProject(null); }}>
+            <Dialog open={isDialogOpen} onOpenChange={(open) => { 
+                setIsDialogOpen(open); 
+                if(!open) {
+                    setEditingProject(null);
+                    setImageUrl(null);
+                }
+            }}>
                 <DialogContent className="max-w-lg">
                     <DialogHeader>
                         <DialogTitle>{editingProject ? 'Edit Project' : 'Add New Project'}</DialogTitle>
@@ -141,10 +149,10 @@ export default function AdminCurrentProjects() {
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Project Image</label>
                             <ImageUploader 
-                                name="image" 
-                                defaultValue={editingProject?.image}
-                                required
+                                onImageUpload={setImageUrl}
+                                initialImage={editingProject?.image}
                             />
+                            <input type="hidden" name="image" value={imageUrl || ''} />
                         </div>
                         
                         <div className="grid grid-cols-2 gap-4">

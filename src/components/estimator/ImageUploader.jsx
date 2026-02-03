@@ -3,9 +3,13 @@ import { Button } from "@/components/ui/button";
 import { base44 } from '@/api/base44Client';
 import { Upload, Loader } from 'lucide-react';
 
-export default function ImageUploader({ onImageUpload }) {
+export default function ImageUploader({ onImageUpload, initialImage }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(initialImage || null);
+
+  React.useEffect(() => {
+    setPreview(initialImage || null);
+  }, [initialImage]);
   const fileInputRef = useRef(null);
 
   const handleFileSelect = async (file) => {
@@ -15,7 +19,7 @@ export default function ImageUploader({ onImageUpload }) {
     try {
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
       setPreview(file_url);
-      onImageUpload(file_url);
+      if (onImageUpload) onImageUpload(file_url);
     } catch (error) {
       console.error('Upload error:', error);
     } finally {
