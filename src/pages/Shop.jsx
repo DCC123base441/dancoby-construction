@@ -188,9 +188,9 @@ export default function Shop() {
         <div className="absolute inset-0 flex opacity-40">
             <div className="w-1/2 h-full border-r border-white/10">
                 <img 
-                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/fc470c4a1_HoodieBlackBig.jpg"
+                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/d693bfc2f_Hoodie1.jpg"
                     alt="Official Dancoby Hoodie"
-                    className="w-full h-full object-cover grayscale scale-150 object-center"
+                    className="w-full h-full object-cover grayscale"
                 />
             </div>
             <div className="w-1/2 h-full">
