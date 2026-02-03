@@ -70,7 +70,7 @@ export default function AdminShop() {
 
     const { data: products = [] } = useQuery({
         queryKey: ['adminProducts'],
-        queryFn: () => base44.entities.Product.list(),
+        queryFn: () => base44.entities.Product.list('order'),
     });
 
     const updateProductMutation = useMutation({
@@ -186,6 +186,7 @@ export default function AdminShop() {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
+                                        <TableHead className="w-[80px]">Order</TableHead>
                                         <TableHead>Product</TableHead>
                                         <TableHead>Price</TableHead>
                                         <TableHead>Stats</TableHead>
@@ -195,6 +196,22 @@ export default function AdminShop() {
                                 <TableBody>
                                     {products.map((product) => (
                                         <TableRow key={product.id}>
+                                            <TableCell>
+                                                <input 
+                                                    type="number" 
+                                                    className="w-12 h-8 text-sm border rounded px-1"
+                                                    defaultValue={product.order || 0}
+                                                    onBlur={(e) => {
+                                                        const val = parseInt(e.target.value);
+                                                        if (val !== product.order) {
+                                                            updateProductMutation.mutate({
+                                                                id: product.id,
+                                                                data: { order: val }
+                                                            });
+                                                        }
+                                                    }}
+                                                />
+                                            </TableCell>
                                             <TableCell className="font-medium">
                                                 <div className="flex items-center gap-3">
                                                     <img src={product.images?.[0]} alt={product.name} className="w-8 h-8 rounded object-cover" />

@@ -80,7 +80,7 @@ export default function Shop() {
 
   const { data: dbProducts = [] } = useQuery({
     queryKey: ['products'],
-    queryFn: () => base44.entities.Product.list(),
+    queryFn: () => base44.entities.Product.list('order'),
   });
 
   const products = dbProducts.length > 0 ? dbProducts : MOCK_PRODUCTS;
