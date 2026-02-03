@@ -160,11 +160,16 @@ export default function Shop() {
                 transition={{ duration: 0.8 }}
                 className="flex flex-col items-center"
             >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-sm mb-8">
+                    <span className="text-sm font-bold tracking-wide uppercase text-red-400">Charity Drive</span>
+                    <span className="w-1 h-1 rounded-full bg-white/50" />
+                    <span className="text-sm font-medium tracking-wide">100% of Proceeds go to the ASPCA</span>
+                </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
                 <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light">
-                    Official Dancoby apparel. Designed for the builders, the dreamers, and the doers.
+                    Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
                 </p>
                 <Button 
                     size="lg" 

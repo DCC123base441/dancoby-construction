@@ -48,9 +48,11 @@
  * The mainPage value must match a key in the PAGES object exactly.
  */
 import About from './pages/About';
+import ActiveProjects from './pages/ActiveProjects';
 import AdminAnalytics from './pages/AdminAnalytics';
 import AdminBlog from './pages/AdminBlog';
 import AdminChatBot from './pages/AdminChatBot';
+import AdminCurrentProjects from './pages/AdminCurrentProjects';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminEstimates from './pages/AdminEstimates';
 import AdminLeads from './pages/AdminLeads';
@@ -64,6 +66,7 @@ import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
+import Home from './pages/Home';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
@@ -81,17 +84,16 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import AdminCurrentProjects from './pages/AdminCurrentProjects';
-import Home from './pages/Home';
-import ActiveProjects from './pages/ActiveProjects';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "About": About,
+    "ActiveProjects": ActiveProjects,
     "AdminAnalytics": AdminAnalytics,
     "AdminBlog": AdminBlog,
     "AdminChatBot": AdminChatBot,
+    "AdminCurrentProjects": AdminCurrentProjects,
     "AdminDashboard": AdminDashboard,
     "AdminEstimates": AdminEstimates,
     "AdminLeads": AdminLeads,
@@ -105,6 +107,7 @@ export const PAGES = {
     "Estimator": Estimator,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
+    "Home": Home,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
@@ -122,9 +125,6 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "AdminCurrentProjects": AdminCurrentProjects,
-    "Home": Home,
-    "ActiveProjects": ActiveProjects,
 }
 
 export const pagesConfig = {
