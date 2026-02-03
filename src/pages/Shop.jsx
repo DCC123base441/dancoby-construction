@@ -195,8 +195,8 @@ export default function Shop() {
             </div>
             <div className="w-1/2 h-full">
                 <img 
-                    src="https://images.unsplash.com/photo-1599140849279-1014532882fe?auto=format&fit=crop&q=80"
-                    alt="Helping Animals"
+                    src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80"
+                    alt="Cute Dog Adoption"
                     className="w-full h-full object-cover grayscale"
                 />
             </div>
