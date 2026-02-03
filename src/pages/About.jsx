@@ -17,7 +17,7 @@ export default function About() {
       />
       {/* Hero Section */}
       <section 
-        className="relative h-[70vh] flex items-center justify-center overflow-hidden"
+        className="relative h-[50vh] md:h-[70vh] flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_1920,h_1080,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg)',
           backgroundSize: 'cover',
@@ -37,7 +37,7 @@ export default function About() {
       </section>
 
       {/* Tagline Section */}
-      <section className="py-20 bg-white">
+      <section className="py-10 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center leading-relaxed">
             We are builders and creative thinkers who love collaborating with clients, architects, and makers who share our passion for thoughtful renovations.
@@ -46,7 +46,7 @@ export default function About() {
       </section>
 
       {/* Three Pillars Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-10 md:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12">
             {/* Our Mission */}
@@ -110,7 +110,7 @@ export default function About() {
       </section>
 
       {/* Commitment to Perfection */}
-      <section className="py-20 bg-white">
+      <section className="py-10 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <h2 className="text-4xl font-bold text-gray-900">Commitment to Perfection</h2>
@@ -131,7 +131,7 @@ export default function About() {
       </section>
 
       {/* Complete Satisfaction Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-10 md:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -155,7 +155,7 @@ export default function About() {
       </section>
 
       {/* About The Founder */}
-      <section className="py-20 bg-white">
+      <section className="py-10 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -188,7 +188,7 @@ export default function About() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gray-900 text-white">
+      <section className="py-12 md:py-24 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Start Your Project?</h2>
           <p className="text-xl text-gray-300 mb-12">

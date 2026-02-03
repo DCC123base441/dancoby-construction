@@ -53,7 +53,7 @@ export default function Services() {
         keywords="kitchen remodeling Brooklyn, bathroom renovation NYC, brownstone restoration Brooklyn, townhouse renovation, interior design contractor, home improvement NYC"
       />
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -73,7 +73,7 @@ export default function Services() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-24 bg-white">
+      <section className="py-12 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12">
             {services.map((service, idx) => (
@@ -131,7 +131,7 @@ export default function Services() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 bg-gray-900 text-white">
+      <section className="py-16 md:py-32 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to Start Your Project?</h2>

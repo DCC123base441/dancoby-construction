@@ -184,7 +184,7 @@ export default function Shop() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-zinc-900">
+      <section className="relative h-[40vh] md:h-[60vh] flex items-center justify-center overflow-hidden bg-zinc-900">
         <div className="absolute inset-0 flex opacity-40">
             <div className="w-1/2 h-full border-r border-white/10">
                 <img 
@@ -366,7 +366,7 @@ export default function Shop() {
 
 
       {/* Products Grid */}
-      <div id="products" className="max-w-7xl mx-auto px-6 py-24">
+      <div id="products" className="max-w-7xl mx-auto px-6 py-12 md:py-24">
         <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">The Collection</h2>
             <div className="h-1 w-20 bg-red-600 mx-auto" />
