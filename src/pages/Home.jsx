@@ -149,7 +149,7 @@ export default function Home() {
       </section>
 
       {/* Our Services Section */}
-            <section className="py-24 bg-white">
+            <section className="py-12 md:py-24 bg-white">
               <div className="max-w-7xl mx-auto px-6">
                 <motion.div {...fadeIn} className="text-center mb-20">
                   <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Our Services</h2>
@@ -342,7 +342,7 @@ export default function Home() {
       </section>
 
       {/* Powered by JobTread Section */}
-      <section className="py-24 bg-white">
+      <section className="py-12 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center mb-16">
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Technology Partners</p>
