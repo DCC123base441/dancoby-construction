@@ -489,7 +489,7 @@ export default function Home() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 mb-16">
-            {displayProjects.slice(0, 2).map((project, idx) => (
+            {displayProjects.filter(p => p.featuredOnHome).map((project, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 30 }}

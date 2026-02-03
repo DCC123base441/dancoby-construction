@@ -9,6 +9,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Pencil, Trash2, GripVertical, Image as ImageIcon } from 'lucide-react';
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { toast } from "sonner";
 import ImageUploader from '../components/estimator/ImageUploader';
@@ -66,10 +68,11 @@ export default function AdminCurrentProjects() {
             description: formData.get('description'),
             status: parseInt(formData.get('status')),
             image: formData.get('image'),
+            featuredOnHome: formData.get('featuredOnHome') === 'on',
             order: editingProject ? editingProject.order : projects.length
-        };
+            };
 
-        if (editingProject) {
+            if (editingProject) {
             updateMutation.mutate({ id: editingProject.id, data });
         } else {
             createMutation.mutate(data);
@@ -114,11 +117,18 @@ export default function AdminCurrentProjects() {
                                 <Button size="icon" variant="destructive" onClick={() => handleDelete(project.id)}>
                                     <Trash2 className="w-4 h-4" />
                                 </Button>
-                            </div>
-                            <div className="absolute bottom-2 right-2 bg-white/90 px-2 py-1 rounded text-xs font-bold text-red-600">
-                                {project.status}% Complete
-                            </div>
-                        </div>
+                                </div>
+                                <div className="absolute bottom-2 right-2 flex gap-2">
+                                {project.featuredOnHome && (
+                                    <div className="bg-red-600 px-2 py-1 rounded text-xs font-bold text-white">
+                                        Featured
+                                    </div>
+                                )}
+                                <div className="bg-white/90 px-2 py-1 rounded text-xs font-bold text-red-600">
+                                    {project.status}% Complete
+                                </div>
+                                </div>
+                                </div>
                         <CardContent className="p-4">
                             <h3 className="font-semibold text-lg mb-1">{project.title}</h3>
                             <p className="text-sm text-gray-500 mb-2">{project.location}</p>
@@ -191,6 +201,17 @@ export default function AdminCurrentProjects() {
                                 placeholder="Brief description of the project..."
                                 className="h-24"
                             />
+                        </div>
+
+                        <div className="flex items-center space-x-2 border p-3 rounded-md bg-gray-50">
+                            <Switch 
+                                id="featuredOnHome" 
+                                name="featuredOnHome" 
+                                defaultChecked={editingProject?.featuredOnHome} 
+                            />
+                            <Label htmlFor="featuredOnHome" className="font-medium cursor-pointer">
+                                Show on Home Page
+                            </Label>
                         </div>
 
                         <div className="flex justify-end gap-2 pt-4">
