@@ -13,16 +13,17 @@ import {
 } from "@/components/ui/dialog";
 
 const SEGMENTS = [
-    { label: '10% OFF', color: '#ef4444', value: '10OFF', type: 'discount' },
-    { label: 'Try Again', color: '#1f2937', value: null, type: 'loss' },
-    { label: 'Free Hat', color: '#ef4444', value: 'FREEHAT', type: 'prize' },
-    { label: 'Try Again', color: '#1f2937', value: null, type: 'loss' },
-    { label: '20% OFF', color: '#ef4444', value: '20OFF', type: 'discount' },
-    { label: 'Try Again', color: '#1f2937', value: null, type: 'loss' },
+    { label: '5% OFF', color: '#ef4444', text: 'white', value: '5OFF', type: 'discount' },
+    { label: '10% OFF', color: '#1f2937', text: 'white', value: '10OFF', type: 'discount' },
+    { label: 'Free Merch', color: '#ef4444', text: 'white', value: 'FREEMERCH', type: 'prize' },
+    { label: 'Free Hat', color: '#1f2937', text: 'white', value: 'FREEHAT', type: 'prize' },
+    { label: 'Free Hoodie', color: '#ef4444', text: 'white', value: 'FREEHOODIE', type: 'prize' },
+    { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss' },
+    { label: 'Free Tee', color: '#ef4444', text: 'white', value: 'FREESHIRT', type: 'prize' },
 ];
 
 export default function SpinWheel() {
-    const [hasSpun, setHasSpun] = useState(true); // Default to true to prevent flash
+    const [hasSpun, setHasSpun] = useState(true);
     const [isSpinning, setIsSpinning] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [result, setResult] = useState(null);
@@ -38,33 +39,45 @@ export default function SpinWheel() {
 
         setIsSpinning(true);
         
-        // Determine result (Always loss)
-        // Indices 1, 3, 5 are loss
-        const losses = [1, 3, 5];
-        const selectedIndex = losses[Math.floor(Math.random() * losses.length)];
-
+        // Random selection from all segments (fair chance)
+        const selectedIndex = Math.floor(Math.random() * SEGMENTS.length);
         const selectedSegment = SEGMENTS[selectedIndex];
         
-        // Calculate rotation
-        // 360 / 6 segments = 60 degrees per segment
-        // We want to land on the selected index
-        // Top is 0 degrees. Arrow is usually at top.
-        // Rotation needed to put segment at top:
-        // Index 0: 0 deg (or 360)
-        // Index 1: -60 deg (or 300)
-        // Index 2: -120 deg (or 240)
-        // ...
-        // Add random full rotations (5-10)
         const segmentAngle = 360 / SEGMENTS.length;
-        const targetAngle = 360 - (selectedIndex * segmentAngle);
-        const rotations = 360 * (5 + Math.floor(Math.random() * 5));
-        const finalRotation = rotations + targetAngle;
+        // Calculate rotation to land with selected segment at top (0 degrees)
+        // SVG index 0 is at 3 o'clock (0 deg).
+        // To put index 0 at 12 o'clock (-90 deg), we rotate -90.
+        // To put index i at 12 o'clock, we need to rotate further.
+        // Center of segment i is at: i * segmentAngle + segmentAngle/2
+        // We want that center to be at -90 deg (top).
+        // Current position: angle
+        // Target position: -90
+        // Rotation needed: -90 - angle
+        // Add full rotations (360 * 5) + 360 (to ensure positive/consistent direction if needed, but framer handles it)
+        
+        // Let's stick to a simpler logic:
+        // Rotate lots of times + specific offset.
+        // Offset = 360 - (selectedIndex * segmentAngle + segmentAngle/2) -> puts it at 3 o'clock.
+        // Then rotate -90 to put 3 o'clock at 12 o'clock.
+        
+        const anglePerSegment = 360 / SEGMENTS.length;
+        const segmentCenter = (selectedIndex * anglePerSegment) + (anglePerSegment / 2);
+        
+        // Base rotation to bring the segment to 0deg (3 o'clock)
+        const baseRotation = 360 - segmentCenter;
+        
+        // Adjust for -90deg offset of container (so 0deg is at top)
+        // Actually, if container is rotated -90deg, 0deg (3 o'clock) becomes 12 o'clock.
+        // So baseRotation is correct to bring it to "Start" (which is top).
+        
+        const fullRotations = 360 * 5;
+        const finalRotation = fullRotations + baseRotation;
 
         await controls.start({
             rotate: finalRotation,
             transition: { 
                 duration: 4, 
-                ease: [0.13, 0.99, 0.29, 0.99] // Bezier for realistic spin down
+                ease: [0.13, 0.99, 0.29, 0.99]
             }
         });
 
@@ -84,7 +97,24 @@ export default function SpinWheel() {
         }
     };
 
-    // if (hasSpun && !showResult) return null; // Keep visible
+    const getSectorPath = (index, total) => {
+        const center = 50;
+        const radius = 50;
+        const angle = 360 / total;
+        const startAngle = index * angle;
+        const endAngle = (index + 1) * angle;
+
+        // Convert to radians
+        const startRad = (startAngle * Math.PI) / 180;
+        const endRad = (endAngle * Math.PI) / 180;
+
+        const x1 = center + radius * Math.cos(startRad);
+        const y1 = center + radius * Math.sin(startRad);
+        const x2 = center + radius * Math.cos(endRad);
+        const y2 = center + radius * Math.sin(endRad);
+
+        return `M${center},${center} L${x1},${y1} A${radius},${radius} 0 0,1 ${x2},${y2} Z`;
+    };
 
     return (
         <section className="py-16 bg-zinc-50 border-y border-gray-200 overflow-hidden relative">
@@ -124,33 +154,41 @@ export default function SpinWheel() {
 
                     {/* Wheel */}
                     <motion.div 
-                        className="w-72 h-72 md:w-96 md:h-96 rounded-full border-8 border-white shadow-2xl relative overflow-hidden bg-zinc-900"
+                        className="w-72 h-72 md:w-96 md:h-96 rounded-full border-8 border-white shadow-2xl relative overflow-hidden"
                         animate={controls}
+                        style={{ rotate: -90 }} // Start with 0 deg at top
                     >
-                        {SEGMENTS.map((segment, index) => {
-                            const rotation = (360 / SEGMENTS.length) * index;
-                            return (
-                                <div
-                                    key={index}
-                                    className="absolute top-0 left-1/2 w-full h-full origin-left flex items-center justify-center"
-                                    style={{
-                                        transform: `rotate(${rotation - 90 + 30}deg) skewY(-30deg)`, // Adjust for CSS circle segments
-                                        background: segment.color,
-                                    }}
-                                >
-                                    {/* Text correction */}
-                                    <span 
-                                        className="absolute left-12 text-white font-bold text-sm md:text-base whitespace-nowrap"
-                                        style={{
-                                            transform: `skewY(30deg) rotate(90deg)`,
-                                            textShadow: '0 1px 2px rgba(0,0,0,0.5)'
-                                        }}
-                                    >
-                                        {segment.label}
-                                    </span>
-                                </div>
-                            );
-                        })}
+                        <svg viewBox="0 0 100 100" className="w-full h-full transform transition-transform">
+                            {SEGMENTS.map((segment, index) => {
+                                return (
+                                    <g key={index}>
+                                        <path 
+                                            d={getSectorPath(index, SEGMENTS.length)} 
+                                            fill={segment.color}
+                                            stroke="white"
+                                            strokeWidth="0.5"
+                                        />
+                                        {/* Text Label */}
+                                        <text
+                                            x="50"
+                                            y="50"
+                                            fill={segment.text}
+                                            fontSize="4"
+                                            fontWeight="bold"
+                                            textAnchor="end"
+                                            alignmentBaseline="middle"
+                                            transform={`
+                                                rotate(${(index * (360/SEGMENTS.length)) + (360/SEGMENTS.length)/2}, 50, 50) 
+                                                translate(42, 0)
+                                            `}
+                                            className="uppercase"
+                                        >
+                                            {segment.label}
+                                        </text>
+                                    </g>
+                                );
+                            })}
+                        </svg>
                         
                         {/* Center Cap */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full shadow-lg z-10 flex items-center justify-center">
