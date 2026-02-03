@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import { ArrowLeft } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import OptimizedImage from "@/components/ui/OptimizedImage";
 
@@ -40,6 +41,13 @@ export default function ActiveProjects() {
       />
       
       <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-8">
+            <Button asChild variant="ghost" className="hover:bg-transparent pl-0 hover:text-red-600">
+                <Link to={createPageUrl('Home')} className="flex items-center gap-2">
+                    <ArrowLeft className="w-4 h-4" /> Back to Home
+                </Link>
+            </Button>
+        </div>
         <div className="text-center mb-16">
           <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Under Construction</p>
           <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">What We're Up To</h1>
