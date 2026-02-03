@@ -488,8 +488,8 @@ export default function Home() {
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12">
-            {displayProjects.map((project, idx) => (
+          <div className="grid md:grid-cols-2 gap-12 mb-16">
+            {displayProjects.slice(0, 2).map((project, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 30 }}
@@ -525,6 +525,12 @@ export default function Home() {
                 <p className="text-[#5b5854] leading-relaxed">{project.description}</p>
               </motion.div>
             ))}
+          </div>
+          
+          <div className="flex justify-center">
+            <Button asChild variant="outline" className="border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-6 uppercase tracking-wider text-sm transition-all">
+                <Link to={createPageUrl('ActiveProjects')}>See More</Link>
+            </Button>
           </div>
         </div>
       </section>

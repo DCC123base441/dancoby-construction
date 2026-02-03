@@ -64,7 +64,6 @@ import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
-import Home from './pages/Home';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
@@ -83,6 +82,8 @@ import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
 import AdminCurrentProjects from './pages/AdminCurrentProjects';
+import Home from './pages/Home';
+import ActiveProjects from './pages/ActiveProjects';
 import __Layout from './Layout.jsx';
 
 
@@ -104,7 +105,6 @@ export const PAGES = {
     "Estimator": Estimator,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
-    "Home": Home,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
@@ -123,6 +123,8 @@ export const PAGES = {
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
     "AdminCurrentProjects": AdminCurrentProjects,
+    "Home": Home,
+    "ActiveProjects": ActiveProjects,
 }
 
 export const pagesConfig = {
