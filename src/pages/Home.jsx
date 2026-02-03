@@ -525,7 +525,7 @@ export default function Home() {
                   </div>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">{project.title}</h3>
-                <p className="text-sm text-[#78716b] mb-4 tracking-wider uppercase">{project.location}</p>
+                <p className="text-xs font-bold tracking-wider uppercase text-red-600 mb-4">{project.location}</p>
                 <p className="text-[#5b5854] leading-relaxed">{project.description}</p>
               </motion.div>
             ))}
