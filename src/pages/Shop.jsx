@@ -101,19 +101,7 @@ export default function Shop() {
     toast.success("Added to cart");
   };
 
-  const handleQuickDonate = () => {
-    const donationItem = {
-        id: 'donation',
-        name: 'ASPCA Donation',
-        price: 25.00,
-        images: ['https://images.unsplash.com/photo-1544391656-4edb49cf8ce8?auto=format&fit=crop&q=80'], // Puppies
-        size: 'N/A',
-        quantity: 1,
-        category: 'Donation'
-    };
-    setCart([donationItem]);
-    setCheckoutOpen(true);
-  };
+
 
   const removeFromCart = (productId, size) => {
     setCart(prev => prev.filter(item => !(item.id === productId && item.size === size)));
@@ -187,22 +175,13 @@ export default function Shop() {
                 <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light">
                     Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                    <Button 
-                        size="lg" 
-                        className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
-                        onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
-                    >
-                        Shop Collection
-                    </Button>
-                    <Button 
-                        size="lg" 
-                        className="bg-red-600 text-white hover:bg-red-700 px-8 py-6 text-lg rounded-full shadow-lg shadow-red-900/20"
-                        onClick={handleQuickDonate}
-                    >
-                        Donate $25 Now
-                    </Button>
-                </div>
+                <Button 
+                    size="lg" 
+                    className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
+                    onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
+                >
+                    Shop Collection
+                </Button>
             </motion.div>
         </div>
       </section>
