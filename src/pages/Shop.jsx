@@ -187,13 +187,22 @@ export default function Shop() {
                 <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light">
                     Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
                 </p>
-                <Button 
-                    size="lg" 
-                    className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
-                    onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
-                >
-                    Shop Collection
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <Button 
+                        size="lg" 
+                        className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
+                        onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
+                    >
+                        Shop Collection
+                    </Button>
+                    <Button 
+                        size="lg" 
+                        className="bg-red-600 text-white hover:bg-red-700 px-8 py-6 text-lg rounded-full shadow-lg shadow-red-900/20"
+                        onClick={handleQuickDonate}
+                    >
+                        Donate $25 Now
+                    </Button>
+                </div>
             </motion.div>
         </div>
       </section>
