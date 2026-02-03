@@ -54,7 +54,6 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Testimonials', href: 'AdminTestimonials', icon: MessageSquare },
         { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
         { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
-        { name: 'Merch Waitlist', href: 'AdminMerchWaitlist', icon: ShoppingBag },
     ];
 
     const handleLogout = async () => {

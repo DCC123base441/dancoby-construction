@@ -12,7 +12,10 @@ import {
     TrendingUp, 
     Package,
     RefreshCw,
-    AlertCircle
+    AlertCircle,
+    Loader2,
+    Mail,
+    CheckCircle
 } from 'lucide-react';
 import {
     Table,
@@ -25,6 +28,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { format } from 'date-fns';
 
 const MOCK_PRODUCTS = [
   {
@@ -102,6 +107,38 @@ export default function AdminShop() {
         });
     };
 
+    // Waitlist Logic
+    const { data: waitlist = [], isLoading: isWaitlistLoading } = useQuery({
+        queryKey: ['merchWaitlist'],
+        queryFn: () => base44.entities.MerchandiseWaitlist.list('-created_date'),
+    });
+
+    const updateWaitlistStatusMutation = useMutation({
+        mutationFn: async ({ id, status }) => {
+            await base44.entities.MerchandiseWaitlist.update(id, { status });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['merchWaitlist'] });
+            toast.success("Status updated");
+        },
+        onError: () => {
+            toast.error("Failed to update status");
+        }
+    });
+
+    const handleWaitlistStatusUpdate = (id, status) => {
+        updateWaitlistStatusMutation.mutate({ id, status });
+    };
+
+    const getWaitlistStatusColor = (status) => {
+        switch (status) {
+            case 'pending': return 'bg-yellow-100 text-yellow-800';
+            case 'notified': return 'bg-blue-100 text-blue-800';
+            case 'fulfilled': return 'bg-green-100 text-green-800';
+            default: return 'bg-gray-100 text-gray-800';
+        }
+    };
+
     // Calculate analytics
     const totalViews = products.reduce((sum, p) => sum + (p.views || 0), 0);
     const totalSales = products.reduce((sum, p) => sum + (p.sales || 0), 0);
@@ -116,7 +153,13 @@ export default function AdminShop() {
 
     return (
         <AdminLayout title="Shop Management">
-            <div className="space-y-8">
+            <Tabs defaultValue="inventory" className="space-y-8">
+                <TabsList>
+                    <TabsTrigger value="inventory">Inventory & Analytics</TabsTrigger>
+                    <TabsTrigger value="waitlist">Waitlist Requests</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="inventory" className="space-y-8">
                 {/* Stats */}
                 <div className="grid gap-4 md:grid-cols-4">
                     <Card>
@@ -260,7 +303,89 @@ export default function AdminShop() {
                         </CardContent>
                     </Card>
                 </div>
-            </div>
+                </TabsContent>
+
+                <TabsContent value="waitlist">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Waitlist Requests</CardTitle>
+                            <CardDescription>Manage customer requests for out-of-stock items</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            {isWaitlistLoading ? (
+                                <div className="flex justify-center p-8">
+                                    <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+                                </div>
+                            ) : waitlist.length === 0 ? (
+                                <div className="text-center p-8 text-gray-500">
+                                    No waitlist requests found.
+                                </div>
+                            ) : (
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Date</TableHead>
+                                            <TableHead>Customer</TableHead>
+                                            <TableHead>Product</TableHead>
+                                            <TableHead>Size</TableHead>
+                                            <TableHead>Status</TableHead>
+                                            <TableHead className="text-right">Actions</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {waitlist.map((item) => (
+                                            <TableRow key={item.id}>
+                                                <TableCell>
+                                                    {format(new Date(item.created_date), 'MMM d, yyyy')}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <div className="font-medium">{item.name}</div>
+                                                    <div className="text-sm text-gray-500">{item.email}</div>
+                                                </TableCell>
+                                                <TableCell>{item.productName}</TableCell>
+                                                <TableCell>
+                                                    <Badge variant="outline">{item.productSize}</Badge>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Badge className={getWaitlistStatusColor(item.status)}>
+                                                        {item.status}
+                                                    </Badge>
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <div className="flex justify-end gap-2">
+                                                        {item.status === 'pending' && (
+                                                            <Button 
+                                                                size="sm" 
+                                                                variant="outline"
+                                                                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                                                onClick={() => handleWaitlistStatusUpdate(item.id, 'notified')}
+                                                            >
+                                                                <Mail className="w-4 h-4 mr-1" />
+                                                                Mark Notified
+                                                            </Button>
+                                                        )}
+                                                        {item.status !== 'fulfilled' && (
+                                                            <Button 
+                                                                size="sm" 
+                                                                variant="outline"
+                                                                className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                                                                onClick={() => handleWaitlistStatusUpdate(item.id, 'fulfilled')}
+                                                            >
+                                                                <CheckCircle className="w-4 h-4 mr-1" />
+                                                                Done
+                                                            </Button>
+                                                        )}
+                                                    </div>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            )}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </AdminLayout>
     );
 }
