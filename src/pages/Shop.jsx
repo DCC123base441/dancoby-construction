@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { createPageUrl } from '../utils';
 import NotifyDialog from '../components/shop/NotifyDialog';
 import SpinWheel from '../components/shop/SpinWheel';
+import FakeCheckoutDialog from '../components/shop/FakeCheckoutDialog';
 
 // Fallback data
 const MOCK_PRODUCTS = [
@@ -75,6 +76,7 @@ export default function Shop() {
   const [notifyDialogOpen, setNotifyDialogOpen] = useState(false);
   const [notifyProduct, setNotifyProduct] = useState(null);
   const [notifySize, setNotifySize] = useState(null);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const { data: dbProducts = [] } = useQuery({
     queryKey: ['products'],
@@ -296,7 +298,14 @@ export default function Shop() {
                     </div>
                 </div>
 
-                <Button size="lg" className="w-full bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200 h-14 text-lg">
+                <Button 
+                    size="lg" 
+                    className="w-full bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200 h-14 text-lg"
+                    onClick={() => {
+                        setIsCartOpen(false);
+                        setCheckoutOpen(true);
+                    }}
+                >
                     Checkout Securely <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
                 <p className="text-xs text-center text-gray-400">
@@ -353,6 +362,13 @@ export default function Shop() {
         onOpenChange={setNotifyDialogOpen}
         product={notifyProduct}
         size={notifySize}
+      />
+      
+      <FakeCheckoutDialog 
+        open={checkoutOpen}
+        onOpenChange={setCheckoutOpen}
+        cart={cart}
+        total={total}
       />
     </div>
   );
