@@ -76,55 +76,37 @@ export default function Shop() {
   const [notifyProduct, setNotifyProduct] = useState(null);
   const [notifySize, setNotifySize] = useState(null);
 
-  // Fetch products from Shopify via backend function
-  const { data: shopifyProducts = [], isLoading } = useQuery({
-    queryKey: ['shopifyProducts'],
-    queryFn: async () => {
-        try {
-            const res = await base44.functions.invoke('shopify', { action: 'products' });
-            return res.data;
-        } catch (err) {
-            console.error("Failed to fetch shopify products", err);
-            return [];
-        }
-    },
+  const { data: dbProducts = [] } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => base44.entities.Product.list(),
   });
 
-  const products = shopifyProducts.length > 0 ? shopifyProducts : [];
+  const products = dbProducts.length > 0 ? dbProducts : MOCK_PRODUCTS;
 
-  const addToCart = (product, sizeName) => {
-    // Find the variant ID matching the selected size name
-    const variant = product.variants.find(v => v.name === sizeName);
-    const variantId = variant?.id;
-
-    if (!variantId) {
-        toast.error("Could not add to cart - invalid variant");
-        return;
-    }
-
+  const addToCart = (product, size) => {
     setCart(prev => {
-      const existing = prev.find(item => item.id === product.id && item.variantId === variantId);
+      const existing = prev.find(item => item.id === product.id && item.size === size);
       if (existing) {
         return prev.map(item => 
-          item.id === product.id && item.variantId === variantId
+          item.id === product.id && item.size === size 
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prev, { ...product, size: sizeName, variantId, quantity: 1 }];
+      return [...prev, { ...product, size, quantity: 1 }];
     });
     setIsCartOpen(true);
     toast.success("Added to cart");
   };
 
-  const removeFromCart = (productId, variantId) => {
-    setCart(prev => prev.filter(item => !(item.id === productId && item.variantId === variantId)));
+  const removeFromCart = (productId, size) => {
+    setCart(prev => prev.filter(item => !(item.id === productId && item.size === size)));
     if (cart.length <= 1) setAppliedDiscount(null);
   };
 
-  const updateQuantity = (productId, variantId, delta) => {
+  const updateQuantity = (productId, size, delta) => {
     setCart(prev => prev.map(item => {
-      if (item.id === productId && item.variantId === variantId) {
+      if (item.id === productId && item.size === size) {
         const newQty = item.quantity + delta;
         return newQty > 0 ? { ...item, quantity: newQty } : item;
       }
@@ -236,27 +218,25 @@ export default function Shop() {
                         <div className="flex justify-between items-start">
                             <h4 className="font-semibold text-gray-900 line-clamp-1">{item.name}</h4>
                             <button 
-                                onClick={() => removeFromCart(item.id, item.variantId)}
+                                onClick={() => removeFromCart(item.id, item.size)}
                                 className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
                                 <X className="w-4 h-4" />
                             </button>
                         </div>
-                        {item.size !== 'Default Title' && (
-                            <p className="text-sm text-gray-500">Variant: <span className="uppercase">{item.size}</span></p>
-                        )}
+                        <p className="text-sm text-gray-500">Size: <span className="uppercase">{item.size}</span></p>
                       </div>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-1">
                           <button 
-                            onClick={() => updateQuantity(item.id, item.variantId, -1)}
+                            onClick={() => updateQuantity(item.id, item.size, -1)}
                             className="p-1 hover:bg-white rounded-md transition-colors shadow-sm"
                           >
                             <Minus className="w-3 h-3" />
                           </button>
                           <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
                           <button 
-                            onClick={() => updateQuantity(item.id, item.variantId, 1)}
+                            onClick={() => updateQuantity(item.id, item.size, 1)}
                             className="p-1 hover:bg-white rounded-md transition-colors shadow-sm"
                           >
                             <Plus className="w-3 h-3" />
@@ -316,9 +296,11 @@ export default function Shop() {
                     </div>
                 </div>
 
-                <CheckoutButton cart={cart} />
+                <Button size="lg" className="w-full bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200 h-14 text-lg">
+                    Checkout Securely <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
                 <p className="text-xs text-center text-gray-400">
-                    Secure checkout powered by Shopify
+                    Secure checkout powered by Stripe
                 </p>
             </div>
           )}
@@ -389,7 +371,7 @@ function ProductCard({ product, onAddToCart, onNotify }) {
         {/* Image Container */}
         <div className="aspect-[4/5] bg-gray-50 rounded-2xl overflow-hidden relative mb-6 p-0">
             <img 
-                src={product.images[0] || 'https://via.placeholder.com/400x500?text=No+Image'} 
+                src={product.images[0]} 
                 alt={product.name}
                 className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
             />
@@ -428,13 +410,13 @@ function ProductCard({ product, onAddToCart, onNotify }) {
             <p className="text-gray-500 text-sm line-clamp-2 leading-relaxed">{product.description}</p>
             
             {/* Sizes */}
-            {product.sizes && product.sizes.length > 0 && product.sizes[0] !== 'Default Title' && (
-                <div className="flex gap-2 pt-2 flex-wrap">
+            {product.sizes && (
+                <div className="flex gap-2 pt-2">
                     {product.sizes.map((size) => (
                         <button
                             key={size}
                             onClick={() => setSelectedSize(size)}
-                            className={`min-w-[2.5rem] h-10 px-2 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
+                            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
                                 selectedSize === size
                                     ? 'bg-black text-white shadow-md scale-110'
                                     : 'bg-white border border-gray-200 text-gray-600 hover:border-black'
@@ -448,47 +430,4 @@ function ProductCard({ product, onAddToCart, onNotify }) {
         </div>
     </div>
   );
-}
-
-function CheckoutButton({ cart }) {
-    const [loading, setLoading] = useState(false);
-
-    const handleCheckout = async () => {
-        setLoading(true);
-        try {
-            const res = await base44.functions.invoke('shopify', { 
-                action: 'checkout',
-                lineItems: cart.map(item => ({
-                    variantId: item.variantId,
-                    quantity: item.quantity
-                }))
-            });
-            
-            if (res.data.checkoutUrl) {
-                window.location.href = res.data.checkoutUrl;
-            } else {
-                toast.error("Failed to create checkout");
-                setLoading(false);
-            }
-        } catch (error) {
-            console.error(error);
-            toast.error("Something went wrong");
-            setLoading(false);
-        }
-    };
-
-    return (
-        <Button 
-            size="lg" 
-            className="w-full bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200 h-14 text-lg"
-            onClick={handleCheckout}
-            disabled={loading}
-        >
-            {loading ? (
-                <span>Redirecting...</span>
-            ) : (
-                <>Checkout Securely <ArrowRight className="w-5 h-5 ml-2" /></>
-            )}
-        </Button>
-    );
 }
