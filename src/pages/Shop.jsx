@@ -188,8 +188,8 @@ export default function Shop() {
         <div className="absolute inset-0 flex opacity-40">
             <div className="w-1/2 h-full border-r border-white/10">
                 <img 
-                    src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&q=80"
-                    alt="Fashion Background"
+                    src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80"
+                    alt="Sincere Hoodie Moment"
                     className="w-full h-full object-cover grayscale"
                 />
             </div>
