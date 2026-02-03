@@ -139,7 +139,7 @@ export default function SpinWheel() {
                     <p className="text-lg text-gray-600 max-w-md">
                         Try your luck on the wheel for a chance to win exclusive Dancoby merchandise, discount codes, and more. Only one spin per customer!
                     </p>
-                    <div className="pt-4">
+                    <div className="pt-4 hidden md:block">
                         <Button 
                             size="lg" 
                             className="bg-zinc-900 text-white hover:bg-zinc-800 px-8 h-12 text-lg shadow-lg shadow-gray-200"
@@ -154,7 +154,7 @@ export default function SpinWheel() {
                     </div>
                 </div>
 
-                <div className="order-1 md:order-2 flex justify-center relative">
+                <div className="order-1 md:order-2 flex flex-col items-center justify-center relative gap-8">
                     {/* Arrow Indicator */}
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 z-20">
                         <div className="w-8 h-8 bg-zinc-900 rotate-45 transform origin-center border-4 border-white shadow-lg rounded-sm" />
@@ -209,6 +209,21 @@ export default function SpinWheel() {
                             <Gift className="w-8 h-8 text-red-600" />
                         </div>
                     </motion.div>
+
+                    {/* Mobile Button */}
+                    <div className="md:hidden w-full px-4 flex flex-col items-center">
+                        <Button 
+                            size="lg" 
+                            className="w-full bg-zinc-900 text-white hover:bg-zinc-800 h-12 text-lg shadow-lg shadow-gray-200"
+                            onClick={spin}
+                            disabled={isSpinning || hasSpun}
+                        >
+                            {isSpinning ? 'Spinning...' : hasSpun ? 'Already Played' : 'Spin the Wheel'}
+                        </Button>
+                        {hasSpun && !isSpinning && !showResult && (
+                            <p className="text-sm text-gray-500 mt-2">You've already used your daily spin.</p>
+                        )}
+                    </div>
                 </div>
             </div>
 
