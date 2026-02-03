@@ -303,7 +303,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center mb-16">
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Technology Partners</p>
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">Powered by JobTread</h2>
+            <motion.h2 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="text-4xl md:text-5xl font-light text-gray-900 mb-6"
+                  >
+                    Powered by JobTread
+                  </motion.h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
               We use industry-leading construction management software to deliver better results, 
               keep projects on time and on budget, and provide you with complete transparency throughout your renovation.
