@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { ChevronRight, ChevronLeft, AlertCircle, Loader2, Sparkles, ImageIcon } from 'lucide-react';
+import { ChevronRight, ChevronLeft, AlertCircle, Loader2, Sparkles, ImageIcon, Clock } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import ImageUpload from '../components/estimator/ImageUpload';
 import FinishSelector from '../components/estimator/FinishSelector';
@@ -398,9 +398,13 @@ export default function Estimator() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Get Your Online Estimate
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 mb-6">
             Answer a few quick questions to get a preliminary budget range for your renovation project. Upload a photo to see an AI mockup of your transformed space!
           </p>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-100 text-gray-600 text-sm font-medium">
+            <Clock className="w-4 h-4" />
+            <span>Takes about 2 minutes</span>
+          </div>
         </motion.div>
 
         {/* Progress */}
