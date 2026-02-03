@@ -58,6 +58,7 @@ import AdminEstimates from './pages/AdminEstimates';
 import AdminLeads from './pages/AdminLeads';
 import AdminLogin from './pages/AdminLogin';
 import AdminProjects from './pages/AdminProjects';
+import AdminShop from './pages/AdminShop';
 import AdminTestimonials from './pages/AdminTestimonials';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
@@ -75,6 +76,7 @@ import ServiceInteriorRenovations from './pages/ServiceInteriorRenovations';
 import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
+import Shop from './pages/Shop';
 import Step from './pages/Step';
 import StepBuilder from './pages/StepBuilder';
 import StepDashboard from './pages/StepDashboard';
@@ -82,8 +84,6 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import Shop from './pages/Shop';
-import AdminShop from './pages/AdminShop';
 import __Layout from './Layout.jsx';
 
 
@@ -99,6 +99,7 @@ export const PAGES = {
     "AdminLeads": AdminLeads,
     "AdminLogin": AdminLogin,
     "AdminProjects": AdminProjects,
+    "AdminShop": AdminShop,
     "AdminTestimonials": AdminTestimonials,
     "Blog": Blog,
     "BlogPost": BlogPost,
@@ -116,6 +117,7 @@ export const PAGES = {
     "ServiceKitchenBath": ServiceKitchenBath,
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
+    "Shop": Shop,
     "Step": Step,
     "StepBuilder": StepBuilder,
     "StepDashboard": StepDashboard,
@@ -123,8 +125,6 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "Shop": Shop,
-    "AdminShop": AdminShop,
 }
 
 export const pagesConfig = {

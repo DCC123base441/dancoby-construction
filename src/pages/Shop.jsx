@@ -188,8 +188,8 @@ export default function Shop() {
         <div className="absolute inset-0 flex opacity-40">
             <div className="w-1/2 h-full border-r border-white/10">
                 <img 
-                    src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=80"
-                    alt="Cozy Merch Style"
+                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/fc470c4a1_HoodieBlackBig.jpg"
+                    alt="Official Dancoby Hoodie"
                     className="w-full h-full object-cover grayscale"
                 />
             </div>
