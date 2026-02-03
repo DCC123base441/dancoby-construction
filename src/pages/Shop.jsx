@@ -185,12 +185,21 @@ export default function Shop() {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-zinc-900">
-        <div className="absolute inset-0 opacity-40">
-            <img 
-                src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&q=80"
-                alt="Background"
-                className="w-full h-full object-cover grayscale"
-            />
+        <div className="absolute inset-0 flex opacity-40">
+            <div className="w-1/2 h-full border-r border-white/10">
+                <img 
+                    src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&q=80"
+                    alt="Fashion Background"
+                    className="w-full h-full object-cover grayscale"
+                />
+            </div>
+            <div className="w-1/2 h-full">
+                <img 
+                    src="https://images.unsplash.com/photo-1599140849279-1014532882fe?auto=format&fit=crop&q=80"
+                    alt="Helping Animals"
+                    className="w-full h-full object-cover grayscale"
+                />
+            </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-black/50 to-transparent" />
         <div className="relative z-10 text-center max-w-4xl px-6">
