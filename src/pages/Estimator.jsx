@@ -221,7 +221,7 @@ export default function Estimator() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-12 pb-8 md:pt-20 md:pb-12 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6">
           <div className="relative mb-6">
             <Loader2 className="w-16 h-16 text-red-600 animate-spin mx-auto" />
@@ -241,7 +241,7 @@ export default function Estimator() {
 
   if (estimateData) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12">
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-12 pb-8 md:pt-20 md:pb-12">
         <div className="max-w-3xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -387,7 +387,7 @@ export default function Estimator() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-20 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-12 pb-8 md:pt-20 md:pb-12">
       <div className="max-w-3xl mx-auto px-6">
         {/* Header */}
         <motion.div

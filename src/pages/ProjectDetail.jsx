@@ -50,7 +50,7 @@ export default function ProjectDetail() {
 
 
       {/* Project Details */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-10 md:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-8">
             <Link to={createPageUrl('Projects')} className="inline-flex items-center gap-2 text-gray-500 hover:text-red-600 transition-colors font-medium">
