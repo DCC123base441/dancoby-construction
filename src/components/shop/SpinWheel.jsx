@@ -13,14 +13,19 @@ import {
 } from "@/components/ui/dialog";
 
 const SEGMENTS = [
-    { label: '5% OFF', color: '#ef4444', text: 'white', value: '5OFF', type: 'discount' },
-    { label: '10% OFF', color: '#1f2937', text: 'white', value: '10OFF', type: 'discount' },
-    { label: 'Free Merch', color: '#ef4444', text: 'white', value: 'FREEMERCH', type: 'prize' },
-    { label: 'Free Hat', color: '#1f2937', text: 'white', value: 'FREEHAT', type: 'prize' },
-    { label: 'Free Hoodie', color: '#ef4444', text: 'white', value: 'FREEHOODIE', type: 'prize' },
-    { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss' },
-    { label: 'Free Tee', color: '#ef4444', text: 'white', value: 'FREESHIRT', type: 'prize' },
+    { label: '5% OFF', color: '#ef4444', text: 'white', value: '5OFF', type: 'discount', weight: 1 },
+    { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss', weight: 2 },
+    { label: '10% OFF', color: '#ef4444', text: 'white', value: '10OFF', type: 'discount', weight: 1 },
+    { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss', weight: 2 },
+    { label: 'Free Hat', color: '#ef4444', text: 'white', value: 'FREEHAT', type: 'prize', weight: 1 },
+    { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss', weight: 2 },
+    { label: 'Free Hoodie', color: '#ef4444', text: 'white', value: 'FREEHOODIE', type: 'prize', weight: 1 },
+    { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss', weight: 2 },
+    { label: 'Free Tee', color: '#ef4444', text: 'white', value: 'FREESHIRT', type: 'prize', weight: 1 },
+    { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss', weight: 2 },
 ];
+
+const TOTAL_WEIGHT = SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
 
 export default function SpinWheel() {
     const [hasSpun, setHasSpun] = useState(true);
@@ -39,36 +44,35 @@ export default function SpinWheel() {
 
         setIsSpinning(true);
         
-        // Random selection from all segments (fair chance)
-        const selectedIndex = Math.floor(Math.random() * SEGMENTS.length);
+        // Randomly pick a value between 0 and TOTAL_WEIGHT
+        let randomWeight = Math.random() * TOTAL_WEIGHT;
+        let selectedIndex = 0;
+        let accumulatedWeight = 0;
+        
+        // Find which segment corresponds to the random weight
+        for (let i = 0; i < SEGMENTS.length; i++) {
+            accumulatedWeight += SEGMENTS[i].weight;
+            if (randomWeight <= accumulatedWeight) {
+                selectedIndex = i;
+                break;
+            }
+        }
+        
         const selectedSegment = SEGMENTS[selectedIndex];
         
-        const segmentAngle = 360 / SEGMENTS.length;
-        // Calculate rotation to land with selected segment at top (0 degrees)
-        // SVG index 0 is at 3 o'clock (0 deg).
-        // To put index 0 at 12 o'clock (-90 deg), we rotate -90.
-        // To put index i at 12 o'clock, we need to rotate further.
-        // Center of segment i is at: i * segmentAngle + segmentAngle/2
-        // We want that center to be at -90 deg (top).
-        // Current position: angle
-        // Target position: -90
-        // Rotation needed: -90 - angle
-        // Add full rotations (360 * 5) + 360 (to ensure positive/consistent direction if needed, but framer handles it)
+        // Calculate the center angle of the selected segment
+        // Need to calculate start angle of this segment first
+        let currentStartWeight = 0;
+        for (let i = 0; i < selectedIndex; i++) {
+            currentStartWeight += SEGMENTS[i].weight;
+        }
         
-        // Let's stick to a simpler logic:
-        // Rotate lots of times + specific offset.
-        // Offset = 360 - (selectedIndex * segmentAngle + segmentAngle/2) -> puts it at 3 o'clock.
-        // Then rotate -90 to put 3 o'clock at 12 o'clock.
+        const startAngle = (currentStartWeight / TOTAL_WEIGHT) * 360;
+        const segmentSize = (selectedSegment.weight / TOTAL_WEIGHT) * 360;
+        const segmentCenter = startAngle + (segmentSize / 2);
         
-        const anglePerSegment = 360 / SEGMENTS.length;
-        const segmentCenter = (selectedIndex * anglePerSegment) + (anglePerSegment / 2);
-        
-        // Base rotation to bring the segment to 0deg (3 o'clock)
+        // Base rotation to bring the segment center to 0deg (3 o'clock)
         const baseRotation = 360 - segmentCenter;
-        
-        // Adjust for -90deg offset of container (so 0deg is at top)
-        // Actually, if container is rotated -90deg, 0deg (3 o'clock) becomes 12 o'clock.
-        // So baseRotation is correct to bring it to "Start" (which is top).
         
         const fullRotations = 360 * 5;
         const finalRotation = fullRotations + baseRotation;
@@ -97,13 +101,11 @@ export default function SpinWheel() {
         }
     };
 
-    const getSectorPath = (index, total) => {
+    const getSectorPath = (startAngle, endAngle) => {
         const center = 50;
         const radius = 50;
-        const angle = 360 / total;
-        const startAngle = index * angle;
-        const endAngle = (index + 1) * angle;
-
+        // startAngle and endAngle are in degrees
+        
         // Convert to radians
         const startRad = (startAngle * Math.PI) / 180;
         const endRad = (endAngle * Math.PI) / 180;
@@ -113,8 +115,14 @@ export default function SpinWheel() {
         const x2 = center + radius * Math.cos(endRad);
         const y2 = center + radius * Math.sin(endRad);
 
-        return `M${center},${center} L${x1},${y1} A${radius},${radius} 0 0,1 ${x2},${y2} Z`;
+        // Large arc flag: if angle > 180, use 1, else 0. 
+        // Our segments are small, so 0 is fine.
+        const largeArcFlag = (endAngle - startAngle) > 180 ? 1 : 0;
+
+        return `M${center},${center} L${x1},${y1} A${radius},${radius} 0 ${largeArcFlag},1 ${x2},${y2} Z`;
     };
+
+    let currentAngle = 0;
 
     return (
         <section className="py-16 bg-zinc-50 border-y border-gray-200 overflow-hidden relative">
@@ -160,10 +168,16 @@ export default function SpinWheel() {
                     >
                         <svg viewBox="0 0 100 100" className="w-full h-full transform transition-transform">
                             {SEGMENTS.map((segment, index) => {
+                                const segmentSize = (segment.weight / TOTAL_WEIGHT) * 360;
+                                const startAngle = currentAngle;
+                                const endAngle = currentAngle + segmentSize;
+                                const midAngle = startAngle + (segmentSize / 2);
+                                currentAngle += segmentSize;
+                                
                                 return (
                                     <g key={index}>
                                         <path 
-                                            d={getSectorPath(index, SEGMENTS.length)} 
+                                            d={getSectorPath(startAngle, endAngle)} 
                                             fill={segment.color}
                                             stroke="white"
                                             strokeWidth="0.5"
@@ -173,12 +187,12 @@ export default function SpinWheel() {
                                             x="50"
                                             y="50"
                                             fill={segment.text}
-                                            fontSize="4"
+                                            fontSize={segment.weight > 1 ? "3" : "4"} // Smaller text for larger sections if needed? Or inverse.
                                             fontWeight="bold"
                                             textAnchor="end"
                                             alignmentBaseline="middle"
                                             transform={`
-                                                rotate(${(index * (360/SEGMENTS.length)) + (360/SEGMENTS.length)/2}, 50, 50) 
+                                                rotate(${midAngle}, 50, 50) 
                                                 translate(42, 0)
                                             `}
                                             className="uppercase"
