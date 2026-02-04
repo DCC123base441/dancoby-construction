@@ -533,7 +533,7 @@ export default function Home() {
                         initial={{ scaleX: 0 }}
                         whileInView={{ scaleX: 1 }}
                         viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+                        transition={{ duration: 1.8, ease: "easeOut", delay: 0.3 }}
                         className={`h-full ${getBgColor()}`}
                         style={{ width: `${status}%`, transformOrigin: "left" }}
                       />
