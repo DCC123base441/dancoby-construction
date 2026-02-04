@@ -565,6 +565,11 @@ export default function Home() {
                 Subcontractor Registration
               </Link>
             </Button>
+            <Button asChild className="bg-white text-[#1c1917] hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase min-w-[200px]">
+              <Link to={createPageUrl('Hiring')}>
+                View Open Positions
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
