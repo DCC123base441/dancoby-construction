@@ -211,7 +211,7 @@ export default function Home() {
             </section>
 
             {/* About Us Section */}
-            <section className="py-16 md:py-32 bg-white">
+            <section className="py-16 md:py-24 bg-white">
               <div className="max-w-7xl mx-auto px-6">
                 <div className="grid lg:grid-cols-2 gap-20 items-stretch">
                   {/* Text Content */}
@@ -257,7 +257,7 @@ export default function Home() {
       <TestimonialsSection />
 
       {/* Awards Banner */}
-      <section className="py-16 bg-stone-900">
+      <section className="py-16 md:py-24 bg-stone-900">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center">
             <h3 className="text-4xl md:text-5xl font-bold text-stone-50">
@@ -268,7 +268,7 @@ export default function Home() {
       </section>
 
       {/* Featured Projects Grid */}
-      <section className="py-16 md:py-32 bg-gray-50">
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -484,14 +484,14 @@ export default function Home() {
 
       {/* What We're Up To Section */}
       <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
           <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Current Projects</p>
           <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">What We're Up To</h2>
           <p className="text-lg text-[#78716b] max-w-2xl font-light">A glimpse into our active construction sites where craftsmanship meets innovation.</p>
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 mb-16">
             {displayProjects.filter(p => p.featuredOnHome).map((project, idx) => {
@@ -553,7 +553,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#1c1917] text-white text-center py-16">
+      <section className="bg-[#1c1917] text-white text-center py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-xs tracking-[2px] text-[#78716b] uppercase mb-4">Interested in working with us?</p>
           <h2 className="text-3xl md:text-4xl font-light mb-8">Let's Build Something Beautiful</h2>
