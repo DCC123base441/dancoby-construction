@@ -271,34 +271,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { 
-                id: "697c5e88074fc8d96b14a823", 
-                title: "Custom banquette seating with warm oak slat wall and integrated planter details", 
-                logo: "Custom Millwork", 
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg",
-                buttonClass: "bg-amber-700 hover:bg-amber-800 text-white shadow-lg shadow-amber-700/30"
-              },
-              { 
-                id: "697cede5ec09b851f1e8fe80", 
-                title: "Spa-inspired shower with handmade zellige tile and brass fixtures", 
-                logo: "Seamless Custom Tile Design", 
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg",
-                buttonClass: "bg-teal-700 hover:bg-teal-800 text-white shadow-lg shadow-teal-700/30"
-              },
-              { 
-                id: "697d0e3c6291ff1c55121181", 
-                title: "Modern hotel spa inspired suite with marble flooring and walnut accent paneling", 
-                logo: "Hotel Inspired Suite", 
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg",
-                buttonClass: "bg-stone-600 hover:bg-stone-700 text-white shadow-lg shadow-stone-600/30"
-              },
-              { 
-                id: "697cede5ec09b851f1e8fe80", 
-                title: "Elegant Kitchen Renovation with Custom Cabinetry", 
-                logo: "Kitchen Remodel", 
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg",
-                buttonClass: "bg-slate-800 hover:bg-slate-900 text-white shadow-lg shadow-slate-800/30"
-              }
+              { id: "697c5e88074fc8d96b14a823", title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
+              { id: "697cede5ec09b851f1e8fe80", title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
+              { id: "697d0e3c6291ff1c55121181", title: "Modern hotel spa inspired suite with marble flooring and walnut accent paneling", logo: "Hotel Inspired Suite", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
+              { id: "697cede5ec09b851f1e8fe80", title: "Elegant Kitchen Renovation with Custom Cabinetry", logo: "Kitchen Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }
             ].map((project, idx) => (
               <motion.div
                 key={idx}
@@ -346,7 +322,7 @@ export default function Home() {
                     </Link>
                   </h3>
                   <div className="mt-auto">
-                    <Button asChild className={`${project.buttonClass} h-auto py-2 px-6 text-sm font-semibold tracking-wide`}>
+                    <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
                       <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
                         View Project
                       </Link>
