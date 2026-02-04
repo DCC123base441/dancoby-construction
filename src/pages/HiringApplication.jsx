@@ -82,6 +82,16 @@ export default function HiringApplication() {
             We're looking for skilled professionals who share our commitment to excellence. 
             If you're passionate about quality craftsmanship and client satisfaction, we'd love to hear from you.
           </p>
+          <div className="mt-8">
+            <a 
+              href="https://dancobyconstruction.discovered.ai/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50 transition-colors"
+            >
+              View Open Positions
+            </a>
+          </div>
         </div>
       </div>
 
