@@ -157,12 +157,12 @@ export default function About() {
       {/* About The Founder */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            <div className="flex justify-end">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
               <img 
                 src="https://static.wixstatic.com/media/efb67d_56ea9dfe4a0f437a8bc6abb241a18a24~mv2.jpeg/v1/fill/w_551,h_493,fp_0.54_0.31,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Favorite-Aragon-Headshot-94.jpeg"
                 alt="Ralph - Founder"
-                className="w-2/3 h-[350px] object-cover rounded-lg shadow-xl"
+                className="w-full h-[550px] object-cover rounded-lg shadow-xl"
               />
             </div>
             <div className="space-y-6">
