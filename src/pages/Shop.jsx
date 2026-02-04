@@ -184,7 +184,7 @@ export default function Shop() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-zinc-900">
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-zinc-900">
         <div className="absolute inset-0 flex opacity-40">
             <div className="w-1/2 h-full border-r border-white/10">
                 <img
@@ -207,17 +207,17 @@ export default function Shop() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col items-center -mt-10">
+            className="flex flex-col items-center">
 
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-sm mb-8">
                     <span className="text-sm font-bold tracking-wide uppercase text-red-400">Charity Drive</span>
                     <span className="w-1 h-1 rounded-full bg-white/50" />
-                    <span className="text-sm font-medium tracking-wide">100% of Proceeds go to the ASPCA</span>
+                    <span className="text-sm font-medium tracking-wide">100% of proceeds go to the ASPCA</span>
                 </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
-                <p className="text-gray-300 mb-10 mx-auto text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
+                <p className="text-gray-300 mb-10 mx-auto pb-40 text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
 
             </p>
                 <Button
