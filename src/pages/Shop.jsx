@@ -184,16 +184,16 @@ export default function Shop() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] h-auto flex items-center justify-center overflow-hidden bg-zinc-900 py-20">
+      <section className="relative min-h-[60vh] flex items-start justify-center overflow-hidden bg-zinc-900 pt-24 pb-20">
         <div className="absolute inset-0 flex opacity-40">
-            <div className="w-1/2 h-full border-r border-white/10">
+            <div className="hidden md:block md:w-1/2 h-full border-r border-white/10">
                 <img
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/d693bfc2f_Hoodie1.jpg"
               alt="Official Dancoby Hoodie"
               className="w-full h-full object-cover grayscale" />
 
             </div>
-            <div className="w-1/2 h-full">
+            <div className="w-full md:w-1/2 h-full">
                 <img
               src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80"
               alt="Cute Dog Adoption"
@@ -202,7 +202,7 @@ export default function Shop() {
             </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-black/50 to-transparent" />
-        <div className="relative z-10 text-center max-w-4xl px-6 py-12">
+        <div className="relative z-10 text-center max-w-4xl px-6">
             <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -217,7 +217,7 @@ export default function Shop() {
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
-                <p className="text-gray-300 mb-10 mx-auto text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
+                <p className="text-gray-300 mb-10 mx-auto pb-40 text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
 
             </p>
                 <Button
