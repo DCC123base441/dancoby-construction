@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Phone, Mail, Clock, MapPin, Shield, Check, Briefcase, FileText, User } from 'lucide-react';
 import { createPageUrl } from '../utils';
+import VibrantExternalLink from '../components/VibrantExternalLink';
 
 export default function HiringApplication() {
   useEffect(() => {
@@ -83,14 +84,11 @@ export default function HiringApplication() {
             If you're passionate about quality craftsmanship and client satisfaction, we'd love to hear from you.
           </p>
           <div className="mt-8">
-            <a 
-              href="https://dancobyconstruction.discovered.ai/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50 transition-colors"
+            <VibrantExternalLink 
+              href="https://dancobyconstruction.discovered.ai/"
             >
               View Open Positions
-            </a>
+            </VibrantExternalLink>
           </div>
         </div>
       </div>
