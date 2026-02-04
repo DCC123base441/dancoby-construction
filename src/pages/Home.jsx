@@ -566,11 +566,12 @@ export default function Home() {
                 Subcontractor Registration
               </Link>
             </Button>
-            <Button asChild className="bg-white text-[#1c1917] hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase min-w-[200px]">
-              <a href="https://dancobyconstruction.discovered.ai/" target="_blank" rel="noopener noreferrer">
-                View Open Positions
-              </a>
-            </Button>
+            <VibrantExternalLink 
+              href="https://dancobyconstruction.discovered.ai/" 
+              className="min-w-[200px]"
+            >
+              View Open Positions
+            </VibrantExternalLink>
           </div>
         </div>
       </section>
