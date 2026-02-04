@@ -530,11 +530,12 @@ export default function Home() {
                     </div>
                     <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                       <motion.div 
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${status}%` }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
                         className={`h-full ${getBgColor()}`}
+                        style={{ width: `${status}%`, transformOrigin: "left" }}
                       />
                     </div>
                   </div>
