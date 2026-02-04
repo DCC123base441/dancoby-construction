@@ -566,9 +566,9 @@ export default function Home() {
               </Link>
             </Button>
             <Button asChild className="bg-white text-[#1c1917] hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase min-w-[200px]">
-              <Link to={createPageUrl('Hiring')}>
+              <a href="https://dancobyconstruction.discovered.ai/" target="_blank" rel="noopener noreferrer">
                 View Open Positions
-              </Link>
+              </a>
             </Button>
           </div>
         </div>
