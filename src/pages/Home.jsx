@@ -182,7 +182,7 @@ export default function Home() {
                     {
                       title: "Townhouses & Apartments",
                       description: "Expert craftsmanship for high-end residences.",
-                      image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg",
+                      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3c2ce3585_villier_stair2.jpg",
                       page: "ServiceTownhouses"
                     }
                   ].map((service, idx) => (
