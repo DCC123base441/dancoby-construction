@@ -87,11 +87,11 @@ export default function Home() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="-mt-48 max-w-md"
                       >
-                        <div className="h-1 w-16 bg-red-600 mb-6" />
-                        <p className="text-white/90 text-base uppercase tracking-wider mb-4">
+                        <div className="h-1 w-12 bg-red-600 mb-4" />
+                        <p className="text-white/90 text-xs md:text-base uppercase tracking-wider mb-3">
                           Dancoby Construction Company
                         </p>
-                        <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-8">
+                        <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
                           Sophisticated, Customer-Centric Transformations
                         </h1>
                         <EstimatorButton size="large" />
