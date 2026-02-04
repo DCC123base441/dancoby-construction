@@ -85,7 +85,7 @@ export default function Home() {
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="-mt-48 max-w-xl"
+                        className="-mt-48 max-w-md"
                       >
                         <div className="h-1 w-16 bg-red-600 mb-6" />
                         <p className="text-white/90 text-base uppercase tracking-wider mb-4">
