@@ -11,7 +11,7 @@ export default function VibrantExternalLink({ href, children, className = '' }) 
       asChild
       className={cn(
         // Base styles to match adjacent buttons (px-8 py-6 text-sm tracking-wider uppercase)
-        "relative overflow-hidden border-0 px-8 py-6 text-sm font-medium tracking-wider uppercase text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200",
+        "relative overflow-hidden border-0 px-8 py-6 text-sm font-medium tracking-wider uppercase text-white shadow-md transition-all duration-200",
         className
       )}
     >
