@@ -101,7 +101,7 @@ export default function Home() {
               </section>
 
       {/* Who We Are Section */}
-      <section className="py-12 md:py-24 bg-white overflow-hidden">
+      <section className="py-16 md:py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-stretch">
             {/* Text Content */}
@@ -150,7 +150,7 @@ export default function Home() {
       </section>
 
       {/* Our Services Section */}
-            <section className="py-12 md:py-24 bg-white">
+            <section className="py-16 md:py-24 bg-white">
               <div className="max-w-7xl mx-auto px-6">
                 <motion.div {...fadeIn} className="text-center mb-20">
                   <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Our Services</h2>
@@ -343,7 +343,7 @@ export default function Home() {
       </section>
 
       {/* Powered by JobTread Section */}
-      <section className="py-12 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center mb-16">
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Technology Partners</p>
@@ -577,7 +577,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 md:py-24 bg-white border-y border-gray-200">
+      <section className="py-16 md:py-24 bg-white border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12">
             {[
@@ -604,7 +604,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-32 bg-gray-900 text-white">
+      <section className="py-20 md:py-32 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">

@@ -46,7 +46,7 @@ export default function ServiceInteriorRenovations() {
       </section>
 
       {/* Service Overview */}
-      <section className="py-24 bg-white">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div {...fadeIn} className="mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">About This Service</h2>
@@ -87,7 +87,7 @@ export default function ServiceInteriorRenovations() {
       </section>
 
       {/* Process Section */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <motion.h2 {...fadeIn} className="text-4xl font-bold text-gray-900 mb-16 text-center">
             Our Process
@@ -135,7 +135,7 @@ export default function ServiceInteriorRenovations() {
 
       {/* Project Showcase */}
       {serviceProjects.length > 0 && (
-        <section className="py-24 bg-white">
+        <section className="py-16 md:py-24 bg-white">
           <div className="max-w-6xl mx-auto px-6">
             <motion.h2 {...fadeIn} className="text-4xl font-bold text-gray-900 mb-16 text-center">
               Featured Interior Renovations
@@ -180,7 +180,7 @@ export default function ServiceInteriorRenovations() {
       )}
 
       {/* CTA Section */}
-      <section className="py-32 bg-gray-900 text-white">
+      <section className="py-20 md:py-32 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to Transform Your Space?</h2>

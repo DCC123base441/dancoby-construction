@@ -34,7 +34,7 @@ export default function ActiveProjects() {
   ];
 
   return (
-    <main className="min-h-screen bg-gray-50 pt-16 pb-24">
+    <main className="min-h-screen bg-gray-50 py-16 md:py-24">
       <SEOHead 
         title="Active Projects | Dancoby Construction" 
         description="See what we're working on right now. Current renovations in Brooklyn, Queens, and Long Island."

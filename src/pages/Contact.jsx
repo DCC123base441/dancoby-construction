@@ -188,7 +188,7 @@ export default function Contact() {
       `}</style>
 
       {/* Hero */}
-      <div className="bg-white py-8 md:py-16 px-5">
+      <div className="bg-white py-16 md:py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-serif mb-5 text-gray-900">Contact Us</h1>
           <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
@@ -198,7 +198,7 @@ export default function Contact() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-5 py-8 md:py-16">
+      <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
         <div className="grid lg:grid-cols-[2fr_3fr] gap-10">
           
           {/* Contact Info */}

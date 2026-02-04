@@ -72,7 +72,7 @@ export default function Projects() {
       </section>
 
       {/* Projects Grid */}
-      <section className="py-12 md:py-24">
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <ProjectFilters onFilterChange={setCategory} onSortChange={setSort} />
 
@@ -97,7 +97,7 @@ export default function Projects() {
 
 
       {/* CTA Section */}
-      <section className="py-12 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
