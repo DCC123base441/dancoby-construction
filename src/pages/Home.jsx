@@ -546,7 +546,7 @@ export default function Home() {
           </div>
           
           <div className="flex justify-center">
-            <Button asChild variant="outline" className="border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-6 uppercase tracking-wider text-sm transition-all">
+            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 uppercase tracking-wider text-sm transition-all">
                 <Link to={createPageUrl('ActiveProjects')}>See More</Link>
             </Button>
           </div>
