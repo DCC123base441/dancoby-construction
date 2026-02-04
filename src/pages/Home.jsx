@@ -322,7 +322,7 @@ export default function Home() {
                     </Link>
                   </h3>
                   <div className="mt-auto">
-                    <Button asChild className="bg-blue-300 hover:bg-blue-400 text-blue-900 h-auto py-2 px-4 text-sm">
+                    <Button asChild className="bg-sky-500 hover:bg-sky-600 text-white shadow-lg shadow-sky-500/30 h-auto py-2 px-6 text-sm font-semibold tracking-wide">
                       <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
                         View Project
                       </Link>
