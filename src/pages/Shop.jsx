@@ -184,12 +184,22 @@ export default function Shop() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-zinc-900">
-        <div className="absolute inset-0 opacity-40">
-            <img
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-zinc-900">
+        <div className="absolute inset-0 flex opacity-40">
+            <div className="w-1/2 h-full border-r border-white/10">
+                <img
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/d693bfc2f_Hoodie1.jpg"
+              alt="Official Dancoby Hoodie"
+              className="w-full h-full object-cover grayscale" />
+
+            </div>
+            <div className="w-1/2 h-full">
+                <img
               src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80"
               alt="Cute Dog Adoption"
               className="w-full h-full object-cover grayscale" />
+
+            </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-black/50 to-transparent" />
         <div className="relative z-10 text-center max-w-4xl px-6">
@@ -207,7 +217,7 @@ export default function Shop() {
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
-                <p className="text-gray-300 mb-10 mx-auto pb-40 text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
+                <p className="text-gray-300 mb-10 mx-auto text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
 
             </p>
                 <Button
