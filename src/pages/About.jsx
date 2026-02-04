@@ -93,7 +93,7 @@ export default function About() {
                 Dancoby Construction exhibits the highest standards in the industry and leverages a customer-first approach so that we stay on your side from the first call to the final inspection.
               </p>
               <p className="text-gray-700 leading-relaxed">
-                In fact, we will be on your side for the long haul and even include a 5-year warranty on your project, no matter how big or small.
+                In fact, we will be on your side for the long haul and even include a 3-year warranty on your project, no matter how big or small.
               </p>
             </Card>
           </div>
@@ -140,7 +140,7 @@ export default function About() {
                 Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process from concept to completion. Contact us today with any questions or concerns you may have.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Plus, trusting a business to take care of your home, your castle, and your budget can be difficult. That's why we offer a 5-year warranty on all our projects, so you can enter a contract or project with comfort knowing that the end result will meet or exceed your expectations.
+                Plus, trusting a business to take care of your home, your castle, and your budget can be difficult. That's why we offer a 3-year warranty on all our projects, so you can enter a contract or project with comfort knowing that the end result will meet or exceed your expectations.
               </p>
             </div>
             <div>
