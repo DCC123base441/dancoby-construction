@@ -17,7 +17,7 @@ export default function About() {
       />
       {/* Hero Section */}
       <section 
-        className="relative h-[50vh] md:h-[70vh] flex items-center justify-center overflow-hidden"
+        className="relative min-h-[60vh] flex items-center justify-center py-24 overflow-hidden"
         style={{
           backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_1920,h_1080,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg)',
           backgroundSize: 'cover',
