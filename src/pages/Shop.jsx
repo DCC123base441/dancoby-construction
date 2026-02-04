@@ -202,7 +202,7 @@ export default function Shop() {
             </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-black/50 to-transparent" />
-        <div className="relative z-10 text-center max-w-4xl px-6 pt-48">
+        <div className="relative z-10 text-center max-w-4xl px-6 pt-48 pb-24">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
