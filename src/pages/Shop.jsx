@@ -184,16 +184,16 @@ export default function Shop() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-zinc-900">
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-zinc-900">
         <div className="absolute inset-0 flex opacity-40">
-            <div className="hidden md:block w-1/2 h-full border-r border-white/10">
+            <div className="w-1/2 h-full border-r border-white/10">
                 <img
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/d693bfc2f_Hoodie1.jpg"
               alt="Official Dancoby Hoodie"
               className="w-full h-full object-cover grayscale" />
 
             </div>
-            <div className="w-full md:w-1/2 h-full">
+            <div className="w-1/2 h-full">
                 <img
               src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80"
               alt="Cute Dog Adoption"
@@ -207,7 +207,7 @@ export default function Shop() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col items-center">
+            className="flex flex-col items-center -mt-32">
 
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-sm mb-8">
                     <span className="text-sm font-bold tracking-wide uppercase text-red-400">Charity Drive</span>
@@ -217,7 +217,7 @@ export default function Shop() {
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
-                <p className="text-gray-300 mb-10 mx-auto pb-40 text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
+                <p className="text-gray-300 mb-10 mx-auto text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
 
             </p>
                 <Button
