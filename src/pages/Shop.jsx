@@ -217,9 +217,7 @@ export default function Shop() {
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
-                <p className="text-gray-300 mb-10 mx-auto pb-40 text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
-
-            </p>
+                <p className="text-gray-300 mb-10 mx-auto text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.</p>
                 <Button
               size="lg"
               className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
