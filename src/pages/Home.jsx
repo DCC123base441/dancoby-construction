@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 
 import EstimatorButton from '../components/EstimatorButton';
+import VibrantExternalLink from '../components/VibrantExternalLink';
 import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
