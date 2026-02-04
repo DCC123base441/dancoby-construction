@@ -6,7 +6,7 @@ import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import ProjectCard from '../components/ProjectCard';
-import ProjectFilters from '../components/ProjectFilters';
+
 import EstimatorButton from '../components/EstimatorButton';
 import SEOHead from '../components/SEOHead';
 
