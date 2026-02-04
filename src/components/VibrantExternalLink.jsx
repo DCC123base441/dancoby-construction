@@ -5,17 +5,19 @@ import { ExternalLink } from 'lucide-react';
 export default function VibrantExternalLink({ href, children, className = '', size = 'default' }) {
   const sizeClasses = {
     small: 'px-4 py-2 text-xs',
-    default: 'px-8 py-6 text-sm', // Matching the dimensions of the other buttons in Home.js (px-8 py-6)
+    default: 'px-8 py-6 text-sm',
     large: 'px-10 py-6 text-base'
   };
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={`inline-block ${className}`}>
-      <motion.div
-        className={`relative inline-flex items-center justify-center w-full gap-2 font-semibold tracking-wider rounded-md overflow-hidden ${sizeClasses[size]}`}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
+    <motion.a 
+      href={href} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className={`relative inline-flex items-center justify-center gap-2 font-medium tracking-wider rounded-md overflow-hidden shadow uppercase text-white whitespace-nowrap ${sizeClasses[size]} ${className}`}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
         {/* Animated gradient background */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600"
@@ -45,11 +47,10 @@ export default function VibrantExternalLink({ href, children, className = '', si
         />
         
         {/* Content */}
-        <span className="relative z-10 text-white flex items-center gap-2 uppercase">
+        <span className="relative z-10 flex items-center gap-2">
           {children}
           <ExternalLink className="w-4 h-4" />
         </span>
-      </motion.div>
-    </a>
+    </motion.a>
   );
 }
