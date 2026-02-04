@@ -74,7 +74,6 @@ export default function Projects() {
       {/* Projects Grid */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <ProjectFilters onFilterChange={setCategory} onSortChange={setSort} />
 
           {isLoading ? (
             <div className="flex items-center justify-center py-16">
