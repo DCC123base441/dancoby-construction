@@ -106,16 +106,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-stretch">
             {/* Text Content */}
-            <motion.div {...fadeIn} className="space-y-8">
-              <div>
-                <h2 className="text-sm font-bold uppercase tracking-widest text-red-600 mb-3">Who We Are</h2>
-                <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                  Home is where the heart is.
-                </h3>
-              </div>
-              
-              <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
-                  <p>With over twenty years of experience and a true dedication to customer satisfaction, we partner with you—your budget, your style, your vision—to turn renovation dreams into reality. Your space should feel cozy, relaxing, and distinctly yours, reflecting your unique personality and taste. That's why our professional team delivers a fully collaborative, customer-first experience, working closely with you to transform your ideas into elegant, high-quality results.</p>
+            <motion.div {...fadeIn} className="flex flex-col justify-end h-full">
+              <div className="space-y-8">
+                <div>
+                  <h2 className="text-sm font-bold uppercase tracking-widest text-red-600 mb-3">Who We Are</h2>
+                  <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Home is where the heart is.
+                  </h3>
+                </div>
+                
+                <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
+                  <p>With over twenty years of experience and a true dedication to customer satisfaction, we partner with you—your budget, your style, your vision—to turn renovation dreams into reality.</p>
+                  <p>Your space should feel cozy, relaxing, and distinctly yours, reflecting your unique personality and taste.</p>
+                  <p>That's why our professional team delivers a fully collaborative, customer-first experience, working closely with you to transform your ideas into elegant, high-quality results.</p>
+                </div>
               </div>
             </motion.div>
 
