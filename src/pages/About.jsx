@@ -134,10 +134,7 @@ export default function About() {
             <div className="space-y-6">
               <h2 className="text-4xl font-bold text-gray-900">Complete Satisfaction, Guaranteed</h2>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process from concept to completion. Contact us today with any questions or concerns you may have.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Plus, trusting a business to take care of your home, your castle, and your budget can be difficult. That's why we offer a 3-year warranty on all our projects, so you can enter a contract or project with comfort knowing that the end result will meet or exceed your expectations.
+                Our dedication to you means we prioritize open, honest communication every step of the way—from initial concept through final completion. Feel free to contact us today with any questions or concerns. We understand how challenging it can be to trust a team with your home—your castle—and your budget. That's exactly why we back every project with a 3-year warranty, giving you complete peace of mind that the finished result will meet or exceed your expectations.
               </p>
             </div>
             <div>
