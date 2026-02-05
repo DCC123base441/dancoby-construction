@@ -115,6 +115,9 @@ export default function Home() {
               </div>
               
               <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
+                  <p>With over twenty years of experience and a true dedication to customer satisfaction, we partner with you—your budget, your style, your vision—to turn renovation dreams into reality. Your space should feel cozy, relaxing, and distinctly yours, reflecting your unique personality and taste. That's why our professional team delivers a fully collaborative, customer-first experience, working closely with you to transform your ideas into elegant, high-quality results.</p>
+                </div>
+                <div className="hidden">
                 <p>
                   With over twenty years of experience and a dedication to customer satisfaction, we work with you, your budget, and your style to turn your renovation dreams into realities.
                 </p>
