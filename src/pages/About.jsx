@@ -27,11 +27,8 @@ export default function About() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">More Than Just Remodelers</h1>
-          <p className="text-xl md:text-2xl leading-relaxed mb-4">
-            With over twenty years of experience working with clients in New York City, Dancoby knows the standards, expectations, and grievances in the industry and does everything possible to stand above competition with a smile as an industry leader.
-          </p>
-          <p className="text-xl md:text-2xl">
-            Our primary goal is to make clients happy with an elegant, functional, and stress-free renovation.
+          <p className="text-xl md:text-2xl leading-relaxed">
+            With over twenty years of experience serving clients across New York City, Dancoby truly understands the city's high standards, expectations, and common challenges in the industry. We go the extra mile—always with a smile—to stand out as a leader, delivering results that exceed what others offer. Our primary goal is simple: to make every client genuinely happy with an elegant, functional, and completely stress-free renovation.
           </p>
         </div>
       </section>
