@@ -216,7 +216,7 @@ export default function Home() {
                     <div className="space-y-6">
                       <h2 className="text-sm uppercase tracking-widest text-red-600 font-bold">About Us</h2>
                       <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                        By working with your goals, budget, schedule, and lifestyle, we create an enviable space that you're proud to call home.
+                        Working hand-in-hand with your goals, budget, timeline, and lifestyle, we build the enviable space you'll love calling home.
                       </h3>
                     </div>
 
