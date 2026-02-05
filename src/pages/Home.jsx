@@ -224,10 +224,7 @@ export default function Home() {
                       <h4 className="text-2xl font-bold text-gray-900">Commitment to Perfection</h4>
                       <div className="space-y-4 text-gray-600 leading-relaxed text-lg">
                         <p>
-                          We don't merely strive for excellence…we strive for perfection on every project, every time. Our passion resonates in everything we do from our friendly smile to our attention to detail.
-                        </p>
-                        <p>
-                          Our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process.
+                          We don't just strive for excellence… we pursue perfection on every project, every time. Our passion shines through in every detail—from our friendly smiles to our meticulous attention to detail. Our contractors are fully licensed and insured, so you're always protected. Our dedication to you, the customer, means we prioritize open, honest communication throughout the collaborative process.
                         </p>
                       </div>
                       <Button asChild variant="link" className="text-gray-900 hover:text-red-600 p-0 h-auto font-semibold text-lg group">
