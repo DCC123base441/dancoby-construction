@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { Gift, Sparkles, Frown, Trophy } from 'lucide-react';
+import { Gift, Sparkles, Frown, Trophy, Loader2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { toast } from "sonner";
+import { base44 } from '@/api/base44Client';
 import {
     Dialog,
     DialogContent,
@@ -30,16 +31,26 @@ const TOTAL_WEIGHT = SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
 export default function SpinWheel() {
     const [hasSpun, setHasSpun] = useState(true);
     const [isSpinning, setIsSpinning] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [showResult, setShowResult] = useState(false);
     const [result, setResult] = useState(null);
     const controls = useAnimation();
 
     useEffect(() => {
-        // DEBUG: Reset spin for testing - remove this line after testing
-        localStorage.removeItem('dancoby_shop_spin');
-        
-        const spun = localStorage.getItem('dancoby_shop_spin');
-        setHasSpun(!!spun);
+        const checkEligibility = async () => {
+            try {
+                const response = await base44.functions.invoke('checkSpinEligibility', { action: 'check' });
+                setHasSpun(!response.data.canSpin);
+            } catch (error) {
+                console.error('Error checking spin eligibility:', error);
+                // Fallback to localStorage if backend fails
+                const spun = localStorage.getItem('dancoby_shop_spin');
+                setHasSpun(!!spun);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        checkEligibility();
     }, []);
 
     const spin = async () => {
@@ -88,6 +99,12 @@ export default function SpinWheel() {
             }
         });
 
+        // Record spin in backend (IP-based)
+        try {
+            await base44.functions.invoke('checkSpinEligibility', { action: 'record' });
+        } catch (error) {
+            console.error('Error recording spin:', error);
+        }
         localStorage.setItem('dancoby_shop_spin', 'true');
         setHasSpun(true);
         setIsSpinning(false);
@@ -219,9 +236,9 @@ export default function SpinWheel() {
                             size="lg" 
                             className="w-full bg-zinc-900 text-white hover:bg-zinc-800 h-12 text-lg shadow-lg shadow-gray-200"
                             onClick={spin}
-                            disabled={isSpinning || hasSpun}
+                            disabled={isSpinning || hasSpun || isLoading}
                         >
-                            {isSpinning ? 'Spinning...' : hasSpun ? 'Already Played' : 'Spin the Wheel'}
+                            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Loading...</> : isSpinning ? 'Spinning...' : hasSpun ? 'Already Played' : 'Spin the Wheel'}
                         </Button>
                         {hasSpun && !isSpinning && !showResult && (
                             <p className="text-sm text-gray-500 mt-2">You've already used your daily spin.</p>
