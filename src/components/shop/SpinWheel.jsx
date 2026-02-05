@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Gift, Sparkles, Frown, Trophy, Loader2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { toast } from "sonner";
 import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
 import {
     Dialog,
     DialogContent,
@@ -13,7 +14,7 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog";
 
-const SEGMENTS = [
+const BASE_SEGMENTS = [
     { label: '5% OFF', color: '#ef4444', text: 'white', value: '5OFF', type: 'discount', weight: 1 },
     { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss', weight: 2 },
     { label: '10% OFF', color: '#ef4444', text: 'white', value: '10OFF', type: 'discount', weight: 1 },
@@ -26,8 +27,6 @@ const SEGMENTS = [
     { label: 'Try Again', color: '#1f2937', text: 'white', value: null, type: 'loss', weight: 2 },
 ];
 
-const TOTAL_WEIGHT = SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
-
 export default function SpinWheel() {
     const [hasSpun, setHasSpun] = useState(true);
     const [isSpinning, setIsSpinning] = useState(false);
@@ -35,6 +34,30 @@ export default function SpinWheel() {
     const [showResult, setShowResult] = useState(false);
     const [result, setResult] = useState(null);
     const controls = useAnimation();
+
+    // Fetch products to check stock status
+    const { data: products = [] } = useQuery({
+        queryKey: ['products-stock'],
+        queryFn: () => base44.entities.Product.list()
+    });
+
+    // Check if all items are out of stock
+    const allOutOfStock = useMemo(() => {
+        if (products.length === 0) return false;
+        return products.every(p => !p.inStock);
+    }, [products]);
+
+    // Adjust segments: if all out of stock, all wins become losses
+    const SEGMENTS = useMemo(() => {
+        if (allOutOfStock) {
+            return BASE_SEGMENTS.map(seg => 
+                seg.type !== 'loss' ? { ...seg, type: 'loss', value: null } : seg
+            );
+        }
+        return BASE_SEGMENTS;
+    }, [allOutOfStock]);
+
+    const TOTAL_WEIGHT = useMemo(() => SEGMENTS.reduce((sum, s) => sum + s.weight, 0), [SEGMENTS]);
 
     useEffect(() => {
         const checkEligibility = async () => {
@@ -59,7 +82,8 @@ export default function SpinWheel() {
         setIsSpinning(true);
         
         // Randomly pick a value between 0 and TOTAL_WEIGHT
-        let randomWeight = Math.random() * TOTAL_WEIGHT;
+        const currentTotalWeight = SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
+        let randomWeight = Math.random() * currentTotalWeight;
         let selectedIndex = 0;
         let accumulatedWeight = 0;
         
@@ -81,8 +105,9 @@ export default function SpinWheel() {
             currentStartWeight += SEGMENTS[i].weight;
         }
         
-        const startAngle = (currentStartWeight / TOTAL_WEIGHT) * 360;
-        const segmentSize = (selectedSegment.weight / TOTAL_WEIGHT) * 360;
+        const currentTotalWeightCalc = SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
+        const startAngle = (currentStartWeight / currentTotalWeightCalc) * 360;
+        const segmentSize = (selectedSegment.weight / currentTotalWeightCalc) * 360;
         const segmentCenter = startAngle + (segmentSize / 2);
         
         // Base rotation to bring the segment center to 0deg (3 o'clock)
@@ -142,6 +167,7 @@ export default function SpinWheel() {
         return `M${center},${center} L${x1},${y1} A${radius},${radius} 0 ${largeArcFlag},1 ${x2},${y2} Z`;
     };
 
+    const renderTotalWeight = SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
     let currentAngle = 0;
 
     return (
@@ -188,7 +214,7 @@ export default function SpinWheel() {
                     >
                         <svg viewBox="0 0 100 100" className="w-full h-full transform transition-transform">
                             {SEGMENTS.map((segment, index) => {
-                                const segmentSize = (segment.weight / TOTAL_WEIGHT) * 360;
+                                const segmentSize = (segment.weight / renderTotalWeight) * 360;
                                 const startAngle = currentAngle;
                                 const endAngle = currentAngle + segmentSize;
                                 const midAngle = startAngle + (segmentSize / 2);
