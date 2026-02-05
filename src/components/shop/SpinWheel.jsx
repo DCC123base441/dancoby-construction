@@ -164,9 +164,9 @@ export default function SpinWheel() {
                             size="lg" 
                             className="bg-zinc-900 text-white hover:bg-zinc-800 px-8 h-12 text-lg shadow-lg shadow-gray-200"
                             onClick={spin}
-                            disabled={isSpinning || hasSpun}
+                            disabled={isSpinning || hasSpun || isLoading}
                         >
-                            {isSpinning ? 'Spinning...' : hasSpun ? 'Already Played' : 'Spin the Wheel'}
+                            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Loading...</> : isSpinning ? 'Spinning...' : hasSpun ? 'Already Played' : 'Spin the Wheel'}
                         </Button>
                         {hasSpun && !isSpinning && !showResult && (
                             <p className="text-sm text-gray-500 mt-2">You've already used your daily spin.</p>
