@@ -35,6 +35,9 @@ export default function SpinWheel() {
     const controls = useAnimation();
 
     useEffect(() => {
+        // DEBUG: Reset spin for testing - remove this line after testing
+        localStorage.removeItem('dancoby_shop_spin');
+        
         const spun = localStorage.getItem('dancoby_shop_spin');
         setHasSpun(!!spun);
     }, []);
