@@ -68,7 +68,7 @@ export default function Services() {
           className="relative z-10 text-center text-white max-w-3xl px-6"
         >
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Our Services</h1>
-          <p className="text-xl text-white/90">Specialized expertise across residential, commercial, and restoration projects</p>
+          <p className="text-xl text-white/90">Specialized expertise in residential construction, interiors, and custom projects</p>
         </motion.div>
       </section>
 
