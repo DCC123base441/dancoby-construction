@@ -98,7 +98,7 @@ export default function TestimonialsSection() {
               {testimonials.map((t, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentIndex(index)}
+                  onClick={() => { setCurrentIndex(index); setIsExpanded(false); }}
                   className={`w-full text-left px-3 py-2 border-l-2 transition-all text-sm ${
                     index === currentIndex 
                       ? 'border-stone-800 bg-white text-stone-900 font-medium' 
