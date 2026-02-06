@@ -135,9 +135,19 @@ export default function TestimonialsSection() {
                 </div>
               </div>
               
-              <p className="text-xl md:text-2xl font-light leading-relaxed text-stone-800 mb-8">
-                "{testimonial.quote}"
-              </p>
+              <div className="mb-8">
+                <p className={`text-xl md:text-2xl font-light leading-relaxed text-stone-800 ${!isExpanded ? 'line-clamp-3' : ''}`}>
+                  "{testimonial.quote}"
+                </p>
+                {testimonial.quote?.length > 150 && (
+                  <button 
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="text-sm text-red-600 hover:text-red-700 font-medium mt-2"
+                  >
+                    {isExpanded ? 'Read less' : 'Read more'}
+                  </button>
+                )}
+              </div>
               
               <div className="mb-6">
                 <p className="text-lg text-stone-900 font-medium">{testimonial.client_name}</p>
