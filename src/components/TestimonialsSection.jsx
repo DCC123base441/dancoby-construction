@@ -30,6 +30,7 @@ const fallbackTestimonials = [
 
 export default function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { data: dbTestimonials = [] } = useQuery({
       queryKey: ['publicTestimonials'],
