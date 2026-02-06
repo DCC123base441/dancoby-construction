@@ -99,7 +99,8 @@ export default function Home() {
                             lineHeight: 1.1 
                           }}
                         >
-                          Sophisticated, Customer-Centric Transformations
+                          Building Homes<br />
+                          <span className="italic">Worth Living In</span>
                         </h1>
                         <EstimatorButton size="large" />
                       </motion.div>
