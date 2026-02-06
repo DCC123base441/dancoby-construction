@@ -118,6 +118,11 @@ export default function TestimonialsSection() {
                 New Review
               </div>
             )}
+            {testimonial.client_name === 'Pam A' && (
+              <div className="absolute top-0 right-0 bg-stone-700 text-white text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-bl-lg z-10">
+                Recent Review
+              </div>
+            )}
             <motion.div
               key={currentIndex}
               initial={{ opacity: 0, x: 20 }}
