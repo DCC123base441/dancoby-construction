@@ -71,32 +71,71 @@ export default function Home() {
         ogImage="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_90/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
       />
       {/* Hero Section */}
-              <section className="relative h-screen overflow-hidden">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg)` }}
-                />
-                <div className="absolute inset-0 bg-black/40" />
+              <section className="relative min-h-screen overflow-hidden bg-[#f8f7f5]">
+                {/* Background Images */}
+                <div className="absolute inset-0">
+                  {/* Left decorative image */}
+                  <div className="absolute left-0 top-0 w-1/3 h-full opacity-60">
+                    <img 
+                      src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  {/* Center decorative image */}
+                  <div className="absolute left-1/4 top-16 w-[350px] h-[400px] hidden lg:block">
+                    <img 
+                      src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  {/* Right decorative element */}
+                  <div className="absolute right-0 top-0 w-1/4 h-full bg-[#3d3a36] hidden lg:block" />
+                </div>
 
-                <div className="relative z-10 h-full flex items-center">
-                  <div className="max-w-7xl mx-auto px-6 w-full">
-                    <div className="max-w-2xl">
-                      <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="-mt-48 max-w-md"
-                      >
-                        <div className="h-1 w-12 bg-red-600 mb-4" />
-                        <p className="text-white/90 text-xs md:text-base uppercase tracking-wider mb-3">
-                          Dancoby Construction Company
-                        </p>
-                        <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
-                          Sophisticated, Customer-Centric Transformations
-                        </h1>
-                        <EstimatorButton size="large" />
-                      </motion.div>
-                    </div>
+                {/* Bottom sofa image */}
+                <div className="absolute bottom-0 left-0 right-0 h-[45%]">
+                  <img 
+                    src="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
+                    alt=""
+                    className="w-full h-full object-cover object-bottom"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10 h-full flex items-center justify-center pt-20 pb-[45%]">
+                  <div className="max-w-3xl mx-auto px-6 text-center">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                      <p className="text-[#6b665e] text-xs md:text-sm uppercase tracking-[0.2em] mb-6">
+                        New York's Premier Renovation Firm
+                      </p>
+                      <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-[#2d2a26] leading-tight mb-4">
+                        Crafting Spaces
+                      </h1>
+                      <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif italic text-[#2d2a26] leading-tight mb-8">
+                        Worth Living In
+                      </h1>
+                      <p className="text-[#5b5854] text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+                        Over twenty years of transforming New York homes with thoughtful design, exceptional craftsmanship, and an unwavering commitment to your vision.
+                      </p>
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Button asChild className="bg-[#2d2a26] hover:bg-[#1a1816] text-white px-8 py-6 text-sm tracking-wider uppercase">
+                          <Link to={createPageUrl('Contact')}>
+                            Start Your Project <span className="ml-2">→</span>
+                          </Link>
+                        </Button>
+                        <Button asChild variant="outline" className="border-[#2d2a26] text-[#2d2a26] hover:bg-[#2d2a26] hover:text-white px-8 py-6 text-sm tracking-wider uppercase">
+                          <Link to={createPageUrl('Projects')}>
+                            View Our Work
+                          </Link>
+                        </Button>
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
               </section>
