@@ -48,8 +48,14 @@ export default function TestimonialsSection() {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    setIsExpanded(false);
+  };
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setIsExpanded(false);
+  };
 
   if (testimonials.length === 0) return null;
 
