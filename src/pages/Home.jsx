@@ -91,16 +91,8 @@ export default function Home() {
                         <p className="text-white/90 text-xs md:text-base uppercase tracking-wider mb-3">
                           Dancoby Construction Company
                         </p>
-                        <h1 
-                          className="text-5xl lg:text-7xl font-light mb-6"
-                          style={{ 
-                            fontFamily: "'Playfair Display', Georgia, serif", 
-                            color: '#2d2d2d',
-                            lineHeight: 1.1 
-                          }}
-                        >
-                          Building Homes<br />
-                          <span className="italic">Worth Living In</span>
+                        <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
+                          Sophisticated, Customer-Centric Transformations
                         </h1>
                         <EstimatorButton size="large" />
                       </motion.div>
