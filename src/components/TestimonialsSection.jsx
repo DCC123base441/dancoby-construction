@@ -42,12 +42,12 @@ export default function TestimonialsSection() {
   const testimonials = dbTestimonials.length > 0 ? dbTestimonials : fallbackTestimonials;
 
   useEffect(() => {
-    if (testimonials.length === 0) return;
+    if (testimonials.length === 0 || isPaused) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 8000);
     return () => clearInterval(interval);
-  }, [testimonials.length]);
+  }, [testimonials.length, isPaused]);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
