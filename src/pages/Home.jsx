@@ -99,7 +99,8 @@ export default function Home() {
                             lineHeight: 1.1 
                           }}
                         >
-                          Sophisticated, Customer-Centric Transformations
+                          Sophisticated, Customer-Centric<br />
+                          <span className="italic">Transformation</span>
                         </h1>
                         <EstimatorButton size="large" />
                       </motion.div>
