@@ -91,7 +91,11 @@ export default function TestimonialsSection() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-[200px_1fr] gap-10 items-start">
+        <div 
+          className="grid lg:grid-cols-[200px_1fr] gap-10 items-start"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           {/* Desktop Navigation */}
           <div className="hidden lg:block sticky top-20">
             <p className="text-xs uppercase tracking-[0.3em] text-stone-400 mb-5">Testimonials</p>
