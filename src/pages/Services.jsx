@@ -1,147 +1,147 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 
 export default function Services() {
-  const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6 }
-  };
-
   const services = [
     {
-      title: "Interior Renovations",
-      description: "Complete transformation of living spaces that blend form, function, and your unique aesthetic.",
-      image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2017.jpeg",
-      page: "ServiceInteriorRenovations",
-      highlights: ["Design consultation", "Custom cabinetry", "Premium finishes"]
+      title: 'Kitchen & Bath',
+      description: 'Transform the heart of your home with custom cabinetry, premium countertops, and thoughtful layouts that combine beauty with functionality.',
+      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80',
+      path: 'ServiceKitchenBath',
+      features: ['Custom Cabinetry', 'Premium Countertops', 'Modern Fixtures', 'Lighting Design']
     },
     {
-      title: "Kitchen & Bath Remodeling",
-      description: "Modern upgrades with premium materials and expert craftsmanship tailored to your lifestyle.",
-      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/c7315d418_Dancoby_ConklinBathroom_Shot2_V3_1.jpg",
-      page: "ServiceKitchenBath",
-      highlights: ["Custom cabinetry", "Premium fixtures", "Countertop options"]
+      title: 'Brownstone Restoration',
+      description: 'Preserve the historic character of your Brooklyn brownstone while modernizing for contemporary living. Expert craftsmanship honoring original details.',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
+      path: 'ServiceBrownstone',
+      features: ['Historic Preservation', 'Facade Restoration', 'Period Details', 'Modern Systems']
     },
     {
-      title: "Brownstone Restorations",
-      description: "Preserving the charm of historic brownstones while enhancing modern comfort and functionality.",
-      image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg",
-      page: "ServiceBrownstone",
-      highlights: ["Historic preservation", "Modern integration", "Custom details"]
+      title: 'Interior Renovations',
+      description: 'Complete interior transformations that reimagine your living spaces. From open floor plans to custom millwork, we bring your vision to life.',
+      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80',
+      path: 'ServiceInteriorRenovations',
+      features: ['Open Floor Plans', 'Custom Millwork', 'Built-in Storage', 'Finish Selection']
     },
     {
-      title: "Townhouses & Apartments",
-      description: "Expert craftsmanship for high-end residential properties with sophisticated design and execution.",
-      image: "https://static.wixstatic.com/media/c1b522_f3b8352ead454119b6fafb74781ff327~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/villier_living1_lightsoff.jpg",
-      page: "ServiceTownhouses",
-      highlights: ["High-end finishes", "Smart home systems", "Project management"]
-    }
+      title: 'Townhouses',
+      description: 'Multi-floor renovations that maximize space and flow. Expert handling of structural modifications and seamless integration of modern amenities.',
+      image: 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=800&q=80',
+      path: 'ServiceTownhouses',
+      features: ['Multi-floor Projects', 'Structural Work', 'Space Planning', 'Premium Finishes']
+    },
   ];
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="bg-[#faf9f7]">
       <SEOHead 
-        title="Renovation Services | Kitchen, Bath, Brownstone Restoration"
-        description="Full-service home renovation in NYC. Kitchen & bath remodeling, brownstone restorations, townhouse renovations, interior transformations. Licensed & insured contractors."
-        keywords="kitchen remodeling Brooklyn, bathroom renovation NYC, brownstone restoration Brooklyn, townhouse renovation, interior design contractor, home improvement NYC"
+        title="Our Services | NYC Home Renovation Services"
+        description="Explore Dancoby Construction's renovation services: kitchen & bath remodeling, brownstone restoration, interior renovations, and townhouse projects."
       />
-      {/* Hero Section */}
-      <section className="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/a1e1431e0_generated_image.png)'
-          }}
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 text-center text-white max-w-3xl px-6"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Our Services</h1>
-          <p className="text-xl text-white/90">Specialized expertise in residential construction, interiors, and custom projects</p>
-        </motion.div>
+
+      {/* Hero */}
+      <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="max-w-3xl">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-xs tracking-[0.3em] uppercase text-[#8b7355] mb-6"
+            >
+              What We Do
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-5xl lg:text-6xl font-light leading-[1.1] text-[#2d2d2d] mb-8"
+            >
+              Our<br /><span className="italic">Services</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg text-[#2d2d2d]/70 leading-relaxed"
+            >
+              From intimate bathroom refreshes to complete home transformations, 
+              we bring the same level of care, craftsmanship, and attention to every project.
+            </motion.p>
+          </div>
+        </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-12 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12">
-            {services.map((service, idx) => (
+      {/* Services */}
+      <section className="pb-24 lg:pb-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="space-y-24">
+            {services.map((service, i) => (
               <motion.div
-                key={idx}
+                key={service.title}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group"
+                className={`grid lg:grid-cols-2 gap-12 lg:gap-24 items-center ${
+                  i % 2 === 1 ? 'lg:grid-flow-dense' : ''
+                }`}
               >
-                <Link to={createPageUrl(service.page)} className="block h-full">
-                  <div className="relative overflow-hidden mb-8 bg-gray-200 aspect-[4/3]">
-                    <img 
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                  </div>
-
-                  <div className="space-y-4">
-                    <h2 className="text-3xl font-bold text-gray-900 group-hover:text-red-600 transition-colors">
-                      {service.title}
-                    </h2>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      {service.description}
-                    </p>
-                    
-                    <div className="pt-4 border-t border-gray-200">
-                      <p className="text-xs uppercase tracking-widest text-gray-500 font-medium mb-3">Key Services</p>
-                      <ul className="space-y-2">
-                        {service.highlights.map((highlight, hidx) => (
-                          <li key={hidx} className="flex items-center gap-2 text-sm text-gray-700">
-                            <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
-                            {highlight}
-                          </li>
-                        ))}
-                      </ul>
+                <div className={i % 2 === 1 ? 'lg:col-start-2' : ''}>
+                  <Link to={createPageUrl(service.path)} className="block group">
+                    <div className="aspect-[4/3] overflow-hidden">
+                      <img 
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
                     </div>
-
-                    <Button 
-                      asChild
-                      className="bg-gray-900 hover:bg-gray-800 text-white h-auto py-3 px-6 text-sm uppercase tracking-wider w-full justify-between group-hover:gap-3"
-                    >
-                      <div>
-                        Learn More <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+                <div className={i % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}>
+                  <p className="text-xs tracking-[0.3em] uppercase text-[#8b7355] mb-4">0{i + 1}</p>
+                  <h2 className="text-3xl lg:text-4xl font-light text-[#2d2d2d] mb-6">{service.title}</h2>
+                  <p className="text-[#2d2d2d]/70 leading-relaxed mb-8">{service.description}</p>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-8">
+                    {service.features.map((feature) => (
+                      <div key={feature} className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 bg-[#8b7355] rounded-full" />
+                        <span className="text-sm text-[#2d2d2d]/70">{feature}</span>
                       </div>
-                    </Button>
+                    ))}
                   </div>
-                </Link>
+
+                  <Link
+                    to={createPageUrl(service.path)}
+                    className="inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase text-[#2d2d2d] hover:text-[#8b7355] transition-colors"
+                  >
+                    Learn More <ArrowUpRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-32 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <motion.div {...fadeIn}>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to Start Your Project?</h2>
-            <p className="text-xl text-gray-300 mb-12">
-              Contact us today to discuss your vision and explore how we can help bring it to life
-            </p>
-            <Button asChild size="lg" className="bg-red-600 hover:bg-red-700 text-white px-10">
-              <Link to={createPageUrl('Contact')}>Get in Touch</Link>
-            </Button>
-          </motion.div>
+      {/* CTA */}
+      <section className="py-24 lg:py-32 bg-[#2d2d2d] text-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+          <p className="text-xs tracking-[0.3em] uppercase text-[#c4bdb4] mb-6">Ready to Begin?</p>
+          <h2 className="text-4xl lg:text-5xl font-light mb-8">
+            Let's Discuss<br /><span className="italic">Your Vision</span>
+          </h2>
+          <Link
+            to={createPageUrl('Contact')}
+            className="inline-flex items-center gap-3 px-10 py-5 bg-white text-[#2d2d2d] text-sm tracking-[0.15em] uppercase hover:bg-[#f5f3f0] transition-colors duration-300"
+          >
+            Get in Touch
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </main>

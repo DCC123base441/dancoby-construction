@@ -1,201 +1,114 @@
 import React from 'react';
-import { Mail, MapPin, Instagram, Facebook } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import { Instagram, Facebook, Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-  const location = useLocation();
-
-  const getLinkClass = (page) => {
-    const path = createPageUrl(page);
-    const isActive = location.pathname === path;
-    return `text-sm transition-colors ${isActive ? 'text-red-500 font-medium' : 'text-white/50 hover:text-white'}`;
-  };
-
   return (
-    <footer className="bg-[#1a1a1a] text-white pb-20">
-      <div className="w-[90%] max-w-7xl mx-auto py-12 md:py-16">
-        {/* Top Section - Logo & Tagline */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 pb-12 border-b border-white/10">
-          <div className="flex items-center gap-6 -ml-6">
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
-              alt="Dancoby"
-              className="h-16 w-auto brightness-0 invert"
-            />
-            <div className="h-8 w-px bg-white/20 hidden md:block" />
-            <p className="text-white/50 text-sm hidden md:block">
-              Sophisticated Transformations Since 2004
+    <footer className="bg-[#2d2d2d] text-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <h3 className="text-2xl tracking-[0.2em] uppercase font-light mb-6">Dancoby</h3>
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
+              Crafting exceptional spaces across New York City for over 20 years.
             </p>
+            <div className="flex gap-4">
+              <a 
+                href="https://www.instagram.com/dancobyconstruction" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-[#2d2d2d] transition-all duration-300"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a 
+                href="https://www.facebook.com/dancobyconstruction" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-[#2d2d2d] transition-all duration-300"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            <a 
-              href="https://www.instagram.com/dancobyconstruction" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all"
-            >
-              <Instagram className="w-4 h-4" />
-            </a>
-            <a 
-              href="https://www.facebook.com/dancobyconstruction" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all"
-            >
-              <Facebook className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
 
-        {/* Main Links Grid */}
-        <div className="grid grid-cols-2 md:flex md:justify-between gap-8 mb-12">
-          {/* Services */}
+          {/* Navigation */}
           <div>
-            <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Services</h4>
+            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-white/40">Navigate</h4>
             <ul className="space-y-3">
-              <li>
-                <Link to={createPageUrl('ServiceInteriorRenovations')} className={getLinkClass('ServiceInteriorRenovations')}>
-                  Interior Renovations
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('ServiceKitchenBath')} className={getLinkClass('ServiceKitchenBath')}>
-                  Kitchen & Bath
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('ServiceBrownstone')} className={getLinkClass('ServiceBrownstone')}>
-                  Brownstone Restoration
-                </Link>
-              </li>
-              <li>
-                <Link to={createPageUrl('ServiceTownhouses')} className={getLinkClass('ServiceTownhouses')}>
-                  Townhouses & Apartments
-                </Link>
-              </li>
+              {['Projects', 'Services', 'About', 'Contact', 'Shop'].map((item) => (
+                <li key={item}>
+                  <Link 
+                    to={createPageUrl(item)} 
+                    className="text-sm text-white/70 hover:text-white transition-colors"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Services */}
           <div>
-            <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Company</h4>
-            <div className="flex gap-8">
-              <ul className="space-y-3">
-                <li>
-                  <Link to={createPageUrl('Home')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('Home')}>
-                    Home
+            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-white/40">Services</h4>
+            <ul className="space-y-3">
+              {[
+                { name: 'Kitchen & Bath', path: 'ServiceKitchenBath' },
+                { name: 'Brownstone Restoration', path: 'ServiceBrownstone' },
+                { name: 'Interior Renovations', path: 'ServiceInteriorRenovations' },
+                { name: 'Townhouses', path: 'ServiceTownhouses' },
+              ].map((item) => (
+                <li key={item.path}>
+                  <Link 
+                    to={createPageUrl(item.path)} 
+                    className="text-sm text-white/70 hover:text-white transition-colors"
+                  >
+                    {item.name}
                   </Link>
                 </li>
-                <li>
-                  <Link to={createPageUrl('Services')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('Services')}>
-                    Services
-                  </Link>
-                </li>
-                <li>
-                  <Link to={createPageUrl('Projects')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('Projects')}>
-                    Projects
-                  </Link>
-                </li>
-                <li>
-                  <Link to={createPageUrl('Blog')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('Blog')}>
-                    Blog
-                  </Link>
-                </li>
-                <li className="md:hidden">
-                  <Link to={createPageUrl('VendorIntake')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('VendorIntake')}>
-                    Partner With Us
-                  </Link>
-                </li>
-              </ul>
-              <ul className="space-y-3">
-                <li>
-                  <Link to={createPageUrl('About')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('About')}>
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link to={createPageUrl('Press')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('Press')}>
-                    Press
-                  </Link>
-                </li>
-                <li>
-                  <Link to={createPageUrl('HiringApplication')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('HiringApplication')}>
-                    Careers
-                  </Link>
-                </li>
-                <li>
-                  <Link to={createPageUrl('Shop')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('Shop')}>
-                    Shop
-                  </Link>
-                </li>
-                <li className="md:hidden">
-                  <Link to={createPageUrl('AdminLogin')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('AdminLogin')}>
-                    Admin
-                  </Link>
-                </li>
-              </ul>
-              <ul className="space-y-3 hidden md:block">
-                <li>
-                  <Link to={createPageUrl('VendorIntake')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('VendorIntake')}>
-                    Partner With Us
-                  </Link>
-                </li>
-                <li>
-                  <Link to={createPageUrl('AdminLogin')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('AdminLogin')}>
-                    Admin
-                  </Link>
-                </li>
-              </ul>
-
-            </div>
+              ))}
+            </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Contact</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-white/50 text-sm">
-                <MapPin className="w-4 h-4 text-red-500" />
-                Brooklyn, NY
+            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-white/40">Contact</h4>
+            <ul className="space-y-4">
+              <li>
+                <a href="tel:+15166849766" className="flex items-center gap-3 text-sm text-white/70 hover:text-white transition-colors">
+                  <Phone className="w-4 h-4" />
+                  (516) 684-9766
+                </a>
               </li>
               <li>
-                <a href="mailto:info@dancoby.com" className="flex items-center gap-2 text-white/50 hover:text-white text-sm transition-colors">
-                  <Mail className="w-4 h-4 text-red-500" />
+                <a href="mailto:info@dancoby.com" className="flex items-center gap-3 text-sm text-white/70 hover:text-white transition-colors">
+                  <Mail className="w-4 h-4" />
                   info@dancoby.com
                 </a>
               </li>
-              <li className="pt-2">
-                <Link to={createPageUrl('Contact')} className="inline-flex items-center gap-2 text-red-500 hover:text-red-400 text-sm font-medium transition-colors">
-                  Get a Free Quote
-                  <span>→</span>
-                </Link>
+              <li className="flex items-start gap-3 text-sm text-white/70">
+                <MapPin className="w-4 h-4 mt-0.5" />
+                <span>Serving Brooklyn, Queens,<br />Manhattan & Long Island</span>
               </li>
             </ul>
           </div>
-
-          {/* Quick Contact */}
-          <div>
-            <h4 className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Call Us</h4>
-            <a href="tel:+15166849766" className="text-lg font-light text-white hover:text-red-500 transition-colors">
-              (516) 684-9766
-            </a>
-            <p className="text-white/40 text-xs mt-2">Mon–Fri 8am–8pm</p>
-          </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-white/10 text-xs text-white/40">
-          <p>© {currentYear} Dancoby Construction Company. All rights reserved.</p>
+        {/* Bottom */}
+        <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-white/40">
+            © {new Date().getFullYear()} Dancoby Construction. All rights reserved.
+          </p>
           <div className="flex gap-6">
-            <Link to={createPageUrl('PrivacyPolicy')} className="hover:text-white transition-colors">
+            <Link to={createPageUrl('PrivacyPolicy')} className="text-xs text-white/40 hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link to={createPageUrl('TermsOfService')} className="hover:text-white transition-colors">
+            <Link to={createPageUrl('TermsOfService')} className="text-xs text-white/40 hover:text-white transition-colors">
               Terms of Service
             </Link>
-
           </div>
         </div>
       </div>
