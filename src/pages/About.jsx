@@ -1,219 +1,194 @@
 import React from 'react';
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { Target, Heart, Shield, Award } from 'lucide-react';
+import EstimatorButton from '../components/EstimatorButton';
 import SEOHead from '../components/SEOHead';
 
 export default function About() {
   return (
-    <main className="bg-[#faf9f7]">
+    <main className="min-h-screen bg-white">
       <SEOHead 
         title="About Us | 20+ Years of NYC Home Renovation Excellence"
-        description="Learn about Dancoby Construction's 20+ years of NYC renovation experience. Licensed, insured contractors with 3-year warranty."
+        description="Learn about Dancoby Construction's 20+ years of NYC renovation experience. Licensed, insured contractors with 5-year warranty. Meet our founder and team."
+        keywords="about Dancoby Construction, NYC renovation company, licensed contractor Brooklyn, home renovation experience, general contractor history"
       />
-
-      {/* Hero */}
-      <section className="pt-32 pb-16 lg:pt-40 lg:pb-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="max-w-3xl">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-xs tracking-[0.3em] uppercase text-[#8b7355] mb-6"
-            >
-              Our Story
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-5xl lg:text-6xl font-light leading-[1.1] text-[#2d2d2d] mb-8"
-            >
-              More Than Just<br /><span className="italic">Remodelers</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg text-[#2d2d2d]/70 leading-relaxed"
-            >
-              With over twenty years of experience serving clients across New York City, 
-              Dancoby truly understands the city's high standards, expectations, and common 
-              challenges in the industry. We go the extra mile—always with a smile—to stand 
-              out as a leader, delivering results that exceed what others offer.
-            </motion.p>
-          </div>
+      {/* Hero Section */}
+      <section 
+        className="relative min-h-[60vh] flex items-center justify-center py-24 overflow-hidden"
+        style={{
+          backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_1920,h_1080,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">More Than Just Remodelers</h1>
+          <p className="text-xl md:text-2xl leading-relaxed">
+            With over twenty years of experience serving clients across New York City, Dancoby truly understands the city's high standards, expectations, and common challenges in the industry. We go the extra mile—always with a smile—to stand out as a leader, delivering results that exceed what others offer. Our primary goal is simple: to make every client genuinely happy with an elegant, functional, and completely stress-free renovation.
+          </p>
         </div>
       </section>
 
-      {/* Full Width Image */}
-      <section className="px-6 lg:px-12">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="aspect-[21/9] overflow-hidden"
-          >
-            <img 
-              src="https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_1920,h_1080,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg"
-              alt="Beautiful renovation"
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
+      {/* Tagline Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center leading-relaxed">
+            We are builders and creative thinkers who love collaborating with clients, architects, and makers who share our passion for thoughtful renovations.
+          </h2>
         </div>
       </section>
 
-      {/* Mission Statement */}
-      <section className="py-24 lg:py-32">
-        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl lg:text-4xl font-light leading-relaxed text-[#2d2d2d]"
-          >
-            We are builders and creative thinkers who love collaborating with clients, 
-            architects, and makers who share our passion for <span className="italic">thoughtful renovations</span>.
-          </motion.h2>
-        </div>
-      </section>
-
-      {/* Values Grid */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-3 gap-12 lg:gap-8">
-            {[
-              {
-                title: 'Our Mission',
-                description: 'We know how stressful a renovation project can be, but we do everything possible to make sure it is as smooth and painless as possible. That means we take pride in our efficiency and leave every home looking better than when we arrived.'
-              },
-              {
-                title: 'Our Commitment',
-                description: 'Our commitment to customer and employee safety is paramount. We understand that renovations can be invasive, so our team always ensures your family, floors, furniture, and belongings are safe and protected before any work begins.'
-              },
-              {
-                title: 'Our Standards',
-                description: 'Dancoby Construction exhibits the highest standards in the industry and leverages a customer-first approach so that we stay on your side from the first call to the final inspection—backed by our 3-year warranty.'
-              }
-            ].map((value, i) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="border-t border-[#e8e4df] pt-8"
-              >
-                <h3 className="text-xl font-light text-[#2d2d2d] mb-4">{value.title}</h3>
-                <p className="text-[#2d2d2d]/60 leading-relaxed">{value.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Founder Section */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="order-2 lg:order-1"
-            >
-              <p className="text-xs tracking-[0.3em] uppercase text-[#8b7355] mb-6">Meet the Founder</p>
-              <h2 className="text-4xl lg:text-5xl font-light text-[#2d2d2d] mb-8">Ralph</h2>
-              <div className="space-y-6 text-[#2d2d2d]/70 leading-relaxed">
-                <p>
-                  Ralph is a dedicated general contractor with over 20 years' experience. 
-                  Alongside his team, Ralph coordinates trades, builds partnerships, and 
-                  collaborates with architects, engineers, vendors, and homeowners to ensure 
-                  efficient and budget-friendly completion of every project.
-                </p>
-                <p>
-                  With a deep knowledge of building and code regulations, expertise in team 
-                  building, and devotion to leadership and quality control management, Ralph 
-                  remains an industry leader with a commitment to client satisfaction.
-                </p>
-                <p>
-                  During his free time Ralph enjoys playing pickleball, biking, or relaxing 
-                  by the beach with his Goldendoodle, Jaxx. He currently lives in Rockaway 
-                  Beach NY and holds a general contractor license in New York and Nassau County.
-                </p>
+      {/* Three Pillars Section */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-12">
+            {/* Our Mission */}
+            <Card className="p-8 border-0 shadow-lg">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">Our Mission</h3>
               </div>
-              <Link
-                to={createPageUrl('Contact')}
-                className="inline-flex items-center gap-3 mt-8 px-8 py-4 bg-[#2d2d2d] text-white text-sm tracking-[0.15em] uppercase hover:bg-[#8b7355] transition-colors duration-300"
-              >
-                Let's Talk
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="order-1 lg:order-2"
-            >
-              <div className="aspect-[4/5] overflow-hidden">
-                <img 
-                  src="https://static.wixstatic.com/media/efb67d_56ea9dfe4a0f437a8bc6abb241a18a24~mv2.jpeg/v1/fill/w_551,h_493,fp_0.54_0.31,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Favorite-Aragon-Headshot-94.jpeg"
-                  alt="Ralph - Founder"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Guarantee Section */}
-      <section className="py-16 lg:py-24 bg-[#2d2d2d] text-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-            <div>
-              <p className="text-xs tracking-[0.3em] uppercase text-[#c4bdb4] mb-6">Our Promise</p>
-              <h2 className="text-4xl lg:text-5xl font-light mb-8">
-                Complete Satisfaction,<br /><span className="italic">Guaranteed</span>
-              </h2>
-              <p className="text-white/70 leading-relaxed mb-6">
-                Our dedication to you means we prioritize open, honest communication every 
-                step of the way—from initial concept through final completion. We understand 
-                how challenging it can be to trust a team with your home—your castle—and your budget.
+              <p className="text-gray-700 leading-relaxed mb-4">
+                We know how stressful a renovation project can be, but we do everything possible to make sure it is as smooth and painless as possible.
               </p>
-              <p className="text-white/70 leading-relaxed">
-                That's exactly why we back every project with a 3-year warranty, giving you 
-                complete peace of mind that the finished result will meet or exceed your expectations.
+              <p className="text-gray-700 leading-relaxed">
+                That means we take pride in our efficiency and leave every home looking better than when we arrived
+              </p>
+            </Card>
+
+            {/* Our Commitment */}
+            <Card className="p-8 border-0 shadow-lg">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">Our Commitment</h3>
+              </div>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                Our commitment to customer and employee safety is paramount.
+              </p>
+              <p className="text-gray-700 leading-relaxed">
+                We understand that renovations can be invasive and dangerous, so our team always makes sure that you, your family, and your floors, furniture, and personal belongings are safe and protected before any work begins.
+              </p>
+            </Card>
+
+            {/* Our Standards */}
+            <Card className="p-8 border-0 shadow-lg">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                  <Award className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">Our Standards</h3>
+              </div>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                Dancoby Construction exhibits the highest standards in the industry and leverages a customer-first approach so that we stay on your side from the first call to the final inspection.
+              </p>
+              <p className="text-gray-700 leading-relaxed">
+                In fact, we will be on your side for the long haul and even include a 3-year warranty on your project, no matter how big or small.
+              </p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Bathroom Image Section */}
+      <section className="py-0">
+        <img 
+          src="https://static.wixstatic.com/media/c1b522_4f61cdea0afd4a25baa42f7f902c624e~mv2.jpeg/v1/fill/w_1920,h_629,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_4f61cdea0afd4a25baa42f7f902c624e~mv2.jpeg"
+          alt="Modern bathroom"
+          className="w-full h-[500px] object-cover"
+        />
+      </section>
+
+      {/* Commitment to Perfection */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <h2 className="text-4xl font-bold text-gray-900">Commitment to Perfection</h2>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              We don't merely strive for excellence, we strive for perfection on every project, every time. Our passion resonates in everything we do from our friendly smile to our attention to detail, collaborative approach, and commitment to a flawless result.
+            </p>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              Plus, our contractors are licensed and insured so you are always protected. Our dedication to you, the customer, means we encourage open, honest communication throughout the collaborative process from concept to completion.
+            </p>
+            <Button 
+              asChild
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg mt-6"
+            >
+              <Link to={createPageUrl('Contact')}>Contact</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Complete Satisfaction Section */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h2 className="text-4xl font-bold text-gray-900">Complete Satisfaction, Guaranteed</h2>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Our dedication to you means we prioritize open, honest communication every step of the way—from initial concept through final completion. Feel free to contact us today with any questions or concerns. We understand how challenging it can be to trust a team with your home—your castle—and your budget. That's exactly why we back every project with a 3-year warranty, giving you complete peace of mind that the finished result will meet or exceed your expectations.
               </p>
             </div>
-            <div className="aspect-[4/3] overflow-hidden">
+            <div>
               <img 
                 src="https://static.wixstatic.com/media/c1b522_7231b6f8cbaf46cf8dd85c643a4230f7~mv2.jpg/v1/fill/w_467,h_418,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2311%201.jpg"
-                alt="Beautiful kitchen"
-                className="w-full h-full object-cover"
+                alt="Bright kitchen window"
+                className="w-full h-[450px] object-cover rounded-lg shadow-xl"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 lg:py-32">
-        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
-          <p className="text-xs tracking-[0.3em] uppercase text-[#8b7355] mb-6">Ready to Begin?</p>
-          <h2 className="text-4xl lg:text-5xl font-light text-[#2d2d2d] mb-8">
-            Let's Create Something<br /><span className="italic">Beautiful Together</span>
-          </h2>
-          <Link
-            to={createPageUrl('Contact')}
-            className="inline-flex items-center gap-3 px-10 py-5 bg-[#2d2d2d] text-white text-sm tracking-[0.15em] uppercase hover:bg-[#8b7355] transition-colors duration-300"
-          >
-            Start Your Project
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+      {/* About The Founder */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <img 
+                src="https://static.wixstatic.com/media/efb67d_56ea9dfe4a0f437a8bc6abb241a18a24~mv2.jpeg/v1/fill/w_551,h_493,fp_0.54_0.31,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Favorite-Aragon-Headshot-94.jpeg"
+                alt="Ralph - Founder"
+                className="w-full h-[550px] object-cover rounded-lg shadow-xl"
+              />
+            </div>
+            <div className="space-y-6">
+              <h2 className="text-4xl font-bold text-gray-900">About The Founder</h2>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Ralph is a dedicated general contractor with over 20 years' experience. Alongside his team, Ralph coordinates trades, builds partnerships, and collaborates with architects, engineers, vendors, and homeowners to ensure efficient and budget-friendly completion of every project.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                With a deep knowledge of building and code regulations, expertise in team building, and devotion to leadership and quality control management, Ralph remains an industry leader with a commitment to client satisfaction.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                During his free time Ralph enjoys playing pickleball, biking, or relaxing by the beach with his Goldendoodle, Jaxx. He currently lives in Rockaway Beach NY and holds a general contractor license in New York and Nassau County.
+              </p>
+              <Button 
+                asChild
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg mt-6"
+              >
+                <Link to={createPageUrl('Contact')}>Let's Talk</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 bg-gray-900 text-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold mb-6">Ready to Start Your Project?</h2>
+          <p className="text-xl text-gray-300 mb-12">
+            Let's work together to create the space of your dreams
+          </p>
+          <EstimatorButton size="large" />
         </div>
       </section>
     </main>
