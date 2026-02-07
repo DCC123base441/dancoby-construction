@@ -46,6 +46,9 @@ export default function ChatBot() {
   // Refs
   const welcomeTimerRef = useRef(null);
   const messagesEndRef = useRef(null);
+  
+  // Mobile keyboard handling
+  const [viewportHeight, setViewportHeight] = useState(null);
 
   // Load active messages from Admin
   useEffect(() => {
