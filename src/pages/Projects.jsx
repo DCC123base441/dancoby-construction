@@ -6,6 +6,7 @@ import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import ProjectCard from '../components/ProjectCard';
+import { ProjectCardSkeleton } from '../components/SkeletonLoader';
 
 import EstimatorButton from '../components/EstimatorButton';
 import SEOHead from '../components/SEOHead';
@@ -88,8 +89,10 @@ export default function Projects() {
         <div className="max-w-7xl mx-auto px-6">
 
           {isLoading ? (
-            <div className="flex items-center justify-center py-16">
-              <p className="text-gray-500">Loading projects...</p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <ProjectCardSkeleton key={i} />
+              ))}
             </div>
           ) : filteredProjects.length === 0 ? (
             <div className="flex items-center justify-center py-16">
