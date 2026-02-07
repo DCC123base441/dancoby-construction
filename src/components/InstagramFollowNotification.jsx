@@ -33,7 +33,7 @@ export default function InstagramFollowNotification() {
           animate={{ opacity: 1, x: 0, y: 0 }}
           exit={{ opacity: 0, x: 100 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="fixed bottom-32 md:bottom-24 left-4 md:left-auto md:right-4 z-40 bg-white rounded-xl shadow-lg border border-gray-100 p-3 flex items-center gap-3 max-w-[280px]"
+          className="fixed bottom-32 md:bottom-32 left-4 md:left-auto md:right-4 z-40 bg-white rounded-xl shadow-lg border border-gray-100 p-3 flex items-center gap-3 max-w-[280px]"
         >
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center flex-shrink-0">
             <Instagram className="w-5 h-5 text-white" />
