@@ -275,9 +275,6 @@ export default function Home() {
               </div>
             </section>
 
-      {/* Trust Badges */}
-      <TrustBadges />
-
       {/* Testimonials Section */}
       <TestimonialsSection />
 
