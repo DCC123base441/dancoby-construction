@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { Menu, X, Home } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const location = useLocation();
+
+  const isActivePath = (path) => {
+    const currentPath = location.pathname.toLowerCase();
+    const targetPath = `/${path.toLowerCase()}`;
+    return currentPath === targetPath || (path === 'Home' && currentPath === '/');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,15 +71,22 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-                                <Link
-                                  key={link.name}
-                                  to={createPageUrl(link.path)}
-                                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                                  className="text-gray-600 hover:text-red-600 transition-colors text-sm tracking-wide font-medium"
-                                >
-                                  {link.name}
-                                </Link>
-                              ))}
+              <Link
+                key={link.name}
+                to={createPageUrl(link.path)}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className={`relative text-sm tracking-wide font-medium transition-colors ${
+                  isActivePath(link.path) 
+                    ? 'text-red-600' 
+                    : 'text-gray-600 hover:text-red-600'
+                }`}
+              >
+                {link.name}
+                {isActivePath(link.path) && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-red-600 rounded-full" />
+                )}
+              </Link>
+            ))}
           </nav>
 
           {/* Right Side */}
@@ -102,7 +116,11 @@ export default function Header() {
                 key={link.name}
                 to={createPageUrl(link.path)}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-gray-600 hover:text-gray-900 transition-colors py-2 text-sm tracking-wide"
+                className={`block py-2 text-sm tracking-wide transition-colors ${
+                  isActivePath(link.path)
+                    ? 'text-red-600 font-semibold border-l-2 border-red-600 pl-3'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 {link.name}
               </Link>
