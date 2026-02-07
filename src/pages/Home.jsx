@@ -12,6 +12,7 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
 import TrustBadges from '../components/TrustBadges';
+import CurrentProjectCard from '../components/home/CurrentProjectCard';
 
 export default function Home() {
   const heroRef = useRef(null);
@@ -559,7 +560,7 @@ export default function Home() {
               };
 
               return (
-              <ProjectCard
+              <CurrentProjectCard
                 key={idx}
                 project={project}
                 idx={idx}
