@@ -284,7 +284,7 @@ export default function ChatBot() {
               </div>
 
               {/* Input - stays fixed at bottom */}
-              <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-3 flex gap-2 bg-white safe-area-pb">
+              <form onSubmit={handleSendMessage} className="border-t border-gray-200 px-3 py-2 flex gap-2 bg-white">
                 <input
                   ref={inputRef}
                   type="text"
