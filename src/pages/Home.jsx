@@ -48,7 +48,7 @@ export default function Home() {
     transition: { duration: 0.6 }
   };
 
-  const { data: currentProjects = [] } = useQuery({
+  const { data: currentProjects = [], isLoading: isLoadingProjects } = useQuery({
     queryKey: ['currentProjects'],
     queryFn: () => base44.entities.CurrentProject.list('order'),
   });
