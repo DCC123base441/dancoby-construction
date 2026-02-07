@@ -13,6 +13,8 @@ import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
 import TrustBadges from '../components/TrustBadges';
 import CurrentProjectCard from '../components/home/CurrentProjectCard';
+import CurrentProjectsSkeleton from '../components/home/CurrentProjectsSkeleton';
+import FeaturedProjectsSkeleton from '../components/home/FeaturedProjectsSkeleton';
 
 export default function Home() {
   const heroRef = useRef(null);
