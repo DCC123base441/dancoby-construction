@@ -559,38 +559,15 @@ export default function Home() {
               };
 
               return (
-              <motion.div
+              <ProjectCard
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="group"
-              >
-                <div className="relative mb-6 overflow-hidden bg-[#d6cec3] aspect-[4/3]">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.1]"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
-                  <div className="absolute top-4 right-4 bg-white/95 p-4 min-w-[160px] shadow-sm backdrop-blur-sm">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-[10px] font-bold tracking-widest uppercase text-gray-500">Progress</span>
-                      <span className={`text-xs font-bold ${getColor()}`}>{status}%</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full ${getBgColor()} origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 ease-out`}
-                        style={{ width: `${status}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">{project.title}</h3>
-                <p className="text-xs font-bold tracking-wider uppercase text-red-600 mb-4">{project.location}</p>
-                <p className="text-[#5b5854] leading-relaxed">{project.description}</p>
-              </motion.div>
+                project={project}
+                idx={idx}
+                status={status}
+                getColor={getColor}
+                getBgColor={getBgColor}
+                fadeIn={fadeIn}
+              />
             )})}
           </div>
           
