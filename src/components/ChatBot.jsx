@@ -83,15 +83,52 @@ export default function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Lock body scroll when chat is open on mobile
+  // Lock body scroll and handle mobile viewport resize (keyboard)
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
+    if (!isOpen) {
       document.body.style.overflow = '';
+      return;
     }
+    
+    document.body.style.overflow = 'hidden';
+    
+    // Handle visual viewport resize (mobile keyboard)
+    const handleResize = () => {
+      if (chatContainerRef.current && window.visualViewport) {
+        const vh = window.visualViewport.height;
+        const offsetTop = window.visualViewport.offsetTop;
+        chatContainerRef.current.style.height = `${Math.min(vh * 0.6, 400)}px`;
+        chatContainerRef.current.style.bottom = `${Math.max(8, offsetTop + 8)}px`;
+      }
+    };
+
+    // Scroll to bottom when input focused (keyboard opens)
+    const handleFocus = () => {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        handleResize();
+      }, 300);
+    };
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
+      window.visualViewport.addEventListener('scroll', handleResize);
+    }
+    
+    const input = inputRef.current;
+    if (input) {
+      input.addEventListener('focus', handleFocus);
+    }
+
     return () => {
       document.body.style.overflow = '';
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize);
+        window.visualViewport.removeEventListener('scroll', handleResize);
+      }
+      if (input) {
+        input.removeEventListener('focus', handleFocus);
+      }
     };
   }, [isOpen]);
 
