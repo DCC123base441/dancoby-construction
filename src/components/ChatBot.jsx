@@ -267,7 +267,7 @@ export default function ChatBot() {
             className="fixed bottom-2 left-2 right-2 sm:left-auto sm:bottom-6 sm:right-6 z-50 sm:w-96 h-[60vh] max-h-[400px] sm:max-h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-red-600 text-white p-4 flex items-center justify-between flex-shrink-0 safe-area-top">
+            <div className="bg-red-600 text-white p-3 flex items-center justify-between flex-shrink-0 rounded-t-lg">
               <div className="flex items-center gap-3">
                 <img
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
