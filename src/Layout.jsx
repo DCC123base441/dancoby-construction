@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ChatBot from './components/ChatBot';
 import MobileQuickActions from './components/MobileQuickActions';
+import PageTransition from './components/PageTransition';
+import FloatingCTA from './components/FloatingCTA';
+import BackToTop from './components/BackToTop';
+import ScrollProgress from './components/ScrollProgress';
 import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children }) {
@@ -40,13 +45,20 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollProgress />
       <Header />
-      <main className="flex-1 pt-20">
-        {children}
-      </main>
+      <AnimatePresence mode="wait">
+        <PageTransition key={location.pathname}>
+          <main className="flex-1 pt-20">
+            {children}
+          </main>
+        </PageTransition>
+      </AnimatePresence>
       <Footer />
       <MobileQuickActions />
       <ChatBot />
+      <FloatingCTA />
+      <BackToTop />
     </div>
   );
 }
