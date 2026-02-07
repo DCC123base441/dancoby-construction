@@ -243,7 +243,11 @@ export default function ChatBot() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed bottom-20 right-2 left-2 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-80 h-[45vh] sm:h-auto sm:max-h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
+            className="fixed bottom-20 right-2 left-2 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-80 sm:h-auto sm:max-h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
+            style={{
+              height: '300px',
+              maxHeight: '300px',
+            }}
           >
             {/* Header */}
             <div className="bg-red-600 text-white p-2 flex items-center justify-between">
