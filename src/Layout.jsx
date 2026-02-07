@@ -8,7 +8,6 @@ import MobileQuickActions from './components/MobileQuickActions';
 import PageTransition from './components/PageTransition';
 import FloatingCTA from './components/FloatingCTA';
 import BackToTop from './components/BackToTop';
-import FloatingInstagram from './components/FloatingInstagram';
 import ScrollProgress from './components/ScrollProgress';
 import { base44 } from '@/api/base44Client';
 
@@ -59,8 +58,7 @@ export default function Layout({ children }) {
       <MobileQuickActions />
       <ChatBot />
       <FloatingCTA />
-              <BackToTop />
-              <FloatingInstagram />
+      <BackToTop />
     </div>
   );
 }
