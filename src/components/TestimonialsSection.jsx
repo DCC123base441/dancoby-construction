@@ -140,7 +140,14 @@ export default function TestimonialsSection() {
                 </div>
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-stone-900 text-stone-900" />
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.15, duration: 0.3, ease: "easeOut" }}
+                    >
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    </motion.div>
                   ))}
                 </div>
               </div>
