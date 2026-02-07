@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
-import { X, Send, Loader } from 'lucide-react';
+import { X, Send, Loader, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
