@@ -271,10 +271,15 @@ export default function ChatBot() {
         {isOpen && (
           <motion.div
             ref={chatContainerRef}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 z-50 sm:w-80 sm:h-[500px] sm:rounded-lg bg-white shadow-2xl border-0 sm:border border-gray-200 flex flex-col"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-80 bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
+            style={{
+              bottom: '80px',
+              height: '280px',
+              maxHeight: '280px',
+            }}
           >
             {/* Header */}
             <div className="bg-red-600 text-white p-2 flex items-center justify-between">
