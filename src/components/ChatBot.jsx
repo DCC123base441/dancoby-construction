@@ -46,6 +46,7 @@ export default function ChatBot() {
   // Refs
   const welcomeTimerRef = useRef(null);
   const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
   
 
 
@@ -82,6 +83,35 @@ export default function ChatBot() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Fix for mobile keyboard - keep chat positioned above keyboard
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleViewportResize = () => {
+      if (chatContainerRef.current && window.visualViewport) {
+        const viewport = window.visualViewport;
+        const bottomOffset = window.innerHeight - viewport.height - viewport.offsetTop;
+        chatContainerRef.current.style.bottom = `${Math.max(bottomOffset + 8, 80)}px`;
+        // Scroll input into view
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    };
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleViewportResize);
+      window.visualViewport.addEventListener('scroll', handleViewportResize);
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleViewportResize);
+        window.visualViewport.removeEventListener('scroll', handleViewportResize);
+      }
+    };
+  }, [isOpen]);
 
 
 
@@ -240,13 +270,15 @@ export default function ChatBot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={chatContainerRef}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed bottom-20 right-2 left-2 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-80 sm:h-auto sm:max-h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
+            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-80 bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
             style={{
-              height: '300px',
-              maxHeight: '300px',
+              bottom: '80px',
+              height: '280px',
+              maxHeight: '280px',
             }}
           >
             {/* Header */}
