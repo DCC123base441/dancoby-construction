@@ -52,7 +52,13 @@ export function ServiceCardSkeleton() {
 export function ImageSkeleton({ className }) {
   return (
     <div className={cn("relative overflow-hidden bg-gray-200", className)}>
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+      <div 
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" 
+        style={{
+          animation: 'shimmer 1.5s infinite',
+          transform: 'translateX(-100%)'
+        }}
+      />
     </div>
   );
 }
