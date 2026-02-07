@@ -120,7 +120,7 @@ export default function Home() {
                           Dancoby Construction Company
                         </p>
                         <h1 className="text-3xl md:text-5xl font-serif text-white leading-tight mb-6">
-                          Sophisticated, Customer-Centric Transformations
+                          Sophisticated, <em className="italic">Customer-Centric</em> Transformations
                         </h1>
                         <EstimatorButton size="large" />
                       </motion.div>
