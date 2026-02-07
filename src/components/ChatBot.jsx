@@ -46,8 +46,6 @@ export default function ChatBot() {
   // Refs
   const welcomeTimerRef = useRef(null);
   const messagesEndRef = useRef(null);
-  const chatContainerRef = useRef(null);
-  const inputRef = useRef(null);
 
   // Load active messages from Admin
   useEffect(() => {
@@ -82,55 +80,6 @@ export default function ChatBot() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
-  // Lock body scroll and handle mobile viewport resize (keyboard)
-  useEffect(() => {
-    if (!isOpen) {
-      document.body.style.overflow = '';
-      return;
-    }
-    
-    document.body.style.overflow = 'hidden';
-    
-    // Handle visual viewport resize (mobile keyboard)
-    const handleResize = () => {
-      if (chatContainerRef.current && window.visualViewport) {
-        const vh = window.visualViewport.height;
-        const offsetTop = window.visualViewport.offsetTop;
-        chatContainerRef.current.style.height = `${Math.min(vh * 0.6, 400)}px`;
-        chatContainerRef.current.style.bottom = `${Math.max(8, offsetTop + 8)}px`;
-      }
-    };
-
-    // Scroll to bottom when input focused (keyboard opens)
-    const handleFocus = () => {
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        handleResize();
-      }, 300);
-    };
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', handleResize);
-      window.visualViewport.addEventListener('scroll', handleResize);
-    }
-    
-    const input = inputRef.current;
-    if (input) {
-      input.addEventListener('focus', handleFocus);
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', handleResize);
-        window.visualViewport.removeEventListener('scroll', handleResize);
-      }
-      if (input) {
-        input.removeEventListener('focus', handleFocus);
-      }
-    };
-  }, [isOpen]);
 
   // Show page-specific welcome automatically after 5 seconds (once per page per session)
   useEffect(() => {
@@ -283,31 +232,17 @@ export default function ChatBot() {
         )}
       </AnimatePresence>
 
-      {/* Backdrop for mobile */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-40 sm:hidden"
-            onClick={() => setIsOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            ref={chatContainerRef}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed bottom-2 left-2 right-2 sm:left-auto sm:bottom-6 sm:right-6 z-50 sm:w-96 h-[60vh] max-h-[400px] sm:max-h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
+            className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-96 h-[60vh] sm:h-auto sm:max-h-[600px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-red-600 text-white p-3 flex items-center justify-between flex-shrink-0 rounded-t-lg">
+            <div className="bg-red-600 text-white p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <img
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
@@ -319,16 +254,13 @@ export default function ChatBot() {
                   <p className="text-xs text-red-100">{isLoading ? 'Speaking…' : 'AI Assistant'}</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-2 rounded-full">
+              <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-1 rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Messages */}
-            <div 
-              className="flex-1 overflow-y-auto p-4 space-y-4 overscroll-contain"
-              style={{ WebkitOverflowScrolling: 'touch' }}
-            >
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.map((m, idx) => (
                 <div
                   key={idx}
@@ -342,7 +274,7 @@ export default function ChatBot() {
                     />
                   )}
                   <div
-                    className={`max-w-[80%] px-4 py-2 rounded-2xl break-words ${
+                    className={`max-w-xs px-4 py-2 rounded-2xl ${
                       m.role === 'user'
                         ? 'bg-red-600 text-white rounded-br-none'
                         : 'bg-gray-100 text-gray-900 rounded-bl-none'
@@ -363,23 +295,18 @@ export default function ChatBot() {
             </div>
 
             {/* Input */}
-            <form 
-              onSubmit={handleSendMessage} 
-              className="border-t border-gray-200 p-3 flex gap-2 flex-shrink-0 bg-white rounded-b-lg"
-            >
+            <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-4 flex gap-2">
               <Input
-                ref={inputRef}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask about renovations..."
-                className="text-base min-w-0 flex-1 h-10"
+                className="text-sm"
                 disabled={isLoading}
-                style={{ fontSize: '16px' }}
               />
               <Button
                 type="submit"
                 size="icon"
-                className="bg-red-600 hover:bg-red-700 text-white flex-shrink-0 h-10 w-10"
+                className="bg-red-600 hover:bg-red-700 text-white"
                 disabled={isLoading || !inputValue.trim()}
               >
                 <Send className="w-4 h-4" />
