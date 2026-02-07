@@ -69,22 +69,25 @@ export default function Header() {
                           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={createPageUrl(link.path)}
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className={`relative text-sm tracking-wide font-medium transition-colors ${
+                className={`relative text-[13px] uppercase tracking-[0.15em] font-medium transition-all duration-300 py-1 ${
                   isActivePath(link.path) 
                     ? 'text-red-600' 
-                    : 'text-gray-600 hover:text-red-600'
+                    : 'text-gray-500 hover:text-gray-900'
                 }`}
               >
                 {link.name}
-                {isActivePath(link.path) && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-red-600 rounded-full" />
-                )}
+                <span className={`absolute -bottom-0.5 left-0 h-[1px] bg-red-600 transition-all duration-300 ${
+                  isActivePath(link.path) ? 'w-full' : 'w-0 group-hover:w-full'
+                }`} />
+                <span className={`absolute -bottom-0.5 left-0 h-[1px] bg-gray-400 transition-all duration-300 ${
+                  !isActivePath(link.path) ? 'w-0 hover:w-full' : 'w-0'
+                }`} style={{ transitionDelay: '0ms' }} />
               </Link>
             ))}
           </nav>
