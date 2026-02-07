@@ -572,7 +572,7 @@ export default function Home() {
                 fadeIn={fadeIn}
               />
             )})}
-          </div>
+          </div>}
           
           <div className="flex justify-center">
             <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10">
