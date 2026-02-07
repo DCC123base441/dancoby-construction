@@ -119,7 +119,7 @@ export default function Home() {
                         <p className="text-white/90 text-xs md:text-base uppercase tracking-wider mb-3">
                           Dancoby Construction Company
                         </p>
-                        <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
+                        <h1 className="text-3xl md:text-5xl font-serif text-white leading-tight mb-6">
                           Sophisticated, Customer-Centric Transformations
                         </h1>
                         <EstimatorButton size="large" />
