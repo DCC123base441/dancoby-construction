@@ -90,7 +90,7 @@ export default function Blog() {
                                             <span className="text-4xl font-serif italic opacity-20">Dancoby</span>
                                         </div>
                                     )}
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 z-20" />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
                                 </Link>
 
                                 {/* Content */}

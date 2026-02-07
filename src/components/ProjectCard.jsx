@@ -16,13 +16,13 @@ export default function ProjectCard({ project }) {
       whileHover={{ y: -8 }}
       className="group flex flex-col h-full"
     >
-      <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5] rounded-lg shadow-md group-hover:shadow-xl transition-shadow duration-300">
+      <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5] rounded-lg shadow-md group-hover:shadow-xl transition-shadow duration-700">
         <ImageWithLoader 
           src={project.mainImage}
           alt={project.title}
           className="w-full h-full object-cover group-hover:scale-[1.1] transition-transform duration-700"
         />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 z-20" />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
       </div>
 
       <div className="flex flex-col flex-1">

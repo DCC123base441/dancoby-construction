@@ -29,7 +29,7 @@ export default function ImageWithLoader({
         className={cn(
           "w-full h-full",
           className,
-          "transition-opacity duration-500",
+          "transition-all duration-700",
           isLoaded ? "opacity-100" : "opacity-0"
         )}
         onLoad={() => setIsLoaded(true)}
