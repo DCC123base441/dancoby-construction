@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Mail, MapPin, Instagram, Facebook } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import InstagramFollowPopup from './InstagramFollowPopup';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
+  const [showInstagramPopup, setShowInstagramPopup] = useState(false);
 
   const getLinkClass = (page) => {
     const path = createPageUrl(page);
@@ -30,14 +32,12 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <a 
-              href="https://www.instagram.com/dancobyconstruction" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <button 
+              onClick={() => setShowInstagramPopup(true)}
               className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all"
             >
               <Instagram className="w-4 h-4" />
-            </a>
+            </button>
             <a 
               href="https://www.facebook.com/dancobyconstruction" 
               target="_blank" 
@@ -199,6 +199,11 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      <InstagramFollowPopup 
+        isOpen={showInstagramPopup} 
+        onClose={() => setShowInstagramPopup(false)} 
+      />
     </footer>
   );
 }
