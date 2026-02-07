@@ -47,6 +47,7 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import About from './pages/About';
 import ActiveProjects from './pages/ActiveProjects';
 import AdminAnalytics from './pages/AdminAnalytics';
 import AdminBlog from './pages/AdminBlog';
@@ -61,16 +62,20 @@ import AdminShop from './pages/AdminShop';
 import AdminTestimonials from './pages/AdminTestimonials';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
+import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
+import Home from './pages/Home';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
+import Projects from './pages/Projects';
 import ServiceBrownstone from './pages/ServiceBrownstone';
 import ServiceInteriorRenovations from './pages/ServiceInteriorRenovations';
 import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
+import Services from './pages/Services';
 import Shop from './pages/Shop';
 import Step from './pages/Step';
 import StepBuilder from './pages/StepBuilder';
@@ -79,15 +84,11 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Home from './pages/Home';
-import Projects from './pages/Projects';
-import Services from './pages/Services';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "About": About,
     "ActiveProjects": ActiveProjects,
     "AdminAnalytics": AdminAnalytics,
     "AdminBlog": AdminBlog,
@@ -102,16 +103,20 @@ export const PAGES = {
     "AdminTestimonials": AdminTestimonials,
     "Blog": Blog,
     "BlogPost": BlogPost,
+    "Contact": Contact,
     "Estimator": Estimator,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
+    "Home": Home,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
+    "Projects": Projects,
     "ServiceBrownstone": ServiceBrownstone,
     "ServiceInteriorRenovations": ServiceInteriorRenovations,
     "ServiceKitchenBath": ServiceKitchenBath,
     "ServiceTownhouses": ServiceTownhouses,
+    "Services": Services,
     "Shop": Shop,
     "Step": Step,
     "StepBuilder": StepBuilder,
@@ -120,11 +125,6 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "About": About,
-    "Contact": Contact,
-    "Home": Home,
-    "Projects": Projects,
-    "Services": Services,
 }
 
 export const pagesConfig = {
