@@ -304,7 +304,7 @@ export default function ChatBot() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Ask about renovations..."
-                  className="flex-1 text-sm h-9 px-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  className="flex-1 text-base h-9 px-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                   disabled={isLoading}
                 />
                 <Button
