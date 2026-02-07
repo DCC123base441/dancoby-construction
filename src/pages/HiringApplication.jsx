@@ -316,7 +316,7 @@ export default function HiringApplication() {
 
               <div className="flex gap-8 justify-center items-center text-sm text-gray-400 mt-4">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="w-4 h-4 text-red-600" />
+                  <Shield className="w-4 h-4 text-green-600" />
                   Confidential
                 </span>
                 <span className="flex items-center gap-1.5">
