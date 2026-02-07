@@ -32,12 +32,14 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <button 
-              onClick={() => setShowInstagramPopup(true)}
+            <a 
+              href="https://www.instagram.com/dancobyconstruction"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all"
             >
               <Instagram className="w-4 h-4" />
-            </button>
+            </a>
             <a 
               href="https://www.facebook.com/dancobyconstruction" 
               target="_blank" 
