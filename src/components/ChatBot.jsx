@@ -253,13 +253,13 @@ export default function ChatBot() {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-2 space-y-2 bg-gray-50">
+              <div className="flex-1 overflow-y-auto px-2 py-1 space-y-1 bg-gray-50">
                 {messages.map((m, idx) => (
                   <div key={idx} className={`flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {m.role === 'assistant' && (
                       <img src={assistantImage} alt="AI" className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0" />
                     )}
-                    <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl ${
+                    <div className={`max-w-[80%] px-3 py-1.5 rounded-xl ${
                       m.role === 'user'
                         ? 'bg-red-600 text-white rounded-br-sm'
                         : 'bg-white text-gray-900 rounded-bl-sm shadow-sm border border-gray-100'
