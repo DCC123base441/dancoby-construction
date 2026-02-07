@@ -81,6 +81,18 @@ export default function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Lock body scroll when chat is open on mobile
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   // Show page-specific welcome automatically after 5 seconds (once per page per session)
   useEffect(() => {
     // Cleanup previous timer
