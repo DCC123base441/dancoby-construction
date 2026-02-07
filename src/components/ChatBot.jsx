@@ -295,12 +295,12 @@ export default function ChatBot() {
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-4 flex gap-2">
+            <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-3 flex gap-2 flex-shrink-0">
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask about renovations..."
-                className="text-sm"
+                className="text-sm min-w-0"
                 disabled={isLoading}
               />
               <Button
