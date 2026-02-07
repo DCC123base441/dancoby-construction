@@ -13,7 +13,6 @@ export default function ProjectCard({ project }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -8 }}
       className="group flex flex-col h-full"
     >
       <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5] rounded-lg shadow-md group-hover:shadow-xl transition-shadow duration-700">
