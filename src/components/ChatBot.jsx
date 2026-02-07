@@ -237,10 +237,10 @@ export default function ChatBot() {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
               className="fixed bottom-0 left-4 right-4 mx-auto max-w-sm md:bottom-6 md:right-6 md:left-auto md:mx-0 md:w-80 rounded-t-xl md:rounded-xl bg-white shadow-2xl border border-gray-200 flex flex-col md:pointer-events-auto"
-              style={{ 
-                height: `calc(${viewportHeight} - 60px)`,
-                maxHeight: `calc(${viewportHeight} - 60px)`,
-              }}
+                                  style={{ 
+                                    height: `min(400px, calc(${viewportHeight} - 60px))`,
+                                    maxHeight: `min(400px, calc(${viewportHeight} - 60px))`,
+                                  }}
             >
               {/* Handle bar for mobile */}
               <div className="md:hidden flex justify-center py-1 bg-gray-50 rounded-t-xl flex-shrink-0">
