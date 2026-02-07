@@ -71,79 +71,32 @@ export default function Home() {
         ogImage="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_90/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
       />
       {/* Hero Section */}
-              <section className="relative min-h-screen overflow-hidden bg-[#f8f7f5]">
-                {/* Background Images */}
-                <div className="absolute inset-0">
-                  {/* Top center image - shelf with clock */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[320px] h-[420px]">
-                    <img 
-                      src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=640&q=80"
-                      alt="Interior shelf"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  
-                  {/* Left lamp */}
-                  <div className="absolute left-[10%] top-[20%] w-24 h-32 opacity-30">
-                    <img 
-                      src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=200&q=80"
-                      alt="Lamp"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  
-                  {/* Right wall sconce */}
-                  <div className="absolute right-[15%] top-[25%] w-20 h-28 opacity-40">
-                    <img 
-                      src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=200&q=80"
-                      alt="Wall sconce"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  
-                  {/* Bottom sofa image */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[45%]">
-                    <img 
-                      src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1920&q=80"
-                      alt="Living room sofa"
-                      className="w-full h-full object-cover object-top"
-                    />
-                  </div>
-                </div>
+              <section className="relative h-screen overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg)` }}
+                />
+                <div className="absolute inset-0 bg-black/40" />
 
-                {/* Content */}
-                <div className="relative z-10 h-full min-h-screen flex items-center justify-center">
-                  <div className="text-center px-6 pt-32 pb-48">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6 }}
-                    >
-                      <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500 mb-6">
-                        New York's Premier Renovation Firm
-                      </p>
-                      <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-gray-900 leading-tight mb-4">
-                        Crafting Spaces
-                      </h1>
-                      <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-gray-900 leading-tight mb-8 italic">
-                        Worth Living In
-                      </h1>
-                      <p className="text-gray-600 text-base md:text-lg max-w-lg mx-auto mb-10 leading-relaxed">
-                        Over twenty years of transforming New York homes with thoughtful design, exceptional craftsmanship, and an unwavering commitment to your vision.
-                      </p>
-                      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Button asChild className="bg-[#3d3d3d] hover:bg-[#2d2d2d] text-white px-8 py-6 text-sm tracking-wider uppercase">
-                          <Link to={createPageUrl('Contact')}>
-                            Start Your Project <span className="ml-2">→</span>
-                          </Link>
-                        </Button>
-                        <Button asChild variant="outline" className="border-gray-400 text-gray-700 hover:bg-gray-100 px-8 py-6 text-sm tracking-wider uppercase">
-                          <Link to={createPageUrl('Projects')}>
-                            View Our Work
-                          </Link>
-                        </Button>
-                      </div>
-                    </motion.div>
+                <div className="relative z-10 h-full flex items-center">
+                  <div className="max-w-7xl mx-auto px-6 w-full">
+                    <div className="max-w-2xl">
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="-mt-48 max-w-md"
+                      >
+                        <div className="h-1 w-12 bg-red-600 mb-4" />
+                        <p className="text-white/90 text-xs md:text-base uppercase tracking-wider mb-3">
+                          Dancoby Construction Company
+                        </p>
+                        <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
+                          Sophisticated, Customer-Centric Transformations
+                        </h1>
+                        <EstimatorButton size="large" />
+                      </motion.div>
+                    </div>
                   </div>
                 </div>
               </section>
