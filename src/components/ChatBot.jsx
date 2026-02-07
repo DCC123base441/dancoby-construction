@@ -296,6 +296,17 @@ export default function ChatBot() {
                 <div ref={messagesEndRef} />
               </div>
 
+              {/* Live Agent Button */}
+              <div className="px-2 py-1.5 border-t border-gray-100 bg-gray-50 flex-shrink-0">
+                <Link 
+                  to={createPageUrl('Contact')}
+                  className="flex items-center justify-center gap-2 w-full py-1.5 text-xs text-gray-600 hover:text-red-600 transition-colors"
+                >
+                  <User className="w-3 h-3" />
+                  Speak to a Live Agent
+                </Link>
+              </div>
+
               {/* Input - stays fixed at bottom */}
               <form onSubmit={handleSendMessage} className="border-t border-gray-200 px-2 py-1.5 flex gap-2 bg-white flex-shrink-0">
                 <input
