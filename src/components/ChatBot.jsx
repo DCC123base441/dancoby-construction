@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
-import { X, Send, Loader, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { X, Send, Loader } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
@@ -295,17 +294,6 @@ export default function ChatBot() {
                   </div>
                 )}
                 <div ref={messagesEndRef} />
-              </div>
-
-              {/* Live Agent Button */}
-              <div className="px-2 py-1.5 border-t border-gray-100 bg-gray-50 flex-shrink-0">
-                <Link 
-                  to={createPageUrl('Contact')}
-                  className="flex items-center justify-center gap-2 w-full py-1.5 text-xs text-gray-600 hover:text-red-600 transition-colors"
-                >
-                  <User className="w-3 h-3" />
-                  Speak to a Live Agent
-                </Link>
               </div>
 
               {/* Input - stays fixed at bottom */}
