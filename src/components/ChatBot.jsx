@@ -103,16 +103,29 @@ export default function ChatBot() {
     };
   }, [currentPagePath, allChatMessages, isOpen]);
 
-  // Lock body scroll when open on mobile
+  const [viewportHeight, setViewportHeight] = useState('100dvh');
+
+  // Lock body scroll and handle keyboard resize
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      
+      const updateHeight = () => {
+        if (window.visualViewport) {
+          setViewportHeight(`${window.visualViewport.height}px`);
+        }
+      };
+      
+      updateHeight();
+      window.visualViewport?.addEventListener('resize', updateHeight);
+      
+      return () => {
+        document.body.style.overflow = '';
+        window.visualViewport?.removeEventListener('resize', updateHeight);
+      };
     } else {
       document.body.style.overflow = '';
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
   }, [isOpen]);
 
   const handleOpenChat = () => {
@@ -223,32 +236,32 @@ export default function ChatBot() {
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="absolute bottom-0 left-0 right-0 md:bottom-6 md:right-6 md:left-auto md:w-80 md:rounded-xl bg-white md:shadow-2xl md:border md:border-gray-200 flex flex-col md:pointer-events-auto"
+              className="fixed bottom-0 left-0 right-0 md:bottom-6 md:right-6 md:left-auto md:w-80 md:rounded-xl bg-white md:shadow-2xl md:border md:border-gray-200 flex flex-col md:pointer-events-auto"
               style={{ 
-                height: 'calc(100dvh - 60px)',
-                maxHeight: 'calc(100dvh - 60px)',
+                height: `calc(${viewportHeight} - 60px)`,
+                maxHeight: `calc(${viewportHeight} - 60px)`,
               }}
             >
               {/* Handle bar for mobile */}
-              <div className="md:hidden flex justify-center py-2 bg-gray-50 rounded-t-xl">
-                <div className="w-10 h-1 bg-gray-300 rounded-full" />
+              <div className="md:hidden flex justify-center py-1 bg-gray-50 rounded-t-xl flex-shrink-0">
+                <div className="w-8 h-1 bg-gray-300 rounded-full" />
               </div>
 
               {/* Header */}
-              <div className="bg-red-600 text-white py-3 px-4 flex items-center justify-between md:rounded-t-xl">
-                <div className="flex items-center gap-3">
+              <div className="bg-red-600 text-white py-2 px-3 flex items-center justify-between md:rounded-t-xl flex-shrink-0">
+                <div className="flex items-center gap-2">
                   <img
                     src={assistantImage}
                     alt="AI Assistant"
-                    className="w-10 h-10 rounded-full object-cover border-2 border-green-500"
+                    className="w-8 h-8 rounded-full object-cover border-2 border-green-500"
                   />
                   <div>
-                    <h3 className="font-semibold">Sarah</h3>
+                    <h3 className="font-semibold text-sm">Sarah</h3>
                     <p className="text-xs text-red-100">{isLoading ? 'Typing…' : 'AI Assistant'}</p>
                   </div>
                 </div>
-                <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-2 rounded-full">
-                  <X className="w-5 h-5" />
+                <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-1.5 rounded-full">
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
@@ -284,23 +297,23 @@ export default function ChatBot() {
               </div>
 
               {/* Input - stays fixed at bottom */}
-              <form onSubmit={handleSendMessage} className="border-t border-gray-200 px-3 py-2 flex gap-2 bg-white">
+              <form onSubmit={handleSendMessage} className="border-t border-gray-200 px-2 py-1.5 flex gap-2 bg-white flex-shrink-0">
                 <input
                   ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Ask about renovations..."
-                  className="flex-1 text-base h-11 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  className="flex-1 text-sm h-9 px-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                   disabled={isLoading}
                 />
                 <Button
                   type="submit"
                   size="icon"
-                  className="bg-red-600 hover:bg-red-700 text-white h-11 w-11 rounded-full flex-shrink-0"
+                  className="bg-red-600 hover:bg-red-700 text-white h-9 w-9 rounded-full flex-shrink-0"
                   disabled={isLoading || !inputValue.trim()}
                 >
-                  <Send className="w-5 h-5" />
+                  <Send className="w-4 h-4" />
                 </Button>
               </form>
             </motion.div>
