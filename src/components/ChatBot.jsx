@@ -46,6 +46,8 @@ export default function ChatBot() {
   // Refs
   const welcomeTimerRef = useRef(null);
   const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Load active messages from Admin
   useEffect(() => {
