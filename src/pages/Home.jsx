@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -13,6 +13,29 @@ import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
 
 export default function Home() {
+  const heroRef = useRef(null);
+  const awardsRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const { scrollYProgress: awardsScrollProgress } = useScroll({
+    target: awardsRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const { scrollYProgress: ctaScrollProgress } = useScroll({
+    target: ctaRef,
+    offset: ["start end", "end start"]
+  });
+
+  const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "30%"]);
+  const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
+  const awardsY = useTransform(awardsScrollProgress, [0, 1], ["0%", "20%"]);
+  const ctaY = useTransform(ctaScrollProgress, [0, 1], ["0%", "15%"]);
 
   const fadeIn = {
     initial: { opacity: 0, y: 30 },
@@ -71,10 +94,14 @@ export default function Home() {
         ogImage="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_90/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
       />
       {/* Hero Section */}
-              <section className="relative h-screen overflow-hidden">
-                <div 
+              <section ref={heroRef} className="relative h-screen overflow-hidden">
+                <motion.div 
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg)` }}
+                  style={{ 
+                    backgroundImage: `url(https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg)`,
+                    y: heroY,
+                    scale: heroScale
+                  }}
                 />
                 <div className="absolute inset-0 bg-black/40" />
 
@@ -251,8 +278,12 @@ export default function Home() {
       <TestimonialsSection />
 
       {/* Awards Banner */}
-      <section className="py-16 md:py-24 bg-stone-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section ref={awardsRef} className="py-16 md:py-24 bg-stone-900 relative overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-stone-800 to-stone-900"
+          style={{ y: awardsY }}
+        />
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <motion.div {...fadeIn} className="text-center">
             <h3 className="text-4xl md:text-5xl font-bold text-stone-50">
               3-Year Warranty on All Projects
@@ -599,8 +630,12 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 md:py-32 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section ref={ctaRef} className="py-20 md:py-32 bg-gray-900 text-white relative overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-t from-gray-800 to-gray-900"
+          style={{ y: ctaY }}
+        />
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
               Transform Your Space Into Something Extraordinary
