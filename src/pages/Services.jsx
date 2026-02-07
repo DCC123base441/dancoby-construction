@@ -111,7 +111,7 @@ export default function Services() {
                       alt={service.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 z-20" />
                   </div>
 
                   <div className="space-y-4">

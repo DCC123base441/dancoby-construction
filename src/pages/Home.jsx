@@ -227,7 +227,7 @@ export default function Home() {
                             alt={service.title}
                             className="w-full aspect-[3/4] object-cover group-hover:scale-110 transition-transform duration-700"
                           />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 z-20" />
                         </div>
                         <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{service.title}</h4>
                         <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
@@ -335,7 +335,7 @@ export default function Home() {
                         alt={project.logo}
                         className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 z-20" />
                     </>
                   )}
                 </Link>
@@ -551,7 +551,7 @@ export default function Home() {
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 z-10" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 z-20" />
                   <div className="absolute top-4 right-4 bg-white/95 p-4 min-w-[160px] shadow-sm backdrop-blur-sm">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-[10px] font-bold tracking-widest uppercase text-gray-500">Progress</span>
