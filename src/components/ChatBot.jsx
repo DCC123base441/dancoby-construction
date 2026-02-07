@@ -243,31 +243,28 @@ export default function ChatBot() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-96 h-[50vh] sm:h-auto sm:max-h-[600px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
-            style={{
-              position: 'fixed',
-            }}
+            className="fixed bottom-20 right-2 left-2 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-80 h-[45vh] sm:h-auto sm:max-h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
           >
             {/* Header */}
-            <div className="bg-red-600 text-white p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="bg-red-600 text-white p-2 flex items-center justify-between">
+              <div className="flex items-center gap-2">
                 <img
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
                   alt="AI Assistant"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-green-500"
+                  className="w-8 h-8 rounded-full object-cover border-2 border-green-500"
                 />
                 <div>
-                  <h3 className="font-semibold">Sarah</h3>
-                  <p className="text-xs text-red-100">{isLoading ? 'Speaking…' : 'AI Assistant'}</p>
+                  <h3 className="font-semibold text-sm">Sarah</h3>
+                  <p className="text-[10px] text-red-100">{isLoading ? 'Speaking…' : 'AI Assistant'}</p>
                 </div>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-1 rounded">
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-2 space-y-2">
               {messages.map((m, idx) => (
                 <div
                   key={idx}
@@ -302,21 +299,21 @@ export default function ChatBot() {
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-4 flex gap-2">
+            <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-2 flex gap-2">
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask about renovations..."
-                className="text-sm"
+                className="text-xs h-8"
                 disabled={isLoading}
               />
               <Button
                 type="submit"
                 size="icon"
-                className="bg-red-600 hover:bg-red-700 text-white"
+                className="bg-red-600 hover:bg-red-700 text-white h-8 w-8"
                 disabled={isLoading || !inputValue.trim()}
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-3 h-3" />
               </Button>
             </form>
           </motion.div>
