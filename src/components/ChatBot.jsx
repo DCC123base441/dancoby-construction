@@ -368,6 +368,7 @@ export default function ChatBot() {
               className="border-t border-gray-200 p-3 flex gap-2 flex-shrink-0 bg-white rounded-b-lg"
             >
               <Input
+                ref={inputRef}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask about renovations..."
