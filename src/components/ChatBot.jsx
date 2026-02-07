@@ -84,6 +84,23 @@ export default function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Handle mobile keyboard resize
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+
+    const handleResize = () => {
+      setViewportHeight(viewport.height);
+    };
+
+    viewport.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => viewport.removeEventListener('resize', handleResize);
+  }, [isOpen]);
+
   // Show page-specific welcome automatically after 5 seconds (once per page per session)
   useEffect(() => {
     // Cleanup previous timer
