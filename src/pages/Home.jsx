@@ -71,83 +71,75 @@ export default function Home() {
         ogImage="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_90/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
       />
       {/* Hero Section */}
-      <section className="relative min-h-screen bg-[#f9f8f6] overflow-hidden">
-        {/* Background Images - Decorative */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Left decorative image */}
-          <motion.div 
-            className="absolute left-0 top-20 w-[25%] h-[60%] hidden lg:block"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 0.9, x: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-          >
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
-              alt=""
-              className="w-full h-full object-cover opacity-60"
-            />
-          </motion.div>
-          
-          {/* Right decorative image */}
-          <motion.div 
-            className="absolute right-0 top-10 w-[30%] h-[70%] hidden lg:block"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
-              alt=""
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-        </div>
+      <section className="relative min-h-screen bg-[#faf9f7] overflow-hidden">
+        {/* Center Image - Shelf/Cabinet */}
+        <motion.div 
+          className="absolute top-16 left-1/2 -translate-x-1/2 w-[280px] md:w-[320px] h-[420px] md:h-[480px] z-0 hidden md:block"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+        >
+          <img 
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
 
-        {/* Main Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 min-h-screen flex items-center">
-          <div className="w-full lg:w-[55%] py-32 lg:py-0">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <p className="text-xs tracking-[0.25em] uppercase text-gray-500 mb-6 font-medium">
-                New York's Premier Renovation Firm
-              </p>
-              
-              <h1 className="text-5xl md:text-6xl lg:text-7xl text-gray-900 leading-[1.1] mb-3 font-light">
-                Crafting Spaces
-              </h1>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl text-gray-900 leading-[1.1] mb-8 font-light">
-                <span className="italic font-serif">Worth Living In</span>
-              </h1>
-              
-              <p className="text-gray-600 text-lg md:text-xl font-light max-w-lg mb-10 leading-relaxed">
-                Over twenty years of transforming New York homes with thoughtful design, exceptional craftsmanship, and an unwavering commitment to your vision.
-              </p>
+        {/* Right decorative sconce/light */}
+        <motion.div 
+          className="absolute right-[15%] top-[35%] w-[80px] h-[120px] z-0 hidden lg:block"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.9 }}
+          transition={{ duration: 1, delay: 0.6 }}
+        >
+          <div className="w-16 h-16 rounded-full bg-[#e8e4dc] shadow-lg" />
+        </motion.div>
 
-              <div className="flex flex-col sm:flex-row items-start gap-4">
-                <Link to={createPageUrl('Contact')}>
-                  <Button className="bg-[#3d3d3d] hover:bg-[#2d2d2d] text-white px-8 py-6 text-sm tracking-widest uppercase font-medium min-w-[220px] rounded-none flex items-center gap-2">
-                    Start Your Project
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </Button>
-                </Link>
-                <Link to={createPageUrl('Projects')}>
-                  <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-100 px-8 py-6 text-sm tracking-widest uppercase font-medium min-w-[220px] rounded-none bg-transparent">
-                    View Our Work
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-          </div>
+        {/* Main Content - Centered */}
+        <div className="relative z-10 max-w-4xl mx-auto px-6 min-h-screen flex flex-col items-center justify-center text-center pt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-[280px] md:mt-[320px]"
+          >
+            <p className="text-[11px] tracking-[0.3em] uppercase text-gray-500 mb-6 font-medium">
+              New York's Premier Renovation Firm
+            </p>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 leading-[1.15] mb-1 font-normal tracking-tight">
+              Crafting Spaces
+            </h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 leading-[1.15] mb-8 font-normal tracking-tight">
+              <span className="italic font-serif">Worth Living In</span>
+            </h1>
+            
+            <p className="text-gray-600 text-base md:text-lg font-light max-w-md mx-auto mb-10 leading-relaxed">
+              Over twenty years of transforming New York homes with thoughtful design, exceptional craftsmanship, and an unwavering commitment to your vision.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link to={createPageUrl('Contact')}>
+                <Button className="bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white px-8 py-5 text-xs tracking-[0.2em] uppercase font-medium min-w-[200px] rounded-none flex items-center gap-3">
+                  Start Your Project
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Button>
+              </Link>
+              <Link to={createPageUrl('Projects')}>
+                <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-100 px-8 py-5 text-xs tracking-[0.2em] uppercase font-medium min-w-[200px] rounded-none bg-transparent">
+                  View Our Work
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
 
         {/* Bottom Image Strip */}
         <motion.div 
-          className="absolute bottom-0 left-0 right-0 h-[35%] lg:h-[40%]"
+          className="absolute bottom-0 left-0 right-0 h-[30%] md:h-[35%]"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.7 }}
@@ -155,7 +147,7 @@ export default function Home() {
           <img 
             src="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_800,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
             alt="Elegant living space"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-top"
           />
         </motion.div>
       </section>
