@@ -336,6 +336,7 @@ export default function ChatBot() {
               </Button>
             </form>
           </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
