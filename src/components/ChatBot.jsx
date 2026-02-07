@@ -6,6 +6,12 @@ import { base44 } from '@/api/base44Client';
 import { X, Send, Loader } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 // Helper to normalize paths from Admin settings and current route
 function normalizeTargetPage(input) {
@@ -14,14 +20,10 @@ function normalizeTargetPage(input) {
   if (!p) return '';
   if (p === 'all') return 'all';
 
-  // Treat Home special-cases
   const lower = p.toLowerCase();
   if (lower === 'home' || lower === '/home') return '/';
 
-  // Ensure leading slash
   if (!p.startsWith('/')) p = `/${p}`;
-
-  // Remove trailing slash except root
   if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
 
   return p;
@@ -30,25 +32,17 @@ function normalizeTargetPage(input) {
 export default function ChatBot() {
   const location = useLocation();
 
-  // State
   const [isOpen, setIsOpen] = useState(false);
-  const [allChatMessages, setAllChatMessages] = useState([]); // active messages from Admin
-  const [messages, setMessages] = useState([]); // chat transcript
+  const [allChatMessages, setAllChatMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
   const [currentPagePath, setCurrentPagePath] = useState('');
-
-  // Welcome bubble state
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleMessage, setBubbleMessage] = useState('');
 
-  // Refs
   const welcomeTimerRef = useRef(null);
   const messagesEndRef = useRef(null);
-  const chatContainerRef = useRef(null);
-  
-
 
   // Load active messages from Admin
   useEffect(() => {
@@ -64,7 +58,7 @@ export default function ChatBot() {
     load();
   }, []);
 
-  // Track current page (normalized) and reset any pending bubble/timers
+  // Track current page and reset
   useEffect(() => {
     setCurrentPagePath(normalizeTargetPage(location.pathname));
     setShowBubble(false);
@@ -73,51 +67,18 @@ export default function ChatBot() {
       clearTimeout(welcomeTimerRef.current);
       welcomeTimerRef.current = null;
     }
-    // Reset transcript on navigation so page-specific welcome can seed correctly
     if (!isOpen) {
       setMessages([]);
     }
   }, [location.pathname]);
 
-  // Scroll-to-bottom on new messages
+  // Scroll to bottom on new messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Fix for mobile keyboard - keep chat positioned above keyboard
+  // Show page-specific welcome after 5 seconds
   useEffect(() => {
-    if (!isOpen) return;
-
-    const handleViewportResize = () => {
-      if (chatContainerRef.current && window.visualViewport) {
-        const viewport = window.visualViewport;
-        const bottomOffset = window.innerHeight - viewport.height - viewport.offsetTop;
-        chatContainerRef.current.style.bottom = `${Math.max(bottomOffset + 8, 80)}px`;
-        // Scroll input into view
-        setTimeout(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-    };
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', handleViewportResize);
-      window.visualViewport.addEventListener('scroll', handleViewportResize);
-    }
-
-    return () => {
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', handleViewportResize);
-        window.visualViewport.removeEventListener('scroll', handleViewportResize);
-      }
-    };
-  }, [isOpen]);
-
-
-
-  // Show page-specific welcome automatically after 5 seconds (once per page per session)
-  useEffect(() => {
-    // Cleanup previous timer
     if (welcomeTimerRef.current) {
       clearTimeout(welcomeTimerRef.current);
       welcomeTimerRef.current = null;
@@ -135,20 +96,17 @@ export default function ChatBot() {
     const welcomeMsg = specificWelcome || genericWelcome;
     if (!welcomeMsg) return;
 
-    // Use versioned key to avoid stale sessions from previous implementations
     const sessionKey = `cb_v3_welcome_${currentPagePath}`;
     const alreadyShown = sessionStorage.getItem(sessionKey);
     if (alreadyShown) return;
 
     welcomeTimerRef.current = setTimeout(() => {
       if (isOpen) {
-        // If chat is open, inject message directly
         setMessages((prev) => [
           ...prev,
           { role: 'assistant', content: welcomeMsg.content },
         ]);
       } else {
-        // Otherwise, show a bubble and seed content when clicked
         setBubbleMessage(welcomeMsg.content);
         setShowBubble(true);
       }
@@ -168,7 +126,6 @@ export default function ChatBot() {
     setShowBubble(false);
 
     if (messages.length === 0) {
-      // Seed chat with the correct welcome for the current page
       const specificWelcome = allChatMessages.find(
         (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath
       );
@@ -192,7 +149,6 @@ export default function ChatBot() {
     setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setInputValue('');
 
-    // Secret phrase behavior retained
     const lower = userMessage.toLowerCase();
     if (lower.includes("whats cooking") || lower.includes("what's cooking")) {
       window.location.href = createPageUrl('Secret');
@@ -219,6 +175,8 @@ export default function ChatBot() {
       setIsLoading(false);
     }
   };
+
+  const assistantImage = "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200";
 
   return (
     <>
@@ -258,7 +216,7 @@ export default function ChatBot() {
             className="fixed bottom-24 md:bottom-6 right-6 z-40 w-16 h-16 bg-white rounded-full shadow-xl flex items-center justify-center transition-all overflow-hidden border-2 border-green-500 p-0.5"
           >
             <img
-              src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200"
+              src={assistantImage}
               alt="AI Assistant"
               className="w-full h-full rounded-full object-cover hover:scale-110 transition-transform duration-300"
             />
@@ -266,95 +224,90 @@ export default function ChatBot() {
         )}
       </AnimatePresence>
 
-      {/* Chat Window */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={chatContainerRef}
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-80 bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
-            style={{
-              bottom: '80px',
-              height: '280px',
-              maxHeight: 'calc(100dvh - 100px)',
-            }}
-          >
-            {/* Header */}
-            <div className="bg-red-600 text-white p-2 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <img
-                  src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
-                  alt="AI Assistant"
-                  className="w-8 h-8 rounded-full object-cover border-2 border-green-500"
-                />
-                <div>
-                  <h3 className="font-semibold text-sm">Sarah</h3>
-                  <p className="text-[10px] text-red-100">{isLoading ? 'Speaking…' : 'AI Assistant'}</p>
+      {/* Chat Drawer - Mobile friendly */}
+      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+        <DrawerContent className="max-h-[85dvh] flex flex-col">
+          <DrawerHeader className="bg-red-600 text-white py-3 px-4 flex items-center justify-between rounded-t-lg">
+            <div className="flex items-center gap-3">
+              <img
+                src={assistantImage}
+                alt="AI Assistant"
+                className="w-10 h-10 rounded-full object-cover border-2 border-green-500"
+              />
+              <div>
+                <DrawerTitle className="text-white font-semibold text-base">Sarah</DrawerTitle>
+                <p className="text-xs text-red-100">{isLoading ? 'Typing…' : 'AI Assistant'}</p>
+              </div>
+            </div>
+            <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-2 rounded-full">
+              <X className="w-5 h-5" />
+            </button>
+          </DrawerHeader>
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+            {messages.map((m, idx) => (
+              <div
+                key={idx}
+                className={`flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                {m.role === 'assistant' && (
+                  <img
+                    src={assistantImage}
+                    alt="AI"
+                    className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0"
+                  />
+                )}
+                <div
+                  className={`max-w-[80%] px-4 py-2.5 rounded-2xl ${
+                    m.role === 'user'
+                      ? 'bg-red-600 text-white rounded-br-sm'
+                      : 'bg-white text-gray-900 rounded-bl-sm shadow-sm border border-gray-100'
+                  }`}
+                >
+                  <p className="text-sm leading-relaxed">{m.content}</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-1 rounded">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-2 space-y-2">
-              {messages.map((m, idx) => (
-                <div
-                  key={idx}
-                  className={`flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  {m.role === 'assistant' && (
-                    <img
-                      src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
-                      alt="AI"
-                      className="w-6 h-6 rounded-full object-cover mb-1 flex-shrink-0"
-                    />
-                  )}
-                  <div
-                    className={`max-w-xs px-4 py-2 rounded-2xl ${
-                      m.role === 'user'
-                        ? 'bg-red-600 text-white rounded-br-none'
-                        : 'bg-gray-100 text-gray-900 rounded-bl-none'
-                    }`}
-                  >
-                    <p className="text-sm leading-relaxed">{m.content}</p>
+            ))}
+            {isLoading && (
+              <div className="flex justify-start items-end gap-2">
+                <img
+                  src={assistantImage}
+                  alt="AI"
+                  className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0"
+                />
+                <div className="bg-white text-gray-900 px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
+                  <div className="flex gap-1">
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-gray-100 text-gray-900 px-4 py-2 rounded-lg">
-                    <Loader className="w-4 h-4 animate-spin" />
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
 
-            {/* Input */}
-            <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-2 flex gap-2">
-              <Input
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask about renovations..."
-                className="text-xs h-8"
-                disabled={isLoading}
-              />
-              <Button
-                type="submit"
-                size="icon"
-                className="bg-red-600 hover:bg-red-700 text-white h-8 w-8"
-                disabled={isLoading || !inputValue.trim()}
-              >
-                <Send className="w-3 h-3" />
-              </Button>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {/* Input */}
+          <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-3 flex gap-2 bg-white">
+            <Input
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Ask about renovations..."
+              className="flex-1 text-base h-11"
+              disabled={isLoading}
+            />
+            <Button
+              type="submit"
+              size="icon"
+              className="bg-red-600 hover:bg-red-700 text-white h-11 w-11 rounded-full"
+              disabled={isLoading || !inputValue.trim()}
+            >
+              <Send className="w-5 h-5" />
+            </Button>
+          </form>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
