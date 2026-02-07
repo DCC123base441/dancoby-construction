@@ -53,41 +53,12 @@ export default function Home() {
     queryFn: () => base44.entities.CurrentProject.list('order'),
   });
 
-  // Fallback if no projects in DB yet
-  const displayProjects = currentProjects.length > 0 ? currentProjects : [
-    {
-      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/78deec984_Photo12.jpg",
-      status: 50,
-      title: "Entire Home",
-      location: "Hewlett Harbor, New York",
-      description: "Full-scale renovation featuring custom millwork, marble bathrooms, and smart home integration.",
-      featuredOnHome: true
-    },
-    {
-      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/2c339618d_Photo9.jpg",
-      status: 60,
-      title: "Townhouse Renovation",
-      location: "Greenpoint, Brooklyn",
-      description: "Contemporary kitchen design with premium custom cabinetry.",
-      featuredOnHome: true
-    },
-    {
-      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/b3aa5d359_Photo5.jpg",
-      status: 95,
-      title: "Mudroom Addition",
-      location: "Woodmere, New York",
-      description: "Mudroom addition and powder room.",
-      featuredOnHome: false
-    },
-    {
-      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697acd732615bf21166f211d/bd8398692_Photo51.jpg",
-      status: 25,
-      title: "Entire Home",
-      location: "Hewlett, New York",
-      description: "Full home renovation featuring luxury baths.",
-      featuredOnHome: false
-    }
-  ];
+  const { data: featuredProjects = [], isLoading: isLoadingFeatured } = useQuery({
+    queryKey: ['featuredProjects'],
+    queryFn: () => base44.entities.Project.filter({ featured: true }, 'order', 4),
+  });
+
+  const homeProjects = currentProjects.filter(p => p.featuredOnHome);
 
   return (
     <main className="min-h-screen bg-white">
@@ -324,75 +295,60 @@ export default function Home() {
       {/* Featured Projects Grid */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { id: "697c5e88074fc8d96b14a823", title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
-              { id: "697cede5ec09b851f1e8fe80", title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
-              { id: "697d0e3c6291ff1c55121181", title: "Modern hotel spa inspired suite with marble flooring and walnut accent paneling", logo: "Hotel Inspired Suite", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
-              { id: "697cede5ec09b851f1e8fe80", title: "Elegant Kitchen Renovation with Custom Cabinetry", logo: "Kitchen Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }
-            ].map((project, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group flex flex-col h-full"
-              >
-                <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
-                  {project.beforeImage ? (
-                    <div className="relative w-full h-96">
-                      <img 
-                        src={project.image}
-                        alt={project.logo}
-                        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                      />
-                      <img 
-                        src={project.beforeImage}
-                        alt={`${project.logo} - Before`}
-                        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      <img 
-                        src={project.image}
-                        alt={project.logo}
-                        className="w-full h-96 object-cover group-hover:scale-[1.1] transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
-                    </>
-                  )}
-                </Link>
+          {isLoadingFeatured ? <FeaturedProjectsSkeleton /> : featuredProjects.length > 0 ? (
+                <>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {featuredProjects.map((project, idx) => (
+                      <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: idx * 0.1 }}
+                        className="group flex flex-col h-full"
+                      >
+                        <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
+                          <img 
+                            src={project.mainImage || (project.images && project.images[0])}
+                            alt={project.logoText || project.title}
+                            className="w-full h-96 object-cover group-hover:scale-[1.1] transition-transform duration-700"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
+                        </Link>
 
-                <div className="flex flex-col flex-1">
-                  <div className="h-12 flex items-center">
-                    <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                      {project.logo}
-                    </div>
+                        <div className="flex flex-col flex-1">
+                          <div className="h-12 flex items-center">
+                            <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                              {project.logoText || project.category}
+                            </div>
+                          </div>
+                          <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
+                            <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="hover:text-red-600 transition-colors">
+                              {project.title}
+                            </Link>
+                          </h3>
+                          <div className="mt-auto">
+                            <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
+                              <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
+                                View Project
+                              </Link>
+                            </Button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
-                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="hover:text-red-600 transition-colors">
-                      {project.title}
-                    </Link>
-                  </h3>
-                  <div className="mt-auto">
-                    <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
-                      <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-                        View Project
-                      </Link>
+
+                  <div className="text-center mt-16">
+                    <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10">
+                      <Link to={createPageUrl('Projects')}>Featured Projects</Link>
                     </Button>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center mt-16">
-            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10">
-              <Link to={createPageUrl('Projects')}>Featured Projects</Link>
-            </Button>
-          </div>
+                </>
+              ) : (
+                <p className="text-center text-gray-500">No featured projects to display right now.</p>
+              )}
         </div>
       </section>
 
@@ -547,38 +503,45 @@ export default function Home() {
 
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          {isLoadingProjects ? <CurrentProjectsSkeleton /> : (<div className="grid md:grid-cols-2 gap-12 mb-16">
-            {displayProjects.filter(p => p.featuredOnHome).map((project, idx) => {
-              const status = parseInt(project.status);
-              const getColor = () => {
-                if (status >= 80) return "text-green-600";
-                if (status >= 40) return "text-yellow-500";
-                return "text-red-600";
-              };
-              const getBgColor = () => {
-                if (status >= 80) return "bg-green-600";
-                if (status >= 40) return "bg-yellow-500";
-                return "bg-red-600";
-              };
+          {isLoadingProjects ? <CurrentProjectsSkeleton /> : homeProjects.length > 0 ? (
+            <div className="grid md:grid-cols-2 gap-12 mb-16">
+              {homeProjects.map((project, idx) => {
+                const status = parseInt(project.status);
+                const getColor = () => {
+                  if (status >= 80) return "text-green-600";
+                  if (status >= 40) return "text-yellow-500";
+                  return "text-red-600";
+                };
+                const getBgColor = () => {
+                  if (status >= 80) return "bg-green-600";
+                  if (status >= 40) return "bg-yellow-500";
+                  return "bg-red-600";
+                };
 
-              return (
-              <CurrentProjectCard
-                key={idx}
-                project={project}
-                idx={idx}
-                status={status}
-                getColor={getColor}
-                getBgColor={getBgColor}
-                fadeIn={fadeIn}
-              />
-            )})}
-          </div>)}
-          
-          <div className="flex justify-center">
-            <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10">
-                <Link to={createPageUrl('ActiveProjects')}>See More</Link>
-            </Button>
-          </div>
+                return (
+                  <CurrentProjectCard
+                    key={idx}
+                    project={project}
+                    idx={idx}
+                    status={status}
+                    getColor={getColor}
+                    getBgColor={getBgColor}
+                    fadeIn={fadeIn}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500 mb-16">No active projects to display right now.</p>
+          )}
+
+          {!isLoadingProjects && homeProjects.length > 0 && (
+            <div className="flex justify-center">
+              <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10">
+                  <Link to={createPageUrl('ActiveProjects')}>See More</Link>
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
