@@ -547,7 +547,7 @@ export default function Home() {
 
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
+          {isLoadingProjects ? <CurrentProjectsSkeleton /> : <div className="grid md:grid-cols-2 gap-12 mb-16">
             {displayProjects.filter(p => p.featuredOnHome).map((project, idx) => {
               const status = parseInt(project.status);
               const getColor = () => {
