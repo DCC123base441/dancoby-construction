@@ -322,23 +322,23 @@ export default function ChatBot() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input - Fixed at bottom with safe area padding */}
+            {/* Input */}
             <form 
               onSubmit={handleSendMessage} 
-              className="border-t border-gray-200 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-2 flex-shrink-0 bg-white"
+              className="border-t border-gray-200 p-3 flex gap-2 flex-shrink-0 bg-white rounded-b-lg"
             >
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask about renovations..."
-                className="text-base min-w-0 flex-1 h-11"
+                className="text-base min-w-0 flex-1 h-10"
                 disabled={isLoading}
                 style={{ fontSize: '16px' }}
               />
               <Button
                 type="submit"
                 size="icon"
-                className="bg-red-600 hover:bg-red-700 text-white flex-shrink-0 h-11 w-11"
+                className="bg-red-600 hover:bg-red-700 text-white flex-shrink-0 h-10 w-10"
                 disabled={isLoading || !inputValue.trim()}
               >
                 <Send className="w-4 h-4" />
