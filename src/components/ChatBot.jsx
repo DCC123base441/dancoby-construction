@@ -236,7 +236,7 @@ export default function ChatBot() {
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="fixed bottom-0 left-0 right-0 md:bottom-6 md:right-6 md:left-auto md:w-80 md:rounded-xl bg-white md:shadow-2xl md:border md:border-gray-200 flex flex-col md:pointer-events-auto"
+              className="fixed bottom-0 left-2 right-2 md:bottom-6 md:right-6 md:left-auto md:w-80 rounded-t-xl md:rounded-xl bg-white shadow-2xl border border-gray-200 flex flex-col md:pointer-events-auto"
               style={{ 
                 height: `calc(${viewportHeight} - 60px)`,
                 maxHeight: `calc(${viewportHeight} - 60px)`,
