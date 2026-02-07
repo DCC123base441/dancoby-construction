@@ -11,6 +11,7 @@ import VibrantExternalLink from '../components/VibrantExternalLink';
 import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
+import ServicesParallaxSection from '../components/ServicesParallaxSection';
 import TrustBadges from '../components/TrustBadges';
 
 export default function Home() {
