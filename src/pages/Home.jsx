@@ -11,6 +11,7 @@ import VibrantExternalLink from '../components/VibrantExternalLink';
 import TestimonialsSection from '../components/TestimonialsSection';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEOHead from '../components/SEOHead';
+import TrustBadges from '../components/TrustBadges';
 
 export default function Home() {
   const heroRef = useRef(null);
@@ -273,6 +274,9 @@ export default function Home() {
                 </div>
               </div>
             </section>
+
+      {/* Trust Badges */}
+      <TrustBadges />
 
       {/* Testimonials Section */}
       <TestimonialsSection />

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check, ShieldAlert, Loader2, Instagram, Facebook } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import TrustBadges from '../components/TrustBadges';
 import { base44 } from '@/api/base44Client';
 
 export default function Contact() {
@@ -478,6 +479,10 @@ export default function Contact() {
                   <Clock className="w-4 h-4 text-red-600" />
                   Response in 24hrs
                 </span>
+              </div>
+
+              <div className="mt-6 pt-6 border-t border-gray-100">
+                <TrustBadges variant="minimal" />
               </div>
             </form>
           </div>
