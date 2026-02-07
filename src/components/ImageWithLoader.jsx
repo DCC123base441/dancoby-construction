@@ -12,10 +12,10 @@ export default function ImageWithLoader({
   const [hasError, setHasError] = useState(false);
 
   return (
-    <div className={cn("relative overflow-hidden", containerClassName)}>
+    <div className={cn("relative overflow-hidden w-full h-full", containerClassName)}>
       {/* Skeleton placeholder */}
       {!isLoaded && !hasError && (
-        <div className={cn("absolute inset-0 bg-gray-200", className)}>
+        <div className="absolute inset-0 bg-gray-200">
           <div 
             className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse"
           />
@@ -27,6 +27,7 @@ export default function ImageWithLoader({
         src={src}
         alt={alt}
         className={cn(
+          "w-full h-full",
           className,
           "transition-opacity duration-500",
           isLoaded ? "opacity-100" : "opacity-0"
@@ -39,7 +40,7 @@ export default function ImageWithLoader({
 
       {/* Error state */}
       {hasError && (
-        <div className={cn("absolute inset-0 bg-gray-100 flex items-center justify-center", className)}>
+        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
           <span className="text-gray-400 text-sm">Image unavailable</span>
         </div>
       )}
