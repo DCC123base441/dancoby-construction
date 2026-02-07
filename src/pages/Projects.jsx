@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -13,6 +13,14 @@ import SEOHead from '../components/SEOHead';
 export default function Projects() {
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('curated');
+  
+  const heroRef = useRef(null);
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "30%"]);
+  const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
 
   const { data: projects = [], isLoading } = useQuery({
     queryKey: ['projects'],
@@ -53,13 +61,17 @@ export default function Projects() {
       />
       {/* Hero Section */}
       <section 
+        ref={heroRef}
         className="relative h-[40vh] md:h-[60vh] flex items-center justify-center overflow-hidden"
-        style={{
-          backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.77,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
       >
+        <motion.div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.77,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg)',
+            y: heroY,
+            scale: heroScale
+          }}
+        />
         <div className="absolute inset-0 bg-black/40" />
         <motion.div
           initial={{ opacity: 0, y: 20 }}

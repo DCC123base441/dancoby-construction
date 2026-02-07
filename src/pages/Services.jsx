@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -7,6 +7,23 @@ import { ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 
 export default function Services() {
+  const heroRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const { scrollYProgress: ctaScrollProgress } = useScroll({
+    target: ctaRef,
+    offset: ["start end", "end start"]
+  });
+
+  const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "30%"]);
+  const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
+  const ctaY = useTransform(ctaScrollProgress, [0, 1], ["0%", "15%"]);
+
   const fadeIn = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
@@ -53,11 +70,13 @@ export default function Services() {
         keywords="kitchen remodeling Brooklyn, bathroom renovation NYC, brownstone restoration Brooklyn, townhouse renovation, interior design contractor, home improvement NYC"
       />
       {/* Hero Section */}
-      <section className="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
-        <div 
+      <section ref={heroRef} className="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
+        <motion.div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/a1e1431e0_generated_image.png)'
+            backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/a1e1431e0_generated_image.png)',
+            y: heroY,
+            scale: heroScale
           }}
         />
         <div className="absolute inset-0 bg-black/40" />
@@ -131,8 +150,12 @@ export default function Services() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-32 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section ref={ctaRef} className="py-16 md:py-32 bg-gray-900 text-white relative overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-t from-gray-800 to-gray-900"
+          style={{ y: ctaY }}
+        />
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to Start Your Project?</h2>
             <p className="text-xl text-gray-300 mb-12">

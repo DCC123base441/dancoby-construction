@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Phone, MessageSquare, Mail, Clock, MapPin, Shield, Check, ShieldAlert, Loader2, Instagram, Facebook } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import { base44 } from '@/api/base44Client';
@@ -6,6 +7,13 @@ import { base44 } from '@/api/base44Client';
 export default function Contact() {
   const [fileError, setFileError] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
+  
+  const heroRef = useRef(null);
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "20%"]);
   
   // Form State
   const [formData, setFormData] = useState({
@@ -188,8 +196,12 @@ export default function Contact() {
       `}</style>
 
       {/* Hero */}
-      <div className="bg-white py-16 md:py-24 px-6">
-        <div className="max-w-6xl mx-auto">
+      <div ref={heroRef} className="bg-white py-16 md:py-24 px-6 relative overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white"
+          style={{ y: heroY }}
+        />
+        <div className="max-w-6xl mx-auto relative z-10">
           <h1 className="text-4xl md:text-5xl font-serif mb-5 text-gray-900">Contact Us</h1>
           <p className="text-lg text-gray-600 max-w-3xl leading-relaxed">
             Planning a major renovation? Whether it's a complete home transformation, high-end kitchen or bathroom remodel, or a comprehensive brownstone restoration, we specialize in large-scale projects that require expert craftsmanship and meticulous attention to detail.

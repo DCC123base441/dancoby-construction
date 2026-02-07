@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
@@ -8,6 +9,30 @@ import EstimatorButton from '../components/EstimatorButton';
 import SEOHead from '../components/SEOHead';
 
 export default function About() {
+  const heroRef = useRef(null);
+  const bathroomRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const { scrollYProgress: bathroomScrollProgress } = useScroll({
+    target: bathroomRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const { scrollYProgress: ctaScrollProgress } = useScroll({
+    target: ctaRef,
+    offset: ["start end", "end start"]
+  });
+
+  const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "30%"]);
+  const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
+  const bathroomY = useTransform(bathroomScrollProgress, [0, 1], ["-10%", "10%"]);
+  const ctaY = useTransform(ctaScrollProgress, [0, 1], ["0%", "15%"]);
+
   return (
     <main className="min-h-screen bg-white">
       <SEOHead 
@@ -17,13 +42,17 @@ export default function About() {
       />
       {/* Hero Section */}
       <section 
+        ref={heroRef}
         className="relative min-h-[60vh] flex items-center justify-center py-24 overflow-hidden"
-        style={{
-          backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_1920,h_1080,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
       >
+        <motion.div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_1920,h_1080,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg)',
+            y: heroY,
+            scale: heroScale
+          }}
+        />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">More Than Just Remodelers</h1>
@@ -98,11 +127,12 @@ export default function About() {
       </section>
 
       {/* Bathroom Image Section */}
-      <section className="py-0">
-        <img 
+      <section ref={bathroomRef} className="py-0 overflow-hidden h-[500px]">
+        <motion.img 
           src="https://static.wixstatic.com/media/c1b522_4f61cdea0afd4a25baa42f7f902c624e~mv2.jpeg/v1/fill/w_1920,h_629,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_4f61cdea0afd4a25baa42f7f902c624e~mv2.jpeg"
           alt="Modern bathroom"
-          className="w-full h-[500px] object-cover"
+          className="w-full h-[600px] object-cover"
+          style={{ y: bathroomY }}
         />
       </section>
 
@@ -182,8 +212,12 @@ export default function About() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section ref={ctaRef} className="py-16 md:py-24 bg-gray-900 text-white relative overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-t from-gray-800 to-gray-900"
+          style={{ y: ctaY }}
+        />
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-6">Ready to Start Your Project?</h2>
           <p className="text-xl text-gray-300 mb-12">
             Let's work together to create the space of your dreams
