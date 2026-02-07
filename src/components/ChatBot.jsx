@@ -251,7 +251,7 @@ export default function ChatBot() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/30 z-40 sm:hidden"
+            className="fixed inset-0 bg-black/50 z-40 sm:hidden"
             onClick={() => setIsOpen(false)}
           />
         )}
@@ -264,12 +264,10 @@ export default function ChatBot() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed bottom-2 right-2 left-2 sm:left-auto sm:right-6 sm:bottom-6 z-50 sm:w-96 h-[50vh] max-h-[350px] sm:h-auto sm:max-h-[600px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col"
-            style={{ touchAction: 'none' }}
-            onTouchMove={(e) => e.stopPropagation()}
+            className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 z-50 sm:w-96 sm:h-[500px] sm:max-h-[80vh] bg-white sm:rounded-lg shadow-2xl sm:border border-gray-200 flex flex-col"
           >
             {/* Header */}
-            <div className="bg-red-600 text-white p-4 flex items-center justify-between flex-shrink-0">
+            <div className="bg-red-600 text-white p-4 flex items-center justify-between flex-shrink-0 safe-area-top">
               <div className="flex items-center gap-3">
                 <img
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100"
@@ -281,13 +279,16 @@ export default function ChatBot() {
                   <p className="text-xs text-red-100">{isLoading ? 'Speaking…' : 'AI Assistant'}</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-1 rounded">
+              <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-2 rounded-full">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 overscroll-contain min-h-0" style={{ touchAction: 'pan-y' }}>
+            <div 
+              className="flex-1 overflow-y-auto p-4 space-y-4 overscroll-contain"
+              style={{ WebkitOverflowScrolling: 'touch' }}
+            >
               {messages.map((m, idx) => (
                 <div
                   key={idx}
@@ -301,7 +302,7 @@ export default function ChatBot() {
                     />
                   )}
                   <div
-                    className={`max-w-[75%] px-4 py-2 rounded-2xl break-words ${
+                    className={`max-w-[80%] px-4 py-2 rounded-2xl break-words ${
                       m.role === 'user'
                         ? 'bg-red-600 text-white rounded-br-none'
                         : 'bg-gray-100 text-gray-900 rounded-bl-none'
@@ -321,19 +322,23 @@ export default function ChatBot() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
-            <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-3 flex gap-2 flex-shrink-0">
+            {/* Input - Fixed at bottom with safe area padding */}
+            <form 
+              onSubmit={handleSendMessage} 
+              className="border-t border-gray-200 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-2 flex-shrink-0 bg-white"
+            >
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask about renovations..."
-                className="text-sm min-w-0 flex-1"
+                className="text-base min-w-0 flex-1 h-11"
                 disabled={isLoading}
+                style={{ fontSize: '16px' }}
               />
               <Button
                 type="submit"
                 size="icon"
-                className="bg-red-600 hover:bg-red-700 text-white flex-shrink-0"
+                className="bg-red-600 hover:bg-red-700 text-white flex-shrink-0 h-11 w-11"
                 disabled={isLoading || !inputValue.trim()}
               >
                 <Send className="w-4 h-4" />
