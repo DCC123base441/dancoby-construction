@@ -320,7 +320,7 @@ export default function HiringApplication() {
                   Confidential
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-red-600" />
+                  <Check className="w-4 h-4 text-green-600" />
                   Response in 48hrs
                 </span>
               </div>
