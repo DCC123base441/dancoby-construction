@@ -1,41 +1,9 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
-export default function CurrentProjectCard({ project, idx, status, getColor, getBgColor, fadeIn }) {
+export default function CurrentProjectCard({ project, idx, status, getColor, getBgColor }) {
   const cardRef = useRef(null);
-  const isInView = useInView(cardRef, { once: true, amount: 0.3 });
-  const [swipeProgress, setSwipeProgress] = useState(0);
-  const [isSwiping, setIsSwiping] = useState(false);
-  const touchStartX = useRef(0);
-  const containerWidth = useRef(0);
-  const isMobile = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
-
-  const handleTouchStart = useCallback((e) => {
-    if (!isMobile) return;
-    touchStartX.current = e.touches[0].clientX;
-    containerWidth.current = e.currentTarget.offsetWidth;
-    setIsSwiping(true);
-  }, [isMobile]);
-
-  const handleTouchMove = useCallback((e) => {
-    if (!isSwiping || !isMobile) return;
-    const diff = e.touches[0].clientX - touchStartX.current;
-    const pct = Math.min(Math.max(diff / containerWidth.current, 0), 1);
-    setSwipeProgress(pct);
-  }, [isSwiping, isMobile]);
-
-  const handleTouchEnd = useCallback(() => {
-    if (!isMobile) return;
-    // Snap to full if past 40%, otherwise reset
-    if (swipeProgress > 0.4) {
-      setSwipeProgress(1);
-    } else {
-      setSwipeProgress(0);
-    }
-    setIsSwiping(false);
-  }, [swipeProgress, isMobile]);
-
-  const barFillPercent = isMobile ? swipeProgress * status : 0;
+  const isInView = useInView(cardRef, { once: true, amount: 0.4 });
 
   return (
     <motion.div
@@ -46,12 +14,7 @@ export default function CurrentProjectCard({ project, idx, status, getColor, get
       transition={{ duration: 0.6, delay: idx * 0.1 }}
       className="group"
     >
-      <div
-        className="relative mb-6 overflow-hidden bg-[#d6cec3] aspect-[4/3] touch-pan-y"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
+      <div className="relative mb-6 overflow-hidden bg-[#d6cec3] aspect-[4/3]">
         <img 
           src={project.image} 
           alt={project.title}
@@ -69,21 +32,16 @@ export default function CurrentProjectCard({ project, idx, status, getColor, get
               className={`h-full ${getBgColor()} origin-left hidden md:block scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 ease-out`}
               style={{ width: `${status}%` }}
             />
-            {/* Mobile: swipe fill */}
+            {/* Mobile: scroll-triggered fill */}
             <div 
               className={`h-full ${getBgColor()} origin-left md:hidden rounded-full`}
               style={{ 
                 width: `${status}%`,
-                transform: `scaleX(${swipeProgress})`,
-                transition: isSwiping ? 'none' : 'transform 0.4s ease-out'
+                transform: isInView ? 'scaleX(1)' : 'scaleX(0)',
+                transition: 'transform 1s ease-out'
               }}
             />
           </div>
-          {isMobile && swipeProgress === 0 && (
-            <p className="text-[8px] text-gray-400 mt-1.5 text-center animate-pulse">
-              Swipe right to reveal →
-            </p>
-          )}
         </div>
       </div>
       <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-2">{project.title}</h3>
