@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ChatBot from './components/ChatBot';
 import MobileQuickActions from './components/MobileQuickActions';
+import InstagramFollowNotification from './components/InstagramFollowNotification';
 import PageTransition from './components/PageTransition';
 import FloatingCTA from './components/FloatingCTA';
 import BackToTop from './components/BackToTop';
@@ -56,7 +57,8 @@ export default function Layout({ children }) {
       </AnimatePresence>
       <Footer />
       <MobileQuickActions />
-      <ChatBot />
+              <ChatBot />
+              <InstagramFollowNotification />
       <FloatingCTA />
       <BackToTop />
     </div>
