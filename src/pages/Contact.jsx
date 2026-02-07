@@ -476,7 +476,7 @@ export default function Contact() {
                   No obligation
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-red-600" />
+                  <Clock className="w-4 h-4 text-green-600" />
                   Response in 24hrs
                 </span>
               </div>
