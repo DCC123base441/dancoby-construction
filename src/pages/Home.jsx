@@ -110,19 +110,41 @@ export default function Home() {
                   <div className="max-w-7xl mx-auto px-6 w-full">
                     <div className="max-w-2xl">
                       <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="-mt-48 max-w-md"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                        className="-mt-48 max-w-lg"
                       >
-                        <div className="h-1 w-12 bg-red-600 mb-4" />
-                        <p className="text-white/90 text-xs md:text-base uppercase tracking-wider mb-3">
+                        <motion.div 
+                          className="h-px w-16 bg-gradient-to-r from-red-500 to-red-600 mb-6"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.8, delay: 0.5 }}
+                          style={{ transformOrigin: 'left' }}
+                        />
+                        <motion.p 
+                          className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.3em] mb-4 font-light"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: 0.6 }}
+                        >
                           Dancoby Construction Company
-                        </p>
-                        <h1 className="text-3xl md:text-5xl font-light tracking-wide text-white leading-tight mb-6">
-                          Sophisticated,<br /><em className="italic font-normal">Customer-Centric</em> Transformations
-                        </h1>
-                        <EstimatorButton size="large" />
+                        </motion.p>
+                        <motion.h1 
+                          className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-white leading-[1.15] mb-8"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: 0.7 }}
+                        >
+                          Sophisticated,<br /><em className="italic font-light text-white/90">Customer-Centric</em><br />Transformations
+                        </motion.h1>
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: 1 }}
+                        >
+                          <EstimatorButton size="large" />
+                        </motion.div>
                       </motion.div>
                     </div>
                   </div>
