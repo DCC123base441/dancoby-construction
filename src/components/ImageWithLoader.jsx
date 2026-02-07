@@ -15,8 +15,10 @@ export default function ImageWithLoader({
     <div className={cn("relative overflow-hidden", containerClassName)}>
       {/* Skeleton placeholder */}
       {!isLoaded && !hasError && (
-        <div className={cn("absolute inset-0 bg-gray-200 animate-pulse", className)}>
-          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+        <div className={cn("absolute inset-0 bg-gray-200", className)}>
+          <div 
+            className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse"
+          />
         </div>
       )}
       
