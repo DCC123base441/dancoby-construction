@@ -221,11 +221,14 @@ export default function Home() {
                       className=""
                       >
                       <div className="block h-full">
-                        <img 
-                          src={service.image}
-                          alt={service.title}
-                          className="w-full mb-6 aspect-[3/4] object-cover"
-                        />
+                        <div className="relative overflow-hidden mb-6">
+                          <img 
+                            src={service.image}
+                            alt={service.title}
+                            className="w-full aspect-[3/4] object-cover group-hover:scale-110 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+                        </div>
                         <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{service.title}</h4>
                         <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
                       </div>
@@ -330,7 +333,7 @@ export default function Home() {
                       <img 
                         src={project.image}
                         alt={project.logo}
-                        className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
                     </>
@@ -546,7 +549,7 @@ export default function Home() {
                   <img 
                     src={project.image} 
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 z-10" />
                   <div className="absolute top-4 right-4 bg-white/95 p-4 min-w-[160px] shadow-sm backdrop-blur-sm">
