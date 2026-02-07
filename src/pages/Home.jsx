@@ -580,13 +580,9 @@ export default function Home() {
                       <span className={`text-xs font-bold ${getColor()}`}>{status}%</span>
                     </div>
                     <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                      <motion.div 
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 1.8, ease: "easeOut", delay: 0.3 }}
-                        className={`h-full ${getBgColor()}`}
-                        style={{ width: `${status}%`, transformOrigin: "left" }}
+                      <div 
+                        className={`h-full ${getBgColor()} origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 ease-out`}
+                        style={{ width: `${status}%` }}
                       />
                     </div>
                   </div>
