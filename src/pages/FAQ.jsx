@@ -113,8 +113,10 @@ const fadeIn = {
 };
 
 export default function FAQ() {
+  const [activeCategory, setActiveCategory] = useState(0);
+
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-gray-50">
       <SEOHead 
         title="FAQ | Dancoby Construction"
         description="Find answers to common questions about our renovation process, costs, timelines, and warranties. Dancoby Construction – NYC's premier renovation experts."
@@ -123,70 +125,144 @@ export default function FAQ() {
       />
 
       {/* Hero */}
-      <section className="bg-stone-50 pt-16 pb-20">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="relative bg-stone-900 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        </div>
+        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-2xl"
           >
-            <div className="h-px w-16 bg-gradient-to-r from-red-500 to-red-600 mx-auto mb-6" />
-            <p className="text-xs uppercase tracking-[0.3em] text-gray-400 mb-4 font-light">
-              Common Questions
-            </p>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Frequently Asked Questions
+            <span className="inline-block bg-red-600/20 text-red-400 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full mb-6">
+              Help Center
+            </span>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              How can we<br />help you?
             </h1>
-            <p className="text-lg text-gray-500 font-light max-w-2xl mx-auto leading-relaxed">
-              Everything you need to know about working with Dancoby Construction. Can't find your answer? <Link to={createPageUrl('Contact')} className="text-red-600 hover:text-red-700 underline underline-offset-4">Get in touch</Link>.
+            <p className="text-lg text-white/50 font-light leading-relaxed max-w-lg">
+              Browse our most frequently asked questions or{' '}
+              <Link to={createPageUrl('Contact')} className="text-red-400 hover:text-red-300 underline underline-offset-4 transition-colors">
+                contact us directly
+              </Link>.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* FAQ Content */}
+      {/* Category Tabs + FAQ Content */}
       <section className="py-16 md:py-24">
-        <div className="max-w-3xl mx-auto px-6">
-          {faqCategories.map((category, catIdx) => (
-            <motion.div 
-              key={catIdx} 
-              {...fadeIn}
-              transition={{ duration: 0.5, delay: catIdx * 0.1 }}
-              className="mb-14 last:mb-0"
-            >
-              <h2 className="text-xs font-bold uppercase tracking-widest text-red-600 mb-6">
-                {category.title}
-              </h2>
-              <Accordion type="single" collapsible className="space-y-1">
-                {category.faqs.map((faq, faqIdx) => (
-                  <AccordionItem 
-                    key={faqIdx} 
-                    value={`${catIdx}-${faqIdx}`}
-                    className="border-b border-gray-100"
-                  >
-                    <AccordionTrigger className="text-left text-gray-900 font-medium text-base hover:text-red-600 hover:no-underline py-5 [&[data-state=open]]:text-red-600">
-                      {faq.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-gray-600 leading-relaxed pb-5 text-[15px]">
-                      {faq.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </motion.div>
-          ))}
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid lg:grid-cols-[280px_1fr] gap-10">
+            
+            {/* Sidebar Category Navigation */}
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 -mx-2 px-2 lg:mx-0 lg:px-0">
+                {faqCategories.map((cat, idx) => {
+                  const Icon = categoryIcons[cat.title] || Shield;
+                  const isActive = activeCategory === idx;
+                  return (
+                    <motion.button
+                      key={idx}
+                      onClick={() => setActiveCategory(idx)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all whitespace-nowrap lg:whitespace-normal min-w-fit ${
+                        isActive 
+                          ? 'bg-stone-900 text-white shadow-lg shadow-stone-900/20' 
+                          : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-100'
+                      }`}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                        isActive ? 'bg-red-600' : 'bg-gray-100'
+                      }`}>
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                      </div>
+                      <div>
+                        <span className={`text-sm font-semibold block ${isActive ? 'text-white' : 'text-gray-900'}`}>
+                          {cat.title}
+                        </span>
+                        <span className={`text-xs hidden lg:block ${isActive ? 'text-white/60' : 'text-gray-400'}`}>
+                          {cat.faqs.length} questions
+                        </span>
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </nav>
+
+              {/* Quick Contact Card (desktop only) */}
+              <div className="hidden lg:block mt-8 bg-white rounded-xl p-5 border border-gray-100">
+                <p className="text-sm font-semibold text-gray-900 mb-1">Can't find your answer?</p>
+                <p className="text-xs text-gray-400 mb-4">Our team typically responds within 24 hours.</p>
+                <Button asChild size="sm" className="w-full bg-red-600 hover:bg-red-700 text-white text-xs">
+                  <Link to={createPageUrl('Contact')} className="flex items-center justify-center gap-2">
+                    Contact Us <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* FAQ Content */}
+            <div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategory}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="mb-8">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                      {faqCategories[activeCategory].title}
+                    </h2>
+                    <div className="h-1 w-10 bg-red-600 rounded-full" />
+                  </div>
+
+                  <div className="space-y-4">
+                    {faqCategories[activeCategory].faqs.map((faq, faqIdx) => (
+                      <motion.div
+                        key={faqIdx}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: faqIdx * 0.08 }}
+                      >
+                        <Accordion type="single" collapsible>
+                          <AccordionItem value={`faq-${faqIdx}`} className="bg-white rounded-xl border border-gray-100 px-6 shadow-sm hover:shadow-md transition-shadow data-[state=open]:shadow-md data-[state=open]:border-red-100">
+                            <AccordionTrigger className="text-left text-gray-900 font-semibold text-[15px] hover:text-red-600 hover:no-underline py-5 [&[data-state=open]]:text-red-600">
+                              <span className="flex items-start gap-3">
+                                <span className="text-red-400/60 font-bold text-sm mt-0.5">
+                                  {String(faqIdx + 1).padStart(2, '0')}
+                                </span>
+                                {faq.q}
+                              </span>
+                            </AccordionTrigger>
+                            <AccordionContent className="text-gray-500 leading-relaxed pb-5 pl-9 text-[15px]">
+                              {faq.a}
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-24 bg-stone-900 text-white">
+      <section className="py-16 md:py-20 bg-white border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div {...fadeIn}>
-            <h2 className="text-3xl md:text-4xl font-light mb-4">Still Have Questions?</h2>
-            <p className="text-white/60 text-lg mb-8 font-light">
-              We'd love to hear from you. Let's discuss your project.
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Ready to Start Your Project?</h2>
+            <p className="text-gray-400 text-lg mb-8 font-light max-w-xl mx-auto">
+              Let's bring your vision to life. Schedule a free consultation today.
             </p>
-            <Button asChild className="bg-white text-stone-900 hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase">
+            <Button asChild className="bg-stone-900 hover:bg-stone-800 text-white px-8 py-6 text-sm tracking-wider uppercase">
               <Link to={createPageUrl('Contact')}>Get In Touch</Link>
             </Button>
           </motion.div>
