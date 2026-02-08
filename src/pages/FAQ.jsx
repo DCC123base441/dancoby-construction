@@ -155,7 +155,7 @@ export default function FAQ() {
       {/* Category Tabs + FAQ Content */}
       <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid lg:grid-cols-[280px_1fr] gap-10">
+          <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-10">
             
             {/* Sidebar Category Navigation */}
             <div className="lg:sticky lg:top-28 lg:self-start">
