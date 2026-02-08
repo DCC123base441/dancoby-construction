@@ -132,6 +132,11 @@ export default function Footer() {
                     Shop
                   </Link>
                 </li>
+                <li>
+                  <Link to={createPageUrl('FAQ')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('FAQ')}>
+                    FAQ
+                  </Link>
+                </li>
                 <li className="md:hidden">
                   <Link to={createPageUrl('AdminLogin')} onClick={() => window.scrollTo(0, 0)} className={getLinkClass('AdminLogin')}>
                     Admin
