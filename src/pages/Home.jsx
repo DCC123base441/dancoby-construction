@@ -26,12 +26,12 @@ export default function Home() {
     target: heroRef,
     offset: ["start start", "end start"]
   });
-  
+
   const { scrollYProgress: awardsScrollProgress } = useScroll({
     target: awardsRef,
     offset: ["start end", "end start"]
   });
-  
+
   const { scrollYProgress: ctaScrollProgress } = useScroll({
     target: ctaRef,
     offset: ["start end", "end start"]
@@ -51,30 +51,30 @@ export default function Home() {
 
   const { data: currentProjects = [], isLoading: isLoadingProjects } = useQuery({
     queryKey: ['currentProjects'],
-    queryFn: () => base44.entities.CurrentProject.list('order'),
+    queryFn: () => base44.entities.CurrentProject.list('order')
   });
 
 
 
-  const homeProjects = currentProjects.filter(p => p.featuredOnHome);
+  const homeProjects = currentProjects.filter((p) => p.featuredOnHome);
 
   return (
     <main className="min-h-screen bg-white">
-      <SEOHead 
+      <SEOHead
         title="Dancoby Construction | Sophisticated Home Renovations NYC"
         description="Transform your home with NYC's premier renovation experts. Specializing in high-end kitchens, bathrooms, and brownstone restorations. 20+ years of excellence."
         keywords="home renovation Brooklyn, kitchen remodeling NYC, bathroom renovation New York, brownstone restoration, interior renovation contractor, construction company Brooklyn, NYC general contractor"
-        ogImage="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_90/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg"
-      />
+        ogImage="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_90/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg" />
+
       {/* Hero Section */}
               <section ref={heroRef} className="relative h-screen overflow-hidden">
-                <motion.div 
-                  className="absolute inset-0"
-                  style={{ 
-                    y: heroY,
-                    scale: heroScale
-                  }}
-                >
+                <motion.div
+          className="absolute inset-0"
+          style={{
+            y: heroY,
+            scale: heroScale
+          }}>
+
                   <HeroImageFade />
                 </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
@@ -83,39 +83,39 @@ export default function Home() {
                   <div className="max-w-7xl mx-auto px-6 w-full">
                     <div className="max-w-2xl">
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        className="-mt-48 max-w-lg"
-                      >
-                        <motion.div 
-                          className="h-px w-16 bg-gradient-to-r from-red-500 to-red-600 mb-6"
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ duration: 0.8, delay: 0.5 }}
-                          style={{ transformOrigin: 'left' }}
-                        />
-                        <motion.p 
-                          className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.3em] mb-4 font-light"
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.6 }}
-                        >
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.2 }}
+                className="-mt-48 max-w-lg">
+
+                        <motion.div
+                  className="h-px w-16 bg-gradient-to-r from-red-500 to-red-600 mb-6"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  style={{ transformOrigin: 'left' }} />
+
+                        <motion.p
+                  className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.3em] mb-4 font-light"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}>
+
                           Dancoby Construction Company
                         </motion.p>
-                        <motion.h1 
-                          className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-white leading-[1.15] mb-8"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.7 }}
-                        >
+                        <motion.h1
+                  className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-white leading-[1.15] mb-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.7 }}>
+
                           Sophisticated,<br /><em className="italic font-light text-white/90">Customer-Centric</em><br />Transformations
                         </motion.h1>
                         <motion.div
-                          initial={{ opacity: 0, y: 15 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 1 }}
-                        >
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1 }}>
+
                           <EstimatorButton size="large" />
                         </motion.div>
                       </motion.div>
@@ -150,22 +150,22 @@ export default function Home() {
             <motion.div {...fadeIn} className="relative h-full">
               <div className="grid grid-cols-2 gap-6 h-full">
                 <div className="h-full">
-                  <img 
+                  <img
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
                     alt="Living Room"
                     className="w-full h-full shadow-xl object-cover"
                     loading="lazy"
-                    decoding="async"
-                  />
+                    decoding="async" />
+
                 </div>
                 <div className="h-full">
-                  <img 
+                  <img
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
                     alt="Kitchen"
                     className="w-full h-full shadow-xl object-cover"
                     loading="lazy"
-                    decoding="async"
-                  />
+                    decoding="async" />
+
                 </div>
               </div>
             </motion.div>
@@ -174,7 +174,7 @@ export default function Home() {
       </section>
 
       {/* Our Services Section */}
-            <section className="py-16 md:py-24 bg-white">
+            <section className="bg-slate-50 py-16 md:py-24">
               <div className="max-w-7xl mx-auto px-6">
                 <motion.div {...fadeIn} className="text-center mb-20 mx-auto">
                   <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Our Services</h2>
@@ -186,55 +186,55 @@ export default function Home() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {[
-                    {
-                      title: "Interior Renovations",
-                      description: "Complete transformation of living spaces for form and function.",
-                      image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2017.jpeg",
-                      page: "ServiceInteriorRenovations"
-                    },
-                    {
-                      title: "Kitchen & Bath Remodeling",
-                      description: "Modern upgrades tailored to your lifestyle.",
-                      image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg",
-                      page: "ServiceKitchenBath"
-                    },
-                    {
-                      title: "Brownstone Restorations",
-                      description: "Preserving the charm, enhancing the function.",
-                      image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg",
-                      page: "ServiceBrownstone"
-                    },
-                    {
-                      title: "Townhouses & Apartments",
-                      description: "Expert craftsmanship for high-end residences.",
-                      image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/1daef989a_villier_living2.jpg",
-                      page: "ServiceTownhouses"
-                    }
-                  ].map((service, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, y: 40 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      className=""
-                      >
+            {
+              title: "Interior Renovations",
+              description: "Complete transformation of living spaces for form and function.",
+              image: "https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2017.jpeg",
+              page: "ServiceInteriorRenovations"
+            },
+            {
+              title: "Kitchen & Bath Remodeling",
+              description: "Modern upgrades tailored to your lifestyle.",
+              image: "https://static.wixstatic.com/media/c1b522_793480590e4c4bb1b9c2b17fa696c502~mv2.jpeg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Conklin%20Bathroom_Shot%202_V3_1.jpeg",
+              page: "ServiceKitchenBath"
+            },
+            {
+              title: "Brownstone Restorations",
+              description: "Preserving the charm, enhancing the function.",
+              image: "https://static.wixstatic.com/media/c1b522_53439da5911740bcb80bd2033a393841~mv2.jpg/v1/fill/w_334,h_457,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg",
+              page: "ServiceBrownstone"
+            },
+            {
+              title: "Townhouses & Apartments",
+              description: "Expert craftsmanship for high-end residences.",
+              image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/1daef989a_villier_living2.jpg",
+              page: "ServiceTownhouses"
+            }].
+            map((service, idx) =>
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="">
+
                       <div className="block h-full">
                         <div className="relative overflow-hidden mb-6">
-                          <img 
-                            src={service.image}
-                            alt={service.title}
-                            className="w-full aspect-[3/4] object-cover group-hover:scale-[1.1] transition-transform duration-700"
-                            loading="lazy"
-                            decoding="async"
-                          />
+                          <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full aspect-[3/4] object-cover group-hover:scale-[1.1] transition-transform duration-700"
+                    loading="lazy"
+                    decoding="async" />
+
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
                         </div>
                         <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{service.title}</h4>
                         <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
                       </div>
                     </motion.div>
-                  ))}
+            )}
                 </div>
               </div>
             </section>
@@ -269,13 +269,13 @@ export default function Home() {
 
                   {/* Image */}
                   <motion.div {...fadeIn} className="relative mt-8 lg:mt-0 h-full">
-                    <img 
-                      src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
-                      alt="Modern Kitchen"
-                      className="w-full h-full object-cover shadow-2xl rounded-sm"
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <img
+                src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
+                alt="Modern Kitchen"
+                className="w-full h-full object-cover shadow-2xl rounded-sm"
+                loading="lazy"
+                decoding="async" />
+
                   </motion.div>
                 </div>
               </div>
@@ -288,10 +288,10 @@ export default function Home() {
 
       {/* Awards Banner */}
       <section ref={awardsRef} className="py-16 md:py-24 bg-stone-900 relative overflow-hidden">
-        <motion.div 
+        <motion.div
           className="absolute inset-0 bg-gradient-to-br from-stone-800 to-stone-900"
-          style={{ y: awardsY }}
-        />
+          style={{ y: awardsY }} />
+
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <motion.div {...fadeIn} className="text-center">
             <h3 className="text-4xl md:text-5xl font-bold text-stone-50">
@@ -306,27 +306,27 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
-                  { id: "697c5e88074fc8d96b14a823", title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
-                  { id: "697cede5ec09b851f1e8fe80", title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
-                  { id: "697d0e3c6291ff1c55121181", title: "Modern hotel spa inspired suite with marble flooring and walnut accent paneling", logo: "Hotel Inspired Suite", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
-                  { id: "697cede5ec09b851f1e8fe80", title: "Elegant Kitchen Renovation with Custom Cabinetry", logo: "Kitchen Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }
-                ].map((project, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
-                    className="group flex flex-col h-full"
-                  >
+            { id: "697c5e88074fc8d96b14a823", title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
+            { id: "697cede5ec09b851f1e8fe80", title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
+            { id: "697d0e3c6291ff1c55121181", title: "Modern hotel spa inspired suite with marble flooring and walnut accent paneling", logo: "Hotel Inspired Suite", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
+            { id: "697cede5ec09b851f1e8fe80", title: "Elegant Kitchen Renovation with Custom Cabinetry", logo: "Kitchen Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }].
+            map((project, idx) =>
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="group flex flex-col h-full">
+
                     <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
-                      <img 
-                        src={project.image}
-                        alt={project.logo}
-                        className="w-full h-96 object-cover group-hover:scale-[1.1] transition-transform duration-700"
-                        loading="lazy"
-                        decoding="async"
-                      />
+                      <img
+                  src={project.image}
+                  alt={project.logo}
+                  className="w-full h-96 object-cover group-hover:scale-[1.1] transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async" />
+
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
                     </Link>
 
@@ -350,7 +350,7 @@ export default function Home() {
                       </div>
                     </div>
                   </motion.div>
-                ))}
+            )}
               </div>
 
               <div className="text-center mt-16">
@@ -366,13 +366,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <motion.div {...fadeIn} className="text-center mb-16">
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Technology Partners</p>
-            <motion.h2 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-4xl md:text-5xl font-light text-gray-900 mb-6"
-                  >
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
+
                     Powered by JobTread
                   </motion.h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
@@ -383,21 +383,21 @@ export default function Home() {
 
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
             <motion.div {...fadeIn}>
-              <motion.div 
+              <motion.div
                 className="bg-gradient-to-br from-[#f8f7f6] to-[#f0efed] rounded-2xl p-8 shadow-lg relative"
                 animate={{
                   boxShadow: [
-                    "0 10px 40px -10px rgba(107, 102, 94, 0.2)",
-                    "0 20px 60px -10px rgba(107, 102, 94, 0.35)",
-                    "0 10px 40px -10px rgba(107, 102, 94, 0.2)"
-                  ]
+                  "0 10px 40px -10px rgba(107, 102, 94, 0.2)",
+                  "0 20px 60px -10px rgba(107, 102, 94, 0.35)",
+                  "0 10px 40px -10px rgba(107, 102, 94, 0.2)"]
+
                 }}
                 transition={{
                   duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut"
-                }}
-              >
+                }}>
+
                 <motion.div
                   className="absolute inset-0 rounded-2xl opacity-0"
                   style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(107,102,94,0.05) 100%)" }}
@@ -408,21 +408,21 @@ export default function Home() {
                     duration: 4,
                     repeat: Infinity,
                     ease: "easeInOut"
-                  }}
-                />
-                <motion.img 
+                  }} />
+
+                <motion.img
                   src="https://www.jobtread.com/images/videos/jobtread-in-five-minutes.webp"
                   alt="JobTread Dashboard"
                   className="w-full rounded-lg shadow-md relative z-10"
-                  animate={{ 
-                    scale: [1, 1.01, 1],
+                  animate={{
+                    scale: [1, 1.01, 1]
                   }}
                   transition={{
                     duration: 5,
                     repeat: Infinity,
                     ease: "easeInOut"
-                  }}
-                />
+                  }} />
+
               </motion.div>
             </motion.div>
 
@@ -437,12 +437,12 @@ export default function Home() {
 
               <div className="space-y-4">
                 {[
-                  { title: "Real-Time Updates", desc: "Track your project's progress anytime, anywhere through your personal customer portal" },
-                  { title: "Financial Transparency", desc: "View proposals, invoices, and make payments securely online" },
-                  { title: "Centralized Communication", desc: "All project documents, photos, and messages in one convenient place" },
-                  { title: "On-Time Delivery", desc: "Advanced scheduling and budgeting keeps your project on track" }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-4">
+                { title: "Real-Time Updates", desc: "Track your project's progress anytime, anywhere through your personal customer portal" },
+                { title: "Financial Transparency", desc: "View proposals, invoices, and make payments securely online" },
+                { title: "Centralized Communication", desc: "All project documents, photos, and messages in one convenient place" },
+                { title: "On-Time Delivery", desc: "Advanced scheduling and budgeting keeps your project on track" }].
+                map((item, idx) =>
+                <div key={idx} className="flex gap-4">
                     <div className="w-8 h-8 rounded-full bg-[#6b665e] flex items-center justify-center flex-shrink-0 mt-0.5">
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -453,49 +453,49 @@ export default function Home() {
                       <p className="text-gray-600 text-sm">{item.desc}</p>
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </motion.div>
           </div>
 
           <motion.div {...fadeIn} className="grid md:grid-cols-3 gap-8">
             {[
-              { 
-                icon: (
-                  <svg className="w-8 h-8 text-[#6b665e]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+            {
+              icon:
+              <svg className="w-8 h-8 text-[#6b665e]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
-                  </svg>
-                ),
-                title: "Accurate Estimates",
-                desc: "Professional proposals with detailed cost breakdowns, eliminating surprises"
-              },
-              { 
-                icon: (
-                  <svg className="w-8 h-8 text-[#6b665e]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  </svg>,
+
+              title: "Accurate Estimates",
+              desc: "Professional proposals with detailed cost breakdowns, eliminating surprises"
+            },
+            {
+              icon:
+              <svg className="w-8 h-8 text-[#6b665e]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                  </svg>
-                ),
-                title: "Smart Scheduling",
-                desc: "Coordinated timelines ensure efficient workflow and minimal disruption"
-              },
-              { 
-                icon: (
-                  <svg className="w-8 h-8 text-[#6b665e]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  </svg>,
+
+              title: "Smart Scheduling",
+              desc: "Coordinated timelines ensure efficient workflow and minimal disruption"
+            },
+            {
+              icon:
+              <svg className="w-8 h-8 text-[#6b665e]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
-                  </svg>
-                ),
-                title: "Budget Control",
-                desc: "Real-time cost tracking keeps your project within budget"
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-[#fafaf9] rounded-xl p-6 text-center">
+                  </svg>,
+
+              title: "Budget Control",
+              desc: "Real-time cost tracking keeps your project within budget"
+            }].
+            map((item, idx) =>
+            <div key={idx} className="bg-[#fafaf9] rounded-xl p-6 text-center">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
                   {item.icon}
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">{item.title}</h4>
                 <p className="text-gray-600 text-sm">{item.desc}</p>
               </div>
-            ))}
+            )}
           </motion.div>
 
         </div>
@@ -512,45 +512,45 @@ export default function Home() {
 
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          {isLoadingProjects ? <CurrentProjectsSkeleton /> : homeProjects.length > 0 ? (
-            <div className="grid md:grid-cols-2 gap-12 mb-16">
+          {isLoadingProjects ? <CurrentProjectsSkeleton /> : homeProjects.length > 0 ?
+          <div className="grid md:grid-cols-2 gap-12 mb-16">
               {homeProjects.map((project, idx) => {
-                const status = parseInt(project.status);
-                const getColor = () => {
-                  if (status >= 80) return "text-green-600";
-                  if (status >= 40) return "text-yellow-500";
-                  return "text-red-600";
-                };
-                const getBgColor = () => {
-                  if (status >= 80) return "bg-green-600";
-                  if (status >= 40) return "bg-yellow-500";
-                  return "bg-red-600";
-                };
+              const status = parseInt(project.status);
+              const getColor = () => {
+                if (status >= 80) return "text-green-600";
+                if (status >= 40) return "text-yellow-500";
+                return "text-red-600";
+              };
+              const getBgColor = () => {
+                if (status >= 80) return "bg-green-600";
+                if (status >= 40) return "bg-yellow-500";
+                return "bg-red-600";
+              };
 
-                return (
-                  <CurrentProjectCard
-                    key={idx}
-                    project={project}
-                    idx={idx}
-                    status={status}
-                    getColor={getColor}
-                    getBgColor={getBgColor}
-                    fadeIn={fadeIn}
-                  />
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-center text-gray-500 mb-16">No active projects to display right now.</p>
-          )}
+              return (
+                <CurrentProjectCard
+                  key={idx}
+                  project={project}
+                  idx={idx}
+                  status={status}
+                  getColor={getColor}
+                  getBgColor={getBgColor}
+                  fadeIn={fadeIn} />);
 
-          {!isLoadingProjects && homeProjects.length > 0 && (
-            <div className="flex justify-center">
+
+            })}
+            </div> :
+
+          <p className="text-center text-gray-500 mb-16">No active projects to display right now.</p>
+          }
+
+          {!isLoadingProjects && homeProjects.length > 0 &&
+          <div className="flex justify-center">
               <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide px-6 h-10">
                   <Link to={createPageUrl('ActiveProjects')}>See More</Link>
               </Button>
             </div>
-          )}
+          }
         </div>
       </section>
 
@@ -567,10 +567,10 @@ export default function Home() {
                 Subcontractor Registration
               </Link>
             </Button>
-            <VibrantExternalLink 
-              href="https://dancobyconstruction.discovered.ai/" 
-              className="min-w-[200px]"
-            >
+            <VibrantExternalLink
+              href="https://dancobyconstruction.discovered.ai/"
+              className="min-w-[200px]">
+
               View Open Positions
             </VibrantExternalLink>
           </div>
@@ -582,34 +582,34 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12">
             {[
-              { number: "20+", label: "YEARS EXPERIENCE", sublabel: "Trusted craftsmanship since 2004" },
-              { number: "500+", label: "PROJECTS COMPLETED", sublabel: "Across the NYC metro area" },
-              { number: "5.0", label: "GOOGLE RATING", sublabel: "Based on 50+ reviews" },
-              { number: "3-Year", label: "WARRANTY", sublabel: "On all our projects" }
-            ].map((stat, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="text-center"
-              >
+            { number: "20+", label: "YEARS EXPERIENCE", sublabel: "Trusted craftsmanship since 2004" },
+            { number: "500+", label: "PROJECTS COMPLETED", sublabel: "Across the NYC metro area" },
+            { number: "5.0", label: "GOOGLE RATING", sublabel: "Based on 50+ reviews" },
+            { number: "3-Year", label: "WARRANTY", sublabel: "On all our projects" }].
+            map((stat, idx) =>
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="text-center">
+
                 <div className="text-5xl font-bold text-red-600 mb-3">{stat.number}</div>
                 <div className="text-sm font-bold text-gray-900 mb-1">{stat.label}</div>
                 <div className="text-xs text-gray-500">{stat.sublabel}</div>
               </motion.div>
-            ))}
+            )}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section ref={ctaRef} className="py-20 md:py-32 bg-gray-900 text-white relative overflow-hidden">
-        <motion.div 
+        <motion.div
           className="absolute inset-0 bg-gradient-to-t from-gray-800 to-gray-900"
-          style={{ y: ctaY }}
-        />
+          style={{ y: ctaY }} />
+
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
@@ -622,6 +622,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-    </main>
-  );
+    </main>);
+
 }
