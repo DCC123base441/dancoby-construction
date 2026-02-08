@@ -257,105 +257,212 @@ export default function AdminProjects() {
                 </div>
             }
         >
-            <div className="mb-6">
-                <div className="relative">
+            {/* Search & View Toggle Bar */}
+            <div className="mb-6 flex items-center gap-3">
+                <div className="relative flex-1 max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <Input 
                         placeholder="Search projects..." 
-                        className="pl-10 max-w-md"
+                        className="pl-10"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
+                <div className="flex items-center bg-slate-100 rounded-lg p-1">
+                    <button
+                        onClick={() => setViewMode("grid")}
+                        className={`p-2 rounded-md transition-all ${viewMode === "grid" ? "bg-white shadow-sm text-slate-900" : "text-slate-400 hover:text-slate-600"}`}
+                    >
+                        <LayoutGrid className="w-4 h-4" />
+                    </button>
+                    <button
+                        onClick={() => setViewMode("list")}
+                        className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white shadow-sm text-slate-900" : "text-slate-400 hover:text-slate-600"}`}
+                    >
+                        <List className="w-4 h-4" />
+                    </button>
+                </div>
+                <div className="text-sm text-slate-500">
+                    {displayProjects.length} project{displayProjects.length !== 1 ? 's' : ''}
+                </div>
             </div>
 
-            <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="projects">
-                    {(provided) => (
-                        <div 
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                            className="grid gap-4"
-                        >
-                            {displayProjects.map((project, index) => (
-                                <Draggable 
-                                    key={project.id} 
-                                    draggableId={project.id} 
-                                    index={index}
-                                    isDragDisabled={!!searchQuery} // Disable drag when searching
-                                >
-                                    {(provided, snapshot) => (
-                                        <Card 
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            className={`transition-shadow ${snapshot.isDragging ? 'shadow-lg ring-2 ring-indigo-500 z-50' : 'hover:shadow-md'}`}
-                                        >
-                                            <CardContent className="p-4 flex items-center gap-4">
-                                                <div 
-                                                    {...provided.dragHandleProps}
-                                                    className={`cursor-grab active:cursor-grabbing p-2 hover:bg-slate-100 rounded text-slate-400 ${searchQuery ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                                >
-                                                    <GripVertical className="w-5 h-5" />
-                                                </div>
-                                                <div className="h-16 w-16 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0">
-                                                    {project.mainImage ? (
-                                                        <img src={project.mainImage} alt={project.title} className="h-full w-full object-cover" />
-                                                    ) : (
-                                                        <div className="h-full w-full flex items-center justify-center text-slate-400">
-                                                            <ImageIcon className="w-6 h-6" />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <h3 className="font-semibold text-slate-900 truncate">{project.title}</h3>
-                                                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                                                        <span>{project.category}</span>
-                                                        <span>•</span>
-                                                        <span>{project.location || 'No location'}</span>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Button 
-                                                        variant="ghost" 
-                                                        size="icon"
-                                                        onClick={() => { 
-                                                            setEditingProject(project); 
-                                                            // Populate form
-                                                            setTitle(project.title || "");
-                                                            setCategory(project.category || "Residential");
-                                                            setLocation(project.location || "");
-                                                            setTimeline(project.timeline || "");
-                                                            setBudget(project.budget || "");
-                                                            setDescription(project.description || "");
-
-                                                            const otherImages = (project.images || []).filter(img => img !== project.mainImage);
-                                                            setCurrentImages([project.mainImage, ...otherImages].filter(Boolean));
-                                                            setCurrentTestimonials(project.testimonials || []);
-                                                            setIsDialogOpen(true); 
-                                                        }}
-                                                    >
-                                                        <Pencil className="w-4 h-4 text-slate-500" />
-                                                    </Button>
-                                                    <Button 
-                                                        variant="ghost" 
-                                                        size="icon"
-                                                        onClick={() => {
-                                                            if(confirm('Are you sure?')) deleteMutation.mutate(project.id);
-                                                        }}
-                                                    >
-                                                        <Trash2 className="w-4 h-4 text-red-500" />
-                                                    </Button>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
+            {viewMode === "grid" ? (
+                /* GRID VIEW */
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {displayProjects.map((project) => {
+                        const categoryColors = {
+                            Residential: "bg-blue-50 text-blue-700 border-blue-200",
+                            Commercial: "bg-amber-50 text-amber-700 border-amber-200",
+                            Renovation: "bg-emerald-50 text-emerald-700 border-emerald-200",
+                            Restoration: "bg-purple-50 text-purple-700 border-purple-200",
+                        };
+                        return (
+                            <Card key={project.id} className="group overflow-hidden hover:shadow-lg transition-all duration-300 border-slate-200">
+                                {/* Image */}
+                                <div className="relative h-48 bg-slate-100 overflow-hidden">
+                                    {project.mainImage ? (
+                                        <img src={project.mainImage} alt={project.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    ) : (
+                                        <div className="h-full w-full flex items-center justify-center text-slate-300">
+                                            <ImageIcon className="w-12 h-12" />
+                                        </div>
                                     )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
+                                    <div className="absolute top-3 left-3">
+                                        <Badge variant="outline" className={`text-xs font-medium backdrop-blur-sm ${categoryColors[project.category] || "bg-slate-50 text-slate-700 border-slate-200"}`}>
+                                            {project.category}
+                                        </Badge>
+                                    </div>
+                                    {/* Quick Actions Overlay */}
+                                    <div className="absolute top-3 right-3">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <button className="p-1.5 rounded-full bg-black/40 text-white hover:bg-black/60 backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100">
+                                                    <MoreVertical className="w-4 h-4" />
+                                                </button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem onClick={() => {
+                                                    setEditingProject(project);
+                                                    setTitle(project.title || "");
+                                                    setCategory(project.category || "Residential");
+                                                    setLocation(project.location || "");
+                                                    setTimeline(project.timeline || "");
+                                                    setBudget(project.budget || "");
+                                                    setDescription(project.description || "");
+                                                    const otherImages = (project.images || []).filter(img => img !== project.mainImage);
+                                                    setCurrentImages([project.mainImage, ...otherImages].filter(Boolean));
+                                                    setCurrentTestimonials(project.testimonials || []);
+                                                    setIsDialogOpen(true);
+                                                }}>
+                                                    <Pencil className="w-4 h-4 mr-2" /> Edit
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem className="text-red-600" onClick={() => {
+                                                    if(confirm('Are you sure?')) deleteMutation.mutate(project.id);
+                                                }}>
+                                                    <Trash2 className="w-4 h-4 mr-2" /> Delete
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </div>
+                                {/* Content */}
+                                <CardContent className="p-4 space-y-3">
+                                    <h3 className="font-semibold text-slate-900 leading-tight line-clamp-2">{project.title}</h3>
+                                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
+                                        {project.location && (
+                                            <span className="flex items-center gap-1">
+                                                <MapPin className="w-3 h-3" /> {project.location}
+                                            </span>
+                                        )}
+                                        {project.timeline && (
+                                            <span className="flex items-center gap-1">
+                                                <Clock className="w-3 h-3" /> {project.timeline}
+                                            </span>
+                                        )}
+                                        {project.budget && (
+                                            <span className="flex items-center gap-1">
+                                                <DollarSign className="w-3 h-3" /> {project.budget}
+                                            </span>
+                                        )}
+                                    </div>
+                                    {project.description && (
+                                        <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">{project.description}</p>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        );
+                    })}
+                </div>
+            ) : (
+                /* LIST VIEW (with drag & drop) */
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="projects">
+                        {(provided) => (
+                            <div 
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                className="grid gap-3"
+                            >
+                                {displayProjects.map((project, index) => (
+                                    <Draggable 
+                                        key={project.id} 
+                                        draggableId={project.id} 
+                                        index={index}
+                                        isDragDisabled={!!searchQuery}
+                                    >
+                                        {(provided, snapshot) => (
+                                            <Card 
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                className={`transition-shadow ${snapshot.isDragging ? 'shadow-lg ring-2 ring-slate-400 z-50' : 'hover:shadow-md'}`}
+                                            >
+                                                <CardContent className="p-4 flex items-center gap-4">
+                                                    <div 
+                                                        {...provided.dragHandleProps}
+                                                        className={`cursor-grab active:cursor-grabbing p-1 hover:bg-slate-100 rounded text-slate-300 ${searchQuery ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                    >
+                                                        <GripVertical className="w-4 h-4" />
+                                                    </div>
+                                                    <div className="h-14 w-14 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0">
+                                                        {project.mainImage ? (
+                                                            <img src={project.mainImage} alt={project.title} className="h-full w-full object-cover" />
+                                                        ) : (
+                                                            <div className="h-full w-full flex items-center justify-center text-slate-300">
+                                                                <ImageIcon className="w-5 h-5" />
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h3 className="font-semibold text-sm text-slate-900 truncate">{project.title}</h3>
+                                                        <div className="flex items-center gap-3 mt-1">
+                                                            <Badge variant="outline" className="text-[10px] px-1.5 py-0">{project.category}</Badge>
+                                                            {project.location && <span className="text-xs text-slate-400 flex items-center gap-1"><MapPin className="w-3 h-3" />{project.location}</span>}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-1">
+                                                        <Button 
+                                                            variant="ghost" 
+                                                            size="icon"
+                                                            className="h-8 w-8"
+                                                            onClick={() => { 
+                                                                setEditingProject(project); 
+                                                                setTitle(project.title || "");
+                                                                setCategory(project.category || "Residential");
+                                                                setLocation(project.location || "");
+                                                                setTimeline(project.timeline || "");
+                                                                setBudget(project.budget || "");
+                                                                setDescription(project.description || "");
+                                                                const otherImages = (project.images || []).filter(img => img !== project.mainImage);
+                                                                setCurrentImages([project.mainImage, ...otherImages].filter(Boolean));
+                                                                setCurrentTestimonials(project.testimonials || []);
+                                                                setIsDialogOpen(true); 
+                                                            }}
+                                                        >
+                                                            <Pencil className="w-3.5 h-3.5 text-slate-400" />
+                                                        </Button>
+                                                        <Button 
+                                                            variant="ghost" 
+                                                            size="icon"
+                                                            className="h-8 w-8"
+                                                            onClick={() => {
+                                                                if(confirm('Are you sure?')) deleteMutation.mutate(project.id);
+                                                            }}
+                                                        >
+                                                            <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                                                        </Button>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            )}
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
