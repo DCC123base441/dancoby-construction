@@ -36,11 +36,32 @@ export default function HeroImageManager() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['heroImages'] }),
   });
 
+  const [uploadError, setUploadError] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setUploadError('');
+
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+    if (file.size > maxSize) {
+      setUploadError(`File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max 10MB. Please compress or resize first.`);
+      e.target.value = '';
+      return;
+    }
+    if (!allowedTypes.includes(file.type)) {
+      setUploadError(`Unsupported format (${file.type || file.name.split('.').pop()}). Use JPG, PNG, or WebP.`);
+      e.target.value = '';
+      return;
+    }
+
+    setIsUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     setNewUrl(file_url);
+    setIsUploading(false);
   };
 
   const handleAdd = () => {
