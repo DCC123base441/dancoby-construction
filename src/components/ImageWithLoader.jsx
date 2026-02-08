@@ -35,6 +35,7 @@ export default function ImageWithLoader({
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         loading="lazy"
+        decoding="async"
         {...props}
       />
 
