@@ -22,23 +22,10 @@ export default function ProjectDetail() {
     initialData: null
   });
 
-  if (isLoading) {
+  if (isLoading || !project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <p className="text-gray-600">Loading project...</p>
-      </div>
-    );
-  }
-
-  if (!project) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-center">
-          <p className="text-gray-600 mb-4">Project not found.</p>
-          <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white">
-            <Link to={createPageUrl('Projects')}>Back to Projects</Link>
-          </Button>
-        </div>
       </div>
     );
   }
