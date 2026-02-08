@@ -282,7 +282,9 @@ export default function Home() {
             </section>
 
       {/* Testimonials Section */}
-      <TestimonialsSection />
+      <div id="reviews">
+        <TestimonialsSection />
+      </div>
 
       {/* Awards Banner */}
       <section ref={awardsRef} className="py-16 md:py-24 bg-stone-900 relative overflow-hidden">
