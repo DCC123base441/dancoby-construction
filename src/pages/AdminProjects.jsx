@@ -49,6 +49,7 @@ export default function AdminProjects() {
     const [isReordering, setIsReordering] = useState(false);
     const [orderedProjects, setOrderedProjects] = useState([]);
     const [currentTestimonials, setCurrentTestimonials] = useState([]);
+    const [viewMode, setViewMode] = useState("grid"); // "grid" or "list"
     
     // Form State
     const [title, setTitle] = useState("");
