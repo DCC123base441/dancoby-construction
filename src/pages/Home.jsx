@@ -176,7 +176,7 @@ export default function Home() {
       {/* Our Services Section */}
             <section className="py-16 md:py-24 bg-white">
               <div className="max-w-7xl mx-auto px-6">
-                <motion.div {...fadeIn} className="text-center mb-20">
+                <motion.div {...fadeIn} className="text-center mb-20 mx-auto">
                   <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Our Services</h2>
                   <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">Full-Service Rejuvenation For Any Space</h3>
                   <Button asChild variant="link" className="text-gray-900 hover:text-red-600">
