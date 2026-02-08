@@ -62,6 +62,7 @@ export default function Layout({ children }) {
               <InstagramFollowNotification />
       <FloatingCTA />
       <BackToTop />
+      <CookieConsent />
     </div>
   );
 }
