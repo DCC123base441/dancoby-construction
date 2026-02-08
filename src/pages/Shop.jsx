@@ -190,18 +190,14 @@ export default function Shop() {
                 <img
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/d693bfc2f_Hoodie1.jpg"
               alt="Official Dancoby Hoodie"
-              className="w-full h-full object-cover grayscale"
-              loading="eager"
-              decoding="async" />
+              className="w-full h-full object-cover grayscale" />
 
             </div>
             <div className="w-1/2 h-full">
                 <img
-              src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=1200"
+              src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80"
               alt="Cute Dog Adoption"
-              className="w-full h-full object-cover grayscale"
-              loading="eager"
-              decoding="async" />
+              className="w-full h-full object-cover grayscale" />
 
             </div>
         </div>
@@ -221,9 +217,7 @@ export default function Shop() {
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
-                <p className="text-gray-300 mb-10 mx-auto pb-40 text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
-
-            </p>
+                <p className="text-gray-300 mb-10 mx-auto text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.</p>
                 <Button
               size="lg"
               className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
@@ -425,9 +419,7 @@ function ProductCard({ product, onAddToCart, onNotify }) {
             <img
           src={product.images[0]}
           alt={product.name}
-          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-          decoding="async" />
+          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
 
             {!product.inStock &&
         <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
