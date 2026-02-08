@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { ArrowLeft } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
-import OptimizedImage from "../components/OptimizedImage";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 
 export default function ActiveProjects() {
   const { data: projects = [], isLoading } = useQuery({
