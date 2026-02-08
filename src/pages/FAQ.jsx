@@ -29,7 +29,7 @@ const faqCategories = [
       },
       {
         q: "What areas do you serve?",
-        a: "We primarily serve Brooklyn and Long Island, with additional coverage across the New York City metro area. Whether you're in Park Slope, Williamsburg, the Hamptons, or anywhere in between, we're ready to bring your renovation vision to life."
+        a: "We primarily serve Brooklyn and Long Island, including the South Shore and surrounding communities. Whether you're in Park Slope, Williamsburg, or anywhere across Nassau and Suffolk County, we're ready to bring your renovation vision to life."
       },
       {
         q: "How long does a typical renovation take?",
