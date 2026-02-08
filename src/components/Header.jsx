@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
@@ -40,16 +40,36 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY, mobileMenuOpen]);
 
+  const [companyDropdownOpen, setCompanyDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const dropdownTimeout = useRef(null);
+
   const navLinks = [
     { name: 'Home', path: 'Home' },
     { name: 'Services', path: 'Services' },
     { name: 'Projects', path: 'Projects' },
-    { name: 'Blog', path: 'Blog' },
     { name: 'About', path: 'About' },
-    { name: 'Press', path: 'Press' },
-    { name: 'Careers', path: 'HiringApplication' },
     { name: 'Shop', path: 'Shop' },
   ];
+
+  const companyLinks = [
+    { name: 'Blog', path: 'Blog' },
+    { name: 'Press', path: 'Press' },
+    { name: 'Careers', path: 'HiringApplication' },
+    { name: 'Partner With Us', path: 'VendorIntake' },
+    { name: 'FAQ', path: 'FAQ' },
+  ];
+
+  const isCompanyActive = companyLinks.some(link => isActivePath(link.path));
+
+  const handleDropdownEnter = () => {
+    clearTimeout(dropdownTimeout.current);
+    setCompanyDropdownOpen(true);
+  };
+
+  const handleDropdownLeave = () => {
+    dropdownTimeout.current = setTimeout(() => setCompanyDropdownOpen(false), 150);
+  };
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 transition-transform duration-300 ${!isVisible ? '-translate-y-full' : 'translate-y-0'} lg:translate-y-0`}>
@@ -83,13 +103,54 @@ export default function Header() {
               >
                 {link.name}
                 <span className={`absolute -bottom-0.5 left-0 h-[1px] bg-red-600 transition-all duration-300 ${
-                  isActivePath(link.path) ? 'w-full' : 'w-0 group-hover:w-full'
+                  isActivePath(link.path) ? 'w-full' : 'w-0'
                 }`} />
-                <span className={`absolute -bottom-0.5 left-0 h-[1px] bg-gray-400 transition-all duration-300 ${
-                  !isActivePath(link.path) ? 'w-0 hover:w-full' : 'w-0'
-                }`} style={{ transitionDelay: '0ms' }} />
               </Link>
             ))}
+
+            {/* Company Dropdown */}
+            <div
+              ref={dropdownRef}
+              className="relative"
+              onMouseEnter={handleDropdownEnter}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <button
+                className={`relative flex items-center gap-1 text-[13px] uppercase tracking-[0.15em] font-medium transition-all duration-300 py-1 ${
+                  isCompanyActive ? 'text-red-600' : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                Company
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${companyDropdownOpen ? 'rotate-180' : ''}`} />
+                <span className={`absolute -bottom-0.5 left-0 h-[1px] bg-red-600 transition-all duration-300 ${
+                  isCompanyActive ? 'w-full' : 'w-0'
+                }`} />
+              </button>
+
+              {companyDropdownOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3">
+                  <div className="bg-white border border-gray-200 rounded-xl shadow-lg py-2 min-w-[200px]">
+                    {companyLinks.map((link) => (
+                      <Link
+                        key={link.name}
+                        to={createPageUrl(link.path)}
+                        onClick={() => {
+                          setCompanyDropdownOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className={`block px-5 py-2.5 text-sm transition-colors ${
+                          isActivePath(link.path)
+                            ? 'text-red-600 bg-red-50/50 font-medium'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                        }`}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Right Side */}
@@ -128,6 +189,23 @@ export default function Header() {
                 {link.name}
               </Link>
             ))}
+            <div className="pt-1">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-2">Company</p>
+              {companyLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={createPageUrl(link.path)}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-2 pl-3 text-sm tracking-wide transition-colors ${
+                    isActivePath(link.path)
+                      ? 'text-red-600 font-semibold border-l-2 border-red-600'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
             <Button 
               asChild
               className="w-full bg-gray-900 hover:bg-gray-800 text-white text-sm tracking-wide mt-4"
