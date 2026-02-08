@@ -153,13 +153,14 @@ export default function Header() {
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }
                         }}
-                        className={`block px-5 py-2.5 text-sm transition-colors ${
+                        className={`block px-5 py-2.5 transition-colors ${
                           isActivePath(link.path) && !link.hash
-                            ? 'text-red-600 bg-red-50/50 font-medium'
+                            ? 'text-red-600 bg-red-50/50'
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                         }`}
                       >
-                        {link.name}
+                        <span className="text-sm font-medium">{link.name}</span>
+                        {link.desc && <span className="block text-[11px] text-gray-400 mt-0.5">{link.desc}</span>}
                       </Link>
                     ))}
                   </div>
