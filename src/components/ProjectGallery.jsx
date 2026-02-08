@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import OptimizedImage from "@/components/ui/OptimizedImage";
+import OptimizedImage from "@/components/OptimizedImage";
 
 export default function ProjectGallery({ images }) {
     const [selectedIndex, setSelectedIndex] = useState(null);
