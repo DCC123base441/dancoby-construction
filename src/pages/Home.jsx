@@ -75,7 +75,7 @@ export default function Home() {
                     scale: heroScale
                   }}
                 />
-                <div className="absolute inset-0 bg-black/40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
 
                 <div className="relative z-10 h-full flex items-center">
                   <div className="max-w-7xl mx-auto px-6 w-full">
