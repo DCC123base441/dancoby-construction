@@ -134,13 +134,27 @@ export default function Header() {
                     {companyLinks.map((link) => (
                       <Link
                         key={link.name}
-                        to={createPageUrl(link.path)}
+                        to={link.hash ? `${createPageUrl(link.path)}#${link.hash}` : createPageUrl(link.path)}
                         onClick={() => {
                           setCompanyDropdownOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          if (link.hash) {
+                            // If already on the page, scroll to the element
+                            if (isActivePath(link.path)) {
+                              setTimeout(() => {
+                                document.getElementById(link.hash)?.scrollIntoView({ behavior: 'smooth' });
+                              }, 100);
+                            } else {
+                              // Navigate first, then scroll after page loads
+                              setTimeout(() => {
+                                document.getElementById(link.hash)?.scrollIntoView({ behavior: 'smooth' });
+                              }, 500);
+                            }
+                          } else {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }
                         }}
                         className={`block px-5 py-2.5 text-sm transition-colors ${
-                          isActivePath(link.path)
+                          isActivePath(link.path) && !link.hash
                             ? 'text-red-600 bg-red-50/50 font-medium'
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                         }`}
@@ -195,10 +209,17 @@ export default function Header() {
               {companyLinks.map((link) => (
                 <Link
                   key={link.name}
-                  to={createPageUrl(link.path)}
-                  onClick={() => setMobileMenuOpen(false)}
+                  to={link.hash ? `${createPageUrl(link.path)}#${link.hash}` : createPageUrl(link.path)}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (link.hash) {
+                      setTimeout(() => {
+                        document.getElementById(link.hash)?.scrollIntoView({ behavior: 'smooth' });
+                      }, 500);
+                    }
+                  }}
                   className={`block py-2 pl-3 text-sm tracking-wide transition-colors ${
-                    isActivePath(link.path)
+                    isActivePath(link.path) && !link.hash
                       ? 'text-red-600 font-semibold border-l-2 border-red-600'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
