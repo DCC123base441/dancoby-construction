@@ -55,7 +55,7 @@ export default function Header() {
   const companyLinks = [
     { name: 'Blog', path: 'Blog' },
     { name: 'Press', path: 'Press' },
-    { name: 'Reviews', path: 'Testimonials' },
+    { name: 'Reviews', path: 'Home', hash: '#reviews' },
     { name: 'Careers', path: 'HiringApplication' },
     { name: 'Partner With Us', path: 'VendorIntake' },
     { name: 'FAQ', path: 'FAQ' },
