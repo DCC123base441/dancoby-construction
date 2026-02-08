@@ -153,13 +153,14 @@ export default function FAQ() {
       </section>
 
       {/* Category Tabs + FAQ Content */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-10 md:py-24">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-10">
             
-            {/* Sidebar Category Navigation */}
+            {/* Category Navigation */}
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 scrollbar-hide snap-x snap-mandatory">
+              {/* Mobile: 2x2 grid */}
+              <div className="grid grid-cols-2 gap-2 lg:hidden">
                 {faqCategories.map((cat, idx) => {
                   const Icon = categoryIcons[cat.title] || Shield;
                   const isActive = activeCategory === idx;
@@ -167,20 +168,53 @@ export default function FAQ() {
                     <button
                       key={idx}
                       onClick={() => setActiveCategory(idx)}
-                      className={`flex items-center gap-2.5 lg:gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-xl text-left transition-all snap-start flex-shrink-0 ${
+                      className={`flex items-center gap-2 px-3 py-3 rounded-xl text-left transition-all ${
+                        isActive 
+                          ? 'bg-stone-900 text-white shadow-lg shadow-stone-900/20' 
+                          : 'bg-white text-gray-600 border border-gray-100'
+                      }`}
+                    >
+                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                        isActive ? 'bg-red-600' : 'bg-gray-100'
+                      }`}>
+                        <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                      </div>
+                      <span className={`text-xs font-semibold leading-tight ${isActive ? 'text-white' : 'text-gray-900'}`}>
+                        {cat.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Desktop: vertical list */}
+              <nav className="hidden lg:flex lg:flex-col gap-2">
+                {faqCategories.map((cat, idx) => {
+                  const Icon = categoryIcons[cat.title] || Shield;
+                  const isActive = activeCategory === idx;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveCategory(idx)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
                         isActive 
                           ? 'bg-stone-900 text-white shadow-lg shadow-stone-900/20' 
                           : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-100'
                       }`}
                     >
-                      <div className={`w-8 h-8 lg:w-9 lg:h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
                         isActive ? 'bg-red-600' : 'bg-gray-100'
                       }`}>
-                        <Icon className={`w-3.5 h-3.5 lg:w-4 lg:h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
                       </div>
-                      <span className={`text-xs lg:text-sm font-semibold whitespace-nowrap ${isActive ? 'text-white' : 'text-gray-900'}`}>
-                        {cat.title}
-                      </span>
+                      <div>
+                        <span className={`text-sm font-semibold block ${isActive ? 'text-white' : 'text-gray-900'}`}>
+                          {cat.title}
+                        </span>
+                        <span className={`text-xs ${isActive ? 'text-white/60' : 'text-gray-400'}`}>
+                          {cat.faqs.length} questions
+                        </span>
+                      </div>
                     </button>
                   );
                 })}
@@ -199,41 +233,41 @@ export default function FAQ() {
             </div>
 
             {/* FAQ Content */}
-            <div>
+            <div className="min-w-0">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeCategory}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25 }}
                 >
-                  <div className="mb-8">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                  <div className="mb-5 md:mb-8">
+                    <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-2">
                       {faqCategories[activeCategory].title}
                     </h2>
                     <div className="h-1 w-10 bg-red-600 rounded-full" />
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-3 md:space-y-4">
                     {faqCategories[activeCategory].faqs.map((faq, faqIdx) => (
                       <motion.div
                         key={faqIdx}
-                        initial={{ opacity: 0, y: 15 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: faqIdx * 0.08 }}
+                        transition={{ duration: 0.25, delay: faqIdx * 0.06 }}
                       >
                         <Accordion type="single" collapsible>
-                          <AccordionItem value={`faq-${faqIdx}`} className="bg-white rounded-xl border border-gray-100 px-4 md:px-6 shadow-sm hover:shadow-md transition-shadow data-[state=open]:shadow-md data-[state=open]:border-red-100">
-                            <AccordionTrigger className="text-left text-gray-900 font-semibold text-sm md:text-[15px] hover:text-red-600 hover:no-underline py-4 md:py-5 [&[data-state=open]]:text-red-600">
-                              <span className="flex items-start gap-2.5 md:gap-3">
-                                <span className="text-red-400/60 font-bold text-xs md:text-sm mt-0.5 flex-shrink-0">
+                          <AccordionItem value={`faq-${faqIdx}`} className="bg-white rounded-xl border border-gray-100 px-3 md:px-6 shadow-sm hover:shadow-md transition-shadow data-[state=open]:shadow-md data-[state=open]:border-red-100">
+                            <AccordionTrigger className="text-left text-gray-900 font-semibold text-[13px] md:text-[15px] hover:text-red-600 hover:no-underline py-3.5 md:py-5 [&[data-state=open]]:text-red-600 gap-2">
+                              <span className="flex items-start gap-2 md:gap-3 min-w-0">
+                                <span className="text-red-400/60 font-bold text-xs mt-0.5 flex-shrink-0">
                                   {String(faqIdx + 1).padStart(2, '0')}
                                 </span>
-                                <span>{faq.q}</span>
+                                <span className="min-w-0">{faq.q}</span>
                               </span>
                             </AccordionTrigger>
-                            <AccordionContent className="text-gray-500 leading-relaxed pb-4 md:pb-5 pl-7 md:pl-9 text-sm md:text-[15px]">
+                            <AccordionContent className="text-gray-500 leading-relaxed pb-3.5 md:pb-5 pl-6 md:pl-9 text-[13px] md:text-[15px]">
                               {faq.a}
                             </AccordionContent>
                           </AccordionItem>
