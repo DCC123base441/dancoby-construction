@@ -159,35 +159,29 @@ export default function FAQ() {
             
             {/* Sidebar Category Navigation */}
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 -mx-2 px-2 lg:mx-0 lg:px-0">
+              <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 scrollbar-hide snap-x snap-mandatory">
                 {faqCategories.map((cat, idx) => {
                   const Icon = categoryIcons[cat.title] || Shield;
                   const isActive = activeCategory === idx;
                   return (
-                    <motion.button
+                    <button
                       key={idx}
                       onClick={() => setActiveCategory(idx)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all whitespace-nowrap lg:whitespace-normal min-w-fit ${
+                      className={`flex items-center gap-2.5 lg:gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-xl text-left transition-all snap-start flex-shrink-0 ${
                         isActive 
                           ? 'bg-stone-900 text-white shadow-lg shadow-stone-900/20' 
                           : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-100'
                       }`}
-                      whileTap={{ scale: 0.98 }}
                     >
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                      <div className={`w-8 h-8 lg:w-9 lg:h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
                         isActive ? 'bg-red-600' : 'bg-gray-100'
                       }`}>
-                        <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                        <Icon className={`w-3.5 h-3.5 lg:w-4 lg:h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
                       </div>
-                      <div>
-                        <span className={`text-sm font-semibold block ${isActive ? 'text-white' : 'text-gray-900'}`}>
-                          {cat.title}
-                        </span>
-                        <span className={`text-xs hidden lg:block ${isActive ? 'text-white/60' : 'text-gray-400'}`}>
-                          {cat.faqs.length} questions
-                        </span>
-                      </div>
-                    </motion.button>
+                      <span className={`text-xs lg:text-sm font-semibold whitespace-nowrap ${isActive ? 'text-white' : 'text-gray-900'}`}>
+                        {cat.title}
+                      </span>
+                    </button>
                   );
                 })}
               </nav>
