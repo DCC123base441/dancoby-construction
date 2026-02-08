@@ -35,7 +35,8 @@ export default function BrandPartnersSection() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-12"
                 >
-                    <h2 className="text-3xl md:text-4xl font-light text-gray-900">Brands We Like Working With</h2>
+                    <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-6">Trusted By The Best</p>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 leading-[1.3]">Brands We Like Working With</h2>
                 </motion.div>
                 <motion.div
                     initial={{ opacity: 0 }}
