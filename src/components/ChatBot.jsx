@@ -277,7 +277,14 @@ export default function ChatBot() {
                         ? 'bg-red-600 text-white rounded-br-sm'
                         : 'bg-white text-gray-900 rounded-bl-sm shadow-sm border border-gray-100'
                     }`}>
-                      <p className="text-sm leading-relaxed">{m.content}</p>
+                      <p className="text-sm leading-relaxed whitespace-pre-wrap"
+                         dangerouslySetInnerHTML={{
+                           __html: m.content.replace(
+                             /(https?:\/\/[^\s]+)/g,
+                             '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-red-600 underline hover:text-red-800 font-medium">$1</a>'
+                           )
+                         }}
+                      />
                     </div>
                   </div>
                 ))}
