@@ -49,6 +49,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import HeroImageManager from '../components/admin/HeroImageManager';
+import BrandPartnerManager from '../components/admin/BrandPartnerManager';
 
 export default function AdminDashboard() {
     const [isResetting, setIsResetting] = React.useState(false);
@@ -423,6 +424,9 @@ export default function AdminDashboard() {
 
                 {/* Hero Image Manager */}
                 <HeroImageManager />
+
+                {/* Brand Partners Manager */}
+                <BrandPartnerManager />
 
                 {/* Quick Actions Row */}
                 <div className="grid gap-4 md:grid-cols-3">

@@ -7,6 +7,7 @@ import { createPageUrl } from '../utils';
 import { Target, Heart, Shield, Award } from 'lucide-react';
 import EstimatorButton from '../components/EstimatorButton';
 import SEOHead from '../components/SEOHead';
+import BrandPartnersSection from '../components/BrandPartnersSection';
 
 export default function About() {
   const heroRef = useRef(null);
@@ -331,6 +332,9 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* Brands We Work With */}
+      <BrandPartnersSection />
 
       {/* CTA Section */}
       <section ref={ctaRef} className="py-20 md:py-32 bg-gray-900 text-white relative overflow-hidden">
