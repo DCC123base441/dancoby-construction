@@ -94,10 +94,11 @@ export default function HeroImageManager() {
               className="flex-1 bg-white"
             />
             <label className="cursor-pointer">
-              <Button variant="outline" size="sm" asChild>
+              <Button variant="outline" size="sm" asChild disabled={isUploading}>
                 <span>
-                  <Plus className="w-4 h-4 mr-1" /> Upload
-                  <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+                  {isUploading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Plus className="w-4 h-4 mr-1" />}
+                  {isUploading ? 'Uploading...' : 'Upload'}
+                  <input type="file" accept=".jpg,.jpeg,.png,.webp" className="hidden" onChange={handleFileUpload} />
                 </span>
               </Button>
             </label>
@@ -113,6 +114,10 @@ export default function HeroImageManager() {
               {createMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Add Image'}
             </Button>
           </div>
+          {uploadError && (
+            <p className="text-sm text-red-600 bg-red-50 p-2 rounded">{uploadError}</p>
+          )}
+          <p className="text-xs text-slate-400">Accepted: JPG, PNG, WebP — Max 10MB</p>
         </div>
 
         {/* Image list */}
