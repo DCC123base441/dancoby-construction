@@ -48,6 +48,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import HeroImageManager from '../components/admin/HeroImageManager';
 
 export default function AdminDashboard() {
     const [isResetting, setIsResetting] = React.useState(false);
@@ -419,6 +420,9 @@ export default function AdminDashboard() {
                         </CardContent>
                     </Card>
                 </div>
+
+                {/* Hero Image Manager */}
+                <HeroImageManager />
 
                 {/* Quick Actions Row */}
                 <div className="grid gap-4 md:grid-cols-3">
