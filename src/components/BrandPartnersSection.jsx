@@ -3,6 +3,16 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 
+const BRAND_STYLES = {
+    'Kohler': { fontFamily: "'Georgia', serif", fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', fontSize: '1.1rem' },
+    'Duravit': { fontFamily: "'Georgia', serif", fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontSize: '1.1rem' },
+    'Waterworks': { fontFamily: "'Georgia', serif", fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', fontSize: '0.85rem' },
+    'Grohe': { fontFamily: "'Arial', sans-serif", fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '1.2rem' },
+    'TOTO': { fontFamily: "'Arial', sans-serif", fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', fontSize: '1.3rem' },
+    'Ruvati': { fontFamily: "'Georgia', serif", fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', fontSize: '1rem' },
+    'Benjamin Moore': { fontFamily: "'Georgia', serif", fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: '0.8rem' },
+};
+
 export default function BrandPartnersSection() {
     const { data: brands = [] } = useQuery({
         queryKey: ['brandPartners'],
@@ -31,39 +41,35 @@ export default function BrandPartnersSection() {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="flex flex-wrap items-center justify-center gap-10 md:gap-16"
+                    className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16"
                 >
-                    {activeBrands.map((brand, idx) => (
-                        <motion.div
-                            key={brand.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: idx * 0.05 }}
-                            className="grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300 flex items-center justify-center"
-                            style={{ width: 160, height: 60 }}
-                        >
-                            {brand.websiteUrl ? (
-                                <a href={brand.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full h-full">
-                                    <img
-                                        src={brand.logoUrl}
-                                        alt={brand.name}
-                                        className="max-h-[40px] md:max-h-[50px] max-w-[140px] w-auto object-contain"
-                                        loading="lazy"
-                                        onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = `<span class="text-lg font-semibold tracking-wide text-gray-400">${brand.name}</span>`; }}
-                                    />
-                                </a>
-                            ) : (
-                                <img
-                                    src={brand.logoUrl}
-                                    alt={brand.name}
-                                    className="max-h-[40px] md:max-h-[50px] max-w-[140px] w-auto object-contain"
-                                    loading="lazy"
-                                    onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = `<span class="text-lg font-semibold tracking-wide text-gray-400">${brand.name}</span>`; }}
-                                />
-                            )}
-                        </motion.div>
-                    ))}
+                    {activeBrands.map((brand, idx) => {
+                        const style = BRAND_STYLES[brand.name] || { fontFamily: "'Georgia', serif", fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '1rem' };
+                        const content = (
+                            <span 
+                                className="text-gray-800 hover:text-gray-950 transition-colors duration-300 whitespace-nowrap select-none"
+                                style={style}
+                            >
+                                {brand.name}
+                            </span>
+                        );
+                        return (
+                            <motion.div
+                                key={brand.id}
+                                initial={{ opacity: 0, y: 15 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: idx * 0.06 }}
+                                className="opacity-40 hover:opacity-100 transition-all duration-300 flex items-center justify-center py-2"
+                            >
+                                {brand.websiteUrl ? (
+                                    <a href={brand.websiteUrl} target="_blank" rel="noopener noreferrer">
+                                        {content}
+                                    </a>
+                                ) : content}
+                            </motion.div>
+                        );
+                    })}
                 </motion.div>
             </div>
         </section>
