@@ -117,14 +117,14 @@ export default function Header() {
               onMouseLeave={handleDropdownLeave}
             >
               <button
-                className={`relative flex items-center gap-1 text-[13px] uppercase tracking-[0.15em] font-medium transition-all duration-300 py-1 ${
+                className={`group relative flex items-center gap-1 text-[13px] uppercase tracking-[0.15em] font-medium transition-all duration-300 py-1 ${
                   isCompanyActive ? 'text-red-600' : 'text-gray-500 hover:text-gray-900'
                 }`}
               >
                 Company
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${companyDropdownOpen ? 'rotate-180' : ''}`} />
                 <span className={`absolute -bottom-0.5 left-0 h-[1px] bg-red-600 transition-all duration-300 ${
-                  isCompanyActive ? 'w-full' : 'w-0'
+                  isCompanyActive ? 'w-full' : 'w-0 group-hover:w-full'
                 }`} />
               </button>
 
