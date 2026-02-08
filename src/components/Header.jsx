@@ -96,7 +96,7 @@ export default function Header() {
                 key={link.name}
                 to={createPageUrl(link.path)}
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className={`relative text-[13px] uppercase tracking-[0.15em] font-medium transition-all duration-300 py-1 ${
+                className={`group relative text-[13px] uppercase tracking-[0.15em] font-medium transition-all duration-300 py-1 ${
                   isActivePath(link.path) 
                     ? 'text-red-600' 
                     : 'text-gray-500 hover:text-gray-900'
@@ -104,7 +104,7 @@ export default function Header() {
               >
                 {link.name}
                 <span className={`absolute -bottom-0.5 left-0 h-[1px] bg-red-600 transition-all duration-300 ${
-                  isActivePath(link.path) ? 'w-full' : 'w-0'
+                  isActivePath(link.path) ? 'w-full' : 'w-0 group-hover:w-full'
                 }`} />
               </Link>
             ))}
