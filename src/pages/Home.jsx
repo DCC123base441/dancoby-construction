@@ -502,16 +502,13 @@ export default function Home() {
       </section>
 
       {/* What We're Up To Section */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-          <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Current Projects</p>
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">What We're Up To</h2>
-          <p className="text-lg text-[#78716b] max-w-2xl font-light">A glimpse into our active construction sites where craftsmanship meets innovation.</p>
-        </div>
-      </section>
-
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-16">
+            <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">Current Projects</p>
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">What We're Up To</h2>
+            <p className="text-lg text-[#78716b] max-w-2xl font-light">A glimpse into our active construction sites where craftsmanship meets innovation.</p>
+          </div>
           {isLoadingProjects ? <CurrentProjectsSkeleton /> : homeProjects.length > 0 ?
           <div className="grid md:grid-cols-2 gap-12 mb-16">
               {homeProjects.map((project, idx) => {
