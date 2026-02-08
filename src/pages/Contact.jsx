@@ -14,7 +14,8 @@ export default function Contact() {
     target: heroRef,
     offset: ["start start", "end start"]
   });
-  const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "20%"]);
+  const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "30%"]);
+  const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
   
   // Form State
   const [formData, setFormData] = useState({
