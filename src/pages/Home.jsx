@@ -174,7 +174,7 @@ export default function Home() {
                   <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Our Services</h2>
                   <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">Full-Service Rejuvenation For Any Space</h3>
                   <Button asChild variant="link" className="text-gray-900 hover:text-red-600">
-                    <Link to={createPageUrl('Contact')}>Learn More</Link>
+                    <Link to={createPageUrl('Services')}>Learn More</Link>
                   </Button>
                 </motion.div>
 
