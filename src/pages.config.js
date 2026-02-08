@@ -76,6 +76,7 @@ import ServiceInteriorRenovations from './pages/ServiceInteriorRenovations';
 import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
+import Shop from './pages/Shop';
 import Step from './pages/Step';
 import StepBuilder from './pages/StepBuilder';
 import StepDashboard from './pages/StepDashboard';
@@ -83,7 +84,6 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import Shop from './pages/Shop';
 import __Layout from './Layout.jsx';
 
 
@@ -117,6 +117,7 @@ export const PAGES = {
     "ServiceKitchenBath": ServiceKitchenBath,
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
+    "Shop": Shop,
     "Step": Step,
     "StepBuilder": StepBuilder,
     "StepDashboard": StepDashboard,
@@ -124,7 +125,6 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "Shop": Shop,
 }
 
 export const pagesConfig = {

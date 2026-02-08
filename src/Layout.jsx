@@ -10,6 +10,7 @@ import PageTransition from './components/PageTransition';
 import FloatingCTA from './components/FloatingCTA';
 import BackToTop from './components/BackToTop';
 import ScrollProgress from './components/ScrollProgress';
+import CookieConsent from './components/CookieConsent';
 import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children }) {
