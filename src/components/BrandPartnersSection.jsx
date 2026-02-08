@@ -40,23 +40,26 @@ export default function BrandPartnersSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.4, delay: idx * 0.05 }}
-                            className="grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
+                            className="grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300 flex items-center justify-center"
+                            style={{ width: 160, height: 60 }}
                         >
                             {brand.websiteUrl ? (
-                                <a href={brand.websiteUrl} target="_blank" rel="noopener noreferrer">
+                                <a href={brand.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full h-full">
                                     <img
                                         src={brand.logoUrl}
                                         alt={brand.name}
-                                        className="h-10 md:h-14 w-auto object-contain"
+                                        className="max-h-[40px] md:max-h-[50px] max-w-[140px] w-auto object-contain"
                                         loading="lazy"
+                                        onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = `<span class="text-lg font-semibold tracking-wide text-gray-400">${brand.name}</span>`; }}
                                     />
                                 </a>
                             ) : (
                                 <img
                                     src={brand.logoUrl}
                                     alt={brand.name}
-                                    className="h-10 md:h-14 w-auto object-contain"
+                                    className="max-h-[40px] md:max-h-[50px] max-w-[140px] w-auto object-contain"
                                     loading="lazy"
+                                    onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = `<span class="text-lg font-semibold tracking-wide text-gray-400">${brand.name}</span>`; }}
                                 />
                             )}
                         </motion.div>
