@@ -70,7 +70,7 @@ export default function Services() {
         keywords="kitchen remodeling Brooklyn, bathroom renovation NYC, brownstone restoration Brooklyn, townhouse renovation, interior design contractor, home improvement NYC"
       />
       {/* Hero Section */}
-      <section ref={heroRef} className="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
+      <section ref={heroRef} className="relative h-[75vh] flex items-center overflow-hidden">
         <motion.div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -79,16 +79,48 @@ export default function Services() {
             scale: heroScale
           }}
         />
-        <div className="absolute inset-0 bg-black/40" />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 text-center text-white max-w-3xl px-6"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Our Services</h1>
-          <p className="text-xl text-white/90">Specialized expertise in residential construction, interiors, and custom projects</p>
-        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+          <div className="max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              <motion.div 
+                className="h-px w-16 bg-gradient-to-r from-red-500 to-red-600 mb-6"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                style={{ transformOrigin: 'left' }}
+              />
+              <motion.p 
+                className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.3em] mb-4 font-light"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                Our Services
+              </motion.p>
+              <motion.h1 
+                className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-white leading-[1.15] mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+              >
+                Full-Service<br /><em className="italic font-light text-white/90">Rejuvenation</em>
+              </motion.h1>
+              <motion.p 
+                className="text-white/60 text-base md:text-lg leading-relaxed max-w-xl font-light"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.9 }}
+              >
+                Specialized expertise in residential construction, interiors, and custom projects.
+              </motion.p>
+            </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* Services Grid */}
