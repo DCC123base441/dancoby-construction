@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Card } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -10,7 +10,7 @@ import SEOHead from '../components/SEOHead';
 
 export default function About() {
   const heroRef = useRef(null);
-  const bathroomRef = useRef(null);
+  
   const ctaRef = useRef(null);
 
   const { scrollYProgress: heroScrollProgress } = useScroll({
@@ -18,10 +18,6 @@ export default function About() {
     offset: ["start start", "end start"]
   });
   
-  const { scrollYProgress: bathroomScrollProgress } = useScroll({
-    target: bathroomRef,
-    offset: ["start end", "end start"]
-  });
   
   const { scrollYProgress: ctaScrollProgress } = useScroll({
     target: ctaRef,
@@ -30,7 +26,7 @@ export default function About() {
 
   const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "30%"]);
   const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
-  const bathroomY = useTransform(bathroomScrollProgress, [0, 1], ["-10%", "10%"]);
+  
   const ctaY = useTransform(ctaScrollProgress, [0, 1], ["0%", "15%"]);
 
   return (
