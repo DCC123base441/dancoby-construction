@@ -63,6 +63,8 @@ export default function ServiceTownhouses() {
                 src="https://static.wixstatic.com/media/c1b522_ad38c506d35e4fd6a819d8702ad6b680~mv2.jpg/v1/fill/w_445,h_520,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_849%20Central_15.jpg"
                 alt="Townhouse & Apartment"
                 className="w-full h-auto rounded-lg"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="space-y-6">
@@ -159,6 +161,8 @@ export default function ServiceTownhouses() {
                       src={project.mainImage}
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <div className="flex flex-col flex-1">

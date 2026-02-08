@@ -110,6 +110,8 @@ export default function Services() {
                       src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover group-hover:scale-[1.1] transition-transform duration-700"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
                   </div>

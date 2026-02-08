@@ -190,14 +190,18 @@ export default function Shop() {
                 <img
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/d693bfc2f_Hoodie1.jpg"
               alt="Official Dancoby Hoodie"
-              className="w-full h-full object-cover grayscale" />
+              className="w-full h-full object-cover grayscale"
+              loading="eager"
+              decoding="async" />
 
             </div>
             <div className="w-1/2 h-full">
                 <img
-              src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80"
+              src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=1200"
               alt="Cute Dog Adoption"
-              className="w-full h-full object-cover grayscale" />
+              className="w-full h-full object-cover grayscale"
+              loading="eager"
+              decoding="async" />
 
             </div>
         </div>
@@ -209,15 +213,17 @@ export default function Shop() {
             transition={{ duration: 0.8 }}
             className="flex flex-col items-center">
 
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-sm mb-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-sm mb-8">
                     <span className="text-sm font-bold tracking-wide uppercase text-red-400">Charity Drive</span>
                     <span className="w-1 h-1 rounded-full bg-white/50" />
-                    <span className="text-sm font-medium tracking-wide">100% of proceeds go to Rescue City</span>
+                    <span className="text-sm font-medium tracking-wide">100% of Proceeds go to the ASPCA</span>
                 </div>
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+                <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
-                <p className="text-gray-300 mb-8 mx-auto text-lg font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.</p>
+                <p className="text-gray-300 mb-10 mx-auto pb-40 text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
+
+            </p>
                 <Button
               size="lg"
               className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
@@ -419,7 +425,9 @@ function ProductCard({ product, onAddToCart, onNotify }) {
             <img
           src={product.images[0]}
           alt={product.name}
-          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
+          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+          decoding="async" />
 
             {!product.inStock &&
         <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">

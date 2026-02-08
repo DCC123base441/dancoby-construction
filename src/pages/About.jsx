@@ -172,6 +172,8 @@ export default function About() {
                 src="https://static.wixstatic.com/media/c1b522_7231b6f8cbaf46cf8dd85c643a4230f7~mv2.jpg/v1/fill/w_467,h_418,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2311%201.jpg"
                 alt="Bright kitchen window"
                 className="w-full h-[450px] object-cover rounded-lg shadow-xl"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -187,6 +189,8 @@ export default function About() {
                 src="https://static.wixstatic.com/media/efb67d_56ea9dfe4a0f437a8bc6abb241a18a24~mv2.jpeg/v1/fill/w_551,h_493,fp_0.54_0.31,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Favorite-Aragon-Headshot-94.jpeg"
                 alt="Ralph - Founder"
                 className="w-full h-[550px] object-cover rounded-lg shadow-xl"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="space-y-6">

@@ -61,6 +61,8 @@ export default function ServiceBrownstone() {
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/f2d5f67ad_VAN_SARKI_STUDIO_8_PARK_SLOPE_23491.jpg"
                 alt="Brownstone Restoration"
                 className="w-full h-auto rounded-lg"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="space-y-6">
@@ -157,6 +159,8 @@ export default function ServiceBrownstone() {
                       src={project.mainImage}
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <div className="flex flex-col flex-1">

@@ -47,6 +47,8 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, beforeLabel
         alt={afterLabel}
         className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
+        loading="lazy"
+        decoding="async"
       />
 
       {/* Before Image (Clipped) */}
@@ -60,6 +62,8 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, beforeLabel
           className="absolute inset-0 w-full h-full object-cover"
           style={{ width: containerRef.current ? `${containerRef.current.offsetWidth}px` : '100%' }}
           draggable={false}
+          loading="lazy"
+          decoding="async"
         />
       </div>
 
