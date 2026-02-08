@@ -5,8 +5,15 @@ import AdminLayout from '../components/admin/AdminLayout';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Search, Pencil, Trash2, Image as ImageIcon, GripVertical, Save } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { Plus, Search, Pencil, Trash2, Image as ImageIcon, GripVertical, Save, MapPin, Clock, DollarSign, LayoutGrid, List, MoreVertical } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import ProjectGalleryManager from '../components/admin/ProjectGalleryManager';
 import TestimonialsManager from '../components/admin/TestimonialsManager';
 import AIProjectWriter from '../components/admin/AIProjectWriter';
