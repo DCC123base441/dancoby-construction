@@ -139,7 +139,7 @@ export default function FAQ() {
             <span className="inline-block bg-red-600/20 text-red-400 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full mb-6">
               Help Center
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl md:text-6xl font-bold mb-6 leading-tight">
               How can we<br />help you?
             </h1>
             <p className="text-lg text-white/50 font-light leading-relaxed max-w-lg">
