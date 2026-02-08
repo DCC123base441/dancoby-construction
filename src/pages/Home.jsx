@@ -152,6 +152,8 @@ export default function Home() {
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
                     alt="Living Room"
                     className="w-full h-full shadow-xl object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="h-full">
@@ -159,6 +161,8 @@ export default function Home() {
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
                     alt="Kitchen"
                     className="w-full h-full shadow-xl object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               </div>
@@ -219,6 +223,8 @@ export default function Home() {
                             src={service.image}
                             alt={service.title}
                             className="w-full aspect-[3/4] object-cover group-hover:scale-[1.1] transition-transform duration-700"
+                            loading="lazy"
+                            decoding="async"
                           />
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
                         </div>
@@ -265,6 +271,8 @@ export default function Home() {
                       src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
                       alt="Modern Kitchen"
                       className="w-full h-full object-cover shadow-2xl rounded-sm"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </motion.div>
                 </div>
@@ -312,6 +320,8 @@ export default function Home() {
                         src={project.image}
                         alt={project.logo}
                         className="w-full h-96 object-cover group-hover:scale-[1.1] transition-transform duration-700"
+                        loading="lazy"
+                        decoding="async"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
                     </Link>

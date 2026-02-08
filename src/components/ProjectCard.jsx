@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { ArrowRight } from 'lucide-react';
-import ImageWithLoader from './ImageWithLoader';
+import OptimizedImage from './OptimizedImage';
 
 export default function ProjectCard({ project }) {
   return (
@@ -16,10 +16,11 @@ export default function ProjectCard({ project }) {
       className="group flex flex-col h-full"
     >
       <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5] rounded-lg shadow-md group-hover:shadow-xl transition-shadow duration-700">
-        <ImageWithLoader 
+        <OptimizedImage 
           src={project.mainImage}
           alt={project.title}
           className="w-full h-full object-cover group-hover:scale-[1.1] transition-transform duration-700"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
       </div>
