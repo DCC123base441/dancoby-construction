@@ -9,6 +9,14 @@ const fallbackImages = [
 
 const DURATION = 7000;
 
+// Alternate Ken Burns directions for variety
+const kenBurnsVariants = [
+  { initial: { scale: 1.15, x: "2%", y: "1%" }, animate: { scale: 1, x: "-1%", y: "-1%" } },
+  { initial: { scale: 1, x: "-2%", y: "-1%" }, animate: { scale: 1.15, x: "1%", y: "1%" } },
+  { initial: { scale: 1.1, x: "-1%", y: "2%" }, animate: { scale: 1.02, x: "1%", y: "-1%" } },
+  { initial: { scale: 1.02, x: "1%", y: "-2%" }, animate: { scale: 1.12, x: "-1%", y: "1%" } },
+];
+
 export default function HeroImageFade() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -28,20 +36,25 @@ export default function HeroImageFade() {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  // Reset index if it's out of bounds
   const safeIndex = currentIndex % (images.length || 1);
+  const kb = kenBurnsVariants[safeIndex % kenBurnsVariants.length];
 
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 overflow-hidden">
       <AnimatePresence initial={false}>
         <motion.div
           key={safeIndex}
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-[-5%] bg-cover bg-center will-change-transform"
           style={{ backgroundImage: `url(${images[safeIndex]})` }}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: kb.initial.scale, x: kb.initial.x, y: kb.initial.y }}
+          animate={{ opacity: 1, scale: kb.animate.scale, x: kb.animate.x, y: kb.animate.y }}
           exit={{ opacity: 0 }}
-          transition={{ opacity: { duration: 1.5, ease: "easeInOut" }, scale: { duration: DURATION / 1000, ease: "linear" } }}
+          transition={{
+            opacity: { duration: 1.2, ease: "easeInOut" },
+            scale: { duration: DURATION / 1000, ease: "easeInOut" },
+            x: { duration: DURATION / 1000, ease: "easeInOut" },
+            y: { duration: DURATION / 1000, ease: "easeInOut" },
+          }}
         />
       </AnimatePresence>
     </div>
