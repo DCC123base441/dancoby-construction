@@ -53,12 +53,12 @@ export default function Header() {
   ];
 
   const companyLinks = [
-    { name: 'Blog', path: 'Blog', desc: 'Industry tips & project stories' },
-    { name: 'Press', path: 'Press', desc: 'Media features & coverage' },
-    { name: 'Reviews', path: 'Home', hash: 'reviews', desc: 'What our clients say' },
-    { name: 'Careers', path: 'HiringApplication', desc: 'Join the Dancoby team' },
-    { name: 'Partner With Us', path: 'VendorIntake', desc: 'Vendor & subcontractor intake' },
-    { name: 'FAQ', path: 'FAQ', desc: 'Common questions answered' },
+    { name: 'Blog', path: 'Blog', desc: 'Tips & insights' },
+    { name: 'Press', path: 'Press', desc: 'In the news' },
+    { name: 'Reviews', path: 'Home', hash: 'reviews', desc: 'Client stories' },
+    { name: 'Careers', path: 'HiringApplication', desc: 'Join our team' },
+    { name: 'Partner With Us', path: 'VendorIntake', desc: 'Vendor opportunities' },
+    { name: 'FAQ', path: 'FAQ', desc: 'Common questions' },
   ];
 
   const isCompanyActive = companyLinks.some(link => !link.hash && isActivePath(link.path));
