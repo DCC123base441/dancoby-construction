@@ -178,14 +178,9 @@ export default function FAQ() {
             <p className="text-white/60 text-lg mb-8 font-light">
               We'd love to hear from you. Let's discuss your project.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button asChild className="bg-white text-stone-900 hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase">
-                <Link to={createPageUrl('Contact')}>Get In Touch</Link>
-              </Button>
-              <Button asChild variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-sm tracking-wider uppercase">
-                <a href="tel:+15166849766">(516) 684-9766</a>
-              </Button>
-            </div>
+            <Button asChild className="bg-white text-stone-900 hover:bg-gray-200 px-8 py-6 text-sm tracking-wider uppercase">
+              <Link to={createPageUrl('Contact')}>Get In Touch</Link>
+            </Button>
           </motion.div>
         </div>
       </section>
