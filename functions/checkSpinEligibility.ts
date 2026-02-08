@@ -11,8 +11,9 @@ Deno.serve(async (req) => {
         
         const { action } = await req.json();
         
-        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-        const spinKey = `spin_${ip}_${today}`;
+        const now = new Date();
+        const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        const spinKey = `spin_${ip}_${monthKey}`;
         
         if (action === 'check') {
             // Check if this IP has spun today

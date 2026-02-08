@@ -174,16 +174,18 @@ export default function SpinWheel() {
         <section className="py-16 bg-zinc-50 border-y border-gray-200 overflow-hidden relative">
             <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <div className="order-2 md:order-1 space-y-6">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
+                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold ${
+                        hasSpun ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                    }`}>
                         <Sparkles className="w-4 h-4" />
-                        <span>Daily Chance</span>
+                        <span>{hasSpun ? 'Spin Used' : 'Monthly Chance'}</span>
                     </div>
                     <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
                         Feeling Lucky? <br />
                         <span className="text-red-600">Spin to Win</span> Free Gear!
                     </h2>
                     <p className="text-lg text-gray-600 max-w-md">
-                        Try your luck on the wheel for a chance to win exclusive Dancoby merchandise, discount codes, and more. Only one spin per customer!
+                        Try your luck on the wheel for a chance to win exclusive Dancoby merchandise, discount codes, and more. One spin per month!
                     </p>
                     <div className="pt-4 hidden md:block">
                         <Button 
@@ -195,7 +197,7 @@ export default function SpinWheel() {
                             {isLoading ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Loading...</> : isSpinning ? 'Spinning...' : hasSpun ? 'Already Played' : 'Spin the Wheel'}
                         </Button>
                         {hasSpun && !isSpinning && !showResult && (
-                            <p className="text-sm text-gray-500 mt-2">You've already used your daily spin.</p>
+                            <p className="text-sm text-gray-500 mt-2">You've already used your monthly spin.</p>
                         )}
                     </div>
                 </div>
@@ -267,7 +269,7 @@ export default function SpinWheel() {
                             {isLoading ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Loading...</> : isSpinning ? 'Spinning...' : hasSpun ? 'Already Played' : 'Spin the Wheel'}
                         </Button>
                         {hasSpun && !isSpinning && !showResult && (
-                            <p className="text-sm text-gray-500 mt-2">You've already used your daily spin.</p>
+                            <p className="text-sm text-gray-500 mt-2">You've already used your monthly spin.</p>
                         )}
                     </div>
                 </div>
