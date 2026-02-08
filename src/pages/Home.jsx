@@ -14,6 +14,7 @@ import SEOHead from '../components/SEOHead';
 import TrustBadges from '../components/TrustBadges';
 import CurrentProjectCard from '../components/home/CurrentProjectCard';
 import CurrentProjectsSkeleton from '../components/home/CurrentProjectsSkeleton';
+import HeroImageFade from '../components/home/HeroImageFade';
 
 
 export default function Home() {
@@ -68,13 +69,14 @@ export default function Home() {
       {/* Hero Section */}
               <section ref={heroRef} className="relative h-screen overflow-hidden">
                 <motion.div 
-                  className="absolute inset-0 bg-cover bg-center"
+                  className="absolute inset-0"
                   style={{ 
-                    backgroundImage: `url(https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.44,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg)`,
                     y: heroY,
                     scale: heroScale
                   }}
-                />
+                >
+                  <HeroImageFade />
+                </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
 
                 <div className="relative z-10 h-full flex items-center">
