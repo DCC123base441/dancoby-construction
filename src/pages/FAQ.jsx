@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { Button } from "@/components/ui/button";
+import { Rocket, Settings, DollarSign, Shield, ChevronDown, ArrowRight } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
