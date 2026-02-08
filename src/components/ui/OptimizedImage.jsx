@@ -36,6 +36,7 @@ export default function OptimizedImage({
                 src={src}
                 alt={alt || ""}
                 loading={priority ? "eager" : "lazy"}
+                decoding="async"
                 width={width}
                 height={height}
                 onLoad={() => setIsLoading(false)}
