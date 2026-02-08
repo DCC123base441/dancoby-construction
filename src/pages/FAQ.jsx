@@ -12,6 +12,13 @@ import {
 } from "@/components/ui/accordion";
 import SEOHead from '../components/SEOHead';
 
+const categoryIcons = {
+  "Getting Started": Rocket,
+  "Process & Planning": Settings,
+  "Costs & Payments": DollarSign,
+  "Quality & Warranty": Shield,
+};
+
 const faqCategories = [
   {
     title: "Getting Started",
