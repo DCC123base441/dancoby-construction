@@ -61,7 +61,7 @@ export default function Header() {
     { name: 'FAQ', path: 'FAQ' },
   ];
 
-  const isCompanyActive = companyLinks.some(link => isActivePath(link.path));
+  const isCompanyActive = companyLinks.some(link => !link.hash && isActivePath(link.path));
 
   const handleDropdownEnter = () => {
     clearTimeout(dropdownTimeout.current);
