@@ -2,26 +2,18 @@ import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Mail, Phone, Calendar, MessageSquare, Trash2 } from 'lucide-react';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { Mail, Phone, Calendar, MessageSquare } from 'lucide-react';
+import LeadsToolbar from '../components/admin/LeadsToolbar';
 
 export default function AdminLeads() {
     const [isResetting, setIsResetting] = React.useState(false);
+    const [search, setSearch] = React.useState('');
+    const [statusFilter, setStatusFilter] = React.useState('all');
+    const [sort, setSort] = React.useState('newest');
     const queryClient = useQueryClient();
 
     const handleReset = async () => {
@@ -60,36 +52,52 @@ export default function AdminLeads() {
         }
     };
 
+    const filteredLeads = React.useMemo(() => {
+        let result = [...leads];
+
+        // Search filter
+        if (search.trim()) {
+            const q = search.toLowerCase();
+            result = result.filter(l => 
+                (l.name || '').toLowerCase().includes(q) ||
+                (l.email || '').toLowerCase().includes(q) ||
+                (l.notes || '').toLowerCase().includes(q)
+            );
+        }
+
+        // Status filter
+        if (statusFilter !== 'all') {
+            result = result.filter(l => l.status === statusFilter);
+        }
+
+        // Sort
+        if (sort === 'newest') {
+            result.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+        } else if (sort === 'oldest') {
+            result.sort((a, b) => new Date(a.created_date) - new Date(b.created_date));
+        } else if (sort === 'name') {
+            result.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        }
+
+        return result;
+    }, [leads, search, statusFilter, sort]);
+
     return (
-        <AdminLayout 
-            title="Lead Management"
-            actions={
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="outline" className="bg-white text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100">
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Reset Leads
-                        </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>Reset All Leads?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                This will permanently delete all leads. This action cannot be undone.
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
-                                {isResetting ? "Resetting..." : "Yes, Delete All"}
-                            </AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
-            }
-        >
-            <div className="grid gap-4">
-                {leads.map((lead) => (
+        <AdminLayout title="Lead Management">
+            <LeadsToolbar
+                leads={leads}
+                search={search}
+                onSearchChange={setSearch}
+                statusFilter={statusFilter}
+                onStatusFilterChange={setStatusFilter}
+                sort={sort}
+                onSortChange={setSort}
+                onReset={handleReset}
+                isResetting={isResetting}
+            />
+
+            <div className="grid gap-4 mt-6">
+                {filteredLeads.map((lead) => (
                     <Card key={lead.id} className="overflow-hidden">
                         <div className="p-6">
                             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
@@ -146,9 +154,9 @@ export default function AdminLeads() {
                     </Card>
                 ))}
                 
-                {leads.length === 0 && !isLoading && (
+                {filteredLeads.length === 0 && !isLoading && (
                     <div className="text-center py-12 text-slate-500 bg-slate-50 rounded-xl border border-dashed">
-                        No leads found.
+                        {search || statusFilter !== 'all' ? 'No leads match your filters.' : 'No leads found.'}
                     </div>
                 )}
             </div>
