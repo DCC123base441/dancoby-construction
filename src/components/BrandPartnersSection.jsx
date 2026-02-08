@@ -11,6 +11,8 @@ const BRAND_STYLES = {
     'TOTO': { fontFamily: "'Arial', sans-serif", fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', fontSize: '1.3rem' },
     'Ruvati': { fontFamily: "'Georgia', serif", fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase', fontSize: '1rem' },
     'Benjamin Moore': { fontFamily: "'Georgia', serif", fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: '0.8rem' },
+    'JobTread': { fontFamily: "'Arial', sans-serif", fontWeight: 700, letterSpacing: '0.05em', textTransform: 'none', fontSize: '1.1rem' },
+    'Signature Hardware': { fontFamily: "'Georgia', serif", fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.75rem' },
 };
 
 export default function BrandPartnersSection() {
