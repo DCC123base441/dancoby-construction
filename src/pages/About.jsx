@@ -10,15 +10,15 @@ import SEOHead from '../components/SEOHead';
 
 export default function About() {
   const heroRef = useRef(null);
-  
+
   const ctaRef = useRef(null);
 
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
   });
-  
-  
+
+
   const { scrollYProgress: ctaScrollProgress } = useScroll({
     target: ctaRef,
     offset: ["start end", "end start"]
@@ -26,66 +26,66 @@ export default function About() {
 
   const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "30%"]);
   const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
-  
+
   const ctaY = useTransform(ctaScrollProgress, [0, 1], ["0%", "15%"]);
 
   return (
     <main className="min-h-screen bg-white">
-      <SEOHead 
+      <SEOHead
         title="About Us | 20+ Years of NYC Home Renovation Excellence"
         description="Learn about Dancoby Construction's 20+ years of NYC renovation experience. Licensed, insured contractors with 5-year warranty. Meet our founder and team."
-        keywords="about Dancoby Construction, NYC renovation company, licensed contractor Brooklyn, home renovation experience, general contractor history"
-      />
+        keywords="about Dancoby Construction, NYC renovation company, licensed contractor Brooklyn, home renovation experience, general contractor history" />
+
       {/* Hero Section */}
-      <section 
+      <section
         ref={heroRef}
-        className="relative h-[75vh] flex items-center overflow-hidden"
-      >
-        <motion.div 
+        className="relative h-[75vh] flex items-center overflow-hidden">
+
+        <motion.div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg/v1/fill/w_1920,h_1080,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_51ff5023986c46a88a21cb6a2bae4e3c~mv2.jpeg)',
             y: heroY,
             scale: heroScale
-          }}
-        />
+          }} />
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
           <div className="max-w-2xl">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-            >
-              <motion.div 
+              transition={{ duration: 1, delay: 0.2 }}>
+
+              <motion.div
                 className="h-px w-16 bg-gradient-to-r from-red-500 to-red-600 mb-6"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                style={{ transformOrigin: 'left' }}
-              />
-              <motion.p 
+                style={{ transformOrigin: 'left' }} />
+
+              <motion.p
                 className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.3em] mb-4 font-light"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
+                transition={{ duration: 0.6, delay: 0.6 }}>
+
                 About Dancoby Construction
               </motion.p>
-              <motion.h1 
+              <motion.h1
                 className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-white leading-[1.15] mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-              >
+                transition={{ duration: 0.8, delay: 0.7 }}>
+
                 More Than<br /><em className="italic font-light text-white/90">Just Remodelers</em>
               </motion.h1>
-              <motion.p 
+              <motion.p
                 className="text-white/60 text-base md:text-lg leading-relaxed max-w-xl font-light"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.9 }}
-              >
+                transition={{ duration: 0.6, delay: 0.9 }}>
+
                 Over twenty years of experience serving clients across New York City with elegant, functional, and completely stress-free renovations.
               </motion.p>
             </motion.div>
@@ -101,8 +101,8 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center"
-          >
+            className="text-center">
+
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-6">Our Philosophy</p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 leading-[1.3]">
               We are builders and creative thinkers who love collaborating with clients, architects, and makers who share our passion for thoughtful renovations.
@@ -116,50 +116,50 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8 md:gap-12">
             {[
-              {
-                icon: <Target className="w-5 h-5 text-red-600" />,
-                title: "Our Mission",
-                paragraphs: [
-                  "We know how stressful a renovation project can be, but we do everything possible to make sure it is as smooth and painless as possible.",
-                  "That means we take pride in our efficiency and leave every home looking better than when we arrived"
-                ]
-              },
-              {
-                icon: <Shield className="w-5 h-5 text-red-600" />,
-                title: "Our Commitment",
-                paragraphs: [
-                  "Our commitment to customer and employee safety is paramount.",
-                  "We understand that renovations can be invasive and dangerous, so our team always makes sure that you, your family, and your floors, furniture, and personal belongings are safe and protected before any work begins."
-                ]
-              },
-              {
-                icon: <Award className="w-5 h-5 text-red-600" />,
-                title: "Our Standards",
-                paragraphs: [
-                  "Dancoby Construction exhibits the highest standards in the industry and leverages a customer-first approach so that we stay on your side from the first call to the final inspection.",
-                  "In fact, we will be on your side for the long haul and even include a 3-year warranty on your project, no matter how big or small."
-                ]
-              }
-            ].map((pillar, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="bg-white rounded-sm p-8 md:p-10 border border-gray-100"
-              >
+            {
+              icon: <Target className="w-5 h-5 text-red-600" />,
+              title: "Our Mission",
+              paragraphs: [
+              "We know how stressful a renovation project can be, but we do everything possible to make sure it is as smooth and painless as possible.",
+              "That means we take pride in our efficiency and leave every home looking better than when we arrived"]
+
+            },
+            {
+              icon: <Shield className="w-5 h-5 text-red-600" />,
+              title: "Our Commitment",
+              paragraphs: [
+              "Our commitment to customer and employee safety is paramount.",
+              "We understand that renovations can be invasive and dangerous, so our team always makes sure that you, your family, and your floors, furniture, and personal belongings are safe and protected before any work begins."]
+
+            },
+            {
+              icon: <Award className="w-5 h-5 text-red-600" />,
+              title: "Our Standards",
+              paragraphs: [
+              "Dancoby Construction exhibits the highest standards in the industry and leverages a customer-first approach so that we stay on your side from the first call to the final inspection.",
+              "In fact, we will be on your side for the long haul and even include a 3-year warranty on your project, no matter how big or small."]
+
+            }].
+            map((pillar, idx) =>
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="bg-white rounded-sm p-8 md:p-10 border border-gray-100">
+
                 <div className="w-12 h-12 bg-stone-50 rounded-lg flex items-center justify-center mb-6">
                   {pillar.icon}
                 </div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">{pillar.title}</h3>
                 <div className="space-y-4">
-                  {pillar.paragraphs.map((p, i) => (
-                    <p key={i} className="text-gray-600 leading-relaxed">{p}</p>
-                  ))}
+                  {pillar.paragraphs.map((p, i) =>
+                <p key={i} className="text-gray-600 leading-relaxed">{p}</p>
+                )}
                 </div>
               </motion.div>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -172,8 +172,8 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="space-y-6"
-          >
+            className="space-y-6">
+
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase">Our Story</p>
             <p className="text-xl md:text-2xl font-light text-gray-700 leading-relaxed">
               With over twenty years of experience serving clients across New York City, Dancoby truly understands the city's high standards, expectations, and common challenges in the industry. We go the extra mile—always with a smile—to stand out as a leader, delivering results that exceed what others offer.
@@ -183,16 +183,16 @@ export default function About() {
       </section>
 
       {/* Commitment to Perfection */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="bg-slate-50 py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-stretch">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="flex flex-col justify-center space-y-8"
-            >
+              className="flex flex-col justify-center space-y-8">
+
               <div>
                 <h2 className="text-sm uppercase tracking-widest text-red-600 font-bold mb-3">Our Promise</h2>
                 <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">Commitment to Perfection</h3>
@@ -206,28 +206,28 @@ export default function About() {
                 </p>
               </div>
               <div>
-                <Button 
+                <Button
                   asChild
-                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-sm tracking-wider uppercase"
-                >
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-sm tracking-wider uppercase">
+
                   <Link to={createPageUrl('Contact')}>Get In Touch</Link>
                 </Button>
               </div>
             </motion.div>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="h-full"
-            >
-              <img 
+              className="h-full">
+
+              <img
                 src="https://static.wixstatic.com/media/c1b522_4f61cdea0afd4a25baa42f7f902c624e~mv2.jpeg/v1/fill/w_1920,h_629,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_4f61cdea0afd4a25baa42f7f902c624e~mv2.jpeg"
                 alt="Modern bathroom"
                 className="w-full h-full min-h-[400px] object-cover shadow-2xl rounded-sm"
                 loading="lazy"
-                decoding="async"
-              />
+                decoding="async" />
+
             </motion.div>
           </div>
         </div>
@@ -237,28 +237,28 @@ export default function About() {
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-stretch">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="h-full order-2 lg:order-1"
-            >
-              <img 
+              className="h-full order-2 lg:order-1">
+
+              <img
                 src="https://static.wixstatic.com/media/c1b522_7231b6f8cbaf46cf8dd85c643a4230f7~mv2.jpg/v1/fill/w_467,h_418,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/VAN_SARKI_STUDIO_8_PARK_SLOPE_2311%201.jpg"
                 alt="Bright kitchen window"
                 className="w-full h-full min-h-[400px] object-cover shadow-2xl rounded-sm"
                 loading="lazy"
-                decoding="async"
-              />
+                decoding="async" />
+
             </motion.div>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="flex flex-col justify-center space-y-8 order-1 lg:order-2"
-            >
+              className="flex flex-col justify-center space-y-8 order-1 lg:order-2">
+
               <div>
                 <h2 className="text-sm uppercase tracking-widest text-red-600 font-bold mb-3">Your Guarantee</h2>
                 <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">Complete Satisfaction, Guaranteed</h3>
@@ -282,28 +282,28 @@ export default function About() {
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-stretch">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="h-full"
-            >
-              <img 
+              className="h-full">
+
+              <img
                 src="https://static.wixstatic.com/media/efb67d_56ea9dfe4a0f437a8bc6abb241a18a24~mv2.jpeg/v1/fill/w_551,h_493,fp_0.54_0.31,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Favorite-Aragon-Headshot-94.jpeg"
                 alt="Ralph - Founder"
                 className="w-full h-full min-h-[500px] object-cover shadow-2xl rounded-sm"
                 loading="lazy"
-                decoding="async"
-              />
+                decoding="async" />
+
             </motion.div>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="flex flex-col justify-center space-y-8"
-            >
+              className="flex flex-col justify-center space-y-8">
+
               <div>
                 <h2 className="text-sm uppercase tracking-widest text-red-600 font-bold mb-3">Leadership</h2>
                 <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">About The Founder</h3>
@@ -320,10 +320,10 @@ export default function About() {
                 </p>
               </div>
               <div>
-                <Button 
+                <Button
                   asChild
-                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-sm tracking-wider uppercase"
-                >
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-sm tracking-wider uppercase">
+
                   <Link to={createPageUrl('Contact')}>Let's Talk</Link>
                 </Button>
               </div>
@@ -334,17 +334,17 @@ export default function About() {
 
       {/* CTA Section */}
       <section ref={ctaRef} className="py-20 md:py-32 bg-gray-900 text-white relative overflow-hidden">
-        <motion.div 
+        <motion.div
           className="absolute inset-0 bg-gradient-to-t from-gray-800 to-gray-900"
-          style={{ y: ctaY }}
-        />
+          style={{ y: ctaY }} />
+
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+            transition={{ duration: 0.6 }}>
+
             <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to Start Your Project?</h2>
             <p className="text-xl text-gray-300 mb-12">
               Let's work together to create the space of your dreams
@@ -353,6 +353,6 @@ export default function About() {
           </motion.div>
         </div>
       </section>
-    </main>
-  );
+    </main>);
+
 }
