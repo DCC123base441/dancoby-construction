@@ -165,14 +165,14 @@ export default function About() {
       </section>
 
       {/* Full story section */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center space-y-6"
+            className="space-y-6"
           >
             <p className="text-xs tracking-[2px] text-[#a39e96] uppercase">Our Story</p>
             <p className="text-xl md:text-2xl font-light text-gray-700 leading-relaxed">
