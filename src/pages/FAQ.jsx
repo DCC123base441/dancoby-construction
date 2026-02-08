@@ -29,7 +29,7 @@ const faqCategories = [
       },
       {
         q: "What areas do you serve?",
-        a: "We primarily serve the New York City metro area, with a strong focus on Brooklyn, Manhattan, and the surrounding boroughs. We also take on select projects in Long Island and Westchester County."
+        a: "We primarily serve Brooklyn and Long Island, with additional coverage across the New York City metro area. Whether you're in Park Slope, Williamsburg, the Hamptons, or anywhere in between, we're ready to bring your renovation vision to life."
       },
       {
         q: "How long does a typical renovation take?",

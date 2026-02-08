@@ -64,6 +64,7 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 import Estimator from './pages/Estimator';
+import FAQ from './pages/FAQ';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
 import Home from './pages/Home';
@@ -84,7 +85,6 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import FAQ from './pages/FAQ';
 import __Layout from './Layout.jsx';
 
 
@@ -106,6 +106,7 @@ export const PAGES = {
     "BlogPost": BlogPost,
     "Contact": Contact,
     "Estimator": Estimator,
+    "FAQ": FAQ,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
     "Home": Home,
@@ -126,7 +127,6 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "FAQ": FAQ,
 }
 
 export const pagesConfig = {
