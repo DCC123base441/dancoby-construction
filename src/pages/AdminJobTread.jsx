@@ -98,7 +98,7 @@ export default function AdminJobTread() {
   const handleSyncRevenue = async () => {
     setIsSyncing(true);
     try {
-      const { data } = await base44.functions.invoke('syncJobTreadRevenue');
+      const { data } = await base44.functions.invoke('syncRevenue');
       if (data.success) {
         toast.success(`Revenue synced: $${data.revenue.toLocaleString()}`, {
           description: `Updated from ${data.count} orders.`
