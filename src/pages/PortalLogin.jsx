@@ -73,26 +73,7 @@ export default function PortalLogin() {
                   Signed in as Admin
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Link to={createPageUrl('CustomerPortal')}>
-                  <div className="p-4 rounded-xl border border-slate-200 bg-white hover:shadow-md hover:border-blue-300 transition-all cursor-pointer text-center">
-                    <div className="p-3 rounded-full bg-blue-50 w-fit mx-auto mb-3">
-                      <Users className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <p className="text-sm font-semibold text-slate-900">Customer Portal</p>
-                    <p className="text-xs text-slate-500 mt-1">View as customer</p>
-                  </div>
-                </Link>
-                <Link to={createPageUrl('EmployeePortal')}>
-                  <div className="p-4 rounded-xl border border-slate-200 bg-white hover:shadow-md hover:border-amber-300 transition-all cursor-pointer text-center">
-                    <div className="p-3 rounded-full bg-amber-50 w-fit mx-auto mb-3">
-                      <HardHat className="w-5 h-5 text-amber-600" />
-                    </div>
-                    <p className="text-sm font-semibold text-slate-900">Employee Portal</p>
-                    <p className="text-xs text-slate-500 mt-1">View as employee</p>
-                  </div>
-                </Link>
-              </div>
+
               <Button asChild variant="outline" className="w-full">
                 <Link to={createPageUrl('AdminDashboard')}>Back to Admin Dashboard</Link>
               </Button>
