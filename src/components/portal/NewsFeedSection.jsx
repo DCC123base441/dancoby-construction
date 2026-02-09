@@ -17,7 +17,7 @@ const categoryConfig = {
 };
 
 export default function NewsFeedSection() {
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
 
   const { data: news = [], isLoading } = useQuery({
     queryKey: ['companyNews'],
@@ -43,7 +43,7 @@ export default function NewsFeedSection() {
     return (
       <div className="text-center py-12 text-gray-400">
         <Megaphone className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-        <p className="text-sm">{lang === 'es' ? 'No hay noticias por ahora.' : 'No news yet. Check back later!'}</p>
+        <p className="text-sm">{t('noNewsYet')}</p>
       </div>
     );
   }
@@ -52,7 +52,7 @@ export default function NewsFeedSection() {
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
         <Megaphone className="w-5 h-5 text-amber-600" />
-        {lang === 'es' ? 'Noticias de la Empresa' : 'Company News'}
+        {t('companyNews')}
       </h3>
       {sorted.map((item) => {
         const cat = categoryConfig[item.category] || categoryConfig.other;

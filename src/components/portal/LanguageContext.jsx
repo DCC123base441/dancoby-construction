@@ -164,6 +164,10 @@ const translations = {
     jobtreadDesc: 'Learn how to use JobTread with these video guides.',
     jobtreadMoreHelp: 'Need more help? Visit the official JobTread website.',
 
+    // News
+    companyNews: 'Company News',
+    noNewsYet: 'No news yet. Check back later!',
+
     // Language
     language: 'Language',
     more: 'More',
@@ -335,6 +339,9 @@ const translations = {
     jobtreadTitle: 'Tutoriales de JobTread',
     jobtreadDesc: 'Aprende a usar JobTread con estas guías en video.',
     jobtreadMoreHelp: 'Necesitas más ayuda? Visita el sitio oficial de JobTread.',
+
+    companyNews: 'Noticias de la Empresa',
+    noNewsYet: 'No hay noticias por ahora.',
 
     language: 'Idioma',
     more: 'Más',
