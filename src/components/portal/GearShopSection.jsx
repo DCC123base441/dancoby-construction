@@ -46,7 +46,7 @@ export default function GearShopSection() {
           </div>
 
           <Button asChild className="w-full bg-white text-gray-900 hover:bg-gray-100 h-11">
-            <Link to={createPageUrl('Shop')}>
+            <Link to={createPageUrl('Shop')} target="_blank">
               <ShoppingBag className="w-4 h-4 mr-2" />
               {t('browseShop')}
               <ArrowRight className="w-4 h-4 ml-2" />
