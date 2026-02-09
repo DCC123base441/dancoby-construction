@@ -21,6 +21,7 @@ const translations = {
     tabFeedback: 'Feedback',
     tabSalary: 'Salary',
     tabHolidays: 'Holidays',
+    tabTimeOff: 'Time Off',
     tabRaise: 'Raise/Review',
     tabGear: 'Gear',
 
@@ -129,6 +130,7 @@ const translations = {
     tabFeedback: 'Comentarios',
     tabSalary: 'Salario',
     tabHolidays: 'Festivos',
+    tabTimeOff: 'Días Libres',
     tabRaise: 'Aumento',
     tabGear: 'Equipo',
 
