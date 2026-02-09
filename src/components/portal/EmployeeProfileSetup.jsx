@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { UserCircle, Save, Loader2, Camera, CheckCircle2, Shield, User, Briefcase, Phone, AlertCircle, KeyRound } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UserCircle, Save, Loader2, Camera, CheckCircle2, Shield, User, Briefcase, Phone, AlertCircle, KeyRound, Mail, Calendar } from 'lucide-react';
 import { toast } from "sonner";
 import { useLanguage } from './LanguageContext';
-import { Progress } from "@/components/ui/progress";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
 export default function EmployeeProfileSetup({ user, profile, onSaved }) {
@@ -23,29 +24,14 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const [email, setEmail] = useState(profile?.email || user?.email || '');
   const [profilePicture, setProfilePicture] = useState(profile?.profilePicture || '');
   const [position, setPosition] = useState(profile?.position || '');
-  const [department, setDepartment] = useState(profile?.department || '');
   const [startDate, setStartDate] = useState(profile?.startDate || '');
   const [phone, setPhone] = useState(profile?.phone || '');
   const [emergencyName, setEmergencyName] = useState(profile?.emergencyContactName || '');
   const [emergencyPhone, setEmergencyPhone] = useState(profile?.emergencyContactPhone || '');
   const [bio, setBio] = useState(profile?.bio || '');
-  const [skills, setSkills] = useState((profile?.skills || []).join(', '));
   
-  // UI State
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [completion, setCompletion] = useState(0);
-
-  // Calculate completion percentage
-  useEffect(() => {
-    const fields = [
-      firstName, lastName, email, profilePicture, position, department, 
-      startDate, phone, emergencyName, emergencyPhone, bio, skills
-    ];
-    const filled = fields.filter(f => f && f.length > 0).length;
-    const total = fields.length;
-    setCompletion(Math.round((filled / total) * 100));
-  }, [firstName, lastName, email, profilePicture, position, department, startDate, phone, emergencyName, emergencyPhone, bio, skills]);
 
   const handlePhotoUpload = async (e) => {
     const file = e.target.files?.[0];
@@ -93,214 +79,220 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     saveMutation.mutate({
-      userEmail: user.email, firstName, lastName, email, profilePicture, position, department, startDate, phone,
-      emergencyContactName: emergencyName, emergencyContactPhone: emergencyPhone, bio,
-      skills: skills.split(',').map(s => s.trim()).filter(Boolean),
+      userEmail: user.email, 
+      firstName, 
+      lastName, 
+      email, 
+      profilePicture, 
+      position, 
+      startDate, 
+      phone,
+      emergencyContactName: emergencyName, 
+      emergencyContactPhone: emergencyPhone, 
+      bio
     });
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      {/* Header & Progress */}
-      <Card className="border-none shadow-md bg-gradient-to-r from-slate-900 to-slate-800 text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 p-32 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <CardContent className="p-8 relative z-10">
-          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
-            <div className="flex items-center gap-5">
-              <div className="relative group">
-                {profilePicture ? (
-                  <img src={profilePicture} alt="Profile" className="w-24 h-24 rounded-full object-cover border-4 border-white/20 shadow-xl" />
-                ) : (
-                  <div className="w-24 h-24 rounded-full bg-white/10 flex items-center justify-center border-4 border-white/20">
-                    <UserCircle className="w-12 h-12 text-white/50" />
-                  </div>
-                )}
-                <label className="absolute bottom-0 right-0 p-2 rounded-full bg-amber-500 text-white cursor-pointer hover:bg-amber-600 transition-all shadow-lg hover:scale-105 active:scale-95">
-                  {uploadingPhoto ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
-                  <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} disabled={uploadingPhoto} />
-                </label>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">{firstName || 'Your'} {lastName || 'Name'}</h1>
-                <p className="text-slate-300 flex items-center gap-2 mt-1">
-                  <Briefcase className="w-4 h-4" />
-                  {position || 'Position Not Set'}
-                </p>
-              </div>
-            </div>
-            
-            <div className="w-full md:w-64 space-y-2 bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/10">
-              <div className="flex justify-between text-sm font-medium">
-                <span>Profile Completion</span>
-                <span className={completion === 100 ? 'text-green-400' : 'text-amber-400'}>{completion}%</span>
-              </div>
-              <Progress value={completion} className="h-2 bg-black/20" indicatorClassName={completion === 100 ? 'bg-green-400' : 'bg-amber-400'} />
-              <p className="text-xs text-slate-400">Complete all fields to unlock badges.</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Main Info */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Personal Information */}
-          <Card className="shadow-sm border-slate-200">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-2 text-slate-800">
-                <User className="w-5 h-5 text-amber-600" />
-                <CardTitle className="text-lg">Personal Information</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="grid sm:grid-cols-2 gap-5">
-              <div className="space-y-2">
-                <Label>{t('firstName') || 'First Name'} *</Label>
-                <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} required className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-              <div className="space-y-2">
-                <Label>Last Name</Label>
-                <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-              <div className="col-span-full space-y-2">
-                <Label>{t('shortBio')}</Label>
-                <Textarea 
-                    value={bio} 
-                    onChange={(e) => setBio(e.target.value)} 
-                    className="h-24 bg-slate-50 border-slate-200 focus:bg-white transition-colors resize-none" 
-                    placeholder="Tell us a bit about yourself..."
-                />
-              </div>
-              <div className="col-span-full space-y-2">
-                <Label>{t('skills')}</Label>
-                <Input value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="e.g. OSHA 30, Carpentry, Project Management" className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-                <p className="text-xs text-slate-500">Separate skills with commas.</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Work Information */}
-          <Card className="shadow-sm border-slate-200">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-2 text-slate-800">
-                <Briefcase className="w-5 h-5 text-blue-600" />
-                <CardTitle className="text-lg">Work Details</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="grid sm:grid-cols-2 gap-5">
-              <div className="space-y-2">
-                <Label>{t('position')} *</Label>
-                <Input value={position} onChange={(e) => setPosition(e.target.value)} required className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-              <div className="space-y-2">
-                <Label>{t('department')}</Label>
-                <Input value={department} onChange={(e) => setDepartment(e.target.value)} className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-              <div className="space-y-2">
-                <Label>{t('startDate')}</Label>
-                <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-            </CardContent>
-          </Card>
+    <div className="max-w-4xl mx-auto py-8 px-4">
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Profile Settings</h1>
+          <p className="text-gray-500 mt-1">Manage your personal information and account security.</p>
         </div>
+        <Button 
+          onClick={handleSubmit} 
+          disabled={saveMutation.isPending || saved}
+          className={`${saved ? 'bg-green-600 hover:bg-green-700' : ''} min-w-[120px] transition-all`}
+        >
+          {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : saved ? <CheckCircle2 className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+          {saveMutation.isPending ? 'Saving...' : saved ? 'Saved' : 'Save Changes'}
+        </Button>
+      </div>
 
-        {/* Right Column - Contact & Security */}
-        <div className="space-y-6">
-          {/* Account Security */}
-          <Card className="shadow-sm border-slate-200 border-l-4 border-l-amber-500">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-2 text-slate-800">
-                <Shield className="w-5 h-5 text-amber-600" />
-                <CardTitle className="text-lg">Account & Security</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label className="text-xs font-semibold uppercase tracking-wider text-slate-500">Username / Login Email</Label>
-                <div className="flex items-center gap-2 p-2.5 bg-slate-100 rounded-lg border border-slate-200 text-slate-600 font-mono text-sm">
-                  <User className="w-4 h-4 text-slate-400" />
-                  {user.email}
-                </div>
-              </div>
-              <Separator />
-              <div className="space-y-3">
-                 <Label className="text-xs font-semibold uppercase tracking-wider text-slate-500">Password</Label>
-                 <div className="p-3 bg-amber-50 rounded-lg border border-amber-100">
-                    <div className="flex items-center gap-2 mb-2 text-amber-800 font-medium text-sm">
-                        <KeyRound className="w-4 h-4" />
-                        Manage Password
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {/* Sidebar / User Card */}
+        <div className="md:col-span-4 lg:col-span-3 space-y-6">
+            <Card>
+                <CardContent className="pt-6 flex flex-col items-center text-center">
+                    <div className="relative group mb-4">
+                        <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
+                            <AvatarImage src={profilePicture} objectFit="cover" />
+                            <AvatarFallback className="bg-slate-100 text-slate-400">
+                                <UserCircle className="w-16 h-16" />
+                            </AvatarFallback>
+                        </Avatar>
+                        <label className="absolute bottom-0 right-0 p-2 rounded-full bg-slate-900 text-white cursor-pointer hover:bg-slate-800 transition-all shadow-md hover:scale-105 active:scale-95">
+                            {uploadingPhoto ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
+                            <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} disabled={uploadingPhoto} />
+                        </label>
                     </div>
-                    <Button 
-                        type="button" 
-                        variant="outline" 
-                        size="sm" 
-                        className="w-full bg-white border-amber-200 text-amber-700 hover:bg-amber-50 hover:text-amber-800"
-                        onClick={() => passwordResetMutation.mutate()}
-                        disabled={passwordResetMutation.isPending}
-                    >
-                        {passwordResetMutation.isPending ? 'Sending...' : 'Reset Password'}
-                    </Button>
-                    <p className="text-[10px] text-amber-600/80 mt-2 leading-tight">
-                        We'll send a secure password reset link to your email address.
-                    </p>
-                 </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Contact Information */}
-          <Card className="shadow-sm border-slate-200">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-2 text-slate-800">
-                <Phone className="w-5 h-5 text-green-600" />
-                <CardTitle className="text-lg">Contact Info</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>{t('phone')}</Label>
-                <Input value={phone} onChange={(e) => setPhone(e.target.value)} className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-              <div className="space-y-2">
-                <Label>Contact Email</Label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Emergency Contact */}
-          <Card className="shadow-sm border-slate-200">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-2 text-slate-800">
-                <AlertCircle className="w-5 h-5 text-red-500" />
-                <CardTitle className="text-lg">Emergency Contact</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>{t('emergencyName')}</Label>
-                <Input value={emergencyName} onChange={(e) => setEmergencyName(e.target.value)} className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-              <div className="space-y-2">
-                <Label>{t('emergencyPhone')}</Label>
-                <Input value={emergencyPhone} onChange={(e) => setEmergencyPhone(e.target.value)} className="bg-slate-50 border-slate-200 focus:bg-white transition-colors" />
-              </div>
-            </CardContent>
-          </Card>
+                    <h2 className="text-xl font-bold text-gray-900">{firstName} {lastName}</h2>
+                    <p className="text-sm text-gray-500 mb-4">{position || 'No Position Set'}</p>
+                    
+                    <div className="w-full space-y-2 text-left text-sm mt-4 pt-4 border-t border-gray-100">
+                        <div className="flex items-center gap-2 text-gray-600">
+                            <Mail className="w-4 h-4" />
+                            <span className="truncate">{user.email}</span>
+                        </div>
+                        {phone && (
+                            <div className="flex items-center gap-2 text-gray-600">
+                                <Phone className="w-4 h-4" />
+                                <span>{phone}</span>
+                            </div>
+                        )}
+                        {startDate && (
+                            <div className="flex items-center gap-2 text-gray-600">
+                                <Calendar className="w-4 h-4" />
+                                <span>Joined {new Date(startDate).toLocaleDateString()}</span>
+                            </div>
+                        )}
+                    </div>
+                </CardContent>
+            </Card>
         </div>
 
-        {/* Action Bar */}
-        <div className="lg:col-span-3 sticky bottom-6 z-40">
-            <div className="bg-slate-900/90 backdrop-blur-md p-4 rounded-xl flex items-center justify-between shadow-2xl border border-slate-700">
-                <div className="text-slate-200 text-sm hidden sm:block">
-                    {saved ? 'All changes saved' : 'Remember to save your changes'}
-                </div>
-                <Button type="submit" disabled={saveMutation.isPending || saved} size="lg" className={`${saved ? 'bg-green-500 hover:bg-green-600' : 'bg-amber-500 hover:bg-amber-600'} text-white shadow-lg min-w-[140px] transition-all duration-300`}>
-                  {saveMutation.isPending ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : saved ? <CheckCircle2 className="w-5 h-5 mr-2" /> : <Save className="w-5 h-5 mr-2" />}
-                  {saveMutation.isPending ? 'Saving...' : saved ? 'Saved Successfully' : (isEditing ? t('saveChanges') : t('createProfile'))}
-                </Button>
-            </div>
+        {/* Main Content Tabs */}
+        <div className="md:col-span-8 lg:col-span-9">
+            <Tabs defaultValue="general" className="w-full">
+                <TabsList className="grid w-full grid-cols-3 mb-6">
+                    <TabsTrigger value="general">General</TabsTrigger>
+                    <TabsTrigger value="work">Work Details</TabsTrigger>
+                    <TabsTrigger value="security">Security</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="general">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Personal Information</CardTitle>
+                            <CardDescription>Update your personal details and contact information.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label>First Name</Label>
+                                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Last Name</Label>
+                                    <Input value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                                <Label>Bio</Label>
+                                <Textarea 
+                                    value={bio} 
+                                    onChange={(e) => setBio(e.target.value)} 
+                                    placeholder="Tell us about yourself..."
+                                    className="min-h-[100px] resize-none"
+                                />
+                            </div>
+
+                            <Separator />
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label>Contact Email</Label>
+                                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Phone Number</Label>
+                                    <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                </div>
+                            </div>
+
+                            <div className="p-4 bg-amber-50 rounded-lg border border-amber-100 space-y-4">
+                                <h3 className="font-semibold text-amber-900 flex items-center gap-2">
+                                    <AlertCircle className="w-4 h-4" />
+                                    Emergency Contact
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-amber-900/80">Contact Name</Label>
+                                        <Input className="bg-white" value={emergencyName} onChange={(e) => setEmergencyName(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-amber-900/80">Contact Phone</Label>
+                                        <Input className="bg-white" value={emergencyPhone} onChange={(e) => setEmergencyPhone(e.target.value)} />
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                
+                <TabsContent value="work">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Employment Details</CardTitle>
+                            <CardDescription>View and manage your role information.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="space-y-2">
+                                <Label>Position / Title</Label>
+                                <div className="relative">
+                                    <Briefcase className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                                    <Input className="pl-9" value={position} onChange={(e) => setPosition(e.target.value)} />
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                                <Label>Start Date</Label>
+                                <div className="relative">
+                                    <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                                    <Input type="date" className="pl-9" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                
+                <TabsContent value="security">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Account Security</CardTitle>
+                            <CardDescription>Manage your login credentials.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="space-y-2">
+                                <Label>Login Email</Label>
+                                <div className="flex items-center gap-2">
+                                    <Input value={user.email} disabled className="bg-slate-50 text-slate-500" />
+                                    <Shield className="w-4 h-4 text-green-500" />
+                                </div>
+                                <p className="text-xs text-slate-500">This email is managed by your organization administrator.</p>
+                            </div>
+
+                            <Separator />
+
+                            <div className="space-y-4">
+                                <div className="flex items-start gap-3">
+                                    <div className="p-2 bg-slate-100 rounded-full">
+                                        <KeyRound className="w-5 h-5 text-slate-600" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="font-medium text-gray-900">Password Reset</h4>
+                                        <p className="text-sm text-gray-500">
+                                            Receive an email with instructions to reset your password.
+                                        </p>
+                                    </div>
+                                </div>
+                                <Button 
+                                    variant="outline" 
+                                    onClick={() => passwordResetMutation.mutate()}
+                                    disabled={passwordResetMutation.isPending}
+                                    className="w-full sm:w-auto"
+                                >
+                                    {passwordResetMutation.isPending ? 'Sending Email...' : 'Send Reset Instructions'}
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
