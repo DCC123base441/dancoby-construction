@@ -343,7 +343,7 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                         <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {profile?.email || user.email}</p>
                     </div>
                 </div>
-                <Link to={createPageUrl('AdminPortalPreview') + '&type=employee&employee_email=' + encodeURIComponent(user.email)}>
+                <Link to={`${createPageUrl('AdminPortalPreview')}?type=employee&employee_email=${encodeURIComponent(user.email)}`}>
                     <Button variant="outline" size="sm" className="gap-1.5 text-xs text-amber-700 border-amber-200 hover:bg-amber-50">
                         <Eye className="w-3.5 h-3.5" /> View Portal
                     </Button>
