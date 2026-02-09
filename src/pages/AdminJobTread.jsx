@@ -186,7 +186,7 @@ export default function AdminJobTread() {
                       variant="ghost"
                       onClick={() => updateMutation.mutate({ id: tut.id, data: { isActive: !tut.isActive } })}
                     >
-                      {tut.isActive ? <EyeOff className="w-4 h-4 text-gray-400" /> : <Eye className="w-4 h-4 text-gray-400" />}
+                      {tut.isActive ? <Eye className="w-4 h-4 text-gray-400" /> : <EyeOff className="w-4 h-4 text-gray-400" />}
                     </Button>
                     <Button
                       size="icon"
