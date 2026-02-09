@@ -15,12 +15,13 @@ Deno.serve(async (req) => {
             return Response.json({ error: 'Email is required' }, { status: 400 });
         }
 
-        // Invite the user (this creates the account)
-        await base44.users.inviteUser(email, role);
-        
-        // Set their portal role
+        // We do NOT call inviteUser here anymore, to allow the user to Sign Up themselves.
+        // The PortalLogin page will handle assigning the role upon first login if a profile/invite exists.
+
+        // Check if user already exists just to be safe (optional logging)
         const users = await base44.asServiceRole.entities.User.filter({ email });
         if (users.length > 0) {
+            // If they exist, we can try to update their role now
             await base44.asServiceRole.entities.User.update(users[0].id, { portalRole });
         }
 
@@ -48,10 +49,10 @@ Deno.serve(async (req) => {
                     </div>
                     <div style="background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
                         <p style="color: #92400e; font-size: 16px; margin-bottom: 16px;">
-                            Click the button below to access your portal. You'll be asked to log in or create your account first.
+                            Click the button below to access your portal. Please <strong>Sign Up</strong> to create your account.
                         </p>
                         <a href="${portalUrl}" style="display: inline-block; background: #d97706; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: bold; font-size: 16px;">
-                            Open ${portalLabel} →
+                            Sign Up & Open Portal →
                         </a>
                     </div>
                     <p style="color: #94a3b8; font-size: 12px; text-align: center;">

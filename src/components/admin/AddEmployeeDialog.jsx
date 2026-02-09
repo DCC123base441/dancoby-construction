@@ -33,17 +33,7 @@ export default function AddEmployeeDialog({ open, onOpenChange }) {
     }
     setSaving(true);
     try {
-      // Step 1: Invite user to the platform (sends them login access)
-      let inviteSucceeded = false;
-      try {
-        await base44.users.inviteUser(form.email.trim(), 'user');
-        inviteSucceeded = true;
-      } catch (e) {
-        // Invite may fail if user already exists or other platform issues — continue to create profile
-        console.log('Invite note:', e?.message || e);
-      }
-
-      // Step 2: Create their employee profile
+      // Step 1: Create their employee profile (Permissions allow "Sign Up" if profile exists)
       await base44.entities.EmployeeProfile.create({
         userEmail: form.email.trim(),
         firstName: form.firstName.trim(),
@@ -56,24 +46,19 @@ export default function AddEmployeeDialog({ open, onOpenChange }) {
         startDate: form.startDate || undefined,
       });
 
-      // Step 3: Log invite history
+      // Step 2: Send custom invitation email & Log history (via backend function)
       try {
-        const me = await base44.auth.me();
-        await base44.entities.InviteHistory.create({
+        await base44.functions.invoke('inviteEmployee', {
           email: form.email.trim(),
           portalRole: form.portalRole,
-          invitedBy: me.email,
-          status: 'pending',
+          appUrl: window.location.origin
         });
       } catch (e) {
-        // Non-critical
+        console.warn('Failed to send invite email', e);
+        toast.error('Profile created but failed to send email invite');
       }
 
-      if (inviteSucceeded) {
-        toast.success(`${form.firstName || form.email} added & invited successfully`);
-      } else {
-        toast.success(`${form.firstName || form.email} profile created. Invite them from Dashboard → Overview → Invite Users so they can log in.`);
-      }
+      toast.success(`${form.firstName || form.email} added & invited successfully`);
       queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
       queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
       queryClient.invalidateQueries({ queryKey: ['adminProfiles'] });
