@@ -36,6 +36,15 @@ export default function EmployeePortalInner({ user }) {
     enabled: !!user,
   });
 
+  const { data: navConfig } = useQuery({
+    queryKey: ['portalNavConfig'],
+    queryFn: async () => {
+      const results = await base44.entities.PortalNavConfig.filter({ configKey: 'employee_mobile_nav' });
+      return results[0] || null;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+
   if (profileLoading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -148,12 +157,14 @@ export default function EmployeePortalInner({ user }) {
         onTabChange={setActiveTab} 
         onMorePress={() => setMoreOpen(true)}
         user={user}
+        navConfig={navConfig}
       />
       
       <EmployeeMoreSheet 
         open={moreOpen} 
         onOpenChange={setMoreOpen} 
-        onTabChange={setActiveTab} 
+        onTabChange={setActiveTab}
+        navConfig={navConfig}
       />
     </div>
   );
