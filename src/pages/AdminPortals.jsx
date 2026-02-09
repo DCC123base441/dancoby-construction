@@ -29,22 +29,14 @@ export default function AdminPortals() {
             href: "CustomerPortal",
             adminPages: []
         },
-        {
-            title: "Holiday Schedule",
-            description: "Manage company holidays and time-off calendar",
-            icon: Calendar,
-            color: "bg-green-50 text-green-600",
-            href: "AdminHolidays",
-            adminPages: []
-        },
     ];
 
     return (
         <AdminLayout title="Portals">
-            <div className="space-y-6">
+            <div className="space-y-8">
                 <p className="text-slate-500">Manage employee and customer portals, holidays, and related settings.</p>
 
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-6 md:grid-cols-2">
                     {portalLinks.map((portal) => (
                         <Card key={portal.title} className="border-slate-200/60 shadow-sm hover:shadow-md transition-shadow">
                             <CardHeader className="pb-3">
@@ -90,6 +82,17 @@ export default function AdminPortals() {
                             </CardContent>
                         </Card>
                     ))}
+                </div>
+
+                {/* Holiday Schedule */}
+                <div>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 rounded-lg bg-green-50 text-green-600">
+                            <Calendar className="w-5 h-5" />
+                        </div>
+                        <h2 className="text-xl font-semibold text-slate-900">Holiday Schedule</h2>
+                    </div>
+                    <HolidayManager />
                 </div>
             </div>
         </AdminLayout>
