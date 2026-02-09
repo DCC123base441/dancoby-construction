@@ -31,7 +31,7 @@ const CATEGORIES = [
   { value: 'other', label: 'Other' },
 ];
 
-const emptyForm = { title: '', content: '', category: 'announcement', pinned: false, isActive: true };
+const emptyForm = { title: '', content: '', title_es: '', content_es: '', category: 'announcement', pinned: false, isActive: true };
 
 export default function AdminNews() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -81,6 +81,8 @@ export default function AdminNews() {
     setForm({
       title: item.title || '',
       content: item.content || '',
+      title_es: item.title_es || '',
+      content_es: item.content_es || '',
       category: item.category || 'announcement',
       pinned: item.pinned || false,
       isActive: item.isActive !== false,
@@ -176,12 +178,25 @@ export default function AdminNews() {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label className="text-xs mb-1 block">Title</Label>
+              <Label className="text-xs mb-1 block">Title (English)</Label>
               <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="News headline..." />
             </div>
             <div>
-              <Label className="text-xs mb-1 block">Content (supports markdown)</Label>
-              <Textarea value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} placeholder="Write your news..." className="min-h-[120px]" />
+              <Label className="text-xs mb-1 block">Content — English (supports markdown)</Label>
+              <Textarea value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} placeholder="Write your news..." className="min-h-[100px]" />
+            </div>
+            <div className="border-t pt-4">
+              <p className="text-xs font-medium text-amber-700 mb-2">🇪🇸 Spanish Translation (optional)</p>
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-xs mb-1 block">Título (Spanish)</Label>
+                  <Input value={form.title_es} onChange={(e) => setForm({ ...form, title_es: e.target.value })} placeholder="Titular de la noticia..." />
+                </div>
+                <div>
+                  <Label className="text-xs mb-1 block">Contenido — Español (supports markdown)</Label>
+                  <Textarea value={form.content_es} onChange={(e) => setForm({ ...form, content_es: e.target.value })} placeholder="Escribe tu noticia..." className="min-h-[100px]" />
+                </div>
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
