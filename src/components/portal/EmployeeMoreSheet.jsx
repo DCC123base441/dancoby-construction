@@ -1,20 +1,39 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, X, DollarSign, CalendarDays, MessageCircle } from 'lucide-react';
+import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, Bell, Newspaper, DollarSign, CalendarDays, MessageCircle } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
-const MORE_ITEMS = [
-  { id: 'salary', icon: DollarSign, labelKey: 'tabSalary', color: 'bg-emerald-100 text-emerald-600' },
-  { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays', color: 'bg-red-100 text-red-600' },
-  { id: 'feedback', icon: MessageCircle, labelKey: 'tabFeedback', color: 'bg-purple-100 text-purple-600' },
-  { id: 'timeoff', icon: CalendarOff, labelKey: 'tabTimeOff', color: 'bg-orange-100 text-orange-600' },
-  { id: 'raise', icon: HandCoins, labelKey: 'tabRaise', color: 'bg-amber-100 text-amber-600' },
-  { id: 'gear', icon: ShoppingBag, labelKey: 'tabGear', color: 'bg-pink-100 text-pink-600' },
-  { id: 'profile', icon: UserCircle, labelKey: 'tabProfile', color: 'bg-slate-100 text-slate-600' },
-];
+const ITEM_META = {
+  salary: { icon: DollarSign, labelKey: 'tabSalary', color: 'bg-emerald-100 text-emerald-600' },
+  holidays: { icon: CalendarDays, labelKey: 'tabHolidays', color: 'bg-red-100 text-red-600' },
+  feedback: { icon: MessageCircle, labelKey: 'tabFeedback', color: 'bg-purple-100 text-purple-600' },
+  timeoff: { icon: CalendarOff, labelKey: 'tabTimeOff', color: 'bg-orange-100 text-orange-600' },
+  raise: { icon: HandCoins, labelKey: 'tabRaise', color: 'bg-amber-100 text-amber-600' },
+  gear: { icon: ShoppingBag, labelKey: 'tabGear', color: 'bg-pink-100 text-pink-600' },
+  profile: { icon: UserCircle, labelKey: 'tabProfile', color: 'bg-slate-100 text-slate-600' },
+  news: { icon: Newspaper, labelKey: 'tabNews', color: 'bg-indigo-100 text-indigo-600' },
+  jobtread: { icon: MonitorPlay, labelKey: 'tabJobTread', color: 'bg-cyan-100 text-cyan-600' },
+  notifications: { icon: Bell, labelKey: 'notifications', color: 'bg-blue-100 text-blue-600' },
+};
+
+const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear', 'profile'];
 
 export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange }) {
   const { t } = useLanguage();
+
+  const { data: navConfig } = useQuery({
+    queryKey: ['portalNavConfig'],
+    queryFn: async () => {
+      const results = await base44.entities.PortalNavConfig.filter({ configKey: 'employee_mobile_nav' });
+      return results[0] || null;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const moreIds = navConfig?.moreSheetOrder?.length ? navConfig.moreSheetOrder : DEFAULT_MORE;
+  const moreItems = moreIds.map(id => ({ id, ...ITEM_META[id] })).filter(item => item.icon);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -23,7 +42,7 @@ export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange }) {
           <SheetTitle className="text-base">{t('more') || 'More'}</SheetTitle>
         </SheetHeader>
         <div className="grid grid-cols-2 gap-3">
-          {MORE_ITEMS.map((item) => (
+          {moreItems.map((item) => (
             <button
               key={item.id}
               onClick={() => {
