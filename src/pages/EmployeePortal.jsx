@@ -4,10 +4,10 @@ import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '../utils';
 import { Loader2, HardHat, UserCircle, Eye } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import PortalHeader from '../components/portal/PortalHeader';
-import PortalSidebar from '../components/portal/PortalSidebar';
-import PortalBottomNav from '../components/portal/PortalBottomNav';
-import PortalMoreSheet from '../components/portal/PortalMoreSheet';
+import EmployeeHeader from '../components/portal/EmployeeHeader';
+import EmployeeSidebar from '../components/portal/EmployeeSidebar';
+import EmployeeBottomNav from '../components/portal/EmployeeBottomNav';
+import EmployeeMoreSheet from '../components/portal/EmployeeMoreSheet';
 import EmployeeProfileSetup from '../components/portal/EmployeeProfileSetup';
 import FeedbackSection from '../components/portal/FeedbackSection';
 import SalarySection from '../components/portal/SalarySection';
@@ -171,11 +171,11 @@ function EmployeePortalContent() {
           }}
         />
       )}
-      <PortalHeader user={user} portalType="employee" />
+      <EmployeeHeader user={user} />
       
       <div className="flex flex-1 overflow-hidden">
         {/* Desktop sidebar */}
-        <PortalSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+        <EmployeeSidebar activeTab={activeTab} onTabChange={setActiveTab} />
 
         {/* Main content area */}
         <main className="flex-1 overflow-y-auto pb-20 lg:pb-0">
@@ -260,14 +260,14 @@ function EmployeePortalContent() {
       </div>
 
       {/* Mobile bottom nav */}
-      <PortalBottomNav 
+      <EmployeeBottomNav 
         activeTab={activeTab} 
         onTabChange={setActiveTab} 
         onMorePress={() => setMoreOpen(true)} 
       />
       
       {/* More items sheet */}
-      <PortalMoreSheet 
+      <EmployeeMoreSheet 
         open={moreOpen} 
         onOpenChange={setMoreOpen} 
         onTabChange={setActiveTab} 

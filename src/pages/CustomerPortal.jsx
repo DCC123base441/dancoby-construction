@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '../utils';
 import { Loader2, FolderKanban, Phone, Mail } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
-import PortalHeader from '../components/portal/PortalHeader';
+import CustomerHeader from '../components/portal/CustomerHeader';
 import PortalProjectCard from '../components/portal/ProjectCard';
 import ProjectUpdates from '../components/portal/ProjectUpdates';
 import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
@@ -61,7 +61,7 @@ function CustomerPortalContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <PortalHeader user={user} portalType="customer" />
+      <CustomerHeader user={user} />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex justify-end mb-2">
