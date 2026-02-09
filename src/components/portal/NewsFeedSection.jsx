@@ -6,7 +6,7 @@ import { useLanguage } from './LanguageContext';
 import { Pin, Megaphone, PartyPopper, ShieldAlert, Calendar, Info, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
-import PortalWelcomeReviews from './PortalWelcomeReviews';
+
 
 const categoryConfig = {
   announcement: { icon: Megaphone, color: 'bg-blue-100 text-blue-700', label: 'Announcement', labelEs: 'Anuncio' },
@@ -94,7 +94,6 @@ export default function NewsFeedSection() {
         );
       })}
       
-      <PortalWelcomeReviews />
     </div>
   );
 }
