@@ -259,7 +259,21 @@ function RaiseTab({ userEmail }) {
     });
     const queryClient = useQueryClient();
     const updateMutation = useMutation({
-        mutationFn: ({ id, status }) => base44.entities.RaiseRequest.update(id, { status }),
+        mutationFn: async ({ id, status }) => {
+            const result = await base44.entities.RaiseRequest.update(id, { status });
+             // Create notification
+             if (status === 'approved' || status === 'denied' || status === 'scheduled') {
+                await base44.entities.Notification.create({
+                    userEmail,
+                    type: 'raise',
+                    title: `Raise Request ${status.charAt(0).toUpperCase() + status.slice(1)}`,
+                    message: `Your raise/review request status is now: ${status}.`,
+                    link: createPageUrl('EmployeePortal'),
+                    relatedId: id
+                });
+            }
+            return result;
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['adminRaises', userEmail] });
             toast.success('Raise request updated');
