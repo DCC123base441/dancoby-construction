@@ -57,7 +57,7 @@ export default function BonusTracker() {
 
     // Demo revenue data per quarter — only show quarters up to current
     const allQuarters = [
-      { label: t('bonusQ1'), revenue: 480000, quarter: 1 },
+      { label: t('bonusQ1'), revenue: 150000, quarter: 1 },
       { label: t('bonusQ2'), revenue: 560000, quarter: 2 },
       { label: t('bonusQ3'), revenue: 520000, quarter: 3 },
       { label: t('bonusQ4'), revenue: 440000, quarter: 4 },
