@@ -48,7 +48,12 @@ export default function PortalBottomNav({ activeTab, onTabChange, onMorePress })
                   : 'text-gray-400 hover:text-gray-600'
               }`}
             >
-              <item.icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5px]' : ''}`} />
+              <div className="relative">
+                <item.icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5px]' : ''}`} />
+                {((counts[item.id] > 0) || (item.id === 'more' && hasHiddenNotifications)) && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border border-white" />
+                )}
+              </div>
               <span className="text-[10px] font-medium leading-tight">
                 {item.id === 'more' ? (t('more') || 'More') : t(item.labelKey)}
               </span>
