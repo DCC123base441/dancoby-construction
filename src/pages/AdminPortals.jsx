@@ -4,7 +4,7 @@ import { createPageUrl } from '../utils';
 import AdminLayout from '../components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { HardHat, Users, Calendar, ExternalLink, ChevronRight } from 'lucide-react';
+import { HardHat, Users, ExternalLink, ChevronRight, ArrowRight } from 'lucide-react';
 
 export default function AdminPortals() {
     const portalLinks = [
@@ -34,17 +34,38 @@ export default function AdminPortals() {
     return (
         <AdminLayout title="Portals">
             <div className="space-y-8">
-                <div className="flex flex-wrap items-center gap-3">
-                    <p className="text-slate-500 mr-auto">Manage employee and customer portals, holidays, and related settings.</p>
-                    <Link to={createPageUrl("EmployeePortal") + "?admin_view=true"} target="_blank">
-                        <Button variant="outline" size="sm" className="gap-2">
-                            <HardHat className="w-4 h-4" /> View as Employee
-                        </Button>
+                <p className="text-slate-500">Manage employee and customer portals, holidays, and related settings.</p>
+
+                <div className="grid grid-cols-2 gap-3">
+                    <Link
+                        to={createPageUrl("EmployeePortal") + "?admin_view=true"}
+                        target="_blank"
+                        className="group relative overflow-hidden rounded-xl border border-slate-200/80 bg-white p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative z-10">
+                            <div className="w-10 h-10 rounded-lg bg-orange-500/20 group-hover:bg-white/20 flex items-center justify-center mb-3 transition-colors">
+                                <HardHat className="w-5 h-5 text-slate-700 group-hover:text-white transition-colors" />
+                            </div>
+                            <h3 className="font-semibold text-sm text-slate-900 group-hover:text-white transition-colors">View as Employee</h3>
+                            <p className="text-xs text-slate-500 group-hover:text-white/70 mt-0.5 transition-colors">Preview employee portal</p>
+                            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-white absolute top-4 right-0 opacity-0 group-hover:opacity-100 transition-all translate-x-1 group-hover:translate-x-0" />
+                        </div>
                     </Link>
-                    <Link to={createPageUrl("CustomerPortal")} target="_blank">
-                        <Button variant="outline" size="sm" className="gap-2">
-                            <Users className="w-4 h-4" /> View as Customer
-                        </Button>
+                    <Link
+                        to={createPageUrl("CustomerPortal")}
+                        target="_blank"
+                        className="group relative overflow-hidden rounded-xl border border-slate-200/80 bg-white p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative z-10">
+                            <div className="w-10 h-10 rounded-lg bg-cyan-500/20 group-hover:bg-white/20 flex items-center justify-center mb-3 transition-colors">
+                                <Users className="w-5 h-5 text-slate-700 group-hover:text-white transition-colors" />
+                            </div>
+                            <h3 className="font-semibold text-sm text-slate-900 group-hover:text-white transition-colors">View as Customer</h3>
+                            <p className="text-xs text-slate-500 group-hover:text-white/70 mt-0.5 transition-colors">Preview customer portal</p>
+                            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-white absolute top-4 right-0 opacity-0 group-hover:opacity-100 transition-all translate-x-1 group-hover:translate-x-0" />
+                        </div>
                     </Link>
                 </div>
 

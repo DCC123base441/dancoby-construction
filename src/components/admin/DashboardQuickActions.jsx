@@ -7,8 +7,6 @@ import {
     Clock,
     MessageSquare,
     TrendingUp,
-    HardHat,
-    UserCheck,
     CalendarDays,
     ArrowRight
 } from 'lucide-react';
@@ -62,23 +60,7 @@ const QUICK_ACTIONS = [
         gradient: 'from-emerald-500 to-teal-600',
         iconBg: 'bg-emerald-500/20',
     },
-    {
-        label: 'Employee Portal',
-        description: 'View as employee',
-        icon: HardHat,
-        page: 'EmployeePortal',
-        params: '?admin_view=true',
-        gradient: 'from-orange-500 to-amber-600',
-        iconBg: 'bg-orange-500/20',
-    },
-    {
-        label: 'Customer Portal',
-        description: 'View as customer',
-        icon: UserCheck,
-        page: 'CustomerPortal',
-        gradient: 'from-cyan-500 to-blue-600',
-        iconBg: 'bg-cyan-500/20',
-    },
+
 ];
 
 export default function DashboardQuickActions() {
