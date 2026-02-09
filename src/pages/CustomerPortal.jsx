@@ -22,11 +22,9 @@ export default function CustomerPortal() {
           return;
         }
         const me = await base44.auth.me();
-        if (me.portalRole !== 'customer') {
+        if (me.portalRole !== 'customer' && me.role !== 'admin') {
           if (me.portalRole === 'employee') {
             window.location.href = createPageUrl('EmployeePortal');
-          } else if (me.role === 'admin') {
-            window.location.href = createPageUrl('AdminDashboard');
           } else {
             window.location.href = createPageUrl('PortalLogin');
           }

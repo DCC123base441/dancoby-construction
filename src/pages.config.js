@@ -63,11 +63,14 @@ import AdminTestimonials from './pages/AdminTestimonials';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
+import CustomerPortal from './pages/CustomerPortal';
+import EmployeePortal from './pages/EmployeePortal';
 import Estimator from './pages/Estimator';
 import FAQ from './pages/FAQ';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
 import Home from './pages/Home';
+import PortalLogin from './pages/PortalLogin';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
@@ -85,9 +88,6 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import PortalLogin from './pages/PortalLogin';
-import CustomerPortal from './pages/CustomerPortal';
-import EmployeePortal from './pages/EmployeePortal';
 import __Layout from './Layout.jsx';
 
 
@@ -108,11 +108,14 @@ export const PAGES = {
     "Blog": Blog,
     "BlogPost": BlogPost,
     "Contact": Contact,
+    "CustomerPortal": CustomerPortal,
+    "EmployeePortal": EmployeePortal,
     "Estimator": Estimator,
     "FAQ": FAQ,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
     "Home": Home,
+    "PortalLogin": PortalLogin,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
@@ -130,9 +133,6 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "PortalLogin": PortalLogin,
-    "CustomerPortal": CustomerPortal,
-    "EmployeePortal": EmployeePortal,
 }
 
 export const pagesConfig = {
