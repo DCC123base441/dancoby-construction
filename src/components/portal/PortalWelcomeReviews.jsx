@@ -22,15 +22,7 @@ export default function PortalWelcomeReviews() {
     fetchReviews();
   }, []);
 
-  useEffect(() => {
-    if (reviews.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % reviews.length);
-    }, 6000); // Rotate every 6 seconds
 
-    return () => clearInterval(interval);
-  }, [reviews.length]);
 
   if (reviews.length === 0) return null;
 
@@ -42,13 +34,20 @@ export default function PortalWelcomeReviews() {
       <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
       
       <div className="relative z-10">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
-            <Star className="w-4 h-4 fill-amber-400" />
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+              <Quote className="w-4 h-4 text-amber-400" />
+            </div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+              What customers are saying
+            </h3>
           </div>
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">
-            What customers are saying
-          </h3>
+          <div className="flex gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+            ))}
+          </div>
         </div>
         
         <div className="relative min-h-[100px]">
