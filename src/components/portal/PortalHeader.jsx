@@ -31,6 +31,7 @@ export default function PortalHeader({ user, portalType }) {
           </div>
         </div>
         <div className="flex items-center gap-3">
+          <NotificationCenter />
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <User className="w-4 h-4" />
             <span className="hidden sm:inline">{user?.full_name || user?.email}</span>
