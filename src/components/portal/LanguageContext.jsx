@@ -72,6 +72,29 @@ const translations = {
     attendance: 'Consistent Attendance',
     attendanceDesc: 'Reliability and punctuality are key factors in performance reviews.',
 
+    // Salary Growth Chart
+    salaryGrowth: 'Salary Growth',
+    yoyGrowthLabel: '% Growth',
+    annualPayLabel: 'Annual Pay',
+    pastYears: 'Past Years',
+    currentYear: 'Current Year',
+    yoyTooltip: 'Year-over-Year Growth',
+    annualSalaryTooltip: 'Annual Salary',
+
+    // Path to Success
+    pathToSuccess: 'Your Path to Success',
+    pathToSuccessDesc: 'What top earners do differently',
+    hitGoals: 'Hit Your Goals',
+    hitGoalsDesc: 'Complete assigned projects on time and within budget to earn performance bonuses.',
+    goAboveBeyond: 'Go Above & Beyond',
+    goAboveBeyondDesc: 'Taking initiative on extra tasks and helping teammates gets noticed by management.',
+    buildReputation: 'Build Your Reputation',
+    buildReputationDesc: 'Consistent quality work leads to promotions, better projects, and higher pay.',
+    mentorOthers: 'Mentor Others',
+    mentorOthersDesc: 'Training new team members shows leadership and qualifies you for foreman roles.',
+    didYouKnow: 'Did you know?',
+    didYouKnowText: 'Employees who complete certifications and take on leadership roles earn on average 25-40% more within 3 years. Your growth is in your hands!',
+
     // Holidays
     holidaySchedule: `${new Date().getFullYear()} Holiday Schedule`,
     paidHolidays: 'Company-observed paid holidays',
@@ -177,6 +200,27 @@ const translations = {
     learnSkillDesc: 'Capacitación cruzada en plomería, electricidad o HVAC amplía tu valor.',
     attendance: 'Asistencia Constante',
     attendanceDesc: 'La confiabilidad y puntualidad son factores clave en las evaluaciones.',
+
+    salaryGrowth: 'Crecimiento Salarial',
+    yoyGrowthLabel: '% Crecimiento',
+    annualPayLabel: 'Pago Anual',
+    pastYears: 'Años Anteriores',
+    currentYear: 'Año Actual',
+    yoyTooltip: 'Crecimiento Interanual',
+    annualSalaryTooltip: 'Salario Anual',
+
+    pathToSuccess: 'Tu Camino al Éxito',
+    pathToSuccessDesc: 'Lo que hacen diferente los mejores',
+    hitGoals: 'Cumple Tus Metas',
+    hitGoalsDesc: 'Completa proyectos asignados a tiempo y dentro del presupuesto para ganar bonos.',
+    goAboveBeyond: 'Da Más de Lo Esperado',
+    goAboveBeyondDesc: 'Tomar la iniciativa en tareas adicionales y ayudar a compañeros es notado por la gerencia.',
+    buildReputation: 'Construye Tu Reputación',
+    buildReputationDesc: 'Trabajo consistente de calidad lleva a ascensos, mejores proyectos y mejor paga.',
+    mentorOthers: 'Guía a Otros',
+    mentorOthersDesc: 'Entrenar a nuevos miembros del equipo demuestra liderazgo y te califica para roles de capataz.',
+    didYouKnow: '¿Sabías que?',
+    didYouKnowText: 'Los empleados que completan certificaciones y asumen roles de liderazgo ganan en promedio 25-40% más en 3 años. ¡Tu crecimiento está en tus manos!',
 
     holidaySchedule: `Calendario de Festivos ${new Date().getFullYear()}`,
     paidHolidays: 'Días festivos pagados de la empresa',

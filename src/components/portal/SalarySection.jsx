@@ -6,7 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 
-function SalaryGrowthChart({ hourly, startDate }) {
+function SalaryGrowthChart({ hourly, startDate, t }) {
   const [showYoY, setShowYoY] = useState(false);
 
   const chartData = useMemo(() => {
@@ -66,11 +66,11 @@ function SalaryGrowthChart({ hourly, startDate }) {
             <div className="p-2 rounded-full bg-blue-50">
               <TrendingUp className="w-5 h-5 text-blue-600" />
             </div>
-            <h3 className="font-bold text-gray-900">Salary Growth</h3>
+            <h3 className="font-bold text-gray-900">{t('salaryGrowth')}</h3>
           </div>
           <div className="flex items-center gap-2">
             <Label htmlFor="yoy-toggle" className="text-xs text-gray-500 cursor-pointer">
-              {showYoY ? '% Growth' : 'Annual Pay'}
+              {showYoY ? t('yoyGrowthLabel') : t('annualPayLabel')}
             </Label>
             <Switch id="yoy-toggle" checked={showYoY} onCheckedChange={setShowYoY} />
           </div>
@@ -86,7 +86,7 @@ function SalaryGrowthChart({ hourly, startDate }) {
                 tickFormatter={showYoY ? (v) => `${v}%` : (v) => `$${(v / 1000).toFixed(0)}k`} 
               />
               <Tooltip 
-                formatter={(value) => showYoY ? [`${value}%`, 'Year-over-Year Growth'] : [formatDollar(value), 'Annual Salary']}
+                formatter={(value) => showYoY ? [`${value}%`, t('yoyTooltip')] : [formatDollar(value), t('annualSalaryTooltip')]}
                 contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '12px' }}
               />
               <Bar dataKey={dataKey} radius={[6, 6, 0, 0]} maxBarSize={40}>
@@ -106,11 +106,11 @@ function SalaryGrowthChart({ hourly, startDate }) {
           <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
             <span className="flex items-center gap-1">
               <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: barColor, opacity: 0.6 }} />
-              Past Years
+              {t('pastYears')}
             </span>
             <span className="flex items-center gap-1">
               <div className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: showYoY ? '#d97706' : '#16a34a' }} />
-              Current Year
+              {t('currentYear')}
             </span>
           </div>
         )}
@@ -119,12 +119,12 @@ function SalaryGrowthChart({ hourly, startDate }) {
   );
 }
 
-function MotivationalSection() {
+function MotivationalSection({ t }) {
   const milestones = [
-    { icon: Target, title: 'Hit Your Goals', desc: 'Complete assigned projects on time and within budget to earn performance bonuses.', color: 'bg-blue-50 text-blue-600' },
-    { icon: Zap, title: 'Go Above & Beyond', desc: 'Taking initiative on extra tasks and helping teammates gets noticed by management.', color: 'bg-amber-50 text-amber-600' },
-    { icon: Star, title: 'Build Your Reputation', desc: 'Consistent quality work leads to promotions, better projects, and higher pay.', color: 'bg-purple-50 text-purple-600' },
-    { icon: Users, title: 'Mentor Others', desc: 'Training new team members shows leadership and qualifies you for foreman roles.', color: 'bg-green-50 text-green-600' },
+    { icon: Target, titleKey: 'hitGoals', descKey: 'hitGoalsDesc', color: 'bg-blue-50 text-blue-600' },
+    { icon: Zap, titleKey: 'goAboveBeyond', descKey: 'goAboveBeyondDesc', color: 'bg-amber-50 text-amber-600' },
+    { icon: Star, titleKey: 'buildReputation', descKey: 'buildReputationDesc', color: 'bg-purple-50 text-purple-600' },
+    { icon: Users, titleKey: 'mentorOthers', descKey: 'mentorOthersDesc', color: 'bg-green-50 text-green-600' },
   ];
 
   return (
@@ -135,8 +135,8 @@ function MotivationalSection() {
             <Star className="w-5 h-5 text-amber-600" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-900">Your Path to Success</h3>
-            <p className="text-xs text-gray-500">What top earners do differently</p>
+            <h3 className="font-bold text-gray-900">{t('pathToSuccess')}</h3>
+            <p className="text-xs text-gray-500">{t('pathToSuccessDesc')}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -146,8 +146,8 @@ function MotivationalSection() {
                 <item.icon className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">{item.title}</p>
-                <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{item.desc}</p>
+                <p className="text-sm font-semibold text-gray-900">{t(item.titleKey)}</p>
+                <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{t(item.descKey)}</p>
               </div>
             </div>
           ))}
@@ -155,10 +155,10 @@ function MotivationalSection() {
 
         <div className="mt-5 p-4 rounded-lg bg-amber-50 border border-amber-100">
           <p className="text-sm font-medium text-amber-800 flex items-center gap-2">
-            <Zap className="w-4 h-4" /> Did you know?
+            <Zap className="w-4 h-4" /> {t('didYouKnow')}
           </p>
           <p className="text-xs text-amber-700 mt-1">
-            Employees who complete certifications and take on leadership roles earn on average <strong>25-40% more</strong> within 3 years. Your growth is in your hands!
+            {t('didYouKnowText')}
           </p>
         </div>
       </CardContent>
@@ -203,9 +203,9 @@ export default function SalarySection({ profile }) {
         </CardContent>
       </Card>
 
-      <SalaryGrowthChart hourly={hourly} startDate={profile?.startDate} />
+      <SalaryGrowthChart hourly={hourly} startDate={profile?.startDate} t={t} />
 
-      <MotivationalSection />
+      <MotivationalSection t={t} />
 
       <Card className="border-gray-200">
         <CardContent className="p-6">
