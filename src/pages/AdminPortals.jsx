@@ -18,6 +18,7 @@ export default function AdminPortals() {
             adminPages: [
                 { name: "Manage Employees", href: "AdminEmployees" },
                 { name: "Company News", href: "AdminNews" },
+                { name: "Holiday Schedule", href: "AdminHolidays" },
                 { name: "JobTread Tutorials", href: "AdminJobTread" },
             ]
         },
