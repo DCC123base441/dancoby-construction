@@ -14,9 +14,10 @@ import {
 import { 
     DollarSign, Briefcase, Calendar, Phone, User, Mail, 
     MessageSquare, Clock, TrendingUp, Save, AlertCircle,
-    CheckCircle2, XCircle, Hourglass, Trash2, Loader2
+    CheckCircle2, XCircle, Hourglass, Trash2, Loader2, Eye
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { createPageUrl } from '../../utils';
 
 function ProfileTab({ profile, user, onProfileUpdate }) {
     const [editing, setEditing] = useState(false);
