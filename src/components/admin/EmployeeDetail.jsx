@@ -330,7 +330,12 @@ function RaiseTab({ userEmail }) {
 export default function EmployeeDetail({ user, profile, onDeleted }) {
     const [deleting, setDeleting] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
     const queryClient = useQueryClient();
+
+    React.useEffect(() => {
+        base44.auth.me().then(setCurrentUser).catch(() => {});
+    }, []);
 
     const updateRoleMutation = useMutation({
         mutationFn: (newRole) => base44.entities.User.update(user.id, { portalRole: newRole }),
@@ -419,28 +424,30 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                         <Eye className="w-3.5 h-3.5" /> View Portal
                     </Button>
                 </Link>
-                <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-600 hover:bg-red-50">
-                            <Trash2 className="w-4 h-4" />
-                        </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
+                {currentUser?.id !== user.id && (
+                    <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-600 hover:bg-red-50">
+                                <Trash2 className="w-4 h-4" />
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Delete Employee</AlertDialogTitle>
                             <AlertDialogDescription>
                                 This will permanently remove <strong>{user.full_name || user.email}</strong> and their profile. This action cannot be undone.
                             </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
-                            <Button onClick={handleDelete} disabled={deleting} className="bg-red-600 hover:bg-red-700">
-                                {deleting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Trash2 className="w-4 h-4 mr-2" />}
-                                Delete
-                            </Button>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+                                <Button onClick={handleDelete} disabled={deleting} className="bg-red-600 hover:bg-red-700">
+                                    {deleting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Trash2 className="w-4 h-4 mr-2" />}
+                                    Delete
+                                </Button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                )}
             </div>
 
             <Tabs defaultValue="profile" className="w-full">

@@ -15,6 +15,10 @@ Deno.serve(async (req) => {
             return Response.json({ error: 'User ID is required' }, { status: 400 });
         }
 
+        // Delete the user first to ensure we can (e.g. not app owner)
+        // If this fails (e.g. app owner), the profile remains and we don't leave the system in a broken state
+        await base44.asServiceRole.entities.User.delete(userId);
+
         // Delete their employee profile if exists
         if (userEmail) {
             const profiles = await base44.asServiceRole.entities.EmployeeProfile.filter({ userEmail });
@@ -22,9 +26,6 @@ Deno.serve(async (req) => {
                 await base44.asServiceRole.entities.EmployeeProfile.delete(p.id);
             }
         }
-
-        // Delete the user
-        await base44.asServiceRole.entities.User.delete(userId);
 
         return Response.json({ success: true, message: `Deleted user ${userEmail || userId}` });
     } catch (error) {
