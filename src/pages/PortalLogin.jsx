@@ -28,6 +28,24 @@ export default function PortalLogin() {
             window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
           } else if (user.portalRole === 'customer') {
             window.location.href = createPageUrl('CustomerPortal');
+          } else {
+            // Check if they should have a role based on pre-existing records
+            const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
+            if (profiles.length > 0) {
+                // Auto-assign employee role
+                await base44.auth.updateMe({ portalRole: 'employee' });
+                window.location.href = createPageUrl('EmployeePortal');
+                return;
+            }
+
+            // Check if they were invited (e.g. as customer)
+            const invites = await base44.entities.InviteHistory.filter({ email: user.email });
+            if (invites.length > 0) {
+                const invite = invites[0];
+                await base44.auth.updateMe({ portalRole: invite.portalRole });
+                window.location.reload();
+                return;
+            }
           }
         }
       } catch (e) {
@@ -92,12 +110,12 @@ export default function PortalLogin() {
                 <Users className="w-6 h-6 text-slate-500" />
               </div>
               <div>
-                <h3 className="font-semibold text-slate-900">Welcome, {currentUser.full_name || currentUser.email}</h3>
+                <h3 className="font-semibold text-slate-900">Access Restricted</h3>
                 <p className="text-sm text-slate-500 mt-2">
-                  You are logged in, but your account hasn't been assigned a portal role yet.
+                  This portal is invite-only. Your account ({currentUser.email}) is not authorized to access this section.
                 </p>
                 <p className="text-xs text-slate-400 mt-4 mb-4">
-                  Please contact your administrator to grant you access.
+                  If you believe this is a mistake, please contact your administrator.
                 </p>
               </div>
               <Button 
