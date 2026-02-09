@@ -279,6 +279,18 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
             </Tabs>
         </div>
       </div>
+
+      {/* Save button at bottom */}
+      <div className="sticky bottom-0 bg-white/90 backdrop-blur-sm border-t border-gray-200 p-4 -mx-0 sm:-mx-4 mt-8 rounded-b-xl">
+        <Button 
+          onClick={handleSubmit} 
+          disabled={saveMutation.isPending || saved}
+          className={`${saved ? 'bg-green-600 hover:bg-green-700' : ''} min-w-[120px] transition-all w-full sm:w-auto`}
+        >
+          {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : saved ? <CheckCircle2 className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+          {saveMutation.isPending ? 'Saving...' : saved ? 'Saved' : 'Save Changes'}
+        </Button>
+      </div>
     </div>
   );
 }
