@@ -24,6 +24,14 @@ Deno.serve(async (req) => {
             await base44.asServiceRole.entities.User.update(users[0].id, { portalRole });
         }
 
+        // Log invite history
+        await base44.asServiceRole.entities.InviteHistory.create({
+            email,
+            portalRole,
+            invitedBy: user.email,
+            status: 'pending',
+        });
+
         return Response.json({ success: true, message: `Invited ${email} as ${portalRole}` });
     } catch (error) {
         return Response.json({ error: error.message }, { status: 500 });
