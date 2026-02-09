@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { UserCircle, Save, Loader2 } from 'lucide-react';
+import { UserCircle, Save, Loader2, Camera } from 'lucide-react';
 import { toast } from "sonner";
 import { useLanguage } from './LanguageContext';
 
@@ -14,6 +14,10 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const isEditing = !!profile;
   const { t } = useLanguage();
   const [firstName, setFirstName] = useState(profile?.firstName || user?.full_name?.split(' ')[0] || '');
+  const [lastName, setLastName] = useState(profile?.lastName || user?.full_name?.split(' ').slice(1).join(' ') || '');
+  const [email, setEmail] = useState(profile?.email || user?.email || '');
+  const [profilePicture, setProfilePicture] = useState(profile?.profilePicture || '');
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [position, setPosition] = useState(profile?.position || '');
   const [department, setDepartment] = useState(profile?.department || '');
   const [startDate, setStartDate] = useState(profile?.startDate || '');
@@ -23,6 +27,16 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const [bio, setBio] = useState(profile?.bio || '');
   const [skills, setSkills] = useState((profile?.skills || []).join(', '));
   const queryClient = useQueryClient();
+
+  const handlePhotoUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { toast.error('Image must be under 5MB'); return; }
+    setUploadingPhoto(true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    setProfilePicture(file_url);
+    setUploadingPhoto(false);
+  };
 
   const saveMutation = useMutation({
     mutationFn: (data) => {
@@ -42,7 +56,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     saveMutation.mutate({
-      userEmail: user.email, firstName, position, department, startDate, phone,
+      userEmail: user.email, firstName, lastName, email, profilePicture, position, department, startDate, phone,
       emergencyContactName: emergencyName, emergencyContactPhone: emergencyPhone, bio,
       skills: skills.split(',').map(s => s.trim()).filter(Boolean),
     });
@@ -65,10 +79,38 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
           </div>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Profile Picture */}
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              {profilePicture ? (
+                <img src={profilePicture} alt="Profile" className="w-20 h-20 rounded-full object-cover border-2 border-gray-200" />
+              ) : (
+                <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center border-2 border-gray-200">
+                  <UserCircle className="w-10 h-10 text-gray-400" />
+                </div>
+              )}
+              <label className="absolute bottom-0 right-0 p-1.5 rounded-full bg-gray-900 text-white cursor-pointer hover:bg-gray-700 transition-colors">
+                {uploadingPhoto ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Camera className="w-3.5 h-3.5" />}
+                <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} disabled={uploadingPhoto} />
+              </label>
+            </div>
+            <div className="text-sm text-gray-500">Upload a profile photo</div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <Label>{t('firstName') || 'First Name'} *</Label>
               <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Last Name</Label>
+              <Input value={lastName} onChange={(e) => setLastName(e.target.value)} />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <Label>Email</Label>
+              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="space-y-1.5">
               <Label>{t('position')} *</Label>

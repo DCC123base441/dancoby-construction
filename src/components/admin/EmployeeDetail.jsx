@@ -297,12 +297,16 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center text-xl font-bold">
-                        {(user.full_name || user.email)?.substring(0, 2).toUpperCase()}
-                    </div>
+                    {profile?.profilePicture ? (
+                        <img src={profile.profilePicture} alt="" className="w-14 h-14 rounded-full object-cover border-2 border-slate-200" />
+                    ) : (
+                        <div className="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center text-xl font-bold">
+                            {(user.full_name || user.email)?.substring(0, 2).toUpperCase()}
+                        </div>
+                    )}
                     <div>
                         <h2 className="text-xl font-bold text-slate-900">{user.full_name || 'No Name'}</h2>
-                        <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {user.email}</p>
+                        <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {profile?.email || user.email}</p>
                     </div>
                 </div>
                 <AlertDialog>
