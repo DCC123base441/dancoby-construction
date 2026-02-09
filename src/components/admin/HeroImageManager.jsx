@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Plus, Trash2, GripVertical, Image, Loader2 } from 'lucide-react';
 
-export default function HeroImageManager() {
+export default function HeroImageManager({ embedded = false }) {
   const queryClient = useQueryClient();
   const [newUrl, setNewUrl] = useState('');
   const [newLabel, setNewLabel] = useState('');
@@ -74,16 +74,8 @@ export default function HeroImageManager() {
     });
   };
 
-  return (
-    <Card className="border-slate-200/60 shadow-sm">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Image className="w-5 h-5" />
-          Hero Slideshow Images
-        </CardTitle>
-        <CardDescription>Choose which images rotate on the homepage hero section</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+  const content = (
+      <div className="space-y-4">
         {/* Add new */}
         <div className="flex flex-col gap-3 p-4 bg-slate-50 rounded-lg border border-dashed border-slate-300">
           <div className="flex gap-2">
@@ -155,6 +147,22 @@ export default function HeroImageManager() {
             ))}
           </div>
         )}
+      </div>
+  );
+
+  if (embedded) return content;
+
+  return (
+    <Card className="border-slate-200/60 shadow-sm">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Image className="w-5 h-5" />
+          Hero Slideshow Images
+        </CardTitle>
+        <CardDescription>Choose which images rotate on the homepage hero section</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {content}
       </CardContent>
     </Card>
   );

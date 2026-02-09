@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Trash2, Plus, Upload, Loader2, GripVertical } from 'lucide-react';
 
-export default function BrandPartnerManager() {
+export default function BrandPartnerManager({ embedded = false }) {
     const queryClient = useQueryClient();
     const [newName, setNewName] = useState('');
     const [newLogoUrl, setNewLogoUrl] = useState('');
@@ -63,13 +63,8 @@ export default function BrandPartnerManager() {
         });
     };
 
-    return (
-        <Card className="border-slate-200/60 shadow-sm">
-            <CardHeader>
-                <CardTitle>Brand Partners</CardTitle>
-                <CardDescription>Manage the "Brands We Work With" logos on the About page</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
+    const content = (
+            <div className="space-y-6">
                 {/* Add new brand */}
                 <div className="flex flex-col gap-3 p-4 bg-slate-50 rounded-lg">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -137,6 +132,19 @@ export default function BrandPartnerManager() {
                         <p className="text-sm text-slate-500 text-center py-4">No brands added yet.</p>
                     )}
                 </div>
+            </div>
+    );
+
+    if (embedded) return content;
+
+    return (
+        <Card className="border-slate-200/60 shadow-sm">
+            <CardHeader>
+                <CardTitle>Brand Partners</CardTitle>
+                <CardDescription>Manage the "Brands We Work With" logos on the About page</CardDescription>
+            </CardHeader>
+            <CardContent>
+                {content}
             </CardContent>
         </Card>
     );
