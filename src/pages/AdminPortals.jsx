@@ -5,6 +5,7 @@ import AdminLayout from '../components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { HardHat, Users, Calendar, ExternalLink, ChevronRight } from 'lucide-react';
+import HolidayManager from '../components/admin/HolidayManager';
 
 export default function AdminPortals() {
     const portalLinks = [
