@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Pencil, Trash2, Image as ImageIcon, GripVertical, Save, MapPin, Clock, DollarSign, LayoutGrid, List, MoreVertical } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Image as ImageIcon, GripVertical, Save, MapPin, Clock, DollarSign, LayoutGrid, List, MoreVertical, UserPlus } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import {
   DropdownMenu,
@@ -17,6 +17,7 @@ import {
 import ProjectGalleryManager from '../components/admin/ProjectGalleryManager';
 import TestimonialsManager from '../components/admin/TestimonialsManager';
 import AIProjectWriter from '../components/admin/AIProjectWriter';
+import CustomerAssigner from '../components/admin/CustomerAssigner';
 import {
   Dialog,
   DialogContent,
@@ -50,6 +51,7 @@ export default function AdminProjects() {
     const [orderedProjects, setOrderedProjects] = useState([]);
     const [currentTestimonials, setCurrentTestimonials] = useState([]);
     const [viewMode, setViewMode] = useState("grid"); // "grid" or "list"
+    const [assignProjectId, setAssignProjectId] = useState(null);
     
     // Form State
     const [title, setTitle] = useState("");
@@ -337,7 +339,10 @@ export default function AdminProjects() {
                                                 }}>
                                                     <Pencil className="w-4 h-4 mr-2" /> Edit
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem className="text-red-600" onClick={() => {
+                                                <DropdownMenuItem onClick={() => setAssignProjectId(project.id)}>
+                                                    <UserPlus className="w-4 h-4 mr-2" /> Assign People
+                                                </DropdownMenuItem>
+                                            <DropdownMenuItem className="text-red-600" onClick={() => {
                                                     if(confirm('Are you sure?')) deleteMutation.mutate(project.id);
                                                 }}>
                                                     <Trash2 className="w-4 h-4 mr-2" /> Delete
@@ -463,6 +468,12 @@ export default function AdminProjects() {
                     </Droppable>
                 </DragDropContext>
             )}
+
+            <CustomerAssigner 
+                projectId={assignProjectId} 
+                open={!!assignProjectId} 
+                onOpenChange={(open) => { if (!open) setAssignProjectId(null); }}
+            />
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
