@@ -166,6 +166,27 @@ const translations = {
     // Language
     language: 'Language',
     more: 'More',
+
+    // Onboarding
+    onboardWelcomeTitle: 'Welcome to the team',
+    onboardWelcomeDesc: 'You\'re now part of the Dancoby Construction family. This portal is your one-stop hub for pay info, time off, company updates, and more.',
+    onboardQuickStart: 'Quick start guide:',
+    onboardStep1: 'Set up your employee profile',
+    onboardStep2: 'Explore your salary & benefits',
+    onboardStep3: 'Check the holiday schedule',
+    onboardResourcesTitle: 'What\'s Available for You',
+    onboardResourcesDesc: 'Here\'s what you can access from your portal:',
+    onboardSalaryDesc: 'View your pay, growth chart & bonus tracker',
+    onboardHolidaysDesc: 'See all company holidays & days off',
+    onboardFeedbackDesc: 'Share ideas & feedback with management',
+    onboardTimeOffDesc: 'Request vacation & personal days',
+    onboardProfileTitle: 'Let\'s Set Up Your Profile',
+    onboardProfileDesc: 'Add your details so your manager knows your role, skills, and emergency contacts. It only takes a minute.',
+    onboardProfileHint: 'Tip: Employees with complete profiles get access to all portal features faster!',
+    onboardSkip: 'Skip for now',
+    onboardNext: 'Next',
+    onboardSetupProfile: 'Set Up Profile',
+    firstName: 'First Name',
   },
   es: {
     portalCustomer: 'Portal del Cliente',
@@ -315,6 +336,27 @@ const translations = {
 
     language: 'Idioma',
     more: 'Más',
+
+    // Onboarding
+    onboardWelcomeTitle: 'Bienvenido al equipo',
+    onboardWelcomeDesc: 'Ahora eres parte de la familia Dancoby Construction. Este portal es tu centro para información de pago, días libres, actualizaciones y más.',
+    onboardQuickStart: 'Guía rápida:',
+    onboardStep1: 'Configura tu perfil de empleado',
+    onboardStep2: 'Explora tu salario y beneficios',
+    onboardStep3: 'Revisa el calendario de festivos',
+    onboardResourcesTitle: 'Lo Que Está Disponible Para Ti',
+    onboardResourcesDesc: 'Esto es lo que puedes acceder desde tu portal:',
+    onboardSalaryDesc: 'Ve tu pago, gráfico de crecimiento y bonos',
+    onboardHolidaysDesc: 'Ve todos los días festivos de la empresa',
+    onboardFeedbackDesc: 'Comparte ideas y comentarios con la gerencia',
+    onboardTimeOffDesc: 'Solicita vacaciones y días personales',
+    onboardProfileTitle: 'Configuremos Tu Perfil',
+    onboardProfileDesc: 'Agrega tus datos para que tu gerente conozca tu rol, habilidades y contactos de emergencia. Solo toma un minuto.',
+    onboardProfileHint: '¡Consejo: Los empleados con perfiles completos acceden a todas las funciones del portal más rápido!',
+    onboardSkip: 'Saltar por ahora',
+    onboardNext: 'Siguiente',
+    onboardSetupProfile: 'Configurar Perfil',
+    firstName: 'Nombre',
   }
 };
 
