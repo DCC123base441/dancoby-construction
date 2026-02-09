@@ -72,12 +72,12 @@ export default function EmployeePortalInner({ user }) {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20 sm:pb-0">
-      <PortalHeader user={user} portalType="employee" />
+      <EmployeeHeader user={user} />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex gap-6">
         {/* Sidebar for desktop */}
         <div className="hidden md:block w-64 flex-shrink-0">
-          <PortalSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+          <EmployeeSidebar activeTab={activeTab} onTabChange={setActiveTab} user={user} />
         </div>
 
         {/* Main Content */}
@@ -143,13 +143,14 @@ export default function EmployeePortalInner({ user }) {
         </div>
       </div>
 
-      <PortalBottomNav 
+      <EmployeeBottomNav 
         activeTab={activeTab} 
         onTabChange={setActiveTab} 
-        onMorePress={() => setMoreOpen(true)} 
+        onMorePress={() => setMoreOpen(true)}
+        user={user}
       />
       
-      <PortalMoreSheet 
+      <EmployeeMoreSheet 
         open={moreOpen} 
         onOpenChange={setMoreOpen} 
         onTabChange={setActiveTab} 
