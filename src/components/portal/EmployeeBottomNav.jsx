@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { id: 'news', icon: Newspaper, labelKey: 'tabNews' },
   { id: 'jobtread', icon: MonitorPlay, labelKey: 'tabJobTread' },
   { id: 'notifications', icon: Bell, labelKey: 'notifications' },
+  { id: 'profile', icon: UserCircle, labelKey: 'tabProfile' },
   { id: 'more', icon: Menu, labelKey: 'more' },
 ];
 
@@ -30,7 +31,7 @@ export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress,
   };
   
   const hasHiddenNotifications = notifications.some(n => 
-    !n.read && !['news', 'jobtread', 'notifications'].includes(activeTab)
+    !n.read && !['news', 'jobtread', 'notifications', 'profile'].includes(activeTab)
   );
 
   return (
@@ -43,7 +44,7 @@ export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress,
             <button
               key={item.id}
               onClick={handleClick}
-              className={`flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl transition-all min-w-[60px] ${
+              className={`flex flex-col items-center gap-0.5 py-1.5 px-1.5 sm:px-3 rounded-xl transition-all min-w-0 flex-1 ${
                 isActive
                   ? 'text-amber-600'
                   : 'text-gray-400 hover:text-gray-600'
@@ -55,7 +56,7 @@ export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress,
                     <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border border-white" />
                 )}
               </div>
-              <span className="text-[10px] font-medium leading-tight">
+              <span className="text-[10px] font-medium leading-tight truncate max-w-[56px]">
                 {item.id === 'more' ? (t('more') || 'More') : t(item.labelKey)}
               </span>
               {isActive && (

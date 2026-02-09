@@ -245,11 +245,24 @@ function EmployeePortalContent() {
             </div>
 
             {/* Tab content */}
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="p-4 sm:p-6">
-                {renderContent()}
+            {activeTab === 'profile' ? (
+              profile ? (
+                <EmployeeProfileSetup user={user} profile={profile} onSaved={() => {}} />
+              ) : (
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                  <div className="text-center py-16 text-gray-400 p-4 sm:p-6">
+                    <UserCircle className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                    <p className="text-sm">{t('createProfileHere')}</p>
+                  </div>
+                </div>
+              )
+            ) : (
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div className="p-4 sm:p-6">
+                  {renderContent()}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </main>
       </div>
