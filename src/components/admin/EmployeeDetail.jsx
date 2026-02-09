@@ -6,10 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+    AlertDialog, AlertDialogAction, AlertDialogCancel,
+    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+    AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { 
     DollarSign, Briefcase, Calendar, Phone, User, Mail, 
     MessageSquare, Clock, TrendingUp, Save, AlertCircle,
-    CheckCircle2, XCircle, Hourglass
+    CheckCircle2, XCircle, Hourglass, Trash2, Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -256,7 +261,27 @@ function RaiseTab({ userEmail }) {
     );
 }
 
-export default function EmployeeDetail({ user, profile }) {
+export default function EmployeeDetail({ user, profile, onDeleted }) {
+    const [deleting, setDeleting] = useState(false);
+    const queryClient = useQueryClient();
+
+    const handleDelete = async () => {
+        setDeleting(true);
+        try {
+            await base44.functions.invoke('deleteEmployee', {
+                userId: user.id,
+                userEmail: user.email,
+            });
+            toast.success(`${user.full_name || user.email} has been removed`);
+            queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
+            queryClient.invalidateQueries({ queryKey: ['adminProfiles'] });
+            onDeleted?.();
+        } catch (err) {
+            toast.error(err?.response?.data?.error || 'Failed to delete employee');
+        }
+        setDeleting(false);
+    };
+
     if (!user) {
         return (
             <div className="flex items-center justify-center h-full text-slate-400 py-20">
@@ -270,14 +295,38 @@ export default function EmployeeDetail({ user, profile }) {
 
     return (
         <div>
-            <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center text-xl font-bold">
-                    {(user.full_name || user.email)?.substring(0, 2).toUpperCase()}
+            <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center text-xl font-bold">
+                        {(user.full_name || user.email)?.substring(0, 2).toUpperCase()}
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold text-slate-900">{user.full_name || 'No Name'}</h2>
+                        <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {user.email}</p>
+                    </div>
                 </div>
-                <div>
-                    <h2 className="text-xl font-bold text-slate-900">{user.full_name || 'No Name'}</h2>
-                    <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {user.email}</p>
-                </div>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-600 hover:bg-red-50">
+                            <Trash2 className="w-4 h-4" />
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Employee</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This will permanently remove <strong>{user.full_name || user.email}</strong> and their profile. This action cannot be undone.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDelete} disabled={deleting} className="bg-red-600 hover:bg-red-700">
+                                {deleting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Trash2 className="w-4 h-4 mr-2" />}
+                                Delete
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
 
             <Tabs defaultValue="profile" className="w-full">
