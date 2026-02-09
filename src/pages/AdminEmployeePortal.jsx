@@ -19,6 +19,7 @@ import MobileNavReorder from '../components/admin/MobileNavReorder';
 export default function AdminEmployeePortal() {
   const [showInvite, setShowInvite] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showMobileNav, setShowMobileNav] = useState(false);
 
   const { data: allUsers = [] } = useQuery({
     queryKey: ['portalUsers'],
@@ -41,6 +42,7 @@ export default function AdminEmployeePortal() {
     { name: "Company News", href: "AdminNews", icon: Newspaper },
     { name: "Holiday Schedule", href: "AdminHolidays", icon: CalendarDays },
     { name: "JobTread Tutorials", href: "AdminJobTread", icon: BookOpen },
+    { name: "Mobile Nav Order", icon: Smartphone, action: () => setShowMobileNav(!showMobileNav) },
   ];
 
   return (
@@ -97,36 +99,45 @@ export default function AdminEmployeePortal() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {employeeLinks.map((page) => (
-                  <Link
-                    key={page.name}
-                    to={createPageUrl(page.href)}
-                    className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-slate-100 bg-white shadow-sm hover:border-amber-200 hover:shadow-md transition-all group"
-                  >
-                    <div className="p-2 rounded-lg bg-amber-50 group-hover:bg-amber-100 transition-colors">
-                        <page.icon className="w-5 h-5 text-amber-600" />
-                    </div>
-                    <span className="flex-1 font-medium text-slate-700">{page.name}</span>
-                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-amber-500 transition-colors" />
-                  </Link>
-                ))}
+                {employeeLinks.map((page) => {
+                  const content = (
+                    <>
+                      <div className="p-2 rounded-lg bg-amber-50 group-hover:bg-amber-100 transition-colors">
+                          <page.icon className="w-5 h-5 text-amber-600" />
+                      </div>
+                      <span className="flex-1 font-medium text-slate-700">{page.name}</span>
+                      <ChevronRight className={`w-4 h-4 text-slate-300 group-hover:text-amber-500 transition-colors ${page.action && showMobileNav ? 'rotate-90' : ''}`} />
+                    </>
+                  );
+                  if (page.action) {
+                    return (
+                      <button
+                        key={page.name}
+                        onClick={page.action}
+                        className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-slate-100 bg-white shadow-sm hover:border-amber-200 hover:shadow-md transition-all group text-left"
+                      >
+                        {content}
+                      </button>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={page.name}
+                      to={createPageUrl(page.href)}
+                      className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-slate-100 bg-white shadow-sm hover:border-amber-200 hover:shadow-md transition-all group"
+                    >
+                      {content}
+                    </Link>
+                  );
+                })}
               </div>
+              {showMobileNav && (
+                <div className="mt-4 pt-4 border-t border-slate-200">
+                  <p className="text-sm text-gray-500 mb-3">Drag to reorder the bottom navigation and "More" sheet for the employee mobile app.</p>
+                  <MobileNavReorder />
+                </div>
+              )}
             </CardContent>
-        </Card>
-
-        {/* Mobile Navigation Order */}
-        <Card className="border-slate-200 overflow-hidden">
-          <div className="h-1.5 bg-gradient-to-r from-violet-400 to-violet-600" />
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Smartphone className="w-5 h-5 text-violet-600" />
-              Mobile App Navigation Order
-            </CardTitle>
-            <p className="text-sm text-gray-500">Drag to reorder the bottom navigation and "More" sheet for the employee mobile app.</p>
-          </CardHeader>
-          <CardContent>
-            <MobileNavReorder />
-          </CardContent>
         </Card>
 
       </div>
