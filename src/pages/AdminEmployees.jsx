@@ -6,6 +6,7 @@ import EmployeeList from '../components/admin/EmployeeList';
 import EmployeeDetail from '../components/admin/EmployeeDetail';
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Search, Users, UserPlus } from 'lucide-react';
 import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 
