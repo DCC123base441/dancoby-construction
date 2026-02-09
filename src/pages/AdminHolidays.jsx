@@ -60,27 +60,20 @@ export default function AdminHolidays() {
   });
 
   const seedHolidays = async () => {
+    const year = new Date().getFullYear();
     const defaults = [
-      { name: "New Year's Day", date: "Jan 1", category: "federal", tag: "paid", order: 1 },
-      { name: "MLK Jr. Day", date: "Jan 20", category: "federal", tag: "paid", order: 2 },
-      { name: "Presidents' Day", date: "Feb 17", category: "federal", tag: "paid", order: 3 },
-      { name: "Purim", date: "Mar 14", category: "jewish", tag: "working", order: 4 },
-      { name: "Passover", date: "Apr 13–20", category: "jewish", tag: "off", order: 5 },
-      { name: "Memorial Day", date: "May 26", category: "federal", tag: "paid", order: 6 },
-      { name: "Shavuot", date: "Jun 2–3", category: "jewish", tag: "off", order: 7 },
-      { name: "Independence Day", date: "Jul 4", category: "federal", tag: "paid", order: 8 },
-      { name: "Labor Day", date: "Sep 1", category: "federal", tag: "paid", order: 9 },
-      { name: "Rosh Hashanah", date: "Sep 23–24", category: "jewish", tag: "off", order: 10 },
-      { name: "Yom Kippur", date: "Oct 2", category: "jewish", tag: "off", order: 11 },
-      { name: "Sukkot", date: "Oct 7–13", category: "jewish", tag: "off", order: 12 },
-      { name: "Simchat Torah", date: "Oct 14", category: "jewish", tag: "off", order: 13 },
-      { name: "Hanukkah", date: "Dec 15–22", category: "jewish", tag: "working", order: 14 },
-      { name: "Thanksgiving", date: "Nov 27–28", category: "federal", tag: "paid", order: 15 },
-      { name: "Christmas Eve & Day", date: "Dec 24–25", category: "federal", tag: "paid", order: 16 },
+      { name: "New Year's Day", startDate: `${year}-01-01`, endDate: `${year}-01-01`, category: "federal", tag: "paid" },
+      { name: "MLK Jr. Day", startDate: `${year}-01-19`, endDate: `${year}-01-19`, category: "federal", tag: "paid" },
+      { name: "Presidents' Day", startDate: `${year}-02-16`, endDate: `${year}-02-16`, category: "federal", tag: "paid" },
+      { name: "Memorial Day", startDate: `${year}-05-25`, endDate: `${year}-05-25`, category: "federal", tag: "paid" },
+      { name: "Independence Day", startDate: `${year}-07-04`, endDate: `${year}-07-04`, category: "federal", tag: "paid" },
+      { name: "Labor Day", startDate: `${year}-09-07`, endDate: `${year}-09-07`, category: "federal", tag: "paid" },
+      { name: "Thanksgiving", startDate: `${year}-11-26`, endDate: `${year}-11-27`, category: "federal", tag: "paid" },
+      { name: "Christmas Eve & Day", startDate: `${year}-12-24`, endDate: `${year}-12-25`, category: "federal", tag: "paid" },
     ];
     await base44.entities.Holiday.bulkCreate(defaults);
     queryClient.invalidateQueries(['holidays']);
-    toast.success('Default holidays added');
+    toast.success('Default holidays added — update dates for this year as needed');
   };
 
   const handleAdd = () => {
