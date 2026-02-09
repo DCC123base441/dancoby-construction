@@ -119,7 +119,7 @@ const translations = {
 
     // Holidays
     holidaySchedule: `${new Date().getFullYear()} Holiday Schedule`,
-    paidHolidays: 'Company-observed paid holidays',
+    paidHolidays: 'Company-observed holidays',
     past: 'Past',
     summerHours: 'Summer Hours',
     summerHoursDesc: 'During June–August, Friday hours are 7 AM – 1 PM.',
@@ -272,7 +272,7 @@ const translations = {
     bonusNote: 'Tu bono es un pequeño porcentaje de los ingresos totales de la empresa. Cuanto más gane la empresa, mayor será tu bono. Los bonos se pagan cada 3 meses.',
 
     holidaySchedule: `Calendario de Festivos ${new Date().getFullYear()}`,
-    paidHolidays: 'Días festivos pagados de la empresa',
+    paidHolidays: 'Días festivos de la empresa',
     past: 'Pasado',
     summerHours: 'Horario de Verano',
     summerHoursDesc: 'Durante junio–agosto, los viernes son de 7 AM a 1 PM.',
