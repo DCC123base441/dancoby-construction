@@ -152,12 +152,24 @@ export default function EmployeePortalInner({ user }) {
         onTabChange={setActiveTab} 
         onMorePress={() => setMoreOpen(true)}
         user={user}
+        bottomIds={order.bottom}
       />
       
       <EmployeeMoreSheet 
         open={moreOpen} 
         onOpenChange={setMoreOpen} 
-        onTabChange={setActiveTab} 
+        onTabChange={setActiveTab}
+        moreIds={order.more}
+        onCustomize={() => setCustomizeOpen(true)}
+      />
+
+      <NavCustomizer
+        open={customizeOpen}
+        onOpenChange={setCustomizeOpen}
+        order={order}
+        swapToBottom={swapToBottom}
+        reorderBottom={reorderBottom}
+        resetOrder={resetOrder}
       />
     </div>
   );
