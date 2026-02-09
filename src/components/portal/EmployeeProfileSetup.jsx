@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { UserCircle, Save, Loader2, Camera } from 'lucide-react';
+import { UserCircle, Save, Loader2, Camera, CheckCircle2 } from 'lucide-react';
 import { toast } from "sonner";
 import { useLanguage } from './LanguageContext';
 
@@ -26,6 +26,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const [emergencyPhone, setEmergencyPhone] = useState(profile?.emergencyContactPhone || '');
   const [bio, setBio] = useState(profile?.bio || '');
   const [skills, setSkills] = useState((profile?.skills || []).join(', '));
+  const [saved, setSaved] = useState(false);
   const queryClient = useQueryClient();
 
   const handlePhotoUpload = async (e) => {
@@ -46,6 +47,8 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employeeProfile'] });
       toast.success(isEditing ? (t('profileUpdated') || 'Profile updated! ✅') : (t('profileCreated') || 'Profile created! 🎉'));
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
       onSaved?.();
     },
     onError: (error) => {
@@ -150,9 +153,9 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
             <Textarea value={bio} onChange={(e) => setBio(e.target.value)} className="h-20" />
           </div>
           <div className="flex justify-end pt-2">
-            <Button type="submit" disabled={saveMutation.isPending} className="bg-gray-900 hover:bg-gray-800">
-              {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-              {isEditing ? t('saveChanges') : t('createProfile')}
+            <Button type="submit" disabled={saveMutation.isPending || saved} className={saved ? 'bg-green-600 hover:bg-green-600' : 'bg-gray-900 hover:bg-gray-800'}>
+              {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : saved ? <CheckCircle2 className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+              {saveMutation.isPending ? 'Saving...' : saved ? 'Saved!' : (isEditing ? t('saveChanges') : t('createProfile'))}
             </Button>
           </div>
         </form>
