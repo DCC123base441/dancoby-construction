@@ -45,7 +45,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employeeProfile'] });
-      toast.success(isEditing ? t('profileUpdated') : t('profileCreated'));
+      toast.success(isEditing ? (t('profileUpdated') || 'Profile updated! ✅') : (t('profileCreated') || 'Profile created! 🎉'));
       onSaved?.();
     },
     onError: (error) => {
