@@ -200,9 +200,16 @@ function EmployeePortalContent() {
                   </p>
                   <div className="flex items-center gap-2 mt-2">
                     {profile?.startDate && <TenureBadge startDate={profile.startDate} />}
-                    <div className="flex items-center gap-1.5 bg-amber-700/30 backdrop-blur-sm px-2 py-0.5 rounded-full text-[10px] text-amber-50 border border-amber-400/30">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] animate-pulse" />
-                      Connected to JobTread
+                    <div className="flex items-center gap-2 bg-amber-700/30 backdrop-blur-sm px-3 py-1 rounded-full border border-amber-400/30">
+                      <div className="relative flex items-center justify-center">
+                        <div className="absolute inset-0 rounded-full border-2 border-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
+                        <img 
+                          src="https://yt3.ggpht.com/QWox277KuhTRFhCWHnkwLJKwYyY-pIZopKYRWhFhdsggxm9Z7BFfy3VlgyEJxYdXbyNbwjdQYz4=s68-c-k-c0x00ffffff-no-rj" 
+                          alt="JobTread" 
+                          className="w-5 h-5 rounded-full" 
+                        />
+                      </div>
+                      <span className="text-[10px] text-amber-50 font-medium">Connected</span>
                     </div>
                   </div>
                 </div>
