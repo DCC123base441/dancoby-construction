@@ -31,13 +31,7 @@ export default function EmployeeSidebar({ activeTab, onTabChange, user }) {
     staleTime: 1000 * 30,
   });
 
-  const counts = {
-    news: notifications.filter(n => n.type === 'news').length,
-    timeoff: notifications.filter(n => n.type === 'time_off').length,
-    raise: notifications.filter(n => n.type === 'raise').length,
-    feedback: notifications.filter(n => n.type === 'general' && n.title.includes('Feedback')).length,
-    notifications: notifications.filter(n => !n.read).length,
-  };
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <aside className="hidden lg:flex flex-col w-56 flex-shrink-0 border-r border-gray-200 bg-white">
@@ -60,9 +54,9 @@ export default function EmployeeSidebar({ activeTab, onTabChange, user }) {
                 <tab.icon className={`w-4 h-4 ${isActive ? 'text-amber-700' : tab.color.split(' ')[0]}`} />
               </div>
               <span className="flex-1 text-left">{t(tab.labelKey) || tab.labelKey}</span>
-              {counts[tab.id] > 0 && (
-                <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
-                  {counts[tab.id]}
+              {tab.id === 'notifications' && unreadCount > 0 && (
+                <span className="w-5 h-5 flex items-center justify-center bg-red-500 text-white text-[10px] font-bold rounded-full">
+                  {unreadCount}
                 </span>
               )}
             </button>
