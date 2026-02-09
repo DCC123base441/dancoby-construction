@@ -195,7 +195,7 @@ function EmployeePortalContent() {
                   </p>
                   <div className="flex flex-wrap items-center gap-y-2 gap-x-3 mt-3">
                     {(profile?.startDate || user?._adminPreview) && <TenureBadge startDate={profile?.startDate || '2023-01-01'} />}
-                    {(profile?.isJobTreadConnected || user?._adminPreview) && (
+                    {(profile?.isJobTreadConnected || profile?.jobTreadId || user?._adminPreview) && (
                       <div className="flex flex-shrink-0 items-center gap-2 bg-amber-950/20 backdrop-blur-sm px-3 py-1 rounded-full border border-amber-400/20 max-w-full">
                         <div className="relative flex items-center justify-center w-5 h-5 flex-shrink-0">
                           <div className="absolute -inset-0.5 rounded-full border border-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
