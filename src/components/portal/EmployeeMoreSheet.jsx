@@ -1,6 +1,4 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, Bell, Newspaper, DollarSign, CalendarDays, MessageCircle } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
