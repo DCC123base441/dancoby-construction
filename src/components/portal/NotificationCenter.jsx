@@ -17,7 +17,7 @@ export default function NotificationCenter() {
     queryKey: ['myNotifications'],
     queryFn: async () => {
       const user = await base44.auth.me();
-      return base44.entities.Notification.filter({ userEmail: user.email }, '-created_date', 20);
+      return base44.entities.Notification.filter({ userEmail: user.email?.toLowerCase() }, '-created_date', 20);
     },
     refetchInterval: 30000, // Poll every 30s
   });

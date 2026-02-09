@@ -153,7 +153,7 @@ function TimeOffTab({ userEmail }) {
             // Create notification
             if (status === 'approved' || status === 'denied') {
                 await base44.entities.Notification.create({
-                    userEmail,
+                    userEmail: userEmail?.toLowerCase(),
                     type: 'time_off',
                     title: `Time Off Request ${status.charAt(0).toUpperCase() + status.slice(1)}`,
                     message: `Your time off request has been ${status}.`,
@@ -217,7 +217,7 @@ function FeedbackTab({ userEmail }) {
             const result = await base44.entities.EmployeeFeedback.update(id, { resolved });
             if (resolved) {
                 await base44.entities.Notification.create({
-                    userEmail,
+                    userEmail: userEmail?.toLowerCase(),
                     type: 'general',
                     title: 'Feedback Resolved',
                     message: 'Your feedback has been reviewed and marked as resolved.',
@@ -277,7 +277,7 @@ function RaiseTab({ userEmail }) {
              // Create notification
              if (status === 'approved' || status === 'denied' || status === 'scheduled') {
                 await base44.entities.Notification.create({
-                    userEmail,
+                    userEmail: userEmail?.toLowerCase(),
                     type: 'raise',
                     title: `Raise Request ${status.charAt(0).toUpperCase() + status.slice(1)}`,
                     message: `Your raise/review request status is now: ${status}.`,
