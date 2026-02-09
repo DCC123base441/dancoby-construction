@@ -51,7 +51,37 @@ export default function AdminNews() {
       if (editingItem) {
         return base44.entities.CompanyNews.update(editingItem.id, payload);
       }
-      return base44.entities.CompanyNews.create(payload);
+      const newPost = await base44.entities.CompanyNews.create(payload);
+      
+      // Notify all employees
+      try {
+          // Fetch all users - filter by portalRole if possible, or client side filter
+          // Since User filter might be restricted or partial, we try to get all and filter
+          const allUsers = await base44.entities.User.list(); 
+          const employees = allUsers.filter(u => u.portalRole === 'employee');
+          
+          if (employees.length > 0) {
+              const notifications = employees.map(emp => ({
+                  userEmail: emp.email,
+                  type: 'news',
+                  title: 'New Company News: ' + payload.title,
+                  message: payload.content.substring(0, 100) + (payload.content.length > 100 ? '...' : ''),
+                  link: createPageUrl('EmployeePortal'),
+                  relatedId: newPost.id
+              }));
+              
+              // Bulk create in chunks of 50 just to be safe/efficient
+              const chunkSize = 50;
+              for (let i = 0; i < notifications.length; i += chunkSize) {
+                  await base44.entities.Notification.bulkCreate(notifications.slice(i, i + chunkSize));
+              }
+          }
+      } catch (err) {
+          console.error('Failed to notify employees', err);
+          toast.error('News published but failed to send notifications');
+      }
+
+      return newPost;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['adminNews'] });
