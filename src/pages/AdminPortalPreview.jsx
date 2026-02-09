@@ -110,7 +110,7 @@ export default function AdminPortalPreview() {
                 {isEmployee ? (
                     previewUser ? (
                         <LanguageProvider>
-                            <EmployeePortalInner user={previewUser} />
+                            <EmployeePortalInner key={previewUser.email} user={previewUser} />
                         </LanguageProvider>
                     ) : (
                         <div className="flex items-center justify-center py-20 text-slate-400 text-sm">
