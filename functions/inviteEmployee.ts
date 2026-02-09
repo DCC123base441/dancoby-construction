@@ -25,42 +25,47 @@ Deno.serve(async (req) => {
             await base44.asServiceRole.entities.User.update(users[0].id, { portalRole });
         }
 
-        // Log invite history
+        // Send a custom welcome email with direct portal link
+        const portalLabel = portalRole === 'customer' ? 'Customer Portal' : 'Employee Portal';
+        const portalUrl = appUrl ? `${appUrl}/PortalLogin` : 'PortalLogin';
+
+        try {
+            await base44.asServiceRole.integrations.Core.SendEmail({
+                to: email,
+                from_name: 'Dancoby Construction',
+                subject: `Welcome to the Dancoby ${portalLabel}!`,
+                body: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <h1 style="color: #1e293b; font-size: 24px; margin-bottom: 8px;">Welcome to Dancoby Construction!</h1>
+                            <p style="color: #64748b; font-size: 14px;">You've been invited to join the ${portalLabel}</p>
+                        </div>
+                        <div style="background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
+                            <p style="color: #92400e; font-size: 16px; margin-bottom: 16px;">
+                                Click the button below to access your portal. Please <strong>Sign Up</strong> to create your account.
+                            </p>
+                            <a href="${portalUrl}" style="display: inline-block; background: #d97706; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: bold; font-size: 16px;">
+                                Sign Up & Open Portal →
+                            </a>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 12px; text-align: center;">
+                            If the button doesn't work, copy and paste this link into your browser:<br/>
+                            <a href="${portalUrl}" style="color: #d97706;">${portalUrl}</a>
+                        </p>
+                    </div>
+                `
+            });
+        } catch (error) {
+            console.error('Failed to send invite email:', error);
+            throw new Error('Failed to send email. Invite not created.');
+        }
+
+        // Log invite history ONLY if email was sent successfully
         await base44.asServiceRole.entities.InviteHistory.create({
             email,
             portalRole,
             invitedBy: user.email,
             status: 'pending',
-        });
-
-        // Send a custom welcome email with direct portal link
-        const portalLabel = portalRole === 'customer' ? 'Customer Portal' : 'Employee Portal';
-        const portalUrl = appUrl ? `${appUrl}/PortalLogin` : 'PortalLogin';
-
-        await base44.asServiceRole.integrations.Core.SendEmail({
-            to: email,
-            from_name: 'Dancoby Construction',
-            subject: `Welcome to the Dancoby ${portalLabel}!`,
-            body: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <h1 style="color: #1e293b; font-size: 24px; margin-bottom: 8px;">Welcome to Dancoby Construction!</h1>
-                        <p style="color: #64748b; font-size: 14px;">You've been invited to join the ${portalLabel}</p>
-                    </div>
-                    <div style="background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
-                        <p style="color: #92400e; font-size: 16px; margin-bottom: 16px;">
-                            Click the button below to access your portal. Please <strong>Sign Up</strong> to create your account.
-                        </p>
-                        <a href="${portalUrl}" style="display: inline-block; background: #d97706; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: bold; font-size: 16px;">
-                            Sign Up & Open Portal →
-                        </a>
-                    </div>
-                    <p style="color: #94a3b8; font-size: 12px; text-align: center;">
-                        If the button doesn't work, copy and paste this link into your browser:<br/>
-                        <a href="${portalUrl}" style="color: #d97706;">${portalUrl}</a>
-                    </p>
-                </div>
-            `
         });
 
         return Response.json({ success: true, message: `Invited ${email} as ${portalRole}` });
