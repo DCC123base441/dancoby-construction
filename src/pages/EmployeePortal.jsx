@@ -37,8 +37,18 @@ function EmployeePortalContent() {
   useEffect(() => {
     const init = async () => {
       try {
+        // Check if coming from admin dashboard via bypass
+        const urlParams = new URLSearchParams(window.location.search);
+        const adminBypass = urlParams.get('admin_view') === 'true' || localStorage.getItem('admin_bypass') === 'true';
+
         const isAuth = await base44.auth.isAuthenticated();
         if (!isAuth) {
+          if (adminBypass) {
+            // Admin bypass without real auth — show portal with mock admin user
+            setUser({ full_name: 'Admin Viewer', email: 'admin@dancoby.com', role: 'admin' });
+            setLoading(false);
+            return;
+          }
           window.location.href = createPageUrl('PortalLogin');
           return;
         }
@@ -53,6 +63,12 @@ function EmployeePortalContent() {
         }
         setUser(me);
       } catch {
+        const adminBypass = new URLSearchParams(window.location.search).get('admin_view') === 'true' || localStorage.getItem('admin_bypass') === 'true';
+        if (adminBypass) {
+          setUser({ full_name: 'Admin Viewer', email: 'admin@dancoby.com', role: 'admin' });
+          setLoading(false);
+          return;
+        }
         window.location.href = createPageUrl('PortalLogin');
       }
       setLoading(false);

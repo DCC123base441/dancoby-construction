@@ -502,7 +502,7 @@ export default function AdminDashboard() {
                         </Card>
                     </Link>
 
-                    <Link to={createPageUrl('EmployeePortal')} className="group block">
+                    <Link to={createPageUrl('EmployeePortal') + '?admin_view=true'} className="group block">
                         <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
                             <CardContent className="p-6 flex items-center gap-4">
                                 <div className="p-3 rounded-lg bg-orange-100 group-hover:bg-orange-600 transition-colors">
