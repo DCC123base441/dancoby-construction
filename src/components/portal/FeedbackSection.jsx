@@ -48,7 +48,7 @@ export default function FeedbackSection({ user }) {
   return (
     <div className="space-y-6">
       <Card className="border-gray-200">
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-full bg-purple-50">
               <MessageCircle className="w-5 h-5 text-purple-600" />

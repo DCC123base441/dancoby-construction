@@ -1,13 +1,13 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { UserCircle, MessageCircle, DollarSign, CalendarDays, Menu, Newspaper } from 'lucide-react';
+import { UserCircle, MessageCircle, DollarSign, CalendarDays, Menu, Newspaper, MonitorPlay, Bell } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 const NAV_ITEMS = [
   { id: 'news', icon: Newspaper, labelKey: 'tabNews' },
-  { id: 'salary', icon: DollarSign, labelKey: 'tabSalary' },
-  { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays' },
+  { id: 'jobtread', icon: MonitorPlay, labelKey: 'tabJobTread' },
+  { id: 'notifications', icon: Bell, labelKey: 'notifications' },
   { id: 'more', icon: Menu, labelKey: 'more' },
 ];
 
@@ -29,7 +29,7 @@ export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress 
   };
   
   const hasHiddenNotifications = notifications.some(n => 
-    ['time_off', 'raise', 'general'].includes(n.type) && !['news', 'salary', 'holidays'].includes(activeTab)
+    !n.read && !['news', 'jobtread', 'notifications'].includes(activeTab)
   );
 
   return (

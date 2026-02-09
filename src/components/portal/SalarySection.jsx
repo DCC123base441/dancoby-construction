@@ -61,7 +61,7 @@ function SalaryGrowthChart({ hourly, startDate, t }) {
 
   return (
     <Card className="border-gray-200">
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-full bg-blue-50">
@@ -130,7 +130,7 @@ function MotivationalSection({ t }) {
 
   return (
     <Card className="border-gray-200 bg-gradient-to-br from-gray-50 to-white">
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-5">
           <div className="p-2 rounded-full bg-amber-50">
             <Star className="w-5 h-5 text-amber-600" />
@@ -181,7 +181,7 @@ export default function SalarySection({ profile }) {
   return (
     <div className="space-y-4">
       <Card className="border-gray-200">
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-full bg-green-50">
               <DollarSign className="w-5 h-5 text-green-600" />
@@ -211,7 +211,7 @@ export default function SalarySection({ profile }) {
       <MotivationalSection t={t} />
 
       <Card className="border-gray-200">
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <h4 className="font-semibold text-gray-900 mb-4">{t('waysToIncrease')}</h4>
           <div className="space-y-4">
             {RECOMMENDATIONS.map((rec, i) => (

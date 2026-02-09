@@ -104,7 +104,7 @@ export default function TimeOffSection({ user }) {
 
       {showForm && (
         <Card className="border-purple-200 bg-purple-50/30">
-          <CardContent className="p-5 space-y-4">
+          <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <Label>{t('startDate') || 'Start Date'}</Label>

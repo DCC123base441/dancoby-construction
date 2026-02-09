@@ -21,6 +21,7 @@ import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 import TenureBadge from '../components/portal/TenureBadge';
 import OnboardingWelcome from '../components/portal/OnboardingWelcome';
 import NewsFeedSection from '../components/portal/NewsFeedSection';
+import NotificationSection from '../components/portal/NotificationSection';
 
 
 function EmployeePortalContent() {
@@ -143,6 +144,7 @@ function EmployeePortalContent() {
       case 'raise': return <RaiseRequestSection user={user} profile={profile} />;
       case 'gear': return <GearShopSection />;
       case 'jobtread': return <JobTreadSection />;
+      case 'notifications': return <NotificationSection />;
       default: return null;
     }
   };

@@ -1,20 +1,21 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, Newspaper } from 'lucide-react';
+import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, Newspaper, Bell } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 
 const ALL_TABS = [
   { id: 'news', icon: Newspaper, labelKey: 'tabNews', color: 'text-indigo-600 bg-indigo-50' },
+  { id: 'notifications', icon: Bell, labelKey: 'notifications', color: 'text-blue-600 bg-blue-50' },
+  { id: 'jobtread', icon: MonitorPlay, labelKey: 'tabJobTread', color: 'text-cyan-600 bg-cyan-50' },
   { id: 'salary', icon: DollarSign, labelKey: 'tabSalary', color: 'text-emerald-600 bg-emerald-50' },
   { id: 'feedback', icon: MessageCircle, labelKey: 'tabFeedback', color: 'text-purple-600 bg-purple-50' },
   { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays', color: 'text-red-600 bg-red-50' },
   { id: 'timeoff', icon: CalendarOff, labelKey: 'tabTimeOff', color: 'text-orange-600 bg-orange-50' },
   { id: 'raise', icon: HandCoins, labelKey: 'tabRaise', color: 'text-amber-600 bg-amber-50' },
   { id: 'gear', icon: ShoppingBag, labelKey: 'tabGear', color: 'text-pink-600 bg-pink-50' },
-  { id: 'jobtread', icon: MonitorPlay, labelKey: 'tabJobTread', color: 'text-cyan-600 bg-cyan-50' },
-  { id: 'profile', icon: UserCircle, labelKey: 'tabProfile', color: 'text-blue-600 bg-blue-50' },
+  { id: 'profile', icon: UserCircle, labelKey: 'tabProfile', color: 'text-slate-600 bg-slate-50' },
 ];
 
 export default function EmployeeSidebar({ activeTab, onTabChange }) {
@@ -33,7 +34,8 @@ export default function EmployeeSidebar({ activeTab, onTabChange }) {
     news: notifications.filter(n => n.type === 'news').length,
     timeoff: notifications.filter(n => n.type === 'time_off').length,
     raise: notifications.filter(n => n.type === 'raise').length,
-    feedback: notifications.filter(n => n.type === 'general' && n.title.includes('Feedback')).length, // rudimentary check
+    feedback: notifications.filter(n => n.type === 'general' && n.title.includes('Feedback')).length,
+    notifications: notifications.filter(n => !n.read).length,
   };
 
   return (

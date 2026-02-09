@@ -56,7 +56,7 @@ export default function RaiseRequestSection({ user, profile }) {
   return (
     <div className="space-y-4">
       <Card className="border-gray-200">
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-full bg-amber-50">

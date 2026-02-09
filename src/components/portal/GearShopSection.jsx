@@ -20,7 +20,7 @@ export default function GearShopSection() {
   return (
     <Card className="border-gray-200 overflow-hidden">
       <CardContent className="p-0">
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 text-white">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:p-6 text-white">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 rounded-full bg-white/10">
               <ShoppingBag className="w-5 h-5" />
