@@ -61,6 +61,7 @@ import AdminJobTread from './pages/AdminJobTread';
 import AdminLeads from './pages/AdminLeads';
 import AdminLogin from './pages/AdminLogin';
 import AdminNews from './pages/AdminNews';
+import AdminPortalPreview from './pages/AdminPortalPreview';
 import AdminPortals from './pages/AdminPortals';
 import AdminProjects from './pages/AdminProjects';
 import AdminShop from './pages/AdminShop';
@@ -93,7 +94,6 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import AdminPortalPreview from './pages/AdminPortalPreview';
 import __Layout from './Layout.jsx';
 
 
@@ -112,6 +112,7 @@ export const PAGES = {
     "AdminLeads": AdminLeads,
     "AdminLogin": AdminLogin,
     "AdminNews": AdminNews,
+    "AdminPortalPreview": AdminPortalPreview,
     "AdminPortals": AdminPortals,
     "AdminProjects": AdminProjects,
     "AdminShop": AdminShop,
@@ -144,7 +145,6 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "AdminPortalPreview": AdminPortalPreview,
 }
 
 export const pagesConfig = {

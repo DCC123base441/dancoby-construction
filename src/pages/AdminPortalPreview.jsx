@@ -35,22 +35,17 @@ export default function AdminPortalPreview() {
         queryFn: () => base44.entities.User.list(),
     });
 
-    // Build employee list for the selector
-    const employeeUsers = users.filter(u => u.portalRole === 'employee');
-    const userEmails = new Set(employeeUsers.map(u => u.email));
-    const pendingProfiles = profiles.filter(p => !userEmails.has(p.userEmail));
-
-    const employeeOptions = [
-        ...employeeUsers.map(u => ({
-            email: u.email,
-            name: u.full_name || u.email,
-        })),
-        ...pendingProfiles.map(p => ({
+    // Build employee list from profiles (source of truth for employees)
+    const profileEmails = new Set(profiles.map(p => p.userEmail));
+    
+    const employeeOptions = profiles.map(p => {
+        const matchedUser = users.find(u => u.email === p.userEmail);
+        return {
             email: p.userEmail || p.email,
-            name: [p.firstName, p.lastName].filter(Boolean).join(' ') || p.userEmail || p.email,
-            pending: true,
-        })),
-    ];
+            name: [p.firstName, p.lastName].filter(Boolean).join(' ') || matchedUser?.full_name || p.userEmail || p.email,
+            pending: !matchedUser,
+        };
+    });
 
     // Auto-select first if none chosen
     useEffect(() => {
