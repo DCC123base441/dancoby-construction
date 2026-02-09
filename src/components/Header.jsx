@@ -53,6 +53,7 @@ export default function Header() {
   ];
 
   const companyLinks = [
+    { name: 'Portal Login', path: 'PortalLogin', desc: 'Employee & Client Access' },
     { name: 'Blog', path: 'Blog', desc: 'Tips & insights' },
     { name: 'Press', path: 'Press', desc: 'In the news' },
     { name: 'Reviews', path: 'Home', hash: 'reviews', desc: 'Client stories' },

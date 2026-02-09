@@ -19,6 +19,25 @@ export default function Layout({ children, currentPageName }) {
   useEffect(() => {
     window.scrollTo(0, 0);
     
+    // Auto-redirect logged-in portal users from home page to portal
+    if (location.pathname === '/' && !isAdmin && !isPortal) {
+        const checkRedirect = async () => {
+            try {
+                const isAuth = await base44.auth.isAuthenticated();
+                if (isAuth) {
+                    const user = await base44.auth.me();
+                    // If user has a specific portal role, send them to the portal login handler
+                    if (user.portalRole === 'employee' || user.portalRole === 'customer') {
+                        window.location.href = createPageUrl('PortalLogin');
+                    }
+                }
+            } catch (e) {
+                // Not logged in or error, stay on home page
+            }
+        };
+        checkRedirect();
+    }
+    
     // Track site visit
     const trackVisit = async () => {
         try {
@@ -43,7 +62,7 @@ export default function Layout({ children, currentPageName }) {
     };
     
     trackVisit();
-  }, [location.pathname]);
+  }, [location.pathname, isAdmin, isPortal]);
 
   if (isPortal || isAdmin) {
     return (
