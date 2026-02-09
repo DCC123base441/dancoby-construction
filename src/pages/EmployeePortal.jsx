@@ -200,17 +200,19 @@ function EmployeePortalContent() {
                   </p>
                   <div className="flex flex-wrap items-center gap-y-2 gap-x-3 mt-3">
                     {profile?.startDate && <TenureBadge startDate={profile.startDate} />}
-                    <div className="flex flex-shrink-0 items-center gap-2 bg-amber-950/20 backdrop-blur-sm px-3 py-1 rounded-full border border-amber-400/20 max-w-full">
-                      <div className="relative flex items-center justify-center w-5 h-5 flex-shrink-0">
-                        <div className="absolute -inset-0.5 rounded-full border border-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
-                        <img 
-                          src="https://yt3.ggpht.com/QWox277KuhTRFhCWHnkwLJKwYyY-pIZopKYRWhFhdsggxm9Z7BFfy3VlgyEJxYdXbyNbwjdQYz4=s68-c-k-c0x00ffffff-no-rj" 
-                          alt="JobTread" 
-                          className="w-full h-full rounded-full object-cover" 
-                        />
+                    {profile?.isJobTreadConnected && (
+                      <div className="flex flex-shrink-0 items-center gap-2 bg-amber-950/20 backdrop-blur-sm px-3 py-1 rounded-full border border-amber-400/20 max-w-full">
+                        <div className="relative flex items-center justify-center w-5 h-5 flex-shrink-0">
+                          <div className="absolute -inset-0.5 rounded-full border border-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
+                          <img 
+                            src="https://yt3.ggpht.com/QWox277KuhTRFhCWHnkwLJKwYyY-pIZopKYRWhFhdsggxm9Z7BFfy3VlgyEJxYdXbyNbwjdQYz4=s68-c-k-c0x00ffffff-no-rj" 
+                            alt="JobTread" 
+                            className="w-full h-full rounded-full object-cover" 
+                          />
+                        </div>
+                        <span className="text-[10px] text-amber-50 font-medium whitespace-nowrap">Connected</span>
                       </div>
-                      <span className="text-[10px] text-amber-50 font-medium whitespace-nowrap">Connected</span>
-                    </div>
+                    )}
                   </div>
                 </div>
                 <div className="hidden sm:block">

@@ -67,8 +67,13 @@ export default async function handler(req) {
       const existingProfiles = await base44.entities.EmployeeProfile.filter({ email });
       
       if (existingProfiles.length > 0) {
-        // Update existing? For now, just log match
-        results.details.push({ email, name, status: "matched_existing" });
+        // Update existing profile with JobTread connection
+        const profile = existingProfiles[0];
+        await base44.asServiceRole.entities.EmployeeProfile.update(profile.id, {
+          jobTreadId: member.id,
+          isJobTreadConnected: true
+        });
+        results.details.push({ email, name, status: "matched_existing_updated" });
       } else {
         // Create new profile placeholder? 
         // Or just report it found. 

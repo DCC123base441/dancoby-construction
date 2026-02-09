@@ -48,6 +48,19 @@ export default function EmployeeList({ users, profiles, onSelect, selectedId }) 
                             </div>
                             {profile && (
                                 <div className="flex flex-wrap gap-3 mt-3 text-xs text-slate-500">
+                                    {profile.isJobTreadConnected && (
+                                        <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">
+                                            <div className="relative flex items-center justify-center w-3.5 h-3.5">
+                                                <div className="absolute inset-0 rounded-full border border-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.4)]" />
+                                                <img 
+                                                    src="https://yt3.ggpht.com/QWox277KuhTRFhCWHnkwLJKwYyY-pIZopKYRWhFhdsggxm9Z7BFfy3VlgyEJxYdXbyNbwjdQYz4=s68-c-k-c0x00ffffff-no-rj" 
+                                                    alt="JobTread" 
+                                                    className="w-full h-full rounded-full" 
+                                                />
+                                            </div>
+                                            <span className="font-medium">JobTread Connected</span>
+                                        </div>
+                                    )}
                                     {profile.position && (
                                         <span className="flex items-center gap-1">
                                             <Briefcase className="w-3 h-3" /> {profile.position}
