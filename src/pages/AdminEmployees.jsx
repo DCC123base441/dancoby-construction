@@ -49,8 +49,13 @@ export default function AdminEmployees() {
         return matchesSearch;
     });
 
-    const selectedProfile = selectedUser 
-        ? profiles.find(p => p.userEmail === selectedUser.email) 
+    // Get the most up-to-date user object from the list
+    const activeUser = selectedUser 
+        ? allEmployees.find(u => u.id === selectedUser.id) || selectedUser
+        : null;
+
+    const selectedProfile = activeUser 
+        ? profiles.find(p => p.userEmail === activeUser.email) 
         : null;
 
     if (usersLoading) {
@@ -118,7 +123,7 @@ export default function AdminEmployees() {
                     <Card className="border-slate-200/60 shadow-sm min-h-[400px]">
                         <CardContent className="p-6">
                             <EmployeeDetail 
-                                user={selectedUser} 
+                                user={activeUser} 
                                 profile={selectedProfile} 
                                 onDeleted={() => setSelectedUser(null)} 
                             />

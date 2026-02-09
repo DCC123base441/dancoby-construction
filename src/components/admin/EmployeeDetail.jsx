@@ -359,7 +359,7 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                             <Select 
                                 value={user.portalRole || 'none'} 
                                 onValueChange={(val) => updateRoleMutation.mutate(val)}
-                                disabled={updateRoleMutation.isPending}
+                                disabled={updateRoleMutation.isPending || user._isPending || String(user.id).startsWith('pending-')}
                             >
                                 <SelectTrigger className="h-7 w-[130px] text-xs border-slate-200 bg-white">
                                     <SelectValue placeholder="Select role" />
