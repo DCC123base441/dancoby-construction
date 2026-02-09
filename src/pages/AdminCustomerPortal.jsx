@@ -103,7 +103,12 @@ export default function AdminCustomerPortal() {
                         <span className="font-medium text-slate-700">JobTread Tutorials</span>
                     </div>
                   </Link>
-
+                   <Link to={createPageUrl('AdminCustomers')}>
+                    <div className="p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all flex items-center gap-3">
+                        <Users className="w-5 h-5 text-blue-600" />
+                        <span className="font-medium text-slate-700">Manage Customers</span>
+                    </div>
+                  </Link>
               </div>
             </CardContent>
           </Card>
