@@ -14,6 +14,24 @@ const NAV_ITEMS = [
 export default function PortalBottomNav({ activeTab, onTabChange, onMorePress }) {
   const { t } = useLanguage();
 
+  const { data: notifications = [] } = useQuery({
+    queryKey: ['myNotifications'],
+    queryFn: async () => {
+      const user = await base44.auth.me();
+      return base44.entities.Notification.filter({ userEmail: user.email, read: false }, '-created_date', 100);
+    },
+    staleTime: 1000 * 30,
+  });
+
+  const counts = {
+    news: notifications.filter(n => n.type === 'news').length,
+    // Add others if they appear in bottom nav
+  };
+  
+  const hasHiddenNotifications = notifications.some(n => 
+    ['time_off', 'raise', 'general'].includes(n.type) && !['news', 'salary', 'holidays'].includes(activeTab)
+  );
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 lg:hidden safe-area-bottom">
       <div className="flex items-center justify-around py-1.5 px-2">
