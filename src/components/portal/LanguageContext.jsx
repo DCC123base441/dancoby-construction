@@ -125,7 +125,7 @@ const translations = {
     summerHoursDesc: 'During June–August, Friday hours are 7 AM – 1 PM.',
 
     // Raise Request
-    requestRaiseReview: 'Request Raise / Review',
+    requestRaiseReview: 'Request a Raise or a Performance Review',
     newRequest: 'New Request',
     requestType: 'Request Type',
     requestRaise: 'Request a Raise',
