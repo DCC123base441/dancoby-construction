@@ -9,7 +9,7 @@ Deno.serve(async (req) => {
             return Response.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
         }
 
-        const { email, role = 'user', portalRole = 'employee', appUrl } = await req.json();
+        const { email, role = 'user', portalRole = 'employee', baseUrl } = await req.json();
         
         if (!email) {
             return Response.json({ error: 'Email is required' }, { status: 400 });
@@ -32,11 +32,12 @@ Deno.serve(async (req) => {
             status: 'pending',
         });
 
-        // Build the portal URL using the app's origin sent from frontend
+        // Build portal URL using the baseUrl from the frontend
+        // baseUrl is the full path up to the page name, e.g. "https://app.base44.app/app/xxxx/"
+        // So we just append the portal page name
         const portalLabel = portalRole === 'customer' ? 'Customer Portal' : 'Employee Portal';
         const portalPage = portalRole === 'customer' ? 'CustomerPortal' : 'EmployeePortal';
-        // appUrl is window.location.origin from the frontend (e.g. https://myapp.base44.app)
-        const portalUrl = appUrl ? `${appUrl}/${portalPage}` : portalPage;
+        const portalUrl = baseUrl ? `${baseUrl}${portalPage}` : portalPage;
 
         await base44.asServiceRole.integrations.Core.SendEmail({
             to: email,
