@@ -65,7 +65,7 @@ export default function HolidaySchedule() {
           </div>
           <div>
             <h3 className="font-bold text-gray-900">{t('holidaySchedule')}</h3>
-            <p className="text-xs text-gray-500">{t('paidHolidays')}</p>
+            <p className="text-xs text-gray-500">{t('holidaySchedule')}</p>
           </div>
         </div>
 
