@@ -26,7 +26,8 @@ export default function PortalLogin() {
             const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
             const isNew = profiles.length === 0;
             window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
-          } else if (user.portalRole === 'customer') {
+          } else {
+            // Default to customer portal for users with no role or 'customer' role
             window.location.href = createPageUrl('CustomerPortal');
           }
         }

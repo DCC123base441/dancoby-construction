@@ -25,14 +25,12 @@ function CustomerPortalContent() {
           return;
         }
         const me = await base44.auth.me();
-        if (me.portalRole !== 'customer' && me.role !== 'admin') {
-          if (me.portalRole === 'employee') {
-            window.location.href = createPageUrl('EmployeePortal');
-          } else {
-            window.location.href = createPageUrl('PortalLogin');
-          }
+        // Redirect employees to their portal
+        if (me.portalRole === 'employee' && me.role !== 'admin') {
+          window.location.href = createPageUrl('EmployeePortal');
           return;
         }
+        // Allow customers, admins, and users with no assigned role (default to customer view)
         setUser(me);
       } catch {
         window.location.href = createPageUrl('PortalLogin');
