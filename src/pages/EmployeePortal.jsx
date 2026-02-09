@@ -148,6 +148,13 @@ function EmployeePortalContent() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      {user?._adminPreview && (
+        <div className="bg-amber-500 text-white text-center text-xs py-1.5 px-4 font-medium flex items-center justify-center gap-2">
+          <Eye className="w-3.5 h-3.5" />
+          Admin Preview — Viewing portal as {user.full_name || user.email}
+          <a href={createPageUrl('AdminEmployees')} className="underline ml-2 hover:text-amber-100">← Back to Admin</a>
+        </div>
+      )}
       {showOnboarding && (
         <OnboardingWelcome
           firstName={firstName}
