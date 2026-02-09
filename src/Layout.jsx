@@ -10,6 +10,7 @@ import BackToTop from './components/BackToTop';
 import ScrollProgress from './components/ScrollProgress';
 import CookieConsent from './components/CookieConsent';
 import { base44 } from '@/api/base44Client';
+import { createPageUrl } from './utils';
 
 export default function Layout({ children, currentPageName }) {
   const location = useLocation();
@@ -29,6 +30,20 @@ export default function Layout({ children, currentPageName }) {
                     // If user has a specific portal role, send them to the portal login handler
                     if (user.portalRole === 'employee' || user.portalRole === 'customer') {
                         window.location.href = createPageUrl('PortalLogin');
+                    } else {
+                        // Check if they are a new user who needs role assignment (has pending invite or profile)
+                        try {
+                            const [invites, profiles] = await Promise.all([
+                                base44.entities.InviteHistory.filter({ email: user.email }),
+                                base44.entities.EmployeeProfile.filter({ userEmail: user.email })
+                            ]);
+                            
+                            if (invites.length > 0 || profiles.length > 0) {
+                                window.location.href = createPageUrl('PortalLogin');
+                            }
+                        } catch (err) {
+                            console.error('Failed to check invites', err);
+                        }
                     }
                 }
             } catch (e) {

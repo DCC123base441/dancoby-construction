@@ -57,7 +57,9 @@ export default function PortalLogin() {
   }, []);
 
   const handleLogin = () => {
-    base44.auth.redirectToLogin(createPageUrl('PortalLogin'));
+    // Ensure absolute URL for the redirect
+    const nextUrl = new URL(createPageUrl('PortalLogin'), window.location.origin).href;
+    base44.auth.redirectToLogin(nextUrl);
   };
 
   if (isChecking) {
