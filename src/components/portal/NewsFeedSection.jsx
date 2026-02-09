@@ -6,6 +6,7 @@ import { useLanguage } from './LanguageContext';
 import { Pin, Megaphone, PartyPopper, ShieldAlert, Calendar, Info, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
+import BonusTracker from './BonusTracker';
 
 
 const categoryConfig = {
@@ -50,12 +51,15 @@ export default function NewsFeedSection() {
   }
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-        <Megaphone className="w-5 h-5 text-amber-600" />
-        {t('companyNews')}
-      </h3>
-      {sorted.map((item) => {
+    <div className="space-y-6">
+      <BonusTracker />
+      
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+          <Megaphone className="w-5 h-5 text-amber-600" />
+          {t('companyNews')}
+        </h3>
+        {sorted.map((item) => {
         const cat = categoryConfig[item.category] || categoryConfig.other;
         const CatIcon = cat.icon;
         return (
@@ -93,7 +97,7 @@ export default function NewsFeedSection() {
           </div>
         );
       })}
-      
+      </div>
     </div>
   );
 }
