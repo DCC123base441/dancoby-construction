@@ -7,8 +7,10 @@ import EmployeeDetail from '../components/admin/EmployeeDetail';
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Users, UserPlus } from 'lucide-react';
+import { Search, Users, UserPlus, History } from 'lucide-react';
 import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
+import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function AdminEmployees() {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -70,21 +72,42 @@ export default function AdminEmployees() {
                             <UserPlus className="w-4 h-4 mr-1" /> Invite
                         </Button>
                     </div>
-                    <div className="max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
-                        <EmployeeList
-                            users={employees}
-                            profiles={profiles}
-                            onSelect={setSelectedUser}
-                            selectedId={selectedUser?.id}
-                        />
-                    </div>
+                    <Tabs defaultValue="employees" className="w-full">
+                        <TabsList className="grid grid-cols-2 w-full mb-3">
+                            <TabsTrigger value="employees">
+                                <Users className="w-3.5 h-3.5 mr-1.5" /> Team
+                            </TabsTrigger>
+                            <TabsTrigger value="invites">
+                                <History className="w-3.5 h-3.5 mr-1.5" /> Invites
+                            </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="employees">
+                            <div className="max-h-[calc(100vh-340px)] overflow-y-auto pr-1">
+                                <EmployeeList
+                                    users={employees}
+                                    profiles={profiles}
+                                    onSelect={setSelectedUser}
+                                    selectedId={selectedUser?.id}
+                                />
+                            </div>
+                        </TabsContent>
+                        <TabsContent value="invites">
+                            <div className="max-h-[calc(100vh-340px)] overflow-y-auto pr-1">
+                                <InviteHistoryPanel users={users} />
+                            </div>
+                        </TabsContent>
+                    </Tabs>
                 </div>
 
                 {/* Employee Detail */}
                 <div className="lg:col-span-8">
                     <Card className="border-slate-200/60 shadow-sm min-h-[400px]">
                         <CardContent className="p-6">
-                            <EmployeeDetail user={selectedUser} profile={selectedProfile} />
+                            <EmployeeDetail 
+                                user={selectedUser} 
+                                profile={selectedProfile} 
+                                onDeleted={() => setSelectedUser(null)} 
+                            />
                         </CardContent>
                     </Card>
                 </div>
