@@ -114,9 +114,7 @@ export default function EmployeePortalInner({ user }) {
                   </p>
                   {profile?.startDate && <TenureBadge startDate={profile.startDate} />}
                 </div>
-                <div className="hidden sm:block">
-                  <LanguageSwitcher />
-                </div>
+                <div className="hidden sm:block" />
               </div>
             </div>
 
@@ -140,10 +138,6 @@ export default function EmployeePortalInner({ user }) {
                 <EmployeeProfileSetup user={user} profile={null} onSaved={() => setEditingProfile(false)} />
               </div>
             )}
-
-            <div className="flex justify-end mb-3 sm:hidden">
-              <LanguageSwitcher />
-            </div>
 
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
               <div className="p-4 sm:p-6">
