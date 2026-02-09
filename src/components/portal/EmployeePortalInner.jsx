@@ -20,12 +20,16 @@ import LanguageSwitcher from './LanguageSwitcher';
 import TenureBadge from './TenureBadge';
 import NewsFeedSection from './NewsFeedSection';
 import { useMediaQuery } from "@/components/hooks/use-media-query";
+import useNavOrder from './useNavOrder';
+import NavCustomizer from './NavCustomizer';
 
 export default function EmployeePortalInner({ user }) {
   const [activeTab, setActiveTab] = useState('news');
   const [editingProfile, setEditingProfile] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [customizeOpen, setCustomizeOpen] = useState(false);
   const { t } = useLanguage();
+  const { order, swapToBottom, reorderBottom, resetOrder } = useNavOrder();
 
   const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ['employeeProfile', user?.email],
