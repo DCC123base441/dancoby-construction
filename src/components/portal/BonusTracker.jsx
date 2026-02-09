@@ -5,8 +5,7 @@ import { Gift, Info, CheckCircle2, Circle } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 // DEMO DATA — will be replaced with JobTread API
-// 0.001% = 0.001 / 100 = 0.00001
-const BONUS_RATE = 0.001 / 100; // 0.001%
+const BONUS_RATE = 0.001; // 0.1% of revenue
 const REVENUE_GOAL = 2_500_000;
 
 function QuarterBar({ label, revenue, goal, bonus, isCurrent, t }) {
