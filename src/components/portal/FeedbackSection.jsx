@@ -74,10 +74,7 @@ export default function FeedbackSection({ user }) {
               <Textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder={t('feedbackPlaceholder')} className="h-28" />
             </div>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Switch checked={isAnonymous} onCheckedChange={setIsAnonymous} />
-                <Label className="text-sm text-gray-500">{t('submitAnonymously')}</Label>
-              </div>
+              <p className="text-xs text-gray-500">Messages are private and only shared with your supervisor.</p>
               <Button onClick={handleSubmit} disabled={submitMutation.isPending || !content.trim()} className="bg-gray-900 hover:bg-gray-800">
                 {submitMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Send className="w-4 h-4 mr-2" />}
                 {t('submit')}
