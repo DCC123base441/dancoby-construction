@@ -82,16 +82,7 @@ export default function AdminPortals() {
                     ))}
                 </div>
 
-                {/* Holiday Schedule */}
-                <div>
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="p-2 rounded-lg bg-green-50 text-green-600">
-                            <Calendar className="w-5 h-5" />
-                        </div>
-                        <h2 className="text-xl font-semibold text-slate-900">Holiday Schedule</h2>
-                    </div>
-                    <HolidayManager />
-                </div>
+
             </div>
         </AdminLayout>
     );
