@@ -55,6 +55,7 @@ import AdminChatBot from './pages/AdminChatBot';
 import AdminCurrentProjects from './pages/AdminCurrentProjects';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminEstimates from './pages/AdminEstimates';
+import AdminHolidays from './pages/AdminHolidays';
 import AdminLeads from './pages/AdminLeads';
 import AdminLogin from './pages/AdminLogin';
 import AdminProjects from './pages/AdminProjects';
@@ -88,7 +89,7 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import AdminHolidays from './pages/AdminHolidays';
+import AdminEmployees from './pages/AdminEmployees';
 import __Layout from './Layout.jsx';
 
 
@@ -101,6 +102,7 @@ export const PAGES = {
     "AdminCurrentProjects": AdminCurrentProjects,
     "AdminDashboard": AdminDashboard,
     "AdminEstimates": AdminEstimates,
+    "AdminHolidays": AdminHolidays,
     "AdminLeads": AdminLeads,
     "AdminLogin": AdminLogin,
     "AdminProjects": AdminProjects,
@@ -134,7 +136,7 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "AdminHolidays": AdminHolidays,
+    "AdminEmployees": AdminEmployees,
 }
 
 export const pagesConfig = {
