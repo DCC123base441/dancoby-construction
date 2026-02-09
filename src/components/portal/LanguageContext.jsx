@@ -24,6 +24,7 @@ const translations = {
     tabTimeOff: 'Time Off',
     tabRaise: 'Raise/Review',
     tabGear: 'Gear',
+    tabNews: 'News',
 
     // Profile Setup
     editProfile: 'Edit Your Profile',
@@ -206,6 +207,7 @@ const translations = {
     tabTimeOff: 'Días Libres',
     tabRaise: 'Aumento',
     tabGear: 'Equipo',
+    tabNews: 'Noticias',
 
     editProfile: 'Editar Tu Perfil',
     setupProfile: 'Configura Tu Perfil',
