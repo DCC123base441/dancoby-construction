@@ -1,19 +1,48 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { UserCircle, MessageCircle, DollarSign, CalendarDays, Menu, Newspaper, MonitorPlay, Bell } from 'lucide-react';
+import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, Menu, Newspaper, MonitorPlay, Bell } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
-const NAV_ITEMS = [
-  { id: 'news', icon: Newspaper, labelKey: 'tabNews' },
-  { id: 'jobtread', icon: MonitorPlay, labelKey: 'tabJobTread' },
-  { id: 'notifications', icon: Bell, labelKey: 'notifications' },
-  { id: 'profile', icon: UserCircle, labelKey: 'tabProfile' },
-  { id: 'more', icon: Menu, labelKey: 'more' },
-];
+const ICON_MAP = {
+  news: Newspaper,
+  jobtread: MonitorPlay,
+  notifications: Bell,
+  profile: UserCircle,
+  salary: DollarSign,
+  holidays: CalendarDays,
+  feedback: MessageCircle,
+  timeoff: CalendarOff,
+  raise: HandCoins,
+  gear: ShoppingBag,
+};
+
+const LABEL_MAP = {
+  news: 'tabNews',
+  jobtread: 'tabJobTread',
+  notifications: 'notifications',
+  profile: 'tabProfile',
+  salary: 'tabSalary',
+  holidays: 'tabHolidays',
+  feedback: 'tabFeedback',
+  timeoff: 'tabTimeOff',
+  raise: 'tabRaise',
+  gear: 'tabGear',
+};
+
+const DEFAULT_NAV = ['news', 'jobtread', 'notifications', 'profile'];
 
 export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress, user }) {
   const { t } = useLanguage();
+
+  const { data: navConfig } = useQuery({
+    queryKey: ['portalNavConfig'],
+    queryFn: async () => {
+      const results = await base44.entities.PortalNavConfig.filter({ configKey: 'employee_mobile_nav' });
+      return results[0] || null;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
 
   const { data: notifications = [] } = useQuery({
     queryKey: ['myNotifications', user?.email],
@@ -25,19 +54,24 @@ export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress,
     staleTime: 1000 * 30,
   });
 
+  const bottomIds = navConfig?.bottomNavOrder?.length ? navConfig.bottomNavOrder : DEFAULT_NAV;
+  const navItems = [
+    ...bottomIds.map(id => ({ id, icon: ICON_MAP[id], labelKey: LABEL_MAP[id] })).filter(i => i.icon),
+    { id: 'more', icon: Menu, labelKey: 'more' },
+  ];
+
   const counts = {
     news: notifications.filter(n => n.type === 'news').length,
-    // Add others if they appear in bottom nav
   };
   
   const hasHiddenNotifications = notifications.some(n => 
-    !n.read && !['news', 'jobtread', 'notifications', 'profile'].includes(activeTab)
+    !n.read && !bottomIds.includes(activeTab)
   );
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 lg:hidden safe-area-bottom">
       <div className="flex items-center justify-around py-1.5 px-2">
-        {NAV_ITEMS.map((item) => {
+        {navItems.map((item) => {
           const isActive = item.id === 'more' ? false : activeTab === item.id;
           const handleClick = item.id === 'more' ? onMorePress : () => onTabChange(item.id);
           return (
