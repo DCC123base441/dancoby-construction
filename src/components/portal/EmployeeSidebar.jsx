@@ -18,15 +18,16 @@ const ALL_TABS = [
   { id: 'profile', icon: UserCircle, labelKey: 'tabProfile', color: 'text-slate-600 bg-slate-50' },
 ];
 
-export default function EmployeeSidebar({ activeTab, onTabChange }) {
+export default function EmployeeSidebar({ activeTab, onTabChange, user }) {
   const { t } = useLanguage();
 
   const { data: notifications = [] } = useQuery({
-    queryKey: ['myNotifications'],
+    queryKey: ['myNotifications', user?.email],
     queryFn: async () => {
-      const user = await base44.auth.me();
-      return base44.entities.Notification.filter({ userEmail: user.email, read: false }, '-created_date', 100);
+      const targetUser = user || await base44.auth.me();
+      return base44.entities.Notification.filter({ userEmail: targetUser.email, read: false }, '-created_date', 100);
     },
+    enabled: !!(user?.email),
     staleTime: 1000 * 30,
   });
 

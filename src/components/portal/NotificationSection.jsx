@@ -8,16 +8,17 @@ import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
 
-export default function NotificationSection() {
+export default function NotificationSection({ user }) {
   const queryClient = useQueryClient();
   const { t } = useLanguage();
 
   const { data: notifications = [], isLoading } = useQuery({
-    queryKey: ['myNotifications'],
+    queryKey: ['myNotifications', user?.email],
     queryFn: async () => {
-      const user = await base44.auth.me();
-      return base44.entities.Notification.filter({ userEmail: user.email?.toLowerCase() }, '-created_date', 50);
+      const targetUser = user || await base44.auth.me();
+      return base44.entities.Notification.filter({ userEmail: targetUser.email?.toLowerCase() }, '-created_date', 50);
     },
+    enabled: !!(user?.email),
     refetchInterval: 30000,
   });
 

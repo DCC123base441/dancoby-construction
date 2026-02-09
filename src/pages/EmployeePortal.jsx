@@ -144,7 +144,7 @@ function EmployeePortalContent() {
       case 'raise': return <RaiseRequestSection user={user} profile={profile} />;
       case 'gear': return <GearShopSection />;
       case 'jobtread': return <JobTreadSection />;
-      case 'notifications': return <NotificationSection />;
+      case 'notifications': return <NotificationSection user={user} />;
       default: return null;
     }
   };
@@ -177,7 +177,7 @@ function EmployeePortalContent() {
       
       <div className="flex flex-1 overflow-hidden">
         {/* Desktop sidebar */}
-        <EmployeeSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+        <EmployeeSidebar activeTab={activeTab} onTabChange={setActiveTab} user={user} />
 
         {/* Main content area */}
         <main className="flex-1 overflow-y-auto pb-20 lg:pb-0">
@@ -265,7 +265,8 @@ function EmployeePortalContent() {
       <EmployeeBottomNav 
         activeTab={activeTab} 
         onTabChange={setActiveTab} 
-        onMorePress={() => setMoreOpen(true)} 
+        onMorePress={() => setMoreOpen(true)}
+        user={user}
       />
       
       {/* More items sheet */}

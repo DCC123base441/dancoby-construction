@@ -9,16 +9,17 @@ import { Badge } from "@/components/ui/badge";
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 
-export default function NotificationCenter() {
+export default function NotificationCenter({ user }) {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: notifications = [], isLoading } = useQuery({
-    queryKey: ['myNotifications'],
+    queryKey: ['myNotifications', user?.email],
     queryFn: async () => {
-      const user = await base44.auth.me();
-      return base44.entities.Notification.filter({ userEmail: user.email?.toLowerCase() }, '-created_date', 20);
+      const targetUser = user || await base44.auth.me();
+      return base44.entities.Notification.filter({ userEmail: targetUser.email?.toLowerCase() }, '-created_date', 20);
     },
+    enabled: !!(user?.email),
     refetchInterval: 30000, // Poll every 30s
   });
 

@@ -11,15 +11,16 @@ const NAV_ITEMS = [
   { id: 'more', icon: Menu, labelKey: 'more' },
 ];
 
-export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress }) {
+export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress, user }) {
   const { t } = useLanguage();
 
   const { data: notifications = [] } = useQuery({
-    queryKey: ['myNotifications'],
+    queryKey: ['myNotifications', user?.email],
     queryFn: async () => {
-      const user = await base44.auth.me();
-      return base44.entities.Notification.filter({ userEmail: user.email, read: false }, '-created_date', 100);
+      const targetUser = user || await base44.auth.me();
+      return base44.entities.Notification.filter({ userEmail: targetUser.email, read: false }, '-created_date', 100);
     },
+    enabled: !!(user?.email),
     staleTime: 1000 * 30,
   });
 
