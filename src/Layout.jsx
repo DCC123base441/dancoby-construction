@@ -13,7 +13,7 @@ import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children, currentPageName }) {
   const location = useLocation();
-  const isPortal = currentPageName === 'EmployeePortal' || currentPageName === 'CustomerPortal';
+  const isPortal = currentPageName === 'EmployeePortal' || currentPageName === 'CustomerPortal' || currentPageName === 'PortalLogin';
   const isAdmin = currentPageName?.startsWith('Admin');
 
   useEffect(() => {
