@@ -73,13 +73,13 @@ export default function NewsFeedSection() {
                   {item.pinned && (
                     <Pin className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
                   )}
-                  <h4 className="font-semibold text-gray-900 text-sm">{item.title}</h4>
+                  <h4 className="font-semibold text-gray-900 text-sm">{lang === 'es' && item.title_es ? item.title_es : item.title}</h4>
                   <Badge className={`text-[10px] ${cat.color}`}>
                     {lang === 'es' ? cat.labelEs : cat.label}
                   </Badge>
                 </div>
                 <div className="text-sm text-gray-600 prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-                  <ReactMarkdown>{item.content}</ReactMarkdown>
+                  <ReactMarkdown>{lang === 'es' && item.content_es ? item.content_es : item.content}</ReactMarkdown>
                 </div>
                 <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
                   {item.authorName && <span>{item.authorName}</span>}
