@@ -1,9 +1,7 @@
 import React from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, X } from 'lucide-react';
+import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, X, DollarSign, CalendarDays, MessageCircle } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
-
-import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, DollarSign, CalendarDays, MessageCircle } from 'lucide-react';
 
 const MORE_ITEMS = [
   { id: 'salary', icon: DollarSign, labelKey: 'tabSalary', color: 'bg-emerald-100 text-emerald-600' },
