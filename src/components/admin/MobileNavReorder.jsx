@@ -1,32 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import {
-  GripVertical, Smartphone, Save, RotateCcw,
+  GripVertical, Save, RotateCcw, ArrowDown, ArrowUp,
   Newspaper, MonitorPlay, Bell, UserCircle, DollarSign,
   CalendarDays, MessageCircle, CalendarOff, HandCoins, ShoppingBag
 } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
-const ALL_TABS_META = {
-  news: { icon: Newspaper, label: 'News', color: 'bg-indigo-100 text-indigo-600' },
-  jobtread: { icon: MonitorPlay, label: 'JobTread', color: 'bg-cyan-100 text-cyan-600' },
-  notifications: { icon: Bell, label: 'Notifications', color: 'bg-blue-100 text-blue-600' },
-  profile: { icon: UserCircle, label: 'Profile', color: 'bg-slate-100 text-slate-600' },
-  salary: { icon: DollarSign, label: 'Salary', color: 'bg-emerald-100 text-emerald-600' },
-  holidays: { icon: CalendarDays, label: 'Holidays', color: 'bg-red-100 text-red-600' },
-  feedback: { icon: MessageCircle, label: 'Feedback', color: 'bg-purple-100 text-purple-600' },
-  timeoff: { icon: CalendarOff, label: 'Time Off', color: 'bg-orange-100 text-orange-600' },
-  raise: { icon: HandCoins, label: 'Raise/Review', color: 'bg-amber-100 text-amber-600' },
-  gear: { icon: ShoppingBag, label: 'Gear Shop', color: 'bg-pink-100 text-pink-600' },
+const TAB_META = {
+  news: { icon: Newspaper, label: 'News' },
+  jobtread: { icon: MonitorPlay, label: 'JobTread' },
+  notifications: { icon: Bell, label: 'Notifications' },
+  profile: { icon: UserCircle, label: 'Profile' },
+  salary: { icon: DollarSign, label: 'Salary' },
+  holidays: { icon: CalendarDays, label: 'Holidays' },
+  feedback: { icon: MessageCircle, label: 'Feedback' },
+  timeoff: { icon: CalendarOff, label: 'Time Off' },
+  raise: { icon: HandCoins, label: 'Raise/Review' },
+  gear: { icon: ShoppingBag, label: 'Gear Shop' },
 };
 
 const DEFAULT_BOTTOM = ['news', 'jobtread', 'notifications', 'profile'];
-const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear', 'profile'];
+const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear'];
 
 export default function MobileNavReorder() {
   const queryClient = useQueryClient();
@@ -44,8 +42,12 @@ export default function MobileNavReorder() {
 
   useEffect(() => {
     if (config) {
-      if (config.bottomNavOrder?.length) setBottomNav(config.bottomNavOrder);
-      if (config.moreSheetOrder?.length) setMoreSheet(config.moreSheetOrder);
+      const bottom = config.bottomNavOrder?.length ? [...new Set(config.bottomNavOrder)] : DEFAULT_BOTTOM;
+      const more = config.moreSheetOrder?.length 
+        ? [...new Set(config.moreSheetOrder)].filter(id => !bottom.includes(id))
+        : DEFAULT_MORE.filter(id => !bottom.includes(id));
+      setBottomNav(bottom);
+      setMoreSheet(more);
     }
   }, [config]);
 
@@ -61,7 +63,7 @@ export default function MobileNavReorder() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['portalNavConfig'] });
       setHasChanges(false);
-      toast.success('Mobile navigation updated');
+      toast.success('Navigation order saved');
     },
   });
 
@@ -71,164 +73,134 @@ export default function MobileNavReorder() {
     setHasChanges(true);
   };
 
-  const handleDragEnd = (listType) => (result) => {
+  const handleDragEnd = (result) => {
     if (!result.destination) return;
-    const setter = listType === 'bottom' ? setBottomNav : setMoreSheet;
-    setter(prev => {
-      const items = Array.from(prev);
-      const [removed] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, removed);
-      return items;
-    });
-    setHasChanges(true);
-  };
+    const { source, destination } = result;
+    const srcList = source.droppableId;
+    const dstList = destination.droppableId;
 
-  const moveToMore = (tabId) => {
-    setBottomNav(prev => prev.filter(id => id !== tabId));
-    setMoreSheet(prev => [...prev, tabId]);
-    setHasChanges(true);
-  };
+    const getItems = (id) => id === 'bottom' ? [...bottomNav] : [...moreSheet];
+    const setItems = (id, items) => id === 'bottom' ? setBottomNav(items) : setMoreSheet(items);
 
-  const moveToBottom = (tabId) => {
-    if (bottomNav.length >= 4) {
-      toast.error('Bottom nav can have max 4 items. Remove one first.');
-      return;
+    if (srcList === dstList) {
+      const items = getItems(srcList);
+      const [removed] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, removed);
+      setItems(srcList, items);
+    } else {
+      if (dstList === 'bottom' && bottomNav.length >= 4) {
+        toast.error('Bottom bar can have max 4 items');
+        return;
+      }
+      const srcItems = getItems(srcList);
+      const dstItems = getItems(dstList);
+      const [removed] = srcItems.splice(source.index, 1);
+      dstItems.splice(destination.index, 0, removed);
+      setItems(srcList, srcItems);
+      setItems(dstList, dstItems);
     }
-    setMoreSheet(prev => prev.filter(id => id !== tabId));
-    setBottomNav(prev => [...prev, tabId]);
     setHasChanges(true);
   };
 
   if (isLoading) {
-    return <div className="flex justify-center py-8"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-500" /></div>;
+    return <div className="flex justify-center py-6"><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-amber-500" /></div>;
   }
 
+  const renderItem = (tabId, index) => {
+    const meta = TAB_META[tabId];
+    if (!meta) return null;
+    const Icon = meta.icon;
+    return (
+      <Draggable key={tabId} draggableId={tabId} index={index}>
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg border text-sm transition-shadow ${
+              snapshot.isDragging ? 'border-amber-300 bg-amber-50 shadow-lg' : 'border-gray-200 bg-white hover:border-gray-300'
+            }`}
+          >
+            <GripVertical className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" />
+            <Icon className="w-4 h-4 text-gray-500 flex-shrink-0" />
+            <span className="font-medium text-gray-700">{meta.label}</span>
+          </div>
+        )}
+      </Draggable>
+    );
+  };
+
   return (
-    <div className="space-y-4">
-      {/* Bottom Nav Section */}
-      <Card className="border-slate-200">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm flex items-center gap-2">
-            <Smartphone className="w-4 h-4 text-amber-600" />
-            Bottom Navigation Bar
-            <Badge variant="outline" className="ml-auto text-xs">Max 4 items</Badge>
-          </CardTitle>
-          <p className="text-xs text-gray-500">"More" button is always added as the 5th item</p>
-        </CardHeader>
-        <CardContent className="pt-0">
-          <DragDropContext onDragEnd={handleDragEnd('bottom')}>
-            <Droppable droppableId="bottomNav">
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} className="space-y-2">
-                  {bottomNav.map((tabId, index) => {
-                    const meta = ALL_TABS_META[tabId];
-                    if (!meta) return null;
-                    const Icon = meta.icon;
-                    return (
-                      <Draggable key={tabId} draggableId={`bottom-${tabId}`} index={index}>
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            className={`flex items-center gap-3 p-3 rounded-lg border ${
-                              snapshot.isDragging ? 'border-amber-300 bg-amber-50 shadow-md' : 'border-gray-200 bg-white'
-                            }`}
-                          >
-                            <div {...provided.dragHandleProps}>
-                              <GripVertical className="w-4 h-4 text-gray-400" />
-                            </div>
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${meta.color}`}>
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <span className="text-sm font-medium text-gray-800 flex-1">{meta.label}</span>
-                            <Badge className="text-[10px]" variant="secondary">#{index + 1}</Badge>
-                            <button
-                              onClick={() => moveToMore(tabId)}
-                              className="text-xs text-gray-400 hover:text-red-500 transition-colors"
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </CardContent>
-      </Card>
+    <div className="space-y-5">
+      <DragDropContext onDragEnd={handleDragEnd}>
+        {/* Bottom Bar */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Bottom Bar</span>
+            <span className="text-[10px] text-gray-400 bg-gray-100 rounded px-1.5 py-0.5">{bottomNav.length}/4 + More</span>
+          </div>
+          <Droppable droppableId="bottom">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className={`space-y-1.5 min-h-[48px] rounded-lg p-2 transition-colors ${
+                  snapshot.isDraggingOver ? 'bg-amber-50 border border-dashed border-amber-300' : 'bg-gray-50 border border-dashed border-gray-200'
+                }`}
+              >
+                {bottomNav.map((id, i) => renderItem(id, i))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
 
-      {/* More Sheet Section */}
-      <Card className="border-slate-200">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm flex items-center gap-2">
-            "More" Sheet Items
-          </CardTitle>
-          <p className="text-xs text-gray-500">Items shown when the user taps "More"</p>
-        </CardHeader>
-        <CardContent className="pt-0">
-          <DragDropContext onDragEnd={handleDragEnd('more')}>
-            <Droppable droppableId="moreSheet">
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} className="space-y-2">
-                  {moreSheet.map((tabId, index) => {
-                    const meta = ALL_TABS_META[tabId];
-                    if (!meta) return null;
-                    const Icon = meta.icon;
-                    return (
-                      <Draggable key={tabId} draggableId={`more-${tabId}`} index={index}>
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            className={`flex items-center gap-3 p-3 rounded-lg border ${
-                              snapshot.isDragging ? 'border-amber-300 bg-amber-50 shadow-md' : 'border-gray-200 bg-white'
-                            }`}
-                          >
-                            <div {...provided.dragHandleProps}>
-                              <GripVertical className="w-4 h-4 text-gray-400" />
-                            </div>
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${meta.color}`}>
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <span className="text-sm font-medium text-gray-800 flex-1">{meta.label}</span>
-                            {bottomNav.length < 4 && (
-                              <button
-                                onClick={() => moveToBottom(tabId)}
-                                className="text-xs text-amber-600 hover:text-amber-700 font-medium transition-colors"
-                              >
-                                Move to Bar
-                              </button>
-                            )}
-                          </div>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </CardContent>
-      </Card>
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-gray-200" />
+          <div className="flex items-center gap-1 text-gray-400">
+            <ArrowUp className="w-3 h-3" />
+            <span className="text-[10px]">drag between</span>
+            <ArrowDown className="w-3 h-3" />
+          </div>
+          <div className="flex-1 h-px bg-gray-200" />
+        </div>
 
-      {/* Action Buttons */}
-      <div className="flex gap-3">
+        {/* More Sheet */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">"More" Menu</span>
+            <span className="text-[10px] text-gray-400 bg-gray-100 rounded px-1.5 py-0.5">{moreSheet.length} items</span>
+          </div>
+          <Droppable droppableId="more">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className={`space-y-1.5 min-h-[48px] rounded-lg p-2 transition-colors ${
+                  snapshot.isDraggingOver ? 'bg-violet-50 border border-dashed border-violet-300' : 'bg-gray-50 border border-dashed border-gray-200'
+                }`}
+              >
+                {moreSheet.map((id, i) => renderItem(id, i))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
+      </DragDropContext>
+
+      <div className="flex gap-2 pt-1">
         <Button
+          size="sm"
           onClick={() => saveMutation.mutate()}
           disabled={!hasChanges || saveMutation.isPending}
           className="bg-amber-600 hover:bg-amber-700"
         >
-          <Save className="w-4 h-4 mr-2" />
-          {saveMutation.isPending ? 'Saving...' : 'Save Order'}
+          <Save className="w-3.5 h-3.5 mr-1.5" />
+          {saveMutation.isPending ? 'Saving...' : 'Save'}
         </Button>
-        <Button variant="outline" onClick={handleReset}>
-          <RotateCcw className="w-4 h-4 mr-2" />
-          Reset to Default
+        <Button size="sm" variant="ghost" onClick={handleReset} className="text-gray-500">
+          <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+          Reset
         </Button>
       </div>
     </div>
