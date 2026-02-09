@@ -5,6 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { LogOut, User } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import NotificationCenter from './NotificationCenter';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function EmployeeHeader({ user }) {
   const handleLogout = async () => {
@@ -25,6 +26,7 @@ export default function EmployeeHeader({ user }) {
           </span>
         </div>
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
           <NotificationCenter user={user} />
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <User className="w-4 h-4" />
