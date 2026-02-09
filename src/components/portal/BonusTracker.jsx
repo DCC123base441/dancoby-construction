@@ -9,13 +9,16 @@ import { useLanguage } from './LanguageContext';
 const BONUS_RATE = 0.001 / 100; // 0.001%
 const REVENUE_GOAL = 2_500_000;
 
-function QuarterBar({ label, revenue, goal, bonus, t }) {
+function QuarterBar({ label, revenue, goal, bonus, isCurrent, t }) {
   const percent = Math.min((revenue / goal) * 100, 100);
   const hitGoal = revenue >= goal;
 
   return (
     <div className="flex items-center gap-3">
-      <div className="w-8 text-sm font-semibold text-gray-700 shrink-0">{label}</div>
+      <div className="w-8 text-sm font-semibold text-gray-700 shrink-0">
+        {label}
+        {isCurrent && <span className="block text-[10px] text-emerald-500 font-normal">{t('bonusNow')}</span>}
+      </div>
       <div className="flex-1">
         <div className="w-full h-8 bg-gray-100 rounded-lg overflow-hidden relative">
           <div
@@ -47,14 +50,20 @@ function QuarterBar({ label, revenue, goal, bonus, t }) {
 export default function BonusTracker() {
   const { t } = useLanguage();
 
-  const { quarterlyData, totalRevenue, estimatedBonus } = useMemo(() => {
-    const quarters = [
-      { label: t('bonusQ1'), revenue: 480000 },
-      { label: t('bonusQ2'), revenue: 560000 },
-      { label: t('bonusQ3'), revenue: 520000 },
-      { label: t('bonusQ4'), revenue: 440000 },
+  const { quarterlyData, totalRevenue, estimatedBonus, currentQuarter } = useMemo(() => {
+    const now = new Date();
+    const month = now.getMonth(); // 0-11
+    const cq = Math.floor(month / 3) + 1; // 1-4
+
+    // Demo revenue data per quarter — only show quarters up to current
+    const allQuarters = [
+      { label: t('bonusQ1'), revenue: 480000, quarter: 1 },
+      { label: t('bonusQ2'), revenue: 560000, quarter: 2 },
+      { label: t('bonusQ3'), revenue: 520000, quarter: 3 },
+      { label: t('bonusQ4'), revenue: 440000, quarter: 4 },
     ];
 
+    const quarters = allQuarters.filter(q => q.quarter <= cq);
     const total = quarters.reduce((sum, q) => sum + q.revenue, 0);
     const bonus = total * BONUS_RATE;
     const quarterlyGoal = REVENUE_GOAL / 4;
@@ -62,10 +71,11 @@ export default function BonusTracker() {
     const data = quarters.map(q => ({
       ...q,
       goal: quarterlyGoal,
+      isCurrent: q.quarter === cq,
       bonus: parseFloat((q.revenue * BONUS_RATE).toFixed(2)),
     }));
 
-    return { quarterlyData: data, totalRevenue: total, estimatedBonus: bonus };
+    return { quarterlyData: data, totalRevenue: total, estimatedBonus: bonus, currentQuarter: cq };
   }, [t]);
 
   const progressPercent = Math.min((totalRevenue / REVENUE_GOAL) * 100, 100);
@@ -83,7 +93,7 @@ export default function BonusTracker() {
           </div>
           <Badge className="bg-amber-100 text-amber-800 text-xs">Demo</Badge>
         </div>
-        <p className="text-sm text-gray-500 mb-5">{t('bonusSimpleExplain')}</p>
+        <p className="text-sm text-gray-500 mb-5">{t('bonusSimpleExplain')} ({t('bonusAsOf')} Q{currentQuarter} {new Date().getFullYear()})</p>
 
         {/* Big Bonus Number */}
         <div className="text-center p-5 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200 mb-5">
@@ -127,7 +137,7 @@ export default function BonusTracker() {
           <p className="text-sm font-medium text-gray-700 mb-3">{t('bonusQuarterlyBreakdown')}</p>
           <div className="space-y-3">
             {quarterlyData.map((q, i) => (
-              <QuarterBar key={i} label={q.label} revenue={q.revenue} goal={q.goal} bonus={q.bonus} t={t} />
+              <QuarterBar key={i} label={q.label} revenue={q.revenue} goal={q.goal} bonus={q.bonus} isCurrent={q.isCurrent} t={t} />
             ))}
           </div>
           <div className="flex items-center gap-4 mt-3 text-xs text-gray-400">

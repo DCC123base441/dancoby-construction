@@ -113,6 +113,8 @@ const translations = {
     bonusAboveGoal: 'Hit quarterly goal',
     bonusBelowGoal: 'Below quarterly goal',
     bonusGoalLine: 'Quarterly goal',
+    bonusNow: 'Now',
+    bonusAsOf: 'as of',
     bonusNote: 'Your bonus is a small percentage of the company\'s total revenue. The more the company earns, the bigger your bonus. Bonuses are paid every 3 months.',
 
     // Holidays
@@ -259,6 +261,8 @@ const translations = {
     bonusAboveGoal: 'Meta trimestral alcanzada',
     bonusBelowGoal: 'Debajo de la meta trimestral',
     bonusGoalLine: 'Meta trimestral',
+    bonusNow: 'Ahora',
+    bonusAsOf: 'al',
     bonusNote: 'Tu bono es un pequeño porcentaje de los ingresos totales de la empresa. Cuanto más gane la empresa, mayor será tu bono. Los bonos se pagan cada 3 meses.',
 
     holidaySchedule: `Calendario de Festivos ${new Date().getFullYear()}`,
