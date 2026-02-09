@@ -24,14 +24,14 @@ function EmployeePortalContent() {
   const { t } = useLanguage();
 
   const TABS = [
-    { id: 'profile', label: t('tabProfile'), icon: UserCircle },
-    { id: 'feedback', label: t('tabFeedback'), icon: MessageCircle },
-    { id: 'salary', label: t('tabSalary'), icon: DollarSign },
-    { id: 'holidays', label: t('tabHolidays'), icon: CalendarDays },
-    { id: 'timeoff', label: t('tabTimeOff') || 'Time Off', icon: CalendarOff },
-    { id: 'raise', label: t('tabRaise'), icon: HandCoins },
-    { id: 'gear', label: t('tabGear'), icon: ShoppingBag },
-    { id: 'jobtread', label: t('tabJobTread'), icon: MonitorPlay },
+    { id: 'profile', label: t('tabProfile'), icon: UserCircle, color: 'bg-blue-100 text-blue-700 border-blue-300', activeColor: 'bg-blue-600 text-white border-blue-600' },
+    { id: 'feedback', label: t('tabFeedback'), icon: MessageCircle, color: 'bg-purple-100 text-purple-700 border-purple-300', activeColor: 'bg-purple-600 text-white border-purple-600' },
+    { id: 'salary', label: t('tabSalary'), icon: DollarSign, color: 'bg-emerald-100 text-emerald-700 border-emerald-300', activeColor: 'bg-emerald-600 text-white border-emerald-600' },
+    { id: 'holidays', label: t('tabHolidays'), icon: CalendarDays, color: 'bg-red-100 text-red-700 border-red-300', activeColor: 'bg-red-600 text-white border-red-600' },
+    { id: 'timeoff', label: t('tabTimeOff') || 'Time Off', icon: CalendarOff, color: 'bg-orange-100 text-orange-700 border-orange-300', activeColor: 'bg-orange-600 text-white border-orange-600' },
+    { id: 'raise', label: t('tabRaise'), icon: HandCoins, color: 'bg-amber-100 text-amber-700 border-amber-300', activeColor: 'bg-amber-600 text-white border-amber-600' },
+    { id: 'gear', label: t('tabGear'), icon: ShoppingBag, color: 'bg-pink-100 text-pink-700 border-pink-300', activeColor: 'bg-pink-600 text-white border-pink-600' },
+    { id: 'jobtread', label: t('tabJobTread'), icon: MonitorPlay, color: 'bg-cyan-100 text-cyan-700 border-cyan-300', activeColor: 'bg-cyan-600 text-white border-cyan-600' },
   ];
 
   useEffect(() => {
@@ -128,19 +128,19 @@ function EmployeePortalContent() {
           </div>
         )}
 
-        <div className="flex gap-1 overflow-x-auto pb-1 mb-6 border-b border-gray-200">
+        <div className="flex flex-wrap gap-2 mb-6">
           {TABS.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 transition-all -mb-[1px] ${
+              className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border transition-all ${
                 activeTab === tab.id
-                  ? 'border-gray-900 text-gray-900'
-                  : 'border-transparent text-gray-400 hover:text-gray-600'
+                  ? tab.activeColor + ' shadow-sm'
+                  : tab.color + ' hover:opacity-80'
               }`}
             >
-              <tab.icon className="w-4 h-4" />
-              <span className="hidden sm:inline">{tab.label}</span>
+              <tab.icon className="w-5 h-5" />
+              <span>{tab.label}</span>
             </button>
           ))}
         </div>
