@@ -21,6 +21,7 @@ import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 import TenureBadge from '../components/portal/TenureBadge';
 import OnboardingWelcome from '../components/portal/OnboardingWelcome';
 import NewsFeedSection from '../components/portal/NewsFeedSection';
+import PortalWelcomeReviews from '../components/portal/PortalWelcomeReviews';
 
 function EmployeePortalContent() {
   const [user, setUser] = useState(null);
@@ -203,6 +204,8 @@ function EmployeePortalContent() {
                   <LanguageSwitcher />
                 </div>
               </div>
+              
+              <PortalWelcomeReviews />
             </div>
 
             {/* Profile setup CTA */}
