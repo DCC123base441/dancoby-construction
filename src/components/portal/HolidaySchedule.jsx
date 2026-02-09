@@ -1,22 +1,36 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Sun, PartyPopper } from 'lucide-react';
+import { CalendarDays, Sun, PartyPopper, Star, Loader2 } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
-const HOLIDAYS_2025 = [
-  { name: "New Year's Day", date: "Jan 1", status: "past" },
-  { name: "Martin Luther King Jr. Day", date: "Jan 20", status: "past" },
-  { name: "Presidents' Day", date: "Feb 17", status: "upcoming" },
-  { name: "Memorial Day", date: "May 26", status: "upcoming" },
-  { name: "Independence Day", date: "Jul 4", status: "upcoming" },
-  { name: "Labor Day", date: "Sep 1", status: "upcoming" },
-  { name: "Thanksgiving", date: "Nov 27–28", status: "upcoming" },
-  { name: "Christmas Eve & Day", date: "Dec 24–25", status: "upcoming" },
-];
+const TAG_COLORS = {
+  off: 'bg-red-50 text-red-700 border-red-200',
+  paid: 'bg-green-50 text-green-700 border-green-200',
+  working: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+};
+
+const TAG_LABELS_EN = { off: 'Off', paid: 'Paid', working: 'Working' };
+const TAG_LABELS_ES = { off: 'Libre', paid: 'Pagado', working: 'Laborable' };
 
 export default function HolidaySchedule() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const tagLabels = lang === 'es' ? TAG_LABELS_ES : TAG_LABELS_EN;
+
+  const { data: holidays = [], isLoading } = useQuery({
+    queryKey: ['holidays'],
+    queryFn: () => base44.entities.Holiday.list('order'),
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+      </div>
+    );
+  }
 
   return (
     <Card className="border-gray-200">
@@ -31,30 +45,35 @@ export default function HolidaySchedule() {
           </div>
         </div>
 
-        <div className="space-y-3">
-          {HOLIDAYS_2025.map((holiday, i) => {
-            const isPast = holiday.status === "past";
-            return (
+        {holidays.length === 0 ? (
+          <p className="text-sm text-gray-400 text-center py-6">No holidays configured yet.</p>
+        ) : (
+          <div className="space-y-3">
+            {holidays.map((holiday, i) => (
               <div
-                key={i}
-                className={`flex items-center justify-between py-2.5 px-3 rounded-lg ${
-                  isPast ? 'bg-gray-50 opacity-60' : 'bg-white border border-gray-100'
-                }`}
+                key={holiday.id}
+                className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-white border border-gray-100"
               >
-                <div className="flex items-center gap-3">
-                  <PartyPopper className={`w-4 h-4 ${isPast ? 'text-gray-300' : 'text-amber-500'}`} />
-                  <span className={`text-sm font-medium ${isPast ? 'text-gray-400 line-through' : 'text-gray-900'}`}>
+                <div className="flex items-center gap-3 min-w-0">
+                  {holiday.category === 'jewish' ? (
+                    <Star className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                  ) : (
+                    <PartyPopper className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                  )}
+                  <span className="text-sm font-medium text-gray-900 truncate">
                     {holiday.name}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-shrink-0">
                   <span className="text-xs text-gray-500">{holiday.date}</span>
-                  {isPast && <Badge variant="outline" className="text-[10px] text-gray-400">{t('past')}</Badge>}
+                  <Badge className={`text-[10px] ${TAG_COLORS[holiday.tag]}`}>
+                    {tagLabels[holiday.tag]}
+                  </Badge>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
 
         <div className="mt-5 p-3 rounded-lg bg-blue-50 text-blue-700">
           <div className="flex items-center gap-2 text-sm font-medium">
