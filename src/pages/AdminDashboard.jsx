@@ -401,6 +401,8 @@ export default function AdminDashboard() {
                 </div>
 
 
+                {/* Portal Cards */}
+                <DashboardPortalCards />
             </div>
         </AdminLayout>
     );
