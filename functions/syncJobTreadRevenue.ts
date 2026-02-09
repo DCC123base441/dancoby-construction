@@ -1,6 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
-import moment from 'npm:moment';
+import moment from 'npm:moment@2.30.1';
 
+// Handler for syncing JobTread revenue
 export default async function handler(req) {
   const base44 = createClientFromRequest(req);
   const user = await base44.auth.me();

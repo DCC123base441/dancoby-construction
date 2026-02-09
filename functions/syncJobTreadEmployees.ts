@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
+// Handler for syncing JobTread employees
 export default async function handler(req) {
   const base44 = createClientFromRequest(req);
   const user = await base44.auth.me();
