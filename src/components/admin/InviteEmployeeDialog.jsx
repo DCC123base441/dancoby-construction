@@ -19,11 +19,18 @@ export default function InviteEmployeeDialog({ open, onOpenChange }) {
     if (!email.trim()) return;
     setSending(true);
     try {
+      // Use the full current URL to derive the base app URL
+      // window.location.origin may return the custom domain which doesn't serve portal pages
+      // We need the actual Base44 app URL path
+      const currentUrl = window.location.href;
+      // Extract everything up to the page name (e.g. https://app.base44.app/app/xxxx/)
+      const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
+      
       await base44.functions.invoke('inviteEmployee', {
         email: email.trim(),
         role: 'user',
         portalRole,
-        appUrl: window.location.origin
+        baseUrl
       });
       toast.success(`Invitation sent to ${email}`);
       queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
