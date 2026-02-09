@@ -52,7 +52,21 @@ function SalaryGrowthChart({ hourly, startDate }) {
     return data;
   }, [hourly, startDate]);
 
-  if (!hourly || chartData.length === 0) return null;
+  if (!hourly || chartData.length === 0) {
+    return (
+      <Card className="border-gray-200">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-full bg-blue-50">
+              <TrendingUp className="w-5 h-5 text-blue-600" />
+            </div>
+            <h3 className="font-bold text-gray-900">Salary Growth</h3>
+          </div>
+          <p className="text-sm text-gray-400">Your salary growth chart will appear once your hourly rate is set by management.</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const formatDollar = (value) => `$${value.toLocaleString()}`;
   const dataKey = showYoY ? 'yoyGrowth' : 'annualSalary';
