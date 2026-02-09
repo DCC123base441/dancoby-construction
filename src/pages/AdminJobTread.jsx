@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Plus, Trash2, GripVertical, Pencil, X, Check, MonitorPlay, Eye, EyeOff } from 'lucide-react';
+import { Plus, Trash2, GripVertical, Pencil, X, Check, MonitorPlay, Eye, EyeOff, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 
 function TutorialForm({ tutorial, onSave, onCancel }) {
@@ -87,12 +87,33 @@ function TutorialForm({ tutorial, onSave, onCancel }) {
 export default function AdminJobTread() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [isSyncing, setIsSyncing] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: tutorials = [], isLoading } = useQuery({
     queryKey: ['jobtread-tutorials'],
     queryFn: () => base44.entities.JobTreadTutorial.list('order'),
   });
+
+  const handleSyncRevenue = async () => {
+    setIsSyncing(true);
+    try {
+      const { data } = await base44.functions.invoke('syncJobTreadRevenue');
+      if (data.success) {
+        toast.success(`Revenue synced: $${data.revenue.toLocaleString()}`, {
+          description: `Updated from ${data.count} orders.`
+        });
+        // Optionally invalidate goal queries if they were global, but they are in another component
+      } else {
+        toast.error('Sync failed', { description: data.error });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to sync revenue');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const createMutation = useMutation({
     mutationFn: (data) => base44.entities.JobTreadTutorial.create(data),
@@ -122,12 +143,23 @@ export default function AdminJobTread() {
 
   return (
     <AdminLayout
-      title="JobTread Tutorials"
+      title="JobTread Integration"
       actions={
         !showForm && (
-          <Button onClick={() => setShowForm(true)} className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="w-4 h-4 mr-2" /> Add Tutorial
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+                variant="outline" 
+                onClick={handleSyncRevenue} 
+                disabled={isSyncing}
+                className="border-amber-200 hover:bg-amber-50 text-amber-700"
+            >
+                <RefreshCw className={`w-3.5 h-3.5 mr-2 ${isSyncing ? 'animate-spin' : ''}`} /> 
+                {isSyncing ? 'Syncing...' : 'Sync Revenue'}
+            </Button>
+            <Button onClick={() => setShowForm(true)} className="bg-blue-600 hover:bg-blue-700">
+              <Plus className="w-4 h-4 mr-2" /> Add Tutorial
+            </Button>
+          </div>
         )
       }
     >

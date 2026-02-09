@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Gift, Info, CheckCircle2, Circle } from 'lucide-react';
+import { Gift, Info, CheckCircle2, Circle, RefreshCw } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
+import moment from 'moment';
 
-// DEMO DATA — will be replaced with JobTread API
 const BONUS_RATE = 0.001; // 0.1% of revenue
-const REVENUE_GOAL = 2_500_000;
 
 function QuarterBar({ label, revenue, goal, bonus, isCurrent, t }) {
   const percent = Math.min((revenue / goal) * 100, 100);
@@ -48,24 +49,49 @@ function QuarterBar({ label, revenue, goal, bonus, isCurrent, t }) {
 
 export default function BonusTracker() {
   const { t } = useLanguage();
+  const currentYear = new Date().getFullYear();
 
-  const { quarterlyData, totalRevenue, estimatedBonus, currentQuarter } = useMemo(() => {
+  const { data: goalData, isLoading } = useQuery({
+    queryKey: ['companyGoal', currentYear],
+    queryFn: async () => {
+      const results = await base44.entities.CompanyGoal.filter({ year: currentYear });
+      return results[0] || { 
+        year: currentYear, 
+        currentRevenue: 0, 
+        targetRevenue: 2500000,
+        quarterlyBreakdown: { q1: 0, q2: 0, q3: 0, q4: 0 }
+      };
+    }
+  });
+
+  const { quarterlyData, totalRevenue, estimatedBonus, currentQuarter, revenueGoal, lastUpdated } = useMemo(() => {
     const now = new Date();
     const month = now.getMonth(); // 0-11
     const cq = Math.floor(month / 3) + 1; // 1-4
+    
+    if (!goalData) return { 
+        quarterlyData: [], 
+        totalRevenue: 0, 
+        estimatedBonus: 0, 
+        currentQuarter: cq,
+        revenueGoal: 2500000,
+        lastUpdated: null
+    };
 
-    // Demo revenue data per quarter — only show quarters up to current
+    const breakdown = goalData.quarterlyBreakdown || { q1: 0, q2: 0, q3: 0, q4: 0 };
+    
     const allQuarters = [
-      { label: t('bonusQ1'), revenue: 150000, quarter: 1 },
-      { label: t('bonusQ2'), revenue: 560000, quarter: 2 },
-      { label: t('bonusQ3'), revenue: 520000, quarter: 3 },
-      { label: t('bonusQ4'), revenue: 440000, quarter: 4 },
+      { label: t('bonusQ1'), revenue: breakdown.q1 || 0, quarter: 1 },
+      { label: t('bonusQ2'), revenue: breakdown.q2 || 0, quarter: 2 },
+      { label: t('bonusQ3'), revenue: breakdown.q3 || 0, quarter: 3 },
+      { label: t('bonusQ4'), revenue: breakdown.q4 || 0, quarter: 4 },
     ];
 
     const quarters = allQuarters.filter(q => q.quarter <= cq);
-    const total = quarters.reduce((sum, q) => sum + q.revenue, 0);
+    const total = goalData.currentRevenue || 0;
     const bonus = total * BONUS_RATE;
-    const quarterlyGoal = REVENUE_GOAL / 4;
+    const goal = goalData.targetRevenue || 2500000;
+    const quarterlyGoal = goal / 4;
 
     const data = quarters.map(q => ({
       ...q,
@@ -74,10 +100,19 @@ export default function BonusTracker() {
       bonus: parseFloat((q.revenue * BONUS_RATE).toFixed(2)),
     }));
 
-    return { quarterlyData: data, totalRevenue: total, estimatedBonus: bonus, currentQuarter: cq };
-  }, [t]);
+    return { 
+        quarterlyData: data, 
+        totalRevenue: total, 
+        estimatedBonus: bonus, 
+        currentQuarter: cq,
+        revenueGoal: goal,
+        lastUpdated: goalData.lastUpdated
+    };
+  }, [t, goalData]);
 
-  const progressPercent = Math.min((totalRevenue / REVENUE_GOAL) * 100, 100);
+  if (isLoading) return <div className="h-64 rounded-xl bg-gray-50 animate-pulse" />;
+
+  const progressPercent = Math.min((totalRevenue / revenueGoal) * 100, 100);
 
   return (
     <Card className="border-gray-200">
@@ -90,9 +125,13 @@ export default function BonusTracker() {
             </div>
             <h3 className="font-bold text-gray-900">{t('bonusTracker')}</h3>
           </div>
-          <Badge className="bg-amber-100 text-amber-800 text-xs">Demo</Badge>
+          {lastUpdated && (
+            <Badge variant="outline" className="text-[10px] text-gray-400 font-normal">
+              Updated {moment(lastUpdated).fromNow()}
+            </Badge>
+          )}
         </div>
-        <p className="text-sm text-gray-500 mb-5">{t('bonusSimpleExplain')} ({t('bonusAsOf')} Q{currentQuarter} {new Date().getFullYear()})</p>
+        <p className="text-sm text-gray-500 mb-5">{t('bonusSimpleExplain')} ({t('bonusAsOf')} Q{currentQuarter} {currentYear})</p>
 
         {/* Big Bonus Number */}
         <div className="text-center p-5 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200 mb-5">
@@ -109,7 +148,7 @@ export default function BonusTracker() {
           </div>
           <div className="p-3 rounded-lg bg-slate-50 border border-slate-100">
             <p className="text-xs text-gray-500 mb-1">{t('bonusGoalLabel')}</p>
-            <p className="text-xl font-bold text-gray-900">${(REVENUE_GOAL / 1_000_000).toFixed(1)}M</p>
+            <p className="text-xl font-bold text-gray-900">${(revenueGoal / 1_000_000).toFixed(1)}M</p>
           </div>
         </div>
 
@@ -127,7 +166,7 @@ export default function BonusTracker() {
           </div>
           <div className="flex justify-between text-xs text-gray-400 mt-1">
             <span>$0</span>
-            <span>${(REVENUE_GOAL / 1_000_000).toFixed(1)}M {t('bonusGoalLabel')}</span>
+            <span>${(revenueGoal / 1_000_000).toFixed(1)}M {t('bonusGoalLabel')}</span>
           </div>
         </div>
 
@@ -146,7 +185,7 @@ export default function BonusTracker() {
             <span className="flex items-center gap-1">
               <div className="w-3 h-3 rounded-sm bg-emerald-300" /> {t('bonusBelowGoal')}
             </span>
-            <span>| {t('bonusGoalLine')}: ${((REVENUE_GOAL / 4) / 1000).toFixed(0)}k</span>
+            <span>| {t('bonusGoalLine')}: ${((revenueGoal / 4) / 1000).toFixed(0)}k</span>
           </div>
         </div>
 
