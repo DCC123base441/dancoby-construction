@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Users, UserPlus, History } from 'lucide-react';
-import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
+import AddEmployeeDialog from '../components/admin/AddEmployeeDialog';
 import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
