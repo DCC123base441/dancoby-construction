@@ -341,7 +341,7 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                         <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {profile?.email || user.email}</p>
                     </div>
                 </div>
-                <AlertDialog>
+                <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
                     <AlertDialogTrigger asChild>
                         <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-600 hover:bg-red-50">
                             <Trash2 className="w-4 h-4" />
@@ -355,11 +355,11 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleDelete} disabled={deleting} className="bg-red-600 hover:bg-red-700">
+                            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+                            <Button onClick={handleDelete} disabled={deleting} className="bg-red-600 hover:bg-red-700">
                                 {deleting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Trash2 className="w-4 h-4 mr-2" />}
                                 Delete
-                            </AlertDialogAction>
+                            </Button>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
