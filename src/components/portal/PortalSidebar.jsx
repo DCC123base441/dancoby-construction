@@ -20,6 +20,22 @@ const ALL_TABS = [
 export default function PortalSidebar({ activeTab, onTabChange }) {
   const { t } = useLanguage();
 
+  const { data: notifications = [] } = useQuery({
+    queryKey: ['myNotifications'],
+    queryFn: async () => {
+      const user = await base44.auth.me();
+      return base44.entities.Notification.filter({ userEmail: user.email, read: false }, '-created_date', 100);
+    },
+    staleTime: 1000 * 30,
+  });
+
+  const counts = {
+    news: notifications.filter(n => n.type === 'news').length,
+    timeoff: notifications.filter(n => n.type === 'time_off').length,
+    raise: notifications.filter(n => n.type === 'raise').length,
+    feedback: notifications.filter(n => n.type === 'general' && n.title.includes('Feedback')).length, // rudimentary check
+  };
+
   return (
     <aside className="hidden lg:flex flex-col w-56 flex-shrink-0 border-r border-gray-200 bg-white">
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
