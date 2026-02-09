@@ -7,58 +7,44 @@ import { Card, CardContent } from "@/components/ui/card";
 import { HardHat, Users, LogIn, Loader2, ShieldCheck } from 'lucide-react';
 
 export default function PortalLogin() {
-  const [status, setStatus] = useState('checking'); // checking | not_logged_in | admin | routing
+  const [isChecking, setIsChecking] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const checkAndRoute = async () => {
+    const checkAuth = async () => {
       try {
         const isAuth = await base44.auth.isAuthenticated();
-        if (!isAuth) {
-          setStatus('not_logged_in');
-          return;
-        }
-
-        const user = await base44.auth.me();
-
-        // Admin gets portal picker
-        if (user.role === 'admin') {
-          setStatus('admin');
-          return;
-        }
-
-        // Route based on portalRole
-        setStatus('routing');
-        if (user.portalRole === 'employee') {
-          const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
-          const isNew = profiles.length === 0;
-          window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
-        } else if (user.portalRole === 'customer') {
-          window.location.href = createPageUrl('CustomerPortal');
-        } else {
-          // User has no portal role assigned — show a message
-          setStatus('no_role');
+        if (isAuth) {
+          const user = await base44.auth.me();
+          if (user.role === 'admin') {
+            setIsAdmin(true);
+            setIsChecking(false);
+            return;
+          } else if (user.portalRole === 'employee') {
+            // Check if first-time employee (no profile yet)
+            const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
+            const isNew = profiles.length === 0;
+            window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
+          } else if (user.portalRole === 'customer') {
+            window.location.href = createPageUrl('CustomerPortal');
+          }
         }
       } catch (e) {
-        setStatus('not_logged_in');
+        // not logged in
       }
+      setIsChecking(false);
     };
-    checkAndRoute();
+    checkAuth();
   }, []);
 
   const handleLogin = () => {
-    // After login, come back to this page to route correctly
-    base44.auth.redirectToLogin(window.location.href);
+    base44.auth.redirectToLogin(createPageUrl('PortalLogin'));
   };
 
-  if (status === 'checking' || status === 'routing') {
+  if (isChecking) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
-          <span className="text-sm text-gray-400">
-            {status === 'routing' ? 'Redirecting to your portal...' : 'Loading...'}
-          </span>
-        </div>
+        <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -77,8 +63,9 @@ export default function PortalLogin() {
           <p className="text-gray-500 mt-2">Sign in to access your personalized dashboard</p>
         </div>
 
-        {status === 'admin' && (
+        {isAdmin ? (
           <>
+            {/* Admin Portal Picker */}
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
               <div className="flex items-center justify-center gap-2 text-green-700 text-sm font-medium">
                 <ShieldCheck className="w-4 h-4" />
@@ -113,10 +100,9 @@ export default function PortalLogin() {
               <Link to={createPageUrl('AdminDashboard')}>Back to Admin Dashboard</Link>
             </Button>
           </>
-        )}
-
-        {status === 'not_logged_in' && (
+        ) : (
           <>
+            {/* Portal Info Cards */}
             <div className="grid grid-cols-2 gap-4">
               <Card className="border-gray-200">
                 <CardContent className="p-4 text-center">
@@ -138,32 +124,16 @@ export default function PortalLogin() {
               </Card>
             </div>
 
+            {/* Sign In Button */}
             <Button onClick={handleLogin} className="w-full h-12 bg-gray-900 hover:bg-gray-800 text-white text-base">
               <LogIn className="w-5 h-5 mr-2" />
-              Sign In / Create Account
+              Sign In
             </Button>
 
             <p className="text-center text-xs text-gray-400">
-              Received an invitation? Click above to create your account or sign in.
+              Contact us if you need an account set up for you.
             </p>
           </>
-        )}
-
-        {status === 'no_role' && (
-          <div className="text-center space-y-4">
-            <Card className="border-amber-200 bg-amber-50">
-              <CardContent className="p-6">
-                <p className="text-amber-800 font-medium">Account Not Yet Assigned</p>
-                <p className="text-amber-600 text-sm mt-2">
-                  Your account has been created but you haven't been assigned a portal role yet. 
-                  Please contact your administrator.
-                </p>
-              </CardContent>
-            </Card>
-            <Button variant="outline" onClick={() => base44.auth.logout()}>
-              Sign Out
-            </Button>
-          </div>
         )}
       </div>
     </div>
