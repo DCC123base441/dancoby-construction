@@ -22,7 +22,8 @@ export default function InviteEmployeeDialog({ open, onOpenChange }) {
       await base44.functions.invoke('inviteEmployee', {
         email: email.trim(),
         role: 'user',
-        portalRole
+        portalRole,
+        appUrl: window.location.origin
       });
       toast.success(`Invitation sent to ${email}`);
       queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
