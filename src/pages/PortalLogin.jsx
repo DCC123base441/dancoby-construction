@@ -4,11 +4,12 @@ import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '../utils';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { HardHat, Users, LogIn, Loader2, ShieldCheck } from 'lucide-react';
+import { HardHat, Users, LogIn, Loader2, ShieldCheck, LogOut } from 'lucide-react';
 
 export default function PortalLogin() {
   const [isChecking, setIsChecking] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -16,6 +17,7 @@ export default function PortalLogin() {
         const isAuth = await base44.auth.isAuthenticated();
         if (isAuth) {
           const user = await base44.auth.me();
+          setCurrentUser(user);
           if (user.role === 'admin') {
             setIsAdmin(true);
             setIsChecking(false);
@@ -93,6 +95,29 @@ export default function PortalLogin() {
               </div>
               <Button asChild variant="outline" className="w-full">
                 <Link to={createPageUrl('AdminDashboard')}>Back to Admin Dashboard</Link>
+              </Button>
+            </div>
+          ) : currentUser ? (
+            <div className="space-y-4 text-center">
+              <div className="p-3 rounded-full bg-slate-100 w-fit mx-auto mb-2">
+                <Users className="w-6 h-6 text-slate-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900">Welcome, {currentUser.full_name || currentUser.email}</h3>
+                <p className="text-sm text-slate-500 mt-2">
+                  You are logged in, but your account hasn't been assigned a portal role yet.
+                </p>
+                <p className="text-xs text-slate-400 mt-4 mb-4">
+                  Please contact your administrator to grant you access.
+                </p>
+              </div>
+              <Button 
+                onClick={() => base44.auth.logout(createPageUrl('PortalLogin'))} 
+                variant="outline" 
+                className="w-full"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
               </Button>
             </div>
           ) : (
