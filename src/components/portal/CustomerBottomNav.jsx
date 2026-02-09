@@ -36,6 +36,26 @@ export default function CustomerBottomNav({ activeTab, onTabChange, onMorePress 
       <div className="flex items-center justify-around py-1.5 px-2">
         {NAV_ITEMS.map((item) => {
           const isActive = item.id === 'more' ? false : activeTab === item.id;
+          
+          if (item.id === 'finances') {
+             return (
+               <a
+                 key={item.id}
+                 href="https://app.jobtread.com/login"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className={`flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl transition-all min-w-[60px] text-gray-400 hover:text-gray-600`}
+               >
+                 <div className="relative">
+                   <item.icon className={`w-5 h-5`} />
+                 </div>
+                 <span className="text-[10px] font-medium leading-tight">
+                   {t(item.labelKey) || item.id.charAt(0).toUpperCase() + item.id.slice(1)}
+                 </span>
+               </a>
+             );
+          }
+
           const handleClick = item.id === 'more' ? onMorePress : () => onTabChange(item.id);
           return (
             <button

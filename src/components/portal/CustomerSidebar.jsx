@@ -37,6 +37,24 @@ export default function CustomerSidebar({ activeTab, onTabChange }) {
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
         {CUSTOMER_TABS.map((tab) => {
           const isActive = activeTab === tab.id;
+          
+          if (tab.id === 'finances') {
+             return (
+               <a
+                 key={tab.id}
+                 href="https://app.jobtread.com/login"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 hover:bg-gray-50 hover:text-gray-900`}
+               >
+                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${tab.color.split(' ')[1]}`}>
+                   <tab.icon className={`w-4 h-4 ${tab.color.split(' ')[0]}`} />
+                 </div>
+                 <span className="flex-1 text-left">{t(tab.labelKey) || (tab.id.charAt(0).toUpperCase() + tab.id.slice(1))}</span>
+               </a>
+             );
+          }
+
           return (
             <button
               key={tab.id}
