@@ -1,9 +1,10 @@
 import React from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { CalendarOff, HandCoins, ShoppingBag, MonitorPlay, X } from 'lucide-react';
+import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, X } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 const MORE_ITEMS = [
+  { id: 'profile', icon: UserCircle, labelKey: 'tabProfile', color: 'bg-blue-100 text-blue-600' },
   { id: 'timeoff', icon: CalendarOff, labelKey: 'tabTimeOff', color: 'bg-orange-100 text-orange-600' },
   { id: 'raise', icon: HandCoins, labelKey: 'tabRaise', color: 'bg-amber-100 text-amber-600' },
   { id: 'gear', icon: ShoppingBag, labelKey: 'tabGear', color: 'bg-pink-100 text-pink-600' },

@@ -22,7 +22,7 @@ import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 function EmployeePortalContent() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState('salary');
   const [editingProfile, setEditingProfile] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const { t } = useLanguage();

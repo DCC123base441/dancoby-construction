@@ -3,7 +3,6 @@ import { UserCircle, MessageCircle, DollarSign, CalendarDays, Menu } from 'lucid
 import { useLanguage } from './LanguageContext';
 
 const NAV_ITEMS = [
-  { id: 'profile', icon: UserCircle, labelKey: 'tabProfile' },
   { id: 'salary', icon: DollarSign, labelKey: 'tabSalary' },
   { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays' },
   { id: 'feedback', icon: MessageCircle, labelKey: 'tabFeedback' },
