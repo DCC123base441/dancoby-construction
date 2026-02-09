@@ -180,14 +180,6 @@ const translations = {
     language: 'Language',
     more: 'More',
 
-    // Nav Customizer
-    customizeNav: 'Customize Navigation',
-    customizeNavDesc: 'Tap an item from the bottom bar, then tap one from "More" to swap them.',
-    bottomBar: 'Bottom Bar',
-    moreItems: 'More Menu',
-    tapToSwap: 'Now tap an item below to swap',
-    resetDefault: 'Reset to Default',
-
     // Onboarding
     onboardWelcomeTitle: 'Welcome to the team',
     onboardWelcomeDesc: 'You\'re now part of the Dancoby Construction family. This portal is your one-stop hub for pay info, time off, company updates, and more.',
@@ -369,14 +361,6 @@ const translations = {
 
     language: 'Idioma',
     more: 'Más',
-
-    // Nav Customizer
-    customizeNav: 'Personalizar Navegación',
-    customizeNavDesc: 'Toca un elemento de la barra inferior, luego toca uno de "Más" para intercambiarlos.',
-    bottomBar: 'Barra Inferior',
-    moreItems: 'Menú Más',
-    tapToSwap: 'Ahora toca un elemento abajo para intercambiar',
-    resetDefault: 'Restablecer Predeterminado',
 
     // Onboarding
     onboardWelcomeTitle: 'Bienvenido al equipo',

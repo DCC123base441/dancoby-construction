@@ -20,16 +20,12 @@ import LanguageSwitcher from './LanguageSwitcher';
 import TenureBadge from './TenureBadge';
 import NewsFeedSection from './NewsFeedSection';
 import { useMediaQuery } from "@/components/hooks/use-media-query";
-import useNavOrder from './useNavOrder';
-import NavCustomizer from './NavCustomizer';
 
 export default function EmployeePortalInner({ user }) {
   const [activeTab, setActiveTab] = useState('news');
   const [editingProfile, setEditingProfile] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [customizeOpen, setCustomizeOpen] = useState(false);
   const { t } = useLanguage();
-  const { order, swapToBottom, reorderBottom, resetOrder } = useNavOrder();
 
   const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ['employeeProfile', user?.email],
@@ -152,24 +148,12 @@ export default function EmployeePortalInner({ user }) {
         onTabChange={setActiveTab} 
         onMorePress={() => setMoreOpen(true)}
         user={user}
-        bottomIds={order.bottom}
       />
       
       <EmployeeMoreSheet 
         open={moreOpen} 
         onOpenChange={setMoreOpen} 
-        onTabChange={setActiveTab}
-        moreIds={order.more}
-        onCustomize={() => setCustomizeOpen(true)}
-      />
-
-      <NavCustomizer
-        open={customizeOpen}
-        onOpenChange={setCustomizeOpen}
-        order={order}
-        swapToBottom={swapToBottom}
-        reorderBottom={reorderBottom}
-        resetOrder={resetOrder}
+        onTabChange={setActiveTab} 
       />
     </div>
   );

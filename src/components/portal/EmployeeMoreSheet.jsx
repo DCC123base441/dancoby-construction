@@ -1,11 +1,19 @@
 import React from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Settings2 } from 'lucide-react';
+import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, X, DollarSign, CalendarDays, MessageCircle } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
-import { NAV_ITEM_META } from './navItemMeta';
 
-export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange, moreIds, onCustomize }) {
+const MORE_ITEMS = [
+  { id: 'salary', icon: DollarSign, labelKey: 'tabSalary', color: 'bg-emerald-100 text-emerald-600' },
+  { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays', color: 'bg-red-100 text-red-600' },
+  { id: 'feedback', icon: MessageCircle, labelKey: 'tabFeedback', color: 'bg-purple-100 text-purple-600' },
+  { id: 'timeoff', icon: CalendarOff, labelKey: 'tabTimeOff', color: 'bg-orange-100 text-orange-600' },
+  { id: 'raise', icon: HandCoins, labelKey: 'tabRaise', color: 'bg-amber-100 text-amber-600' },
+  { id: 'gear', icon: ShoppingBag, labelKey: 'tabGear', color: 'bg-pink-100 text-pink-600' },
+  { id: 'profile', icon: UserCircle, labelKey: 'tabProfile', color: 'bg-slate-100 text-slate-600' },
+];
+
+export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange }) {
   const { t } = useLanguage();
 
   return (
@@ -15,41 +23,23 @@ export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange, mor
           <SheetTitle className="text-base">{t('more') || 'More'}</SheetTitle>
         </SheetHeader>
         <div className="grid grid-cols-2 gap-3">
-          {moreIds.map((id) => {
-            const meta = NAV_ITEM_META[id];
-            if (!meta) return null;
-            return (
-              <button
-                key={id}
-                onClick={() => {
-                  onTabChange(id);
-                  onOpenChange(false);
-                }}
-                className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors text-left"
-              >
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${meta.color}`}>
-                  <meta.icon className="w-5 h-5" />
-                </div>
-                <span className="text-sm font-medium text-gray-800">
-                  {t(meta.labelKey) || meta.labelKey}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        <div className="mt-4 pt-3 border-t border-gray-100">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="w-full gap-2 text-gray-500"
-            onClick={() => {
-              onOpenChange(false);
-              onCustomize();
-            }}
-          >
-            <Settings2 className="w-4 h-4" />
-            {t('customizeNav') || 'Customize Navigation'}
-          </Button>
+          {MORE_ITEMS.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                onTabChange(item.id);
+                onOpenChange(false);
+              }}
+              className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors text-left"
+            >
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${item.color}`}>
+                <item.icon className="w-5 h-5" />
+              </div>
+              <span className="text-sm font-medium text-gray-800">
+                {t(item.labelKey) || item.labelKey}
+              </span>
+            </button>
+          ))}
         </div>
       </SheetContent>
     </Sheet>
