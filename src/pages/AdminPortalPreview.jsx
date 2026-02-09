@@ -14,9 +14,9 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-// Lazy-import portal content components
-import EmployeePortalContent from '../components/portal/EmployeePortalInner';
+import EmployeePortalInner from '../components/portal/EmployeePortalInner';
 import CustomerPortalContent from '../components/portal/CustomerPortalInner';
+import { LanguageProvider } from '../components/portal/LanguageContext';
 
 export default function AdminPortalPreview() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -114,7 +114,9 @@ export default function AdminPortalPreview() {
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden min-h-[600px]">
                 {isEmployee ? (
                     previewUser ? (
-                        <EmployeePortalContent user={previewUser} />
+                        <LanguageProvider>
+                            <EmployeePortalInner user={previewUser} />
+                        </LanguageProvider>
                     ) : (
                         <div className="flex items-center justify-center py-20 text-slate-400 text-sm">
                             Select an employee to preview their portal
