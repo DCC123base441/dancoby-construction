@@ -11,8 +11,9 @@ import ScrollProgress from './components/ScrollProgress';
 import CookieConsent from './components/CookieConsent';
 import { base44 } from '@/api/base44Client';
 
-export default function Layout({ children }) {
+export default function Layout({ children, currentPageName }) {
   const location = useLocation();
+  const isPortal = currentPageName === 'EmployeePortal' || currentPageName === 'CustomerPortal';
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -42,6 +43,14 @@ export default function Layout({ children }) {
     
     trackVisit();
   }, [location.pathname]);
+
+  if (isPortal) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
