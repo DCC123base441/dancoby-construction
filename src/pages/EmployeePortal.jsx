@@ -36,6 +36,7 @@ function EmployeePortalContent() {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const adminBypass = urlParams.get('admin_view') === 'true' || localStorage.getItem('admin_bypass') === 'true';
+        const employeeEmail = urlParams.get('employee_email');
 
         const isAuth = await base44.auth.isAuthenticated();
         if (!isAuth) {
@@ -48,6 +49,22 @@ function EmployeePortalContent() {
           return;
         }
         const me = await base44.auth.me();
+
+        // Admin viewing a specific employee's portal
+        if (me.role === 'admin' && employeeEmail) {
+          const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: employeeEmail });
+          const empProfile = profiles[0];
+          setUser({
+            full_name: empProfile ? [empProfile.firstName, empProfile.lastName].filter(Boolean).join(' ') : employeeEmail,
+            email: employeeEmail,
+            role: 'user',
+            portalRole: 'employee',
+            _adminPreview: true,
+          });
+          setLoading(false);
+          return;
+        }
+
         if (me.portalRole !== 'employee' && me.role !== 'admin') {
           if (me.portalRole === 'customer') {
             window.location.href = createPageUrl('CustomerPortal');
