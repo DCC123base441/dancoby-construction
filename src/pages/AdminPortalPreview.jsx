@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 
 import EmployeePortalInner from '../components/portal/EmployeePortalInner.jsx';
+import ManagerPortalInner from '../components/portal/ManagerPortalInner.jsx';
 import CustomerPortalContent from '../components/portal/CustomerPortalInner.jsx';
 import { LanguageProvider } from '../components/portal/LanguageContext';
 
@@ -49,12 +50,13 @@ export default function AdminPortalPreview() {
 
     // Auto-select first if none chosen
     useEffect(() => {
-        if (!selectedEmail && employeeOptions.length > 0 && portalType === 'employee') {
+        if (!selectedEmail && employeeOptions.length > 0 && (portalType === 'employee' || portalType === 'manager')) {
             setSelectedEmail(employeeOptions[0].email);
         }
     }, [employeeOptions, selectedEmail, portalType]);
 
     const isEmployee = portalType === 'employee';
+    const isManager = portalType === 'manager';
     const selectedProfile = profiles.find(p => p.userEmail === selectedEmail);
 
     // Build a fake user object for the portal preview
@@ -64,19 +66,19 @@ export default function AdminPortalPreview() {
             : employeeOptions.find(e => e.email === selectedEmail)?.name || selectedEmail,
         email: selectedEmail,
         role: 'user',
-        portalRole: 'employee',
+        portalRole: isManager ? 'manager' : 'employee',
         _adminPreview: true,
     } : null;
 
     return (
         <AdminLayout
-            title={isEmployee ? "Employee Portal Preview" : "Customer Portal Preview"}
+            title={isEmployee ? "Employee Portal Preview" : isManager ? "Manager Portal Preview" : "Customer Portal Preview"}
             actions={
                 <div className="flex items-center gap-3">
-                    {isEmployee && (
+                    {(isEmployee || isManager) && (
                         <Select value={selectedEmail} onValueChange={setSelectedEmail}>
                             <SelectTrigger className="w-[220px] h-9 text-sm">
-                                <SelectValue placeholder="Select employee..." />
+                                <SelectValue placeholder="Select person..." />
                             </SelectTrigger>
                             <SelectContent>
                                 {employeeOptions.map(emp => (
@@ -96,11 +98,15 @@ export default function AdminPortalPreview() {
             }
         >
             {/* Preview banner */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2.5 mb-6 flex items-center gap-2 text-sm text-amber-800">
-                {isEmployee ? <HardHat className="w-4 h-4" /> : <Users className="w-4 h-4" />}
+            <div className={`rounded-lg px-4 py-2.5 mb-6 flex items-center gap-2 text-sm ${
+                isEmployee ? 'bg-amber-50 border border-amber-200 text-amber-800' :
+                isManager ? 'bg-blue-50 border border-blue-200 text-blue-800' :
+                'bg-green-50 border border-green-200 text-green-800'
+            }`}>
+                {isEmployee ? <HardHat className="w-4 h-4" /> : isManager ? <Users className="w-4 h-4" /> : <Users className="w-4 h-4" />}
                 <span className="font-medium">Preview Mode</span>
-                <span className="text-amber-600">
-                    — Viewing {isEmployee ? 'employee' : 'customer'} portal
+                <span className={isEmployee ? 'text-amber-600' : isManager ? 'text-blue-600' : 'text-green-600'}>
+                    — Viewing {isEmployee ? 'employee' : isManager ? 'manager' : 'customer'} portal
                     {previewUser ? ` as ${previewUser.full_name || previewUser.email}` : ''}
                 </span>
             </div>
@@ -115,6 +121,16 @@ export default function AdminPortalPreview() {
                     ) : (
                         <div className="flex items-center justify-center py-20 text-slate-400 text-sm">
                             Select an employee to preview their portal
+                        </div>
+                    )
+                ) : isManager ? (
+                    previewUser ? (
+                        <LanguageProvider>
+                            <ManagerPortalInner key={previewUser.email} user={previewUser} />
+                        </LanguageProvider>
+                    ) : (
+                        <div className="flex items-center justify-center py-20 text-slate-400 text-sm">
+                            Select a manager to preview their portal
                         </div>
                     )
                 ) : (
