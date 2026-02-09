@@ -94,7 +94,7 @@ export default function HolidaySchedule() {
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="text-xs text-gray-500">{formatHolidayDate(holiday)}</span>
-                    <Badge className={`text-[10px] ${TAG_COLORS[holiday.tag]}`}>
+                    <Badge className={`text-[10px] hover:bg-transparent ${TAG_COLORS[holiday.tag]}`}>
                       {tagLabels[holiday.tag]}
                     </Badge>
                   </div>
