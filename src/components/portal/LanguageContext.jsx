@@ -72,7 +72,7 @@ const translations = {
     attendanceDesc: 'Reliability and punctuality are key factors in performance reviews.',
 
     // Holidays
-    holidaySchedule: '2025 Holiday Schedule',
+    holidaySchedule: `${new Date().getFullYear()} Holiday Schedule`,
     paidHolidays: 'Company-observed paid holidays',
     past: 'Past',
     summerHours: 'Summer Hours',
@@ -176,7 +176,7 @@ const translations = {
     attendance: 'Asistencia Constante',
     attendanceDesc: 'La confiabilidad y puntualidad son factores clave en las evaluaciones.',
 
-    holidaySchedule: 'Calendario de Festivos 2025',
+    holidaySchedule: `Calendario de Festivos ${new Date().getFullYear()}`,
     paidHolidays: 'Días festivos pagados de la empresa',
     past: 'Pasado',
     summerHours: 'Horario de Verano',
