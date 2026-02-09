@@ -18,6 +18,7 @@ import TimeOffSection from '../components/portal/TimeOffSection';
 import JobTreadSection from '../components/portal/JobTreadSection';
 import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
 import LanguageSwitcher from '../components/portal/LanguageSwitcher';
+import TenureBadge from '../components/portal/TenureBadge';
 
 function EmployeePortalContent() {
   const [user, setUser] = useState(null);
@@ -141,6 +142,7 @@ function EmployeePortalContent() {
                   <p className="text-amber-100 text-sm mt-1 hidden sm:block">
                     {t('employeeHub')}
                   </p>
+                  {profile?.startDate && <TenureBadge startDate={profile.startDate} />}
                 </div>
                 <div className="hidden sm:block">
                   <LanguageSwitcher />
