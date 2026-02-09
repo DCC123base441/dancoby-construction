@@ -4,6 +4,7 @@ import { createPageUrl } from '../../utils';
 import { base44 } from '@/api/base44Client';
 import { LogOut, User } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import NotificationCenter from './NotificationCenter';
 
 export default function PortalHeader({ user, portalType }) {
   const handleLogout = async () => {
