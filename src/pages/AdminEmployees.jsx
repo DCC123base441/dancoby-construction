@@ -41,11 +41,13 @@ export default function AdminEmployees() {
     }));
 
     // Filter out users who are not relevant (random signups without roles or profiles)
+    // Also filtering out admins as they are managed via dashboard access and don't need to be in the employee list
     const validUsers = users.filter(u => 
-        u.role === 'admin' || 
-        u.portalRole === 'employee' || 
-        u.portalRole === 'customer' ||
-        profiles.some(p => p.userEmail === u.email)
+        u.role !== 'admin' && (
+            u.portalRole === 'employee' || 
+            u.portalRole === 'customer' ||
+            profiles.some(p => p.userEmail === u.email)
+        )
     );
 
     const allEmployees = [...validUsers, ...pendingAsUsers];
