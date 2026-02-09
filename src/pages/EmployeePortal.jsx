@@ -12,6 +12,7 @@ import HolidaySchedule from '../components/portal/HolidaySchedule';
 import RaiseRequestSection from '../components/portal/RaiseRequestSection';
 import GearShopSection from '../components/portal/GearShopSection';
 import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
+import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 
 function EmployeePortalContent() {
   const [user, setUser] = useState(null);
@@ -79,6 +80,9 @@ function EmployeePortalContent() {
       <PortalHeader user={user} portalType="employee" />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        <div className="flex justify-end mb-2">
+          <LanguageSwitcher />
+        </div>
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
             <HardHat className="w-7 h-7 text-amber-600" />

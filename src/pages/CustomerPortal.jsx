@@ -8,6 +8,7 @@ import PortalHeader from '../components/portal/PortalHeader';
 import PortalProjectCard from '../components/portal/ProjectCard';
 import ProjectUpdates from '../components/portal/ProjectUpdates';
 import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
+import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 
 function CustomerPortalContent() {
   const [user, setUser] = useState(null);
@@ -63,6 +64,9 @@ function CustomerPortalContent() {
       <PortalHeader user={user} portalType="customer" />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        <div className="flex justify-end mb-2">
+          <LanguageSwitcher />
+        </div>
         {selectedProject ? (
           <ProjectUpdates 
             project={selectedProject} 
