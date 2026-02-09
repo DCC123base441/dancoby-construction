@@ -14,6 +14,7 @@ import { base44 } from '@/api/base44Client';
 export default function Layout({ children, currentPageName }) {
   const location = useLocation();
   const isPortal = currentPageName === 'EmployeePortal' || currentPageName === 'CustomerPortal';
+  const isAdmin = currentPageName?.startsWith('Admin');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -44,7 +45,7 @@ export default function Layout({ children, currentPageName }) {
     trackVisit();
   }, [location.pathname]);
 
-  if (isPortal) {
+  if (isPortal || isAdmin) {
     return (
       <div className="min-h-screen bg-gray-50">
         {children}
