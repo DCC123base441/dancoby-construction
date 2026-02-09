@@ -19,6 +19,7 @@ const translations = {
     // Tabs
     tabProfile: 'Profile',
     tabFeedback: 'Feedback',
+    tabFinances: 'Finances',
     tabSalary: 'Salary',
     tabHolidays: 'Holidays',
     tabTimeOff: 'Time Off',
@@ -151,6 +152,7 @@ const translations = {
     codeCopied: 'Discount code copied!',
 
     // Customer Portal
+    finances: 'Finances',
     welcomeBack: 'Welcome back',
     projectsHappening: "Here's what's happening with your projects.",
     yourProjects: 'Your Projects',
@@ -206,6 +208,7 @@ const translations = {
 
     tabProfile: 'Perfil',
     tabFeedback: 'Comentarios',
+    tabFinances: 'Finanzas',
     tabSalary: 'Salario',
     tabHolidays: 'Festivos',
     tabTimeOff: 'Días Libres',
@@ -328,6 +331,7 @@ const translations = {
     browseShop: 'Ver la Tienda',
     codeCopied: '¡Código de descuento copiado!',
 
+    finances: 'Finanzas',
     welcomeBack: 'Bienvenido de nuevo',
     projectsHappening: 'Esto es lo que está pasando con tus proyectos.',
     yourProjects: 'Tus Proyectos',
