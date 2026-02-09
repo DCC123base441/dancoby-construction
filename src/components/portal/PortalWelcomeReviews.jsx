@@ -37,60 +37,67 @@ export default function PortalWelcomeReviews() {
   const currentReview = reviews[currentIndex];
 
   return (
-    <div className="mt-6 pt-6 border-t border-white/20">
-      <div className="flex items-center gap-2 mb-3">
-        <Star className="w-4 h-4 text-amber-200 fill-amber-200" />
-        <h3 className="text-xs font-bold uppercase tracking-wider text-amber-100">
-          What customers are saying
-        </h3>
-      </div>
+    <div className="mt-8 relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-800 to-slate-900 p-6 text-white shadow-lg">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
       
-      <div className="relative min-h-[80px]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-col gap-2"
-          >
-            <div className="flex gap-3">
-              <Quote className="w-8 h-8 text-amber-200/40 flex-shrink-0 -mt-1 transform scale-x-[-1]" />
-              <div>
-                <p className="text-white font-medium text-lg leading-snug italic">
-                  "{currentReview.quote}"
-                </p>
-                <div className="mt-2 flex items-center gap-2">
-                  <span className="text-amber-100 text-sm font-semibold">— {currentReview.client_name}</span>
-                  {currentReview.role && (
-                    <>
-                      <span className="text-amber-200/50">•</span>
-                      <span className="text-amber-200 text-xs">{currentReview.role}</span>
-                    </>
-                  )}
+      <div className="relative z-10">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+            <Star className="w-4 h-4 fill-amber-400" />
+          </div>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+            What customers are saying
+          </h3>
+        </div>
+        
+        <div className="relative min-h-[100px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4 }}
+              className="flex flex-col gap-3"
+            >
+              <div className="flex gap-4">
+                <Quote className="w-8 h-8 text-amber-500 flex-shrink-0 -mt-1 transform scale-x-[-1]" />
+                <div>
+                  <p className="text-white/90 font-medium text-lg leading-relaxed italic">
+                    "{currentReview.quote}"
+                  </p>
+                  <div className="mt-3 flex items-center gap-2">
+                    <span className="text-amber-400 font-semibold">— {currentReview.client_name}</span>
+                    {currentReview.role && (
+                      <>
+                        <span className="text-slate-600">•</span>
+                        <span className="text-slate-400 text-sm">{currentReview.role}</span>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Indicators */}
-      {reviews.length > 1 && (
-        <div className="flex gap-1.5 mt-4">
-          {reviews.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`h-1 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? 'w-6 bg-white' : 'w-1.5 bg-white/30 hover:bg-white/50'
-              }`}
-              aria-label={`Go to review ${idx + 1}`}
-            />
-          ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
-      )}
+
+        {/* Indicators */}
+        {reviews.length > 1 && (
+          <div className="flex justify-end gap-1.5 mt-2">
+            {reviews.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentIndex ? 'w-6 bg-amber-500' : 'w-1.5 bg-slate-700 hover:bg-slate-600'
+                }`}
+                aria-label={`Go to review ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
