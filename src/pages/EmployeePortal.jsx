@@ -44,7 +44,8 @@ function EmployeePortalContent() {
             setLoading(false);
             return;
           }
-          window.location.href = createPageUrl('PortalLogin');
+          // Not logged in — redirect to login, then come back here
+          base44.auth.redirectToLogin(window.location.href);
           return;
         }
         const me = await base44.auth.me();
@@ -64,7 +65,7 @@ function EmployeePortalContent() {
           setLoading(false);
           return;
         }
-        window.location.href = createPageUrl('PortalLogin');
+        base44.auth.redirectToLogin(window.location.href);
       }
       setLoading(false);
     };
