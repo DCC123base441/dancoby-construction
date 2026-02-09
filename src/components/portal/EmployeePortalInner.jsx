@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -20,7 +19,7 @@ import { useLanguage } from './LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import TenureBadge from './TenureBadge';
 import NewsFeedSection from './NewsFeedSection';
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { useMediaQuery } from "@/components/hooks/use-media-query";
 
 export default function EmployeePortalInner({ user }) {
   const [activeTab, setActiveTab] = useState('news');
