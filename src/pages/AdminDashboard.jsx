@@ -17,7 +17,9 @@ import {
     MoreHorizontal,
     MousePointerClick,
     Trash2,
-    MessageSquare
+    MessageSquare,
+    HardHat,
+    UserCheck
 } from 'lucide-react';
 import {
     AlertDialog,
@@ -495,6 +497,34 @@ export default function AdminDashboard() {
                                 <div>
                                     <h3 className="font-semibold text-slate-900">View Analytics</h3>
                                     <p className="text-sm text-slate-500">Check detailed site metrics</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+
+                    <Link to={createPageUrl('EmployeePortal')} className="group block">
+                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
+                            <CardContent className="p-6 flex items-center gap-4">
+                                <div className="p-3 rounded-lg bg-orange-100 group-hover:bg-orange-600 transition-colors">
+                                    <HardHat className="w-6 h-6 text-orange-600 group-hover:text-white transition-colors" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-slate-900">Employee Portal</h3>
+                                    <p className="text-sm text-slate-500">View as employee</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+
+                    <Link to={createPageUrl('CustomerPortal')} className="group block">
+                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
+                            <CardContent className="p-6 flex items-center gap-4">
+                                <div className="p-3 rounded-lg bg-cyan-100 group-hover:bg-cyan-600 transition-colors">
+                                    <UserCheck className="w-6 h-6 text-cyan-600 group-hover:text-white transition-colors" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-slate-900">Customer Portal</h3>
+                                    <p className="text-sm text-slate-500">View as customer</p>
                                 </div>
                             </CardContent>
                         </Card>
