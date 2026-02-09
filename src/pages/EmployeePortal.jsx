@@ -79,6 +79,17 @@ function EmployeePortalContent() {
     enabled: !!user,
   });
 
+  // Show onboarding for first-time employees
+  useEffect(() => {
+    if (!profileLoading && user && !profile) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const onboardingDismissed = sessionStorage.getItem('onboarding_dismissed');
+      if (urlParams.get('onboarding') === 'true' && !onboardingDismissed) {
+        setShowOnboarding(true);
+      }
+    }
+  }, [profileLoading, user, profile]);
+
   if (loading || profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -117,6 +128,21 @@ function EmployeePortalContent() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      {showOnboarding && (
+        <OnboardingWelcome
+          firstName={firstName}
+          onComplete={() => {
+            setShowOnboarding(false);
+            sessionStorage.setItem('onboarding_dismissed', 'true');
+          }}
+          onSetupProfile={() => {
+            setShowOnboarding(false);
+            sessionStorage.setItem('onboarding_dismissed', 'true');
+            setEditingProfile(true);
+            setActiveTab('profile');
+          }}
+        />
+      )}
       <PortalHeader user={user} portalType="employee" />
       
       <div className="flex flex-1 overflow-hidden">
