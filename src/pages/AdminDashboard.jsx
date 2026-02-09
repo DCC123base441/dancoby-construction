@@ -7,20 +7,12 @@ import { Button } from "@/components/ui/button";
 import { 
     Users, 
     FileText, 
-    FolderKanban, 
     TrendingUp, 
-    ArrowUpRight, 
-    ArrowDownRight,
     Plus,
-    ArrowRight,
     Clock,
     MoreHorizontal,
     MousePointerClick,
-    Trash2,
-    MessageSquare,
-    HardHat,
-    UserCheck,
-    CalendarDays
+    Trash2
 } from 'lucide-react';
 import {
     AlertDialog,
@@ -32,7 +24,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell, CartesianGrid } from "recharts";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -53,6 +45,8 @@ import {
 } from "@/components/ui/select";
 import HeroImageManager from '../components/admin/HeroImageManager';
 import BrandPartnerManager from '../components/admin/BrandPartnerManager';
+import DashboardQuickActions from '../components/admin/DashboardQuickActions';
+import DashboardStatCards from '../components/admin/DashboardStatCards';
 
 export default function AdminDashboard() {
     const [isResetting, setIsResetting] = React.useState(false);
@@ -102,10 +96,9 @@ export default function AdminDashboard() {
         const now = new Date();
         const grouped = {};
         
-        let dateFormat = 'weekday'; // 'hour', 'weekday', 'day', 'month'
+        let dateFormat = 'weekday';
         let iterations = 7;
         
-        // Define configuration based on selected range
         if (timeRange === 'day') {
             dateFormat = 'hour';
             iterations = 24;
@@ -120,14 +113,13 @@ export default function AdminDashboard() {
             iterations = 12;
         }
 
-        // Initialize buckets with 0
         for (let i = iterations - 1; i >= 0; i--) {
             const d = new Date(now);
             let key, label, sortTime;
 
             if (dateFormat === 'hour') {
                 d.setHours(d.getHours() - i);
-                key = d.toISOString().slice(0, 13); // key by hour
+                key = d.toISOString().slice(0, 13);
                 label = d.toLocaleTimeString([], { hour: 'numeric' });
             } else if (dateFormat === 'weekday') {
                 d.setDate(d.getDate() - i);
@@ -147,7 +139,6 @@ export default function AdminDashboard() {
             grouped[key] = { name: label, value: 0, sort: sortTime };
         }
 
-        // Fill buckets with visit data
         const cutoffDate = new Date(Object.values(grouped)[0].sort);
         
         visits.forEach(visit => {
@@ -178,7 +169,7 @@ export default function AdminDashboard() {
         const rate = (leads.length / visits.length) * 100;
         return { 
             value: `${rate.toFixed(1)}%`, 
-            label: `Conversion (${leads.length} leads / ${visits.length} visits)` 
+            label: `${leads.length} leads / ${visits.length} visits` 
         };
     }, [visits, leads]);
 
@@ -190,7 +181,8 @@ export default function AdminDashboard() {
             trend: "neutral",
             icon: MousePointerClick,
             color: "text-indigo-600",
-            bg: "bg-indigo-100/50"
+            bg: "bg-indigo-50",
+            gradient: "from-indigo-500 to-violet-500"
         },
         {
             title: "Total Leads",
@@ -199,16 +191,18 @@ export default function AdminDashboard() {
             trend: "up",
             icon: Users,
             color: "text-blue-600",
-            bg: "bg-blue-100/50"
+            bg: "bg-blue-50",
+            gradient: "from-blue-500 to-cyan-500"
         },
         {
             title: "Blog Posts",
             value: blogs.length,
-            change: "Total posts",
+            change: "Total published",
             trend: "up",
             icon: FileText,
             color: "text-amber-600",
-            bg: "bg-amber-100/50"
+            bg: "bg-amber-50",
+            gradient: "from-amber-500 to-orange-500"
         },
         {
             title: "Engagement",
@@ -217,7 +211,8 @@ export default function AdminDashboard() {
             trend: "neutral",
             icon: TrendingUp,
             color: "text-emerald-600",
-            bg: "bg-emerald-100/50"
+            bg: "bg-emerald-50",
+            gradient: "from-emerald-500 to-teal-500"
         }
     ];
 
@@ -225,14 +220,14 @@ export default function AdminDashboard() {
 
     return (
         <AdminLayout 
-            title="Overview" 
+            title="Dashboard" 
             actions={
                 <div className="flex items-center gap-2">
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
-                            <Button variant="outline" className="bg-white text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100">
-                                <Trash2 className="w-4 h-4 mr-2" />
-                                Reset All Data
+                            <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200">
+                                <Trash2 className="w-4 h-4 mr-1.5" />
+                                <span className="hidden sm:inline">Reset Data</span>
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
@@ -251,55 +246,32 @@ export default function AdminDashboard() {
                         </AlertDialogContent>
                     </AlertDialog>
 
-
                     <Button asChild size="sm" className="bg-slate-900 shadow-sm">
                         <Link to={createPageUrl('AdminProjects')}>
-                            <Plus className="w-4 h-4 mr-2" /> New Project
+                            <Plus className="w-4 h-4 mr-1.5" /> New Project
                         </Link>
                     </Button>
                 </div>
             }
         >
             <div className="space-y-8">
-                {/* Stats Grid */}
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {stats.map((stat, index) => (
-                        <Card key={index} className="border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200">
-                            <CardContent className="p-6">
-                                <div className="flex items-center justify-between space-y-0 pb-2">
-                                    <p className="text-sm font-medium text-slate-500">{stat.title}</p>
-                                    <div className={`p-2 rounded-full ${stat.bg}`}>
-                                        <stat.icon className={`w-4 h-4 ${stat.color}`} />
-                                    </div>
-                                </div>
-                                <div className="flex items-end justify-between mt-2">
-                                    <div>
-                                        <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-                                        <div className="flex items-center text-xs text-slate-500 mt-1">
-                                            {stat.trend === 'up' ? (
-                                                <ArrowUpRight className="w-3 h-3 text-emerald-500 mr-1" />
-                                            ) : (
-                                                <ArrowRight className="w-3 h-3 text-slate-400 mr-1" />
-                                            )}
-                                            {stat.change}
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+                {/* Quick Actions - Moved to top for immediate access */}
+                <DashboardQuickActions />
 
-                <div className="grid gap-8 lg:grid-cols-7">
-                    {/* Main Chart Section - Takes up 4/7 columns */}
-                    <Card className="lg:col-span-4 border-slate-200/60 shadow-sm">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
-                            <div className="space-y-1">
-                                <CardTitle>Traffic Overview</CardTitle>
-                                <CardDescription>Visitors over time</CardDescription>
+                {/* Stats */}
+                <DashboardStatCards stats={stats} />
+
+                {/* Chart + Leads */}
+                <div className="grid gap-6 lg:grid-cols-5">
+                    {/* Traffic Chart */}
+                    <Card className="lg:col-span-3 border-slate-200/60 shadow-sm overflow-hidden">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 bg-gradient-to-r from-slate-50 to-white">
+                            <div>
+                                <CardTitle className="text-base">Traffic Overview</CardTitle>
+                                <CardDescription className="text-xs">Visitors over time</CardDescription>
                             </div>
                             <Select value={timeRange} onValueChange={setTimeRange}>
-                                <SelectTrigger className="w-[140px]">
+                                <SelectTrigger className="w-[130px] h-8 text-xs">
                                     <SelectValue placeholder="Select range" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -310,39 +282,44 @@ export default function AdminDashboard() {
                                 </SelectContent>
                             </Select>
                         </CardHeader>
-                        <CardContent className="pl-0">
-                            <div className="h-[350px] w-full">
+                        <CardContent className="pl-0 pb-4">
+                            <div className="h-[280px] w-full">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={trafficData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                                    <BarChart data={trafficData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                         <XAxis 
                                             dataKey="name" 
-                                            stroke="#64748b" 
-                                            fontSize={12} 
+                                            stroke="#94a3b8" 
+                                            fontSize={11} 
                                             tickLine={false} 
                                             axisLine={false}
-                                            dy={10}
+                                            dy={8}
                                         />
                                         <YAxis 
-                                            stroke="#64748b" 
-                                            fontSize={12} 
+                                            stroke="#94a3b8" 
+                                            fontSize={11} 
                                             tickLine={false} 
                                             axisLine={false} 
                                             tickFormatter={(value) => `${value}`} 
-                                            dx={-10}
+                                            dx={-5}
                                         />
                                         <Tooltip 
-                                            cursor={{ fill: '#f8fafc' }}
+                                            cursor={{ fill: 'rgba(99, 102, 241, 0.04)' }}
                                             contentStyle={{ 
-                                                borderRadius: '8px', 
+                                                borderRadius: '10px', 
                                                 border: '1px solid #e2e8f0', 
-                                                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-                                                padding: '8px 12px'
+                                                boxShadow: '0 4px 12px rgb(0 0 0 / 0.08)',
+                                                padding: '8px 14px',
+                                                fontSize: '13px'
                                             }}
                                         />
-                                        <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={50}>
+                                        <Bar dataKey="value" radius={[6, 6, 0, 0]} maxBarSize={40}>
                                             {trafficData.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={index === 3 ? '#0f172a' : '#cbd5e1'} />
+                                                <Cell 
+                                                    key={`cell-${index}`} 
+                                                    fill={entry.value > 0 ? '#6366f1' : '#e2e8f0'} 
+                                                    fillOpacity={entry.value > 0 ? 0.85 : 0.5}
+                                                />
                                             ))}
                                         </Bar>
                                     </BarChart>
@@ -351,57 +328,56 @@ export default function AdminDashboard() {
                         </CardContent>
                     </Card>
 
-                    {/* Recent Leads/Activity - Takes up 3/7 columns */}
-                    <Card className="lg:col-span-3 border-slate-200/60 shadow-sm flex flex-col">
-                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    {/* Recent Leads */}
+                    <Card className="lg:col-span-2 border-slate-200/60 shadow-sm flex flex-col overflow-hidden">
+                        <CardHeader className="flex flex-row items-center justify-between pb-3 bg-gradient-to-r from-slate-50 to-white">
                             <div>
-                                <CardTitle>Recent Leads</CardTitle>
-                                <CardDescription>Latest potential client inquiries</CardDescription>
+                                <CardTitle className="text-base">Recent Leads</CardTitle>
+                                <CardDescription className="text-xs">Latest inquiries</CardDescription>
                             </div>
-                            <Button variant="ghost" size="sm" asChild className="text-xs">
+                            <Button variant="ghost" size="sm" asChild className="text-xs h-7 px-2">
                                 <Link to={createPageUrl('AdminLeads')}>View All</Link>
                             </Button>
                         </CardHeader>
-                        <CardContent className="flex-1">
-                            <div className="space-y-6">
+                        <CardContent className="flex-1 pt-2">
+                            <div className="space-y-4">
                                 {leads.slice(0, 5).map((lead, i) => (
-                                    <div key={i} className="flex items-start justify-between group">
-                                        <div className="flex items-start gap-4">
-                                            <Avatar className="h-9 w-9 border border-slate-100">
-                                                <AvatarFallback className="bg-slate-50 text-slate-600 text-xs font-medium">
+                                    <div key={i} className="flex items-center justify-between group gap-3">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <Avatar className="h-8 w-8 border border-slate-100 flex-shrink-0">
+                                                <AvatarFallback className="bg-gradient-to-br from-slate-100 to-slate-200 text-slate-600 text-[10px] font-semibold">
                                                     {getInitials(lead.name)}
                                                 </AvatarFallback>
                                             </Avatar>
-                                            <div className="space-y-1">
-                                                <p className="text-sm font-medium leading-none text-slate-900 group-hover:text-blue-600 transition-colors cursor-pointer">
+                                            <div className="min-w-0">
+                                                <p className="text-sm font-medium text-slate-900 truncate">
                                                     {lead.name}
                                                 </p>
-                                                <div className="flex items-center gap-2 text-xs text-slate-500">
-                                                    <span>{lead.serviceType}</span>
-                                                    <span>•</span>
-                                                    <span className="flex items-center">
-                                                        <Clock className="w-3 h-3 mr-1" />
-                                                        {new Date(lead.created_date).toLocaleDateString()}
+                                                <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
+                                                    <span className="truncate">{lead.serviceType}</span>
+                                                    <span>·</span>
+                                                    <span className="flex-shrink-0 flex items-center">
+                                                        <Clock className="w-3 h-3 mr-0.5" />
+                                                        {new Date(lead.created_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <Badge variant={
-                                                lead.status === 'new' ? 'default' : 
-                                                'secondary'
-                                            } className={`
-                                                capitalize font-normal
-                                                ${lead.status === 'new' ? 'bg-blue-600 hover:bg-blue-700' : ''}
-                                                ${lead.status === 'contacted' ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' : ''}
-                                                ${lead.status === 'won' ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : ''}
+                                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                                            <Badge className={`
+                                                text-[10px] px-1.5 py-0.5 capitalize font-medium
+                                                ${lead.status === 'new' ? 'bg-blue-500 hover:bg-blue-600 text-white' : ''}
+                                                ${lead.status === 'contacted' ? 'bg-amber-100 text-amber-700' : ''}
+                                                ${lead.status === 'won' ? 'bg-emerald-100 text-emerald-700' : ''}
+                                                ${lead.status === 'qualified' ? 'bg-violet-100 text-violet-700' : ''}
+                                                ${lead.status === 'lost' ? 'bg-slate-100 text-slate-500' : ''}
                                             `}>
                                                 {lead.status}
                                             </Badge>
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                        <MoreHorizontal className="w-4 h-4 text-slate-400" />
+                                                    <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <MoreHorizontal className="w-3.5 h-3.5 text-slate-400" />
                                                     </Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
@@ -413,11 +389,11 @@ export default function AdminDashboard() {
                                     </div>
                                 ))}
                                 {leads.length === 0 && (
-                                    <div className="flex flex-col items-center justify-center py-8 text-center text-slate-500">
+                                    <div className="flex flex-col items-center justify-center py-8 text-center">
                                         <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-3">
-                                            <Users className="w-6 h-6 text-slate-300" />
+                                            <Users className="w-5 h-5 text-slate-300" />
                                         </div>
-                                        <p className="text-sm">No recent leads found.</p>
+                                        <p className="text-sm text-slate-400">No leads yet</p>
                                     </div>
                                 )}
                             </div>
@@ -430,121 +406,6 @@ export default function AdminDashboard() {
 
                 {/* Brand Partners Manager */}
                 <BrandPartnerManager />
-
-                {/* Quick Actions Row */}
-                <div className="grid gap-4 md:grid-cols-3">
-                    <Link to={createPageUrl('AdminProjects')} className="group block">
-                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
-                            <CardContent className="p-6 flex items-center gap-4">
-                                <div className="p-3 rounded-lg bg-violet-100 group-hover:bg-violet-600 transition-colors">
-                                    <FolderKanban className="w-6 h-6 text-violet-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">Manage Portfolio</h3>
-                                    <p className="text-sm text-slate-500">Update portfolio & case studies</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-
-                    <Link to={createPageUrl('AdminCurrentProjects')} className="group block">
-                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
-                            <CardContent className="p-6 flex items-center gap-4">
-                                <div className="p-3 rounded-lg bg-pink-100 group-hover:bg-pink-600 transition-colors">
-                                    <Clock className="w-6 h-6 text-pink-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">What We're Up To</h3>
-                                    <p className="text-sm text-slate-500">Manage active job sites</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                    
-                    <Link to={createPageUrl('AdminBlog')} className="group block">
-                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
-                            <CardContent className="p-6 flex items-center gap-4">
-                                <div className="p-3 rounded-lg bg-amber-100 group-hover:bg-amber-600 transition-colors">
-                                    <FileText className="w-6 h-6 text-amber-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">Write Blog Post</h3>
-                                    <p className="text-sm text-slate-500">Create content with AI assistance</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-
-                    <Link to={createPageUrl('AdminHolidays')} className="group block">
-                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
-                            <CardContent className="p-6 flex items-center gap-4">
-                                <div className="p-3 rounded-lg bg-red-100 group-hover:bg-red-600 transition-colors">
-                                    <CalendarDays className="w-6 h-6 text-red-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">Manage Holidays</h3>
-                                    <p className="text-sm text-slate-500">Add and edit company holidays</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-
-                    <Link to={createPageUrl('AdminTestimonials')} className="group block">
-                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
-                            <CardContent className="p-6 flex items-center gap-4">
-                                <div className="p-3 rounded-lg bg-indigo-100 group-hover:bg-indigo-600 transition-colors">
-                                    <MessageSquare className="w-6 h-6 text-indigo-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">Testimonials</h3>
-                                    <p className="text-sm text-slate-500">Manage client reviews</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-
-                    <Link to={createPageUrl('AdminAnalytics')} className="group block">
-                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
-                            <CardContent className="p-6 flex items-center gap-4">
-                                <div className="p-3 rounded-lg bg-emerald-100 group-hover:bg-emerald-600 transition-colors">
-                                    <TrendingUp className="w-6 h-6 text-emerald-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">View Analytics</h3>
-                                    <p className="text-sm text-slate-500">Check detailed site metrics</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-
-                    <Link to={createPageUrl('EmployeePortal') + '?admin_view=true'} className="group block">
-                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
-                            <CardContent className="p-6 flex items-center gap-4">
-                                <div className="p-3 rounded-lg bg-orange-100 group-hover:bg-orange-600 transition-colors">
-                                    <HardHat className="w-6 h-6 text-orange-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">Employee Portal</h3>
-                                    <p className="text-sm text-slate-500">View as employee</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-
-                    <Link to={createPageUrl('CustomerPortal')} className="group block">
-                        <Card className="border-slate-200/60 shadow-sm hover:border-slate-300 hover:shadow-md transition-all">
-                            <CardContent className="p-6 flex items-center gap-4">
-                                <div className="p-3 rounded-lg bg-cyan-100 group-hover:bg-cyan-600 transition-colors">
-                                    <UserCheck className="w-6 h-6 text-cyan-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">Customer Portal</h3>
-                                    <p className="text-sm text-slate-500">View as customer</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                </div>
             </div>
         </AdminLayout>
     );
