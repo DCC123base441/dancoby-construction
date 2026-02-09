@@ -129,14 +129,7 @@ function EmployeePortalContent() {
       case 'news':
         return <NewsFeedSection />;
       case 'profile':
-        return profile ? (
-          <EmployeeProfileSetup user={user} profile={profile} onSaved={() => {}} />
-        ) : (
-          <div className="text-center py-16 text-gray-400">
-            <UserCircle className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-            <p className="text-sm">{t('createProfileHere')}</p>
-          </div>
-        );
+        return null; // Rendered outside the white card container
       case 'feedback': return <FeedbackSection user={user} />;
       case 'salary': return <SalarySection profile={profile} />;
       case 'holidays': return <HolidaySchedule />;
