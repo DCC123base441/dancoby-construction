@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Badge } from "@/components/ui/badge";
 import {
@@ -83,6 +83,14 @@ function ActionCard({ title, icon: Icon, items, color, renderItem, onResolve }) 
 }
 
 export default function DashboardActionItems() {
+  const queryClient = useQueryClient();
+  const resolveFeedbackMutation = useMutation({
+    mutationFn: (id) => base44.entities.EmployeeFeedback.update(id, { resolved: true }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['recentFeedback'] });
+    },
+  });
+
   const { data: timeOffRequests = [], isLoading: loadingTO } = useQuery({
     queryKey: ['pendingTimeOff'],
     queryFn: () => base44.entities.TimeOffRequest.filter({ status: 'pending' }, '-created_date', 10),
@@ -151,6 +159,7 @@ export default function DashboardActionItems() {
           icon={MessageSquareWarning}
           color="amber"
           items={feedback.slice(0, 5)}
+          onResolve={(id) => resolveFeedbackMutation.mutate(id)}
           renderItem={(item) => ({
             primary: item.isAnonymous ? 'Anonymous' : (item.userEmail || 'Employee'),
             secondary: item.content?.substring(0, 80) + (item.content?.length > 80 ? '…' : ''),
