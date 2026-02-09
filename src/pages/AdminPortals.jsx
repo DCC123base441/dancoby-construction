@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
+import DashboardActionItems from '../components/admin/DashboardActionItems';
 
 export default function AdminPortals() {
   const [showInvite, setShowInvite] = useState(false);
@@ -83,6 +84,9 @@ export default function AdminPortals() {
             </CardContent>
           </Card>
         )}
+
+        {/* Action Items */}
+        <DashboardActionItems />
 
         {/* Portal Cards */}
         <div className="grid gap-6 lg:grid-cols-2">

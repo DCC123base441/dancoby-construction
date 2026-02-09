@@ -45,7 +45,6 @@ import {
 } from "@/components/ui/select";
 import DashboardQuickActions from '../components/admin/DashboardQuickActions';
 import DashboardStatCards from '../components/admin/DashboardStatCards';
-import DashboardActionItems from '../components/admin/DashboardActionItems';
 
 export default function AdminDashboard() {
     const [isResetting, setIsResetting] = React.useState(false);
@@ -259,9 +258,6 @@ export default function AdminDashboard() {
 
                 {/* Stats */}
                 <DashboardStatCards stats={stats} />
-
-                {/* Action Items */}
-                <DashboardActionItems />
 
                 {/* Chart + Leads */}
                 <div className="grid gap-6 lg:grid-cols-5">
