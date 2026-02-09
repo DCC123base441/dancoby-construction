@@ -103,13 +103,7 @@ export default function AdminCustomerPortal() {
                         <span className="font-medium text-slate-700">JobTread Tutorials</span>
                     </div>
                   </Link>
-                  <a href="https://app.jobtread.com/login" target="_blank" rel="noopener noreferrer">
-                    <div className="p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all flex items-center gap-3">
-                        <DollarSign className="w-5 h-5 text-blue-600" />
-                        <span className="font-medium text-slate-700">Finances (JobTread)</span>
-                        <ExternalLink className="w-4 h-4 text-slate-400 ml-auto" />
-                    </div>
-                  </a>
+
               </div>
             </CardContent>
           </Card>
