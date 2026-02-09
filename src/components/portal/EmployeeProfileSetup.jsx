@@ -95,19 +95,9 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
 
   return (
     <div className="max-w-4xl mx-auto py-4 sm:py-8 px-0 sm:px-4">
-      <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Profile Settings</h1>
-          <p className="text-gray-500 mt-1 text-sm sm:text-base">Manage your personal information and account security.</p>
-        </div>
-        <Button 
-          onClick={handleSubmit} 
-          disabled={saveMutation.isPending || saved}
-          className={`${saved ? 'bg-green-600 hover:bg-green-700' : ''} min-w-[120px] transition-all w-full sm:w-auto`}
-        >
-          {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : saved ? <CheckCircle2 className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-          {saveMutation.isPending ? 'Saving...' : saved ? 'Saved' : 'Save Changes'}
-        </Button>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Profile Settings</h1>
+        <p className="text-gray-500 mt-1 text-sm sm:text-base">Manage your personal information and account security.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
