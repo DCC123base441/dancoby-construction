@@ -26,20 +26,6 @@ export default function EmployeeHeader({ user }) {
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <a
-            href="https://app.jobtread.com/jobs/22PK5mC4cdUx?emailAddress=alvarezedgar681%40gmail.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 transition-colors"
-            title="Open JobTread"
-          >
-            <img
-              src="https://yt3.ggpht.com/QWox277KuhTRFhCWHnkwLJKwYyY-pIZopKYRWhFhdsggxm9Z7BFfy3VlgyEJxYdXbyNbwjdQYz4=s68-c-k-c0x00ffffff-no-rj"
-              alt="JobTread"
-              className="w-5 h-5 rounded-full"
-            />
-            <span className="text-xs font-medium text-gray-600 hidden sm:inline">JobTread</span>
-          </a>
           <LanguageSwitcher />
           <NotificationCenter user={user} />
           <div className="flex items-center gap-2 text-sm text-gray-600">
