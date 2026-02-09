@@ -33,13 +33,8 @@ export default function AddEmployeeDialog({ open, onOpenChange }) {
     }
     setSaving(true);
     try {
-      // Try to invite them to the platform
-      try {
-        await base44.users.inviteUser(form.email.trim(), 'user');
-      } catch (e) {
-        // User might already exist, continue
-        console.log('Invite note:', e.message);
-      }
+      // Invite them to the platform (only admins can do this)
+      await base44.users.inviteUser(form.email.trim(), 'user');
 
       // Create their employee profile
       await base44.entities.EmployeeProfile.create({
