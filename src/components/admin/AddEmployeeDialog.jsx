@@ -75,6 +75,7 @@ export default function AddEmployeeDialog({ open, onOpenChange }) {
         toast.success(`${form.firstName || form.email} profile created. Invite them from Dashboard → Overview → Invite Users so they can log in.`);
       }
       queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
+      queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
       queryClient.invalidateQueries({ queryKey: ['adminProfiles'] });
       queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
       setForm({
