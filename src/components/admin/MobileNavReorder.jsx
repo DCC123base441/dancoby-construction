@@ -88,8 +88,8 @@ export default function MobileNavReorder() {
       items.splice(destination.index, 0, removed);
       setItems(srcList, items);
     } else {
-      if (dstList === 'bottom' && bottomNav.length >= 4) {
-        toast.error('Bottom bar can have max 4 items');
+      if (dstList === 'bottom' && bottomNav.length >= 5) {
+        toast.error('Bottom bar can have max 5 items');
         return;
       }
       const srcItems = getItems(srcList);
@@ -137,7 +137,7 @@ export default function MobileNavReorder() {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Bottom Bar</span>
-            <span className="text-[10px] text-gray-400 bg-gray-100 rounded px-1.5 py-0.5">{bottomNav.length}/4 + More</span>
+            <span className="text-[10px] text-gray-400 bg-gray-100 rounded px-1.5 py-0.5">{bottomNav.length}/5 + More</span>
           </div>
           <Droppable droppableId="bottom">
             {(provided, snapshot) => (
