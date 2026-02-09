@@ -22,10 +22,10 @@ const TAG_LABELS = { off: 'Off', paid: 'Paid', working: 'Working' };
 export default function AdminHolidays() {
   const [showAdd, setShowAdd] = useState(false);
   const [name, setName] = useState('');
-  const [date, setDate] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [category, setCategory] = useState('federal');
   const [tag, setTag] = useState('off');
-  const [order, setOrder] = useState(0);
   const queryClient = useQueryClient();
 
   const { data: holidays = [], isLoading } = useQuery({
@@ -37,7 +37,7 @@ export default function AdminHolidays() {
     mutationFn: (data) => base44.entities.Holiday.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries(['holidays']);
-      setName(''); setDate(''); setCategory('federal'); setTag('off'); setOrder(0);
+      setName(''); setStartDate(''); setEndDate(''); setCategory('federal'); setTag('off');
       setShowAdd(false);
       toast.success('Holiday added');
     },
@@ -84,8 +84,15 @@ export default function AdminHolidays() {
   };
 
   const handleAdd = () => {
-    if (!name.trim() || !date.trim()) return;
-    createMutation.mutate({ name, date, category, tag, order });
+    if (!name.trim() || !startDate) return;
+    createMutation.mutate({ 
+      name, 
+      startDate, 
+      endDate: endDate || startDate, 
+      category, 
+      tag, 
+      order: 0 
+    });
   };
 
   return (
@@ -105,14 +112,18 @@ export default function AdminHolidays() {
         {showAdd && (
           <Card className="border-gray-200">
             <CardContent className="p-5 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div className="space-y-1.5">
                   <Label>Name</Label>
                   <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Passover" />
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Date</Label>
-                  <Input value={date} onChange={(e) => setDate(e.target.value)} placeholder="e.g. Apr 13–20" />
+                  <Label>Start Date</Label>
+                  <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>End Date (optional)</Label>
+                  <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
                 </div>
                 <div className="space-y-1.5">
                   <Label>Category</Label>
@@ -135,10 +146,6 @@ export default function AdminHolidays() {
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-              <div className="space-y-1.5 max-w-[200px]">
-                <Label>Order</Label>
-                <Input type="number" value={order} onChange={(e) => setOrder(parseInt(e.target.value) || 0)} />
               </div>
               <div className="flex gap-2">
                 <Button onClick={handleAdd} disabled={createMutation.isPending} className="bg-gray-900 hover:bg-gray-800">
@@ -171,7 +178,14 @@ export default function AdminHolidays() {
                     )}
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate">{h.name}</p>
-                      <p className="text-xs text-gray-500">{h.date}</p>
+                      <p className="text-xs text-gray-500">
+                        {h.startDate ? (
+                          <>
+                            {h.startDate}
+                            {h.endDate && h.endDate !== h.startDate && ` → ${h.endDate}`}
+                          </>
+                        ) : h.date}
+                      </p>
                     </div>
                     <Badge variant="outline" className="text-[10px] capitalize ml-1">
                       {h.category}
