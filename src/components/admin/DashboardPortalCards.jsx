@@ -40,7 +40,7 @@ export default function DashboardPortalCards() {
                                 <p className="text-xs text-slate-500 mt-0.5">{employees.length} active employee{employees.length !== 1 ? 's' : ''}</p>
                             </div>
                         </div>
-                        <Link to={createPageUrl('EmployeePortal')}>
+                        <Link to={createPageUrl('AdminPortalPreview') + '&type=employee'}>
                             <Button variant="outline" size="sm" className="gap-1.5 text-xs">
                                 Open <ExternalLink className="w-3 h-3" />
                             </Button>
@@ -78,7 +78,7 @@ export default function DashboardPortalCards() {
                                 <p className="text-xs text-slate-500 mt-0.5">{customers.length} active customer{customers.length !== 1 ? 's' : ''}</p>
                             </div>
                         </div>
-                        <Link to={createPageUrl('CustomerPortal')}>
+                        <Link to={createPageUrl('AdminPortalPreview') + '&type=customer'}>
                             <Button variant="outline" size="sm" className="gap-1.5 text-xs">
                                 Open <ExternalLink className="w-3 h-3" />
                             </Button>

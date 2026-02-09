@@ -342,15 +342,11 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                         <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {profile?.email || user.email}</p>
                     </div>
                 </div>
-                <a
-                    href={createPageUrl('EmployeePortal') + '&employee_email=' + encodeURIComponent(user.email)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
+                <Link to={createPageUrl('AdminPortalPreview') + '&type=employee&employee_email=' + encodeURIComponent(user.email)}>
                     <Button variant="outline" size="sm" className="gap-1.5 text-xs text-amber-700 border-amber-200 hover:bg-amber-50">
                         <Eye className="w-3.5 h-3.5" /> View Portal
                     </Button>
-                </a>
+                </Link>
                 <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
                     <AlertDialogTrigger asChild>
                         <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-600 hover:bg-red-50">
