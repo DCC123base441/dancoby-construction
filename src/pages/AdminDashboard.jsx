@@ -401,11 +401,27 @@ export default function AdminDashboard() {
                     </Card>
                 </div>
 
-                {/* Hero Image Manager */}
-                <HeroImageManager />
-
-                {/* Brand Partners Manager */}
-                <BrandPartnerManager />
+                {/* Site Assets */}
+                <div className="grid gap-6 lg:grid-cols-2">
+                    <Card className="border-slate-200/60 shadow-sm">
+                        <CardHeader className="bg-gradient-to-r from-slate-50 to-white">
+                            <CardTitle className="text-base">Hero Sliders</CardTitle>
+                            <CardDescription className="text-xs">Manage homepage hero images</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <HeroImageManager embedded />
+                        </CardContent>
+                    </Card>
+                    <Card className="border-slate-200/60 shadow-sm">
+                        <CardHeader className="bg-gradient-to-r from-slate-50 to-white">
+                            <CardTitle className="text-base">Brand Partners</CardTitle>
+                            <CardDescription className="text-xs">Manage partner logos</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <BrandPartnerManager embedded />
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </AdminLayout>
     );
