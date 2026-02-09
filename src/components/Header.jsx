@@ -50,7 +50,6 @@ export default function Header() {
     { name: 'Projects', path: 'Projects' },
     { name: 'About', path: 'About' },
     { name: 'Shop', path: 'Shop' },
-    { name: 'Portal', path: 'PortalLogin' },
   ];
 
   const companyLinks = [
