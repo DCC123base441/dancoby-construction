@@ -213,7 +213,20 @@ function FeedbackTab({ userEmail }) {
         queryFn: () => base44.entities.EmployeeFeedback.filter({ userEmail }),
     });
     const resolveMutation = useMutation({
-        mutationFn: ({ id, resolved }) => base44.entities.EmployeeFeedback.update(id, { resolved }),
+        mutationFn: async ({ id, resolved }) => {
+            const result = await base44.entities.EmployeeFeedback.update(id, { resolved });
+            if (resolved) {
+                await base44.entities.Notification.create({
+                    userEmail,
+                    type: 'general',
+                    title: 'Feedback Resolved',
+                    message: 'Your feedback has been reviewed and marked as resolved.',
+                    link: createPageUrl('EmployeePortal'),
+                    relatedId: id
+                });
+            }
+            return result;
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['adminFeedback', userEmail] });
             queryClient.invalidateQueries({ queryKey: ['recentFeedback'] });
