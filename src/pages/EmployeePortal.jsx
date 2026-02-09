@@ -198,7 +198,13 @@ function EmployeePortalContent() {
                   <p className="text-amber-100 text-sm mt-1 hidden sm:block">
                     {t('employeeHub')}
                   </p>
-                  {profile?.startDate && <TenureBadge startDate={profile.startDate} />}
+                  <div className="flex items-center gap-2 mt-2">
+                    {profile?.startDate && <TenureBadge startDate={profile.startDate} />}
+                    <div className="flex items-center gap-1.5 bg-amber-700/30 backdrop-blur-sm px-2 py-0.5 rounded-full text-[10px] text-amber-50 border border-amber-400/30">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] animate-pulse" />
+                      Connected to JobTread
+                    </div>
+                  </div>
                 </div>
                 <div className="hidden sm:block">
                   <LanguageSwitcher />

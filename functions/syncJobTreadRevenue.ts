@@ -33,6 +33,12 @@ export default async function handler(req) {
             closedAt: {
               gte: startOfYear,
               lte: endOfYear
+            },
+            status: {
+              in: ['submitted', 'approved', 'pending']
+            },
+            includedInBudget: {
+              eq: true
             }
           }
         }
