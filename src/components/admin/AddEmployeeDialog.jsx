@@ -138,18 +138,17 @@ export default function AddEmployeeDialog({ open, onOpenChange }) {
               <Input type="date" value={form.startDate} onChange={(e) => update('startDate', e.target.value)} />
             </div>
             <div className="space-y-1.5">
-               <Label>Portal Role</Label>
-               <Select value={form.portalRole} onValueChange={(v) => update('portalRole', v)}>
-                 <SelectTrigger>
-                   <SelectValue />
-                 </SelectTrigger>
-                 <SelectContent>
-                   <SelectItem value="employee">Employee</SelectItem>
-                   <SelectItem value="manager">Manager</SelectItem>
-                   <SelectItem value="customer">Customer</SelectItem>
-                 </SelectContent>
-               </Select>
-             </div>
+              <Label>Portal Role</Label>
+              <Select value={form.portalRole} onValueChange={(v) => update('portalRole', v)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="employee">Employee</SelectItem>
+                  <SelectItem value="customer">Customer</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
         <DialogFooter>
