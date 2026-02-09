@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Users, ExternalLink, UserPlus, Send, History, FolderKanban, Newspaper, CalendarDays, BookOpen
+  Users, ExternalLink, UserPlus, Send, History, FolderKanban, Newspaper, CalendarDays, BookOpen, DollarSign
 } from 'lucide-react';
 import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
@@ -101,6 +101,12 @@ export default function AdminCustomerPortal() {
                     <div className="p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all flex items-center gap-3">
                         <BookOpen className="w-5 h-5 text-blue-600" />
                         <span className="font-medium text-slate-700">JobTread Tutorials</span>
+                    </div>
+                  </Link>
+                  <Link to={createPageUrl('AdminJobTread')}>
+                    <div className="p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all flex items-center gap-3">
+                        <DollarSign className="w-5 h-5 text-blue-600" />
+                        <span className="font-medium text-slate-700">Finances</span>
                     </div>
                   </Link>
               </div>
