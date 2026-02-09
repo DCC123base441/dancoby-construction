@@ -1,15 +1,77 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '../../utils';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
-  CalendarOff, MessageSquareWarning, DollarSign, ChevronRight, Inbox, Loader2
+  CalendarOff, MessageSquareWarning, DollarSign, Loader2, Clock, AlertCircle
 } from 'lucide-react';
 import { format } from 'date-fns';
+
+function ActionCard({ title, icon: Icon, items, color, renderItem }) {
+  if (items.length === 0) return null;
+
+  const colorStyles = {
+    blue: {
+      border: 'border-blue-200',
+      headerBg: 'bg-blue-50',
+      iconBg: 'bg-blue-100',
+      iconColor: 'text-blue-600',
+      badge: 'bg-blue-600 text-white',
+      dot: 'bg-blue-400',
+    },
+    emerald: {
+      border: 'border-emerald-200',
+      headerBg: 'bg-emerald-50',
+      iconBg: 'bg-emerald-100',
+      iconColor: 'text-emerald-600',
+      badge: 'bg-emerald-600 text-white',
+      dot: 'bg-emerald-400',
+    },
+    amber: {
+      border: 'border-amber-200',
+      headerBg: 'bg-amber-50',
+      iconBg: 'bg-amber-100',
+      iconColor: 'text-amber-600',
+      badge: 'bg-amber-600 text-white',
+      dot: 'bg-amber-400',
+    },
+  };
+
+  const s = colorStyles[color];
+
+  return (
+    <div className={`rounded-xl border ${s.border} overflow-hidden bg-white`}>
+      <div className={`${s.headerBg} px-4 py-3 flex items-center justify-between`}>
+        <div className="flex items-center gap-2.5">
+          <div className={`p-1.5 rounded-lg ${s.iconBg}`}>
+            <Icon className={`w-4 h-4 ${s.iconColor}`} />
+          </div>
+          <span className="text-sm font-semibold text-slate-800">{title}</span>
+        </div>
+        <Badge className={`${s.badge} text-[10px] px-2 py-0.5 rounded-full`}>
+          {items.length}
+        </Badge>
+      </div>
+      <div className="divide-y divide-slate-100">
+        {items.map((item) => {
+          const rendered = renderItem(item);
+          return (
+            <div key={item.id} className="px-4 py-3 flex items-start gap-3">
+              <div className={`w-2 h-2 rounded-full ${s.dot} mt-1.5 flex-shrink-0`} />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-slate-800 truncate">{rendered.primary}</p>
+                <p className="text-xs text-slate-500 mt-0.5 truncate">{rendered.secondary}</p>
+              </div>
+              {rendered.tag && (
+                <Badge variant="outline" className="text-[10px] capitalize flex-shrink-0 mt-0.5">{rendered.tag}</Badge>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function DashboardActionItems() {
   const { data: timeOffRequests = [], isLoading: loadingTO } = useQuery({
@@ -32,111 +94,61 @@ export default function DashboardActionItems() {
 
   if (isLoading) {
     return (
-      <Card className="border-slate-200/60 shadow-sm">
-        <CardContent className="flex justify-center py-8">
-          <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
-        </CardContent>
-      </Card>
+      <div className="flex justify-center py-8">
+        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+      </div>
     );
   }
 
-  if (totalItems === 0) return null;
-
-  const sections = [
-    {
-      key: 'timeoff',
-      title: 'Time Off Requests',
-      icon: CalendarOff,
-      color: 'text-blue-600',
-      bg: 'bg-blue-50',
-      badgeColor: 'bg-blue-100 text-blue-700',
-      items: timeOffRequests,
-      linkPage: 'AdminEmployees',
-      renderItem: (item) => ({
-        primary: item.userEmail,
-        secondary: `${item.type || 'Time off'} · ${item.startDate ? format(new Date(item.startDate), 'MMM d') : '—'}${item.endDate ? ` – ${format(new Date(item.endDate), 'MMM d')}` : ''}`,
-      }),
-    },
-    {
-      key: 'raises',
-      title: 'Raise / Review Requests',
-      icon: DollarSign,
-      color: 'text-emerald-600',
-      bg: 'bg-emerald-50',
-      badgeColor: 'bg-emerald-100 text-emerald-700',
-      items: raiseRequests,
-      linkPage: 'AdminEmployees',
-      renderItem: (item) => ({
-        primary: item.userEmail,
-        secondary: `${item.requestType === 'raise' ? 'Raise' : 'Review'} request${item.requestedRate ? ` · $${item.requestedRate}/hr` : ''}`,
-      }),
-    },
-    {
-      key: 'feedback',
-      title: 'Recent Feedback',
-      icon: MessageSquareWarning,
-      color: 'text-amber-600',
-      bg: 'bg-amber-50',
-      badgeColor: 'bg-amber-100 text-amber-700',
-      items: feedback.slice(0, 5),
-      linkPage: 'AdminEmployees',
-      renderItem: (item) => ({
-        primary: item.isAnonymous ? 'Anonymous' : (item.userEmail || 'Employee'),
-        secondary: item.content?.substring(0, 80) + (item.content?.length > 80 ? '…' : ''),
-        tag: item.category,
-      }),
-    },
-  ];
+  if (totalItems === 0) {
+    return (
+      <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-6 text-center">
+        <AlertCircle className="w-5 h-5 text-slate-300 mx-auto mb-2" />
+        <p className="text-sm text-slate-400">No pending action items</p>
+      </div>
+    );
+  }
 
   return (
-    <Card className="border-slate-200/60 shadow-sm overflow-hidden">
-      <CardHeader className="pb-3 bg-gradient-to-r from-slate-50 to-white">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <CardTitle className="text-base">Action Items</CardTitle>
-            <Badge className="bg-red-100 text-red-700 text-[10px]">{totalItems}</Badge>
-          </div>
-          <Button variant="ghost" size="sm" asChild className="text-xs h-7 px-2">
-            <Link to={createPageUrl('AdminEmployees')}>View All</Link>
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent className="pt-0 divide-y divide-slate-100">
-        {sections.map((section) => {
-          if (section.items.length === 0) return null;
-          const Icon = section.icon;
-          return (
-            <div key={section.key} className="py-3 first:pt-1">
-              <div className="flex items-center gap-2 mb-2.5">
-                <div className={`p-1 rounded-md ${section.bg}`}>
-                  <Icon className={`w-3.5 h-3.5 ${section.color}`} />
-                </div>
-                <span className="text-xs font-semibold text-slate-700">{section.title}</span>
-                <Badge className={`text-[10px] px-1.5 ${section.badgeColor}`}>{section.items.length}</Badge>
-              </div>
-              <div className="space-y-1.5">
-                {section.items.map((item) => {
-                  const rendered = section.renderItem(item);
-                  return (
-                    <div key={item.id} className="flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-slate-50 group transition-colors">
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-slate-800 truncate">{rendered.primary}</p>
-                        <p className="text-xs text-slate-400 truncate">{rendered.secondary}</p>
-                      </div>
-                      <div className="flex items-center gap-1.5 flex-shrink-0 ml-2">
-                        {rendered.tag && (
-                          <Badge variant="outline" className="text-[10px] capitalize">{rendered.tag}</Badge>
-                        )}
-                        <ChevronRight className="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </CardContent>
-    </Card>
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <Clock className="w-4 h-4 text-slate-500" />
+        <h3 className="text-sm font-semibold text-slate-700">Needs Attention</h3>
+        <Badge className="bg-red-500 text-white text-[10px] px-2 py-0 rounded-full">{totalItems}</Badge>
+      </div>
+      <div className="grid gap-4 md:grid-cols-3">
+        <ActionCard
+          title="Time Off"
+          icon={CalendarOff}
+          color="blue"
+          items={timeOffRequests}
+          renderItem={(item) => ({
+            primary: item.userEmail,
+            secondary: `${item.type || 'Time off'} · ${item.startDate ? format(new Date(item.startDate), 'MMM d') : '—'}${item.endDate ? ` – ${format(new Date(item.endDate), 'MMM d')}` : ''}`,
+          })}
+        />
+        <ActionCard
+          title="Raise / Review"
+          icon={DollarSign}
+          color="emerald"
+          items={raiseRequests}
+          renderItem={(item) => ({
+            primary: item.userEmail,
+            secondary: `${item.requestType === 'raise' ? 'Raise' : 'Review'}${item.requestedRate ? ` · $${item.requestedRate}/hr` : ''}`,
+          })}
+        />
+        <ActionCard
+          title="Feedback"
+          icon={MessageSquareWarning}
+          color="amber"
+          items={feedback.slice(0, 5)}
+          renderItem={(item) => ({
+            primary: item.isAnonymous ? 'Anonymous' : (item.userEmail || 'Employee'),
+            secondary: item.content?.substring(0, 80) + (item.content?.length > 80 ? '…' : ''),
+            tag: item.category,
+          })}
+        />
+      </div>
+    </div>
   );
 }
