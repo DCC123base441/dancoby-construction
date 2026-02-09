@@ -19,6 +19,7 @@ import JobTreadSection from '../components/portal/JobTreadSection';
 import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
 import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 import TenureBadge from '../components/portal/TenureBadge';
+import OnboardingWelcome from '../components/portal/OnboardingWelcome';
 
 function EmployeePortalContent() {
   const [user, setUser] = useState(null);
@@ -26,6 +27,7 @@ function EmployeePortalContent() {
   const [activeTab, setActiveTab] = useState('salary');
   const [editingProfile, setEditingProfile] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {

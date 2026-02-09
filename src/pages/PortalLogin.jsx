@@ -21,7 +21,10 @@ export default function PortalLogin() {
             setIsChecking(false);
             return;
           } else if (user.portalRole === 'employee') {
-            window.location.href = createPageUrl('EmployeePortal');
+            // Check if first-time employee (no profile yet)
+            const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
+            const isNew = profiles.length === 0;
+            window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
           } else if (user.portalRole === 'customer') {
             window.location.href = createPageUrl('CustomerPortal');
           }
