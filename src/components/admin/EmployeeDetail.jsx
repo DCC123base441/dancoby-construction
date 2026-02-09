@@ -285,21 +285,31 @@ function RaiseTab({ userEmail }) {
 
 export default function EmployeeDetail({ user, profile, onDeleted }) {
     const [deleting, setDeleting] = useState(false);
+    const [confirmOpen, setConfirmOpen] = useState(false);
     const queryClient = useQueryClient();
 
     const handleDelete = async () => {
         setDeleting(true);
         try {
-            await base44.functions.invoke('deleteEmployee', {
-                userId: user.id,
-                userEmail: user.email,
-            });
+            const isPending = user._isPending || String(user.id).startsWith('pending-');
+            if (isPending) {
+                // Only delete the profile for pending (not-yet-registered) employees
+                if (profile) {
+                    await base44.entities.EmployeeProfile.delete(profile.id);
+                }
+            } else {
+                await base44.functions.invoke('deleteEmployee', {
+                    userId: user.id,
+                    userEmail: user.email,
+                });
+            }
             toast.success(`${user.full_name || user.email} has been removed`);
             queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
             queryClient.invalidateQueries({ queryKey: ['adminProfiles'] });
+            setConfirmOpen(false);
             onDeleted?.();
         } catch (err) {
-            toast.error(err?.response?.data?.error || 'Failed to delete employee');
+            toast.error(err?.response?.data?.error || err?.message || 'Failed to delete employee');
         }
         setDeleting(false);
     };
