@@ -19,6 +19,7 @@ import {
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 function ProfileTab({ profile, user, onProfileUpdate }) {
     const [editing, setEditing] = useState(false);
@@ -290,6 +291,17 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
     const [confirmOpen, setConfirmOpen] = useState(false);
     const queryClient = useQueryClient();
 
+    const updateRoleMutation = useMutation({
+        mutationFn: (newRole) => base44.entities.User.update(user.id, { portalRole: newRole }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
+            toast.success('Portal role updated');
+        },
+        onError: () => {
+            toast.error('Failed to update role');
+        }
+    });
+
     const handleDelete = async () => {
         setDeleting(true);
         try {
@@ -341,6 +353,24 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                     <div>
                         <h2 className="text-xl font-bold text-slate-900">{user.full_name || 'No Name'}</h2>
                         <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {profile?.email || user.email}</p>
+                        
+                        <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs font-medium text-slate-500">Portal Role:</span>
+                            <Select 
+                                value={user.portalRole || 'none'} 
+                                onValueChange={(val) => updateRoleMutation.mutate(val)}
+                                disabled={updateRoleMutation.isPending}
+                            >
+                                <SelectTrigger className="h-7 w-[130px] text-xs border-slate-200 bg-white">
+                                    <SelectValue placeholder="Select role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="none">None</SelectItem>
+                                    <SelectItem value="employee">Employee</SelectItem>
+                                    <SelectItem value="customer">Customer</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                 </div>
                 <Link to={`${createPageUrl('AdminPortalPreview')}?type=employee&employee_email=${encodeURIComponent(user.email)}`}>
