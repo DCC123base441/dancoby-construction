@@ -33,9 +33,8 @@ Deno.serve(async (req) => {
         });
 
         // Send a custom welcome email with direct portal link
-        const portalPage = portalRole === 'customer' ? 'CustomerPortal' : 'PortalLogin';
-        const portalUrl = appUrl ? `${appUrl}/${portalPage}` : portalPage;
         const portalLabel = portalRole === 'customer' ? 'Customer Portal' : 'Employee Portal';
+        const portalUrl = appUrl ? `${appUrl}/PortalLogin` : 'PortalLogin';
 
         await base44.asServiceRole.integrations.Core.SendEmail({
             to: email,
