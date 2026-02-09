@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Users, ExternalLink, UserPlus, Send, History, FolderKanban
+  Users, ExternalLink, UserPlus, Send, History, FolderKanban, Newspaper, CalendarDays, BookOpen
 } from 'lucide-react';
 import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
@@ -81,28 +81,28 @@ export default function AdminCustomerPortal() {
           <Card className="border-slate-200 overflow-hidden">
             <div className="h-1.5 bg-gradient-to-r from-blue-400 to-blue-600" />
             <CardHeader className="pb-2">
-                <CardTitle>Customer Management</CardTitle>
+                <CardTitle>Customer Portal Links</CardTitle>
             </CardHeader>
             <CardContent className="pt-2">
-              <p className="text-sm text-slate-500 mb-6">
-                Customers are assigned to specific projects. To manage which projects a customer can see, go to the Projects section and edit a project's assigned customer.
-              </p>
-              
-              <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-6 flex flex-col md:flex-row items-center gap-6">
-                <div className="p-4 bg-white rounded-full shadow-sm">
-                    <FolderKanban className="w-8 h-8 text-blue-600" />
-                </div>
-                <div className="text-center md:text-left flex-1">
-                    <h3 className="font-semibold text-slate-900 mb-1">Manage Customer Assignments</h3>
-                    <p className="text-sm text-slate-500">
-                        Assign customers to projects to give them access to their portal dashboard.
-                    </p>
-                </div>
-                <Link to={createPageUrl('AdminProjects')}>
-                  <Button className="bg-blue-600 hover:bg-blue-700">
-                    Go to Projects
-                  </Button>
-                </Link>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Link to={createPageUrl('AdminNews')}>
+                    <div className="p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all flex items-center gap-3">
+                        <Newspaper className="w-5 h-5 text-blue-600" />
+                        <span className="font-medium text-slate-700">Company News</span>
+                    </div>
+                  </Link>
+                  <Link to={createPageUrl('AdminHolidays')}>
+                    <div className="p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all flex items-center gap-3">
+                        <CalendarDays className="w-5 h-5 text-blue-600" />
+                        <span className="font-medium text-slate-700">Holiday Schedule</span>
+                    </div>
+                  </Link>
+                   <Link to={createPageUrl('AdminJobTread')}>
+                    <div className="p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all flex items-center gap-3">
+                        <BookOpen className="w-5 h-5 text-blue-600" />
+                        <span className="font-medium text-slate-700">JobTread Tutorials</span>
+                    </div>
+                  </Link>
               </div>
             </CardContent>
           </Card>
