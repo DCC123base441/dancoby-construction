@@ -3,11 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Badge } from "@/components/ui/badge";
 import {
-  CalendarOff, MessageSquareWarning, DollarSign, Loader2, Clock, AlertCircle
+  CalendarOff, MessageSquareWarning, DollarSign, Loader2, Clock, AlertCircle, CheckCircle2
 } from 'lucide-react';
 import { format } from 'date-fns';
 
-function ActionCard({ title, icon: Icon, items, color, renderItem }) {
+function ActionCard({ title, icon: Icon, items, color, renderItem, onResolve }) {
   if (items.length === 0) return null;
 
   const colorStyles = {
@@ -64,6 +64,15 @@ function ActionCard({ title, icon: Icon, items, color, renderItem }) {
               </div>
               {rendered.tag && (
                 <Badge variant="outline" className="text-[10px] capitalize flex-shrink-0 mt-0.5">{rendered.tag}</Badge>
+              )}
+              {onResolve && (
+                <button
+                  onClick={() => onResolve(item.id)}
+                  className="p-1 rounded-md text-slate-300 hover:text-green-600 hover:bg-green-50 transition-colors flex-shrink-0"
+                  title="Mark as resolved"
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                </button>
               )}
             </div>
           );

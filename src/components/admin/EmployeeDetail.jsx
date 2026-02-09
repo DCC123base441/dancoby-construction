@@ -190,9 +190,18 @@ function TimeOffTab({ userEmail }) {
 }
 
 function FeedbackTab({ userEmail }) {
+    const queryClient = useQueryClient();
     const { data: feedback = [] } = useQuery({
         queryKey: ['adminFeedback', userEmail],
         queryFn: () => base44.entities.EmployeeFeedback.filter({ userEmail }),
+    });
+    const resolveMutation = useMutation({
+        mutationFn: ({ id, resolved }) => base44.entities.EmployeeFeedback.update(id, { resolved }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['adminFeedback', userEmail] });
+            queryClient.invalidateQueries({ queryKey: ['recentFeedback'] });
+            toast.success('Feedback updated');
+        },
     });
 
     if (feedback.length === 0) return <p className="text-sm text-slate-400 py-4">No feedback submitted.</p>;
@@ -200,13 +209,26 @@ function FeedbackTab({ userEmail }) {
     return (
         <div className="space-y-3">
             {feedback.map(f => (
-                <div key={f.id} className="p-3 rounded-lg border border-slate-200 bg-white">
+                <div key={f.id} className={`p-3 rounded-lg border bg-white ${f.resolved ? 'border-green-200 bg-green-50/30' : 'border-slate-200'}`}>
                     <div className="flex items-center gap-2 mb-2">
                         <Badge variant="outline" className="text-xs capitalize">{f.category}</Badge>
                         {f.isAnonymous && <Badge className="text-xs bg-slate-100 text-slate-600">Anonymous</Badge>}
+                        {f.resolved && <Badge className="text-xs bg-green-100 text-green-700">Resolved</Badge>}
                         <span className="text-xs text-slate-400 ml-auto">{new Date(f.created_date).toLocaleDateString()}</span>
                     </div>
                     <p className="text-sm text-slate-700">{f.content}</p>
+                    <div className="mt-2 flex justify-end">
+                        <Button
+                            size="sm"
+                            variant="ghost"
+                            className={`h-7 text-xs ${f.resolved ? 'text-slate-500 hover:bg-slate-100' : 'text-green-600 hover:bg-green-50'}`}
+                            onClick={() => resolveMutation.mutate({ id: f.id, resolved: !f.resolved })}
+                            disabled={resolveMutation.isPending}
+                        >
+                            {f.resolved ? <XCircle className="w-3.5 h-3.5 mr-1" /> : <CheckCircle2 className="w-3.5 h-3.5 mr-1" />}
+                            {f.resolved ? 'Unresolve' : 'Resolve'}
+                        </Button>
+                    </div>
                 </div>
             ))}
         </div>
