@@ -40,7 +40,15 @@ export default function AdminEmployees() {
         _isPending: true,
     }));
 
-    const allEmployees = [...users, ...pendingAsUsers];
+    // Filter out users who are not relevant (random signups without roles or profiles)
+    const validUsers = users.filter(u => 
+        u.role === 'admin' || 
+        u.portalRole === 'employee' || 
+        u.portalRole === 'customer' ||
+        profiles.some(p => p.userEmail === u.email)
+    );
+
+    const allEmployees = [...validUsers, ...pendingAsUsers];
 
     const employees = allEmployees.filter(u => {
         const matchesSearch = !search || 
