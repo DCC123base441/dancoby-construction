@@ -12,6 +12,7 @@ import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 export default function AdminEmployees() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [search, setSearch] = useState('');
+    const [inviteOpen, setInviteOpen] = useState(false);
 
     const { data: users = [], isLoading: usersLoading } = useQuery({
         queryKey: ['adminUsers'],
@@ -59,9 +60,14 @@ export default function AdminEmployees() {
                             className="pl-9"
                         />
                     </div>
-                    <div className="flex items-center gap-2 mb-3">
-                        <Users className="w-4 h-4 text-slate-500" />
-                        <span className="text-sm text-slate-500">{employees.length} employee{employees.length !== 1 ? 's' : ''}</span>
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                            <Users className="w-4 h-4 text-slate-500" />
+                            <span className="text-sm text-slate-500">{employees.length} employee{employees.length !== 1 ? 's' : ''}</span>
+                        </div>
+                        <Button size="sm" onClick={() => setInviteOpen(true)} className="bg-amber-600 hover:bg-amber-700">
+                            <UserPlus className="w-4 h-4 mr-1" /> Invite
+                        </Button>
                     </div>
                     <div className="max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
                         <EmployeeList
@@ -82,6 +88,7 @@ export default function AdminEmployees() {
                     </Card>
                 </div>
             </div>
+            <InviteEmployeeDialog open={inviteOpen} onOpenChange={setInviteOpen} />
         </AdminLayout>
     );
 }
