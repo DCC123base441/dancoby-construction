@@ -104,13 +104,6 @@ export default function HolidaySchedule() {
           </div>
         )}
 
-        <div className="mt-5 p-3 rounded-lg bg-blue-50 text-blue-700">
-          <div className="flex items-center gap-2 text-sm font-medium">
-            <Sun className="w-4 h-4" />
-            {t('summerHours')}
-          </div>
-          <p className="text-xs mt-1 text-blue-600">{t('summerHoursDesc')}</p>
-        </div>
       </CardContent>
     </Card>
   );
