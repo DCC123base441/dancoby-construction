@@ -27,8 +27,22 @@ export default function AdminEmployees() {
         queryFn: () => base44.entities.EmployeeProfile.list(),
     });
 
-    // Filter out admins to show only employees, and apply search
-    const employees = users.filter(u => {
+    // Build a combined employee list from users + profiles (for invited-but-not-yet-accepted)
+    const userEmails = new Set(users.map(u => u.email));
+    const pendingProfiles = profiles.filter(p => !userEmails.has(p.userEmail));
+    
+    // Convert pending profiles to user-like objects for the list
+    const pendingAsUsers = pendingProfiles.map(p => ({
+        id: `pending-${p.id}`,
+        email: p.userEmail || p.email,
+        full_name: [p.firstName, p.lastName].filter(Boolean).join(' ') || null,
+        role: 'pending',
+        _isPending: true,
+    }));
+
+    const allEmployees = [...users, ...pendingAsUsers];
+
+    const employees = allEmployees.filter(u => {
         const matchesSearch = !search || 
             u.full_name?.toLowerCase().includes(search.toLowerCase()) ||
             u.email?.toLowerCase().includes(search.toLowerCase());
