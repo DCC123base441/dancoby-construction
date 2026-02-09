@@ -85,6 +85,9 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
+import PortalLogin from './pages/PortalLogin';
+import CustomerPortal from './pages/CustomerPortal';
+import EmployeePortal from './pages/EmployeePortal';
 import __Layout from './Layout.jsx';
 
 
@@ -127,6 +130,9 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
+    "PortalLogin": PortalLogin,
+    "CustomerPortal": CustomerPortal,
+    "EmployeePortal": EmployeePortal,
 }
 
 export const pagesConfig = {
