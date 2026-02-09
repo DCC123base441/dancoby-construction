@@ -56,7 +56,12 @@ export default function PortalSidebar({ activeTab, onTabChange }) {
               }`}>
                 <tab.icon className={`w-4 h-4 ${isActive ? 'text-amber-700' : tab.color.split(' ')[0]}`} />
               </div>
-              <span>{t(tab.labelKey) || tab.labelKey}</span>
+              <span className="flex-1 text-left">{t(tab.labelKey) || tab.labelKey}</span>
+              {counts[tab.id] > 0 && (
+                <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                  {counts[tab.id]}
+                </span>
+              )}
             </button>
           );
         })}
