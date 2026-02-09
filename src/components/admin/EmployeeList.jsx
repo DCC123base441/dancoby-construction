@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign, Calendar, Briefcase } from 'lucide-react';
+import { DollarSign, Calendar, Briefcase, Clock } from 'lucide-react';
 
 export default function EmployeeList({ users, profiles, onSelect, selectedId }) {
     const getProfile = (email) => profiles.find(p => p.userEmail === email);
@@ -12,20 +12,23 @@ export default function EmployeeList({ users, profiles, onSelect, selectedId }) 
             {users.map((user) => {
                 const profile = getProfile(user.email);
                 const isSelected = selectedId === user.id;
+                const isPending = user._isPending;
                 return (
                     <Card
                         key={user.id}
                         className={`cursor-pointer transition-all border ${
                             isSelected 
                                 ? 'border-red-500 bg-red-50/50 shadow-md' 
-                                : 'border-slate-200/60 hover:border-slate-300 hover:shadow-sm'
+                                : isPending
+                                    ? 'border-amber-200 bg-amber-50/30 hover:border-amber-300 hover:shadow-sm'
+                                    : 'border-slate-200/60 hover:border-slate-300 hover:shadow-sm'
                         }`}
                         onClick={() => onSelect(user)}
                     >
                         <CardContent className="p-4">
                             <div className="flex items-center gap-3">
                                 <Avatar className="h-10 w-10 border border-slate-200">
-                                    <AvatarFallback className="bg-slate-100 text-slate-700 text-sm font-semibold">
+                                    <AvatarFallback className={`text-sm font-semibold ${isPending ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}`}>
                                         {(user.full_name || user.email)?.substring(0, 2).toUpperCase()}
                                     </AvatarFallback>
                                 </Avatar>
@@ -33,9 +36,15 @@ export default function EmployeeList({ users, profiles, onSelect, selectedId }) 
                                     <p className="font-semibold text-slate-900 truncate">{user.full_name || 'No Name'}</p>
                                     <p className="text-xs text-slate-500 truncate">{user.email}</p>
                                 </div>
-                                <Badge variant="outline" className="text-xs capitalize shrink-0">
-                                    {user.role}
-                                </Badge>
+                                {isPending ? (
+                                    <Badge className="text-xs shrink-0 bg-amber-100 text-amber-700 border-amber-200">
+                                        <Clock className="w-3 h-3 mr-1" /> Pending
+                                    </Badge>
+                                ) : (
+                                    <Badge variant="outline" className="text-xs capitalize shrink-0">
+                                        {user.role}
+                                    </Badge>
+                                )}
                             </div>
                             {profile && (
                                 <div className="flex flex-wrap gap-3 mt-3 text-xs text-slate-500">
@@ -56,7 +65,7 @@ export default function EmployeeList({ users, profiles, onSelect, selectedId }) 
                                     )}
                                 </div>
                             )}
-                            {!profile && (
+                            {!profile && !isPending && (
                                 <p className="text-xs text-amber-600 mt-2">No profile set up yet</p>
                             )}
                         </CardContent>
