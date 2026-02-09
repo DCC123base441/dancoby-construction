@@ -260,6 +260,9 @@ export default function AdminDashboard() {
                 {/* Stats */}
                 <DashboardStatCards stats={stats} />
 
+                {/* Action Items */}
+                <DashboardActionItems />
+
                 {/* Chart + Leads */}
                 <div className="grid gap-6 lg:grid-cols-5">
                     {/* Traffic Chart */}
