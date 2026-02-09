@@ -18,19 +18,10 @@ const ITEM_META = {
   notifications: { icon: Bell, labelKey: 'notifications', color: 'bg-blue-100 text-blue-600' },
 };
 
-const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear', 'profile'];
+const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear'];
 
-export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange }) {
+export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange, navConfig }) {
   const { t } = useLanguage();
-
-  const { data: navConfig } = useQuery({
-    queryKey: ['portalNavConfig'],
-    queryFn: async () => {
-      const results = await base44.entities.PortalNavConfig.filter({ configKey: 'employee_mobile_nav' });
-      return results[0] || null;
-    },
-    staleTime: 1000 * 60 * 5,
-  });
 
   const moreIds = navConfig?.moreSheetOrder?.length ? navConfig.moreSheetOrder : DEFAULT_MORE;
   const moreItems = moreIds.map(id => ({ id, ...ITEM_META[id] })).filter(item => item.icon);

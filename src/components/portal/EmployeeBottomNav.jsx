@@ -32,17 +32,8 @@ const LABEL_MAP = {
 
 const DEFAULT_NAV = ['news', 'jobtread', 'notifications', 'profile'];
 
-export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress, user }) {
+export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress, user, navConfig }) {
   const { t } = useLanguage();
-
-  const { data: navConfig } = useQuery({
-    queryKey: ['portalNavConfig'],
-    queryFn: async () => {
-      const results = await base44.entities.PortalNavConfig.filter({ configKey: 'employee_mobile_nav' });
-      return results[0] || null;
-    },
-    staleTime: 1000 * 60 * 5,
-  });
 
   const { data: notifications = [] } = useQuery({
     queryKey: ['myNotifications', user?.email],
