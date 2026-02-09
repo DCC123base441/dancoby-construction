@@ -13,6 +13,7 @@ import { useLanguage } from './LanguageContext';
 export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const isEditing = !!profile;
   const { t } = useLanguage();
+  const [firstName, setFirstName] = useState(profile?.firstName || user?.full_name?.split(' ')[0] || '');
   const [position, setPosition] = useState(profile?.position || '');
   const [department, setDepartment] = useState(profile?.department || '');
   const [startDate, setStartDate] = useState(profile?.startDate || '');
@@ -38,7 +39,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     saveMutation.mutate({
-      userEmail: user.email, position, department, startDate, phone,
+      userEmail: user.email, firstName, position, department, startDate, phone,
       emergencyContactName: emergencyName, emergencyContactPhone: emergencyPhone, bio,
       skills: skills.split(',').map(s => s.trim()).filter(Boolean),
     });
@@ -63,14 +64,19 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
+              <Label>{t('firstName') || 'First Name'} *</Label>
+              <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+            </div>
+            <div className="space-y-1.5">
               <Label>{t('position')} *</Label>
               <Input value={position} onChange={(e) => setPosition(e.target.value)} required />
             </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <Label>{t('department')}</Label>
               <Input value={department} onChange={(e) => setDepartment(e.target.value)} />
             </div>
-          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <Label>{t('startDate')}</Label>
