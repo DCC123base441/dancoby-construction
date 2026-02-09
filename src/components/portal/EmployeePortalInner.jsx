@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -19,6 +20,7 @@ import { useLanguage } from './LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import TenureBadge from './TenureBadge';
 import NewsFeedSection from './NewsFeedSection';
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export default function EmployeePortalInner({ user }) {
   const [activeTab, setActiveTab] = useState('news');
@@ -70,14 +72,18 @@ export default function EmployeePortalInner({ user }) {
   };
 
   return (
-    <div className="flex flex-col min-h-[600px]">
+    <div className="min-h-screen bg-slate-50 pb-20 sm:pb-0">
       <PortalHeader user={user} portalType="employee" />
       
-      <div className="flex flex-1 overflow-hidden">
-        <PortalSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex gap-6">
+        {/* Sidebar for desktop */}
+        <div className="hidden md:block w-64 flex-shrink-0">
+          <PortalSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+        </div>
 
-        <main className="flex-1 overflow-y-auto pb-20 lg:pb-0">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+        {/* Main Content */}
+        <div className="flex-1 min-w-0 overflow-y-auto lg:pb-0"> {/* Adjusted for scrolling behavior */}
+          <div className="max-w-4xl mx-auto"> {/* Removed redundant px-4 sm:px-6 py-6 from here as it's on parent */}
             {/* Welcome banner */}
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 p-5 sm:p-6 mb-6 text-white">
               <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4" />
@@ -135,7 +141,7 @@ export default function EmployeePortalInner({ user }) {
               </div>
             </div>
           </div>
-        </main>
+        </div>
       </div>
 
       <PortalBottomNav 
