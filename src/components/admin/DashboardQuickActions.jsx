@@ -7,7 +7,7 @@ import {
     Clock,
     MessageSquare,
     TrendingUp,
-    CalendarDays,
+
     ArrowRight
 } from 'lucide-react';
 
@@ -36,14 +36,7 @@ const QUICK_ACTIONS = [
         gradient: 'from-amber-500 to-orange-600',
         iconBg: 'bg-amber-500/20',
     },
-    {
-        label: 'Holidays',
-        description: 'Company calendar',
-        icon: CalendarDays,
-        page: 'AdminHolidays',
-        gradient: 'from-red-500 to-rose-600',
-        iconBg: 'bg-red-500/20',
-    },
+
     {
         label: 'Testimonials',
         description: 'Client reviews',
