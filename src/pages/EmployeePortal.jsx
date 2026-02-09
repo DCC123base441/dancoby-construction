@@ -201,8 +201,8 @@ function EmployeePortalContent() {
                     {t('employeeHub')}
                   </p>
                   <div className="flex flex-wrap items-center gap-y-2 gap-x-3 mt-3">
-                    {profile?.startDate && <TenureBadge startDate={profile.startDate} />}
-                    {profile?.isJobTreadConnected && (
+                    {(profile?.startDate || user?._adminPreview) && <TenureBadge startDate={profile?.startDate || '2023-01-01'} />}
+                    {(profile?.isJobTreadConnected || user?._adminPreview) && (
                       <div className="flex flex-shrink-0 items-center gap-2 bg-amber-950/20 backdrop-blur-sm px-3 py-1 rounded-full border border-amber-400/20 max-w-full">
                         <div className="relative flex items-center justify-center w-5 h-5 flex-shrink-0">
                           <div className="absolute -inset-0.5 rounded-full border border-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
@@ -225,7 +225,7 @@ function EmployeePortalContent() {
             </div>
 
             {/* Profile setup CTA */}
-            {needsProfile && (
+            {needsProfile && !user?._adminPreview && (
               <div className="mb-6 bg-white border border-amber-200 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
                   <UserCircle className="w-6 h-6 text-amber-600" />

@@ -166,6 +166,12 @@ const translations = {
     jobtreadDesc: 'Learn how to use JobTread with these video guides.',
     jobtreadMoreHelp: 'Need more help? Visit the official JobTread website.',
 
+    // Notifications
+    notifications: 'Notifications',
+    notificationDesc: 'Stay updated with your latest alerts and messages.',
+    markAllRead: 'Mark all read',
+    viewDetails: 'View Details',
+
     // News
     companyNews: 'Company News',
     noNewsYet: 'No news yet. Check back later!',
@@ -343,6 +349,12 @@ const translations = {
     jobtreadTitle: 'Tutoriales de JobTread',
     jobtreadDesc: 'Aprende a usar JobTread con estas guías en video.',
     jobtreadMoreHelp: 'Necesitas más ayuda? Visita el sitio oficial de JobTread.',
+
+    // Notifications
+    notifications: 'Notificaciones',
+    notificationDesc: 'Mantente actualizado con tus últimas alertas y mensajes.',
+    markAllRead: 'Marcar todo como leído',
+    viewDetails: 'Ver Detalles',
 
     companyNews: 'Noticias de la Empresa',
     noNewsYet: 'No hay noticias por ahora.',
