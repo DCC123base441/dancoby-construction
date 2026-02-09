@@ -6,7 +6,8 @@ import EmployeeList from '../components/admin/EmployeeList';
 import EmployeeDetail from '../components/admin/EmployeeDetail';
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Search, Users } from 'lucide-react';
+import { Search, Users, UserPlus } from 'lucide-react';
+import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 
 export default function AdminEmployees() {
     const [selectedUser, setSelectedUser] = useState(null);
