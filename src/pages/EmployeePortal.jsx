@@ -20,11 +20,12 @@ import { LanguageProvider, useLanguage } from '../components/portal/LanguageCont
 import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 import TenureBadge from '../components/portal/TenureBadge';
 import OnboardingWelcome from '../components/portal/OnboardingWelcome';
+import NewsFeedSection from '../components/portal/NewsFeedSection';
 
 function EmployeePortalContent() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('salary');
+  const [activeTab, setActiveTab] = useState('news');
   const [editingProfile, setEditingProfile] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -106,6 +107,8 @@ function EmployeePortalContent() {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'news':
+        return <NewsFeedSection />;
       case 'profile':
         return profile ? (
           <EmployeeProfileSetup user={user} profile={profile} onSaved={() => {}} />

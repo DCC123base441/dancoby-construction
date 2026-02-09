@@ -1,11 +1,11 @@
 import React from 'react';
-import { UserCircle, MessageCircle, DollarSign, CalendarDays, Menu } from 'lucide-react';
+import { UserCircle, MessageCircle, DollarSign, CalendarDays, Menu, Newspaper } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 const NAV_ITEMS = [
+  { id: 'news', icon: Newspaper, labelKey: 'tabNews' },
   { id: 'salary', icon: DollarSign, labelKey: 'tabSalary' },
   { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays' },
-  { id: 'feedback', icon: MessageCircle, labelKey: 'tabFeedback' },
   { id: 'more', icon: Menu, labelKey: 'more' },
 ];
 

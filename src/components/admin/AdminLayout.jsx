@@ -17,7 +17,8 @@ import {
     MessageSquare,
     ShoppingBag,
     HardHat,
-    MonitorPlay
+    MonitorPlay,
+    Newspaper
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -56,6 +57,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Testimonials', href: 'AdminTestimonials', icon: MessageSquare },
         { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
         { name: 'Employees', href: 'AdminEmployees', icon: HardHat },
+        { name: 'Company News', href: 'AdminNews', icon: Newspaper },
         { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
         { name: 'JobTread', href: 'AdminJobTread', icon: MonitorPlay },
     ];
