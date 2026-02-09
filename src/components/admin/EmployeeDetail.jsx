@@ -14,10 +14,9 @@ import {
 import { 
     DollarSign, Briefcase, Calendar, Phone, User, Mail, 
     MessageSquare, Clock, TrendingUp, Save, AlertCircle,
-    CheckCircle2, XCircle, Hourglass, Trash2, Loader2, Eye
+    CheckCircle2, XCircle, Hourglass, Trash2, Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
-import EmployeePortalPreview from './EmployeePortalPreview';
 
 function ProfileTab({ profile, user, onProfileUpdate }) {
     const [editing, setEditing] = useState(false);
@@ -356,17 +355,13 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                 </AlertDialog>
             </div>
 
-            <Tabs defaultValue="portal" className="w-full">
-                <TabsList className="grid grid-cols-5 w-full mb-4">
-                    <TabsTrigger value="portal" className="gap-1"><Eye className="w-3.5 h-3.5" /> Portal</TabsTrigger>
+            <Tabs defaultValue="profile" className="w-full">
+                <TabsList className="grid grid-cols-4 w-full mb-4">
                     <TabsTrigger value="profile">Profile</TabsTrigger>
                     <TabsTrigger value="timeoff">Time Off</TabsTrigger>
                     <TabsTrigger value="feedback">Feedback</TabsTrigger>
                     <TabsTrigger value="raises">Raises</TabsTrigger>
                 </TabsList>
-                <TabsContent value="portal">
-                    <EmployeePortalPreview user={user} profile={profile} />
-                </TabsContent>
                 <TabsContent value="profile">
                     <ProfileTab profile={profile} user={user} />
                 </TabsContent>
