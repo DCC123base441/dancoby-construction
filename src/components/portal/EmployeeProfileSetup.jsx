@@ -30,9 +30,12 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
       return base44.entities.EmployeeProfile.create(data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['employeeProfile']);
+      queryClient.invalidateQueries({ queryKey: ['employeeProfile'] });
       toast.success(isEditing ? t('profileUpdated') : t('profileCreated'));
       onSaved?.();
+    },
+    onError: (error) => {
+      toast.error('Failed to save profile: ' + error.message);
     },
   });
 
