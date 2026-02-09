@@ -19,6 +19,7 @@ import { useLanguage } from './LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import TenureBadge from './TenureBadge';
 import NewsFeedSection from './NewsFeedSection';
+import NotificationSection from './NotificationSection';
 import { useMediaQuery } from "@/components/hooks/use-media-query";
 
 export default function EmployeePortalInner({ user }) {
@@ -75,6 +76,7 @@ export default function EmployeePortalInner({ user }) {
       case 'raise': return <RaiseRequestSection user={user} profile={profile} />;
       case 'gear': return <GearShopSection />;
       case 'jobtread': return <JobTreadSection />;
+      case 'notifications': return <NotificationSection user={user} />;
       default: return null;
     }
   };
