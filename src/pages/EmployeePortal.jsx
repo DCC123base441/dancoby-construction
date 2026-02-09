@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '../utils';
-import { Loader2, HardHat, UserCircle, MessageCircle, DollarSign, CalendarDays, HandCoins, ShoppingBag, Pencil } from 'lucide-react';
+import { Loader2, HardHat, UserCircle, MessageCircle, DollarSign, CalendarDays, HandCoins, ShoppingBag } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import PortalHeader from '../components/portal/PortalHeader';
 import EmployeeProfileSetup from '../components/portal/EmployeeProfileSetup';
@@ -11,21 +11,23 @@ import SalarySection from '../components/portal/SalarySection';
 import HolidaySchedule from '../components/portal/HolidaySchedule';
 import RaiseRequestSection from '../components/portal/RaiseRequestSection';
 import GearShopSection from '../components/portal/GearShopSection';
+import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
 
-const TABS = [
-  { id: 'profile', label: 'Profile', icon: UserCircle },
-  { id: 'feedback', label: 'Feedback', icon: MessageCircle },
-  { id: 'salary', label: 'Salary', icon: DollarSign },
-  { id: 'holidays', label: 'Holidays', icon: CalendarDays },
-  { id: 'raise', label: 'Raise/Review', icon: HandCoins },
-  { id: 'gear', label: 'Gear', icon: ShoppingBag },
-];
-
-export default function EmployeePortal() {
+function EmployeePortalContent() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('profile');
   const [editingProfile, setEditingProfile] = useState(false);
+  const { t } = useLanguage();
+
+  const TABS = [
+    { id: 'profile', label: t('tabProfile'), icon: UserCircle },
+    { id: 'feedback', label: t('tabFeedback'), icon: MessageCircle },
+    { id: 'salary', label: t('tabSalary'), icon: DollarSign },
+    { id: 'holidays', label: t('tabHolidays'), icon: CalendarDays },
+    { id: 'raise', label: t('tabRaise'), icon: HandCoins },
+    { id: 'gear', label: t('tabGear'), icon: ShoppingBag },
+  ];
 
   useEffect(() => {
     const init = async () => {
@@ -77,39 +79,31 @@ export default function EmployeePortal() {
       <PortalHeader user={user} portalType="employee" />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-        {/* Welcome */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
             <HardHat className="w-7 h-7 text-amber-600" />
-            Welcome, {user?.full_name?.split(' ')[0] || 'Team Member'}
+            {t('welcome')}, {user?.full_name?.split(' ')[0] || 'Team Member'}
           </h1>
-          <p className="text-gray-500 mt-1">Your employee hub — everything in one place.</p>
+          <p className="text-gray-500 mt-1">{t('employeeHub')}</p>
         </div>
 
-        {/* Profile Setup Prompt */}
         {needsProfile && (
           <div className="mb-8 bg-amber-50 border border-amber-200 rounded-xl p-6 text-center">
             <UserCircle className="w-10 h-10 text-amber-600 mx-auto mb-3" />
-            <h2 className="text-lg font-bold text-gray-900 mb-1">Complete Your Employee Profile</h2>
-            <p className="text-sm text-gray-500 mb-4">Set up your profile to access all portal features.</p>
+            <h2 className="text-lg font-bold text-gray-900 mb-1">{t('completeProfile')}</h2>
+            <p className="text-sm text-gray-500 mb-4">{t('completeProfileDesc')}</p>
             <Button onClick={() => setEditingProfile(true)} className="bg-amber-600 hover:bg-amber-700">
-              Create Profile
+              {t('createProfile')}
             </Button>
           </div>
         )}
 
-        {/* Profile Setup Form */}
-        {(editingProfile || needsProfile) && editingProfile && (
+        {editingProfile && (
           <div className="mb-8">
-            <EmployeeProfileSetup 
-              user={user} 
-              profile={null} 
-              onSaved={() => setEditingProfile(false)} 
-            />
+            <EmployeeProfileSetup user={user} profile={null} onSaved={() => setEditingProfile(false)} />
           </div>
         )}
 
-        {/* Tab Navigation */}
         <div className="flex gap-1 overflow-x-auto pb-1 mb-6 border-b border-gray-200">
           {TABS.map(tab => (
             <button
@@ -127,17 +121,14 @@ export default function EmployeePortal() {
           ))}
         </div>
 
-        {/* Tab Content */}
         <div>
           {activeTab === 'profile' && (
             profile ? (
-              <div className="space-y-4">
-                <EmployeeProfileSetup user={user} profile={profile} onSaved={() => {}} />
-              </div>
+              <EmployeeProfileSetup user={user} profile={profile} onSaved={() => {}} />
             ) : (
               <div className="text-center py-12 text-gray-400">
                 <UserCircle className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-                <p>Create your profile above to see it here.</p>
+                <p>{t('createProfileHere')}</p>
               </div>
             )
           )}
@@ -149,5 +140,13 @@ export default function EmployeePortal() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function EmployeePortal() {
+  return (
+    <LanguageProvider>
+      <EmployeePortalContent />
+    </LanguageProvider>
   );
 }

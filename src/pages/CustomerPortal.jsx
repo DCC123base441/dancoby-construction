@@ -7,11 +7,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import PortalHeader from '../components/portal/PortalHeader';
 import PortalProjectCard from '../components/portal/ProjectCard';
 import ProjectUpdates from '../components/portal/ProjectUpdates';
+import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
 
-export default function CustomerPortal() {
+function CustomerPortalContent() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const init = async () => {
@@ -70,26 +72,24 @@ export default function CustomerPortal() {
           />
         ) : (
           <div className="space-y-8">
-            {/* Welcome */}
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
-                Welcome back, {user?.full_name?.split(' ')[0] || 'there'}
+                {t('welcomeBack')}, {user?.full_name?.split(' ')[0] || 'there'}
               </h1>
-              <p className="text-gray-500 mt-1">Here's what's happening with your projects.</p>
+              <p className="text-gray-500 mt-1">{t('projectsHappening')}</p>
             </div>
 
-            {/* My Projects */}
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <FolderKanban className="w-5 h-5 text-blue-600" />
-                Your Projects
+                {t('yourProjects')}
               </h2>
               {myProjects.length === 0 ? (
                 <Card className="border-dashed">
                   <CardContent className="p-12 text-center text-gray-400">
                     <FolderKanban className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-                    <p className="font-medium">No projects assigned yet</p>
-                    <p className="text-sm mt-1">Your projects will appear here once assigned by the team.</p>
+                    <p className="font-medium">{t('noProjectsYet')}</p>
+                    <p className="text-sm mt-1">{t('noProjectsDesc')}</p>
                   </CardContent>
                 </Card>
               ) : (
@@ -105,10 +105,9 @@ export default function CustomerPortal() {
               )}
             </div>
 
-            {/* Contact Info */}
             <Card className="border-gray-200">
               <CardContent className="p-6">
-                <h3 className="font-semibold text-gray-900 mb-3">Need Help?</h3>
+                <h3 className="font-semibold text-gray-900 mb-3">{t('needHelp')}</h3>
                 <div className="flex flex-wrap gap-6 text-sm text-gray-600">
                   <a href="tel:+17182229100" className="flex items-center gap-2 hover:text-gray-900">
                     <Phone className="w-4 h-4" /> (718) 222-9100
@@ -123,5 +122,13 @@ export default function CustomerPortal() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function CustomerPortal() {
+  return (
+    <LanguageProvider>
+      <CustomerPortalContent />
+    </LanguageProvider>
   );
 }
