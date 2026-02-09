@@ -1,14 +1,22 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Badge } from "@/components/ui/badge";
-import { Clock, CheckCircle2, Mail, Loader2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Clock, CheckCircle2, Mail, Loader2, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function InviteHistoryPanel({ users = [] }) {
+  const queryClient = useQueryClient();
+
   const { data: invites = [], isLoading } = useQuery({
     queryKey: ['inviteHistory'],
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 50),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id) => base44.entities.InviteHistory.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inviteHistory'] }),
   });
 
   // Check if invited email matches an existing user to determine accepted status
@@ -57,6 +65,15 @@ export default function InviteHistoryPanel({ users = [] }) {
               <Badge className={`text-xs ${accepted ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
                 {accepted ? 'Accepted' : 'Pending'}
               </Badge>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 text-slate-400 hover:text-red-600 hover:bg-red-50"
+                onClick={() => deleteMutation.mutate(inv.id)}
+                disabled={deleteMutation.isPending}
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </Button>
             </div>
           </div>
         );
