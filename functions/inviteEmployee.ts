@@ -15,9 +15,12 @@ Deno.serve(async (req) => {
         if (!email) {
             return Response.json({ error: 'Email is required' }, { status: 400 });
         }
+        
+        // Normalize email to lowercase
+        const normalizedEmail = email.trim().toLowerCase();
 
         // Check if user already exists
-        const users = await base44.asServiceRole.entities.User.filter({ email });
+        const users = await base44.asServiceRole.entities.User.filter({ email: normalizedEmail });
         if (users.length > 0) {
             // If they exist, update their role
             await base44.asServiceRole.entities.User.update(users[0].id, { portalRole });
@@ -25,7 +28,7 @@ Deno.serve(async (req) => {
 
         // Log invite history first
         await base44.asServiceRole.entities.InviteHistory.create({
-            email,
+            email: normalizedEmail,
             portalRole,
             invitedBy: user.email,
             status: 'pending',
@@ -62,32 +65,27 @@ Deno.serve(async (req) => {
                 const resend = new Resend(resendApiKey);
                 const { error } = await resend.emails.send({
                     from: 'Dancoby Construction <onboarding@resend.dev>',
-                    to: [email],
+                    to: [normalizedEmail],
                     subject: `Welcome to the Dancoby ${portalLabel}!`,
                     html: htmlContent
                 });
 
                 if (!error) {
-                    return Response.json({ success: true, message: `Invited ${email} via Resend` });
+                    return Response.json({ success: true, message: `Invited ${normalizedEmail} via Resend` });
                 }
                 console.error("Resend error:", error);
-                // If Resend fails, fall through to fallback
             } catch (e) {
                 console.error("Resend exception:", e);
-                // Fall through to fallback
             }
         }
 
         // Fallback: Use standard inviteUser if Resend is missing or fails
-        // Note: This sends the standard Base44 invite email, not the custom one
         try {
-            await base44.users.inviteUser(email, role);
-            return Response.json({ success: true, message: `Invited ${email} via standard invite (fallback)` });
+            await base44.users.inviteUser(normalizedEmail, role);
+            return Response.json({ success: true, message: `Invited ${normalizedEmail} via standard invite (fallback)` });
         } catch (inviteError) {
-             // If this also fails (e.g. user already exists), we might want to let the caller know
-             // But if user exists, we already updated them above, so maybe we are good.
              if (users.length > 0) {
-                 return Response.json({ success: true, message: `User ${email} updated` });
+                 return Response.json({ success: true, message: `User ${normalizedEmail} updated` });
              }
              throw inviteError;
         }

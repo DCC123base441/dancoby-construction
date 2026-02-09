@@ -22,30 +22,27 @@ export default function PortalLogin() {
             setIsAdmin(true);
             setIsChecking(false);
             return;
-          } else if (user.portalRole === 'employee') {
-            const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
-            const isNew = profiles.length === 0;
-            window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
-          } else if (user.portalRole === 'customer') {
-            window.location.href = createPageUrl('CustomerPortal');
-          } else {
-            // Check if they should have a role based on pre-existing records
-            const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
-            if (profiles.length > 0) {
-                // Auto-assign employee role
-                await base44.auth.updateMe({ portalRole: 'employee' });
-                window.location.href = createPageUrl('EmployeePortal');
-                return;
-            }
+          }
 
-            // Check if they were invited (e.g. as customer)
-            const invites = await base44.entities.InviteHistory.filter({ email: user.email });
-            if (invites.length > 0) {
-                const invite = invites[0];
-                await base44.auth.updateMe({ portalRole: invite.portalRole });
-                window.location.reload();
-                return;
-            }
+          // Check/Assign access via backend (handles permissions and normalization)
+          try {
+             const { data } = await base44.functions.invoke('checkPortalAccess');
+             
+             if (data.authorized && data.role) {
+                 // Refresh user to get the new role if it was just assigned
+                 const updatedUser = data.assignedNow ? await base44.auth.me() : user;
+                 
+                 if (data.role === 'employee') {
+                     const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: updatedUser.email });
+                     const isNew = profiles.length === 0;
+                     window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
+                 } else if (data.role === 'customer') {
+                     window.location.href = createPageUrl('CustomerPortal');
+                 }
+                 return;
+             }
+          } catch (err) {
+              console.error('Portal access check failed', err);
           }
         }
       } catch (e) {
