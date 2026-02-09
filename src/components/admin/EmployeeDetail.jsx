@@ -148,7 +148,21 @@ function TimeOffTab({ userEmail }) {
     });
     const queryClient = useQueryClient();
     const updateMutation = useMutation({
-        mutationFn: ({ id, status }) => base44.entities.TimeOffRequest.update(id, { status }),
+        mutationFn: async ({ id, status }) => {
+            const result = await base44.entities.TimeOffRequest.update(id, { status });
+            // Create notification
+            if (status === 'approved' || status === 'denied') {
+                await base44.entities.Notification.create({
+                    userEmail,
+                    type: 'time_off',
+                    title: `Time Off Request ${status.charAt(0).toUpperCase() + status.slice(1)}`,
+                    message: `Your time off request has been ${status}.`,
+                    link: createPageUrl('EmployeePortal'),
+                    relatedId: id
+                });
+            }
+            return result;
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['adminTimeOff', userEmail] });
             toast.success('Time off request updated');
