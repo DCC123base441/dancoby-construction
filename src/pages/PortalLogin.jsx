@@ -111,22 +111,7 @@ export default function PortalLogin() {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl border border-slate-200 bg-white text-center">
-                  <div className="p-3 rounded-full bg-blue-50 w-fit mx-auto mb-3">
-                    <Users className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <p className="text-sm font-semibold text-slate-900">Customers</p>
-                  <p className="text-xs text-slate-500 mt-1">Track your project progress & updates</p>
-                </div>
-                <div className="p-4 rounded-xl border border-slate-200 bg-white text-center">
-                  <div className="p-3 rounded-full bg-amber-50 w-fit mx-auto mb-3">
-                    <HardHat className="w-5 h-5 text-amber-600" />
-                  </div>
-                  <p className="text-sm font-semibold text-slate-900">Employees</p>
-                  <p className="text-xs text-slate-500 mt-1">Manage tasks & post project updates</p>
-                </div>
-              </div>
+
 
               <Button onClick={handleLogin} className="w-full h-12 bg-slate-900 hover:bg-slate-800 text-white text-base">
                 <LogIn className="w-5 h-5 mr-2" />
