@@ -21,7 +21,8 @@ function CustomerPortalContent() {
       try {
         const isAuth = await base44.auth.isAuthenticated();
         if (!isAuth) {
-          window.location.href = createPageUrl('PortalLogin');
+          // Not logged in — redirect to login, then come back here
+          base44.auth.redirectToLogin(window.location.href);
           return;
         }
         const me = await base44.auth.me();
@@ -35,7 +36,7 @@ function CustomerPortalContent() {
         }
         setUser(me);
       } catch {
-        window.location.href = createPageUrl('PortalLogin');
+        base44.auth.redirectToLogin(window.location.href);
       }
       setLoading(false);
     };
