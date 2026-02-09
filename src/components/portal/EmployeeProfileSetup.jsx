@@ -77,7 +77,6 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
               <Label>{t('department')}</Label>
               <Input value={department} onChange={(e) => setDepartment(e.target.value)} />
             </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <Label>{t('startDate')}</Label>
               <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
