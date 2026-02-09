@@ -10,7 +10,6 @@ import BackToTop from './components/BackToTop';
 import ScrollProgress from './components/ScrollProgress';
 import CookieConsent from './components/CookieConsent';
 import { base44 } from '@/api/base44Client';
-import { createPageUrl } from './utils';
 
 export default function Layout({ children, currentPageName }) {
   const location = useLocation();
@@ -30,17 +29,6 @@ export default function Layout({ children, currentPageName }) {
                     // If user has a specific portal role, send them to the portal login handler
                     if (user.portalRole === 'employee' || user.portalRole === 'customer') {
                         window.location.href = createPageUrl('PortalLogin');
-                    } else {
-                        // Check for pending invite or profile match to auto-redirect new signups
-                        // This catches users who just verified their email but don't have the role set on the user object yet
-                        const [profiles, invites] = await Promise.all([
-                            base44.entities.EmployeeProfile.filter({ userEmail: user.email }),
-                            base44.entities.InviteHistory.filter({ email: user.email })
-                        ]);
-                        
-                        if (profiles.length > 0 || invites.length > 0) {
-                            window.location.href = createPageUrl('PortalLogin');
-                        }
                     }
                 }
             } catch (e) {
