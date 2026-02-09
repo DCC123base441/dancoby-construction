@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
+import { Resend } from 'npm:resend@3.2.0';
 
 Deno.serve(async (req) => {
     try {
@@ -15,17 +16,14 @@ Deno.serve(async (req) => {
             return Response.json({ error: 'Email is required' }, { status: 400 });
         }
 
-        // We do NOT call inviteUser here anymore, to allow the user to Sign Up themselves.
-        // The PortalLogin page will handle assigning the role upon first login if a profile/invite exists.
-
-        // Check if user already exists just to be safe (optional logging)
+        // Check if user already exists
         const users = await base44.asServiceRole.entities.User.filter({ email });
         if (users.length > 0) {
-            // If they exist, we can try to update their role now
+            // If they exist, update their role
             await base44.asServiceRole.entities.User.update(users[0].id, { portalRole });
         }
 
-        // Log invite history
+        // Log invite history first
         await base44.asServiceRole.entities.InviteHistory.create({
             email,
             portalRole,
@@ -33,37 +31,67 @@ Deno.serve(async (req) => {
             status: 'pending',
         });
 
-        // Send a custom welcome email with direct portal link
+        // Prepare email content
         const portalLabel = portalRole === 'customer' ? 'Customer Portal' : 'Employee Portal';
         const portalUrl = appUrl ? `${appUrl}/PortalLogin` : 'PortalLogin';
-
-        await base44.asServiceRole.integrations.Core.SendEmail({
-            to: email,
-            from_name: 'Dancoby Construction',
-            subject: `Welcome to the Dancoby ${portalLabel}!`,
-            body: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <h1 style="color: #1e293b; font-size: 24px; margin-bottom: 8px;">Welcome to Dancoby Construction!</h1>
-                        <p style="color: #64748b; font-size: 14px;">You've been invited to join the ${portalLabel}</p>
-                    </div>
-                    <div style="background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
-                        <p style="color: #92400e; font-size: 16px; margin-bottom: 16px;">
-                            Click the button below to access your portal. Please <strong>Sign Up</strong> to create your account.
-                        </p>
-                        <a href="${portalUrl}" style="display: inline-block; background: #d97706; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: bold; font-size: 16px;">
-                            Sign Up & Open Portal →
-                        </a>
-                    </div>
-                    <p style="color: #94a3b8; font-size: 12px; text-align: center;">
-                        If the button doesn't work, copy and paste this link into your browser:<br/>
-                        <a href="${portalUrl}" style="color: #d97706;">${portalUrl}</a>
-                    </p>
+        const htmlContent = `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #1e293b; font-size: 24px; margin-bottom: 8px;">Welcome to Dancoby Construction!</h1>
+                    <p style="color: #64748b; font-size: 14px;">You've been invited to join the ${portalLabel}</p>
                 </div>
-            `
-        });
+                <div style="background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
+                    <p style="color: #92400e; font-size: 16px; margin-bottom: 16px;">
+                        Click the button below to access your portal. Please <strong>Sign Up</strong> to create your account.
+                    </p>
+                    <a href="${portalUrl}" style="display: inline-block; background: #d97706; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: bold; font-size: 16px;">
+                        Sign Up & Open Portal →
+                    </a>
+                </div>
+                <p style="color: #94a3b8; font-size: 12px; text-align: center;">
+                    If the button doesn't work, copy and paste this link into your browser:<br/>
+                    <a href="${portalUrl}" style="color: #d97706;">${portalUrl}</a>
+                </p>
+            </div>
+        `;
 
-        return Response.json({ success: true, message: `Invited ${email} as ${portalRole}` });
+        // Try to send using Resend if available
+        const resendApiKey = Deno.env.get('RESEND_API_KEY');
+        if (resendApiKey) {
+            try {
+                const resend = new Resend(resendApiKey);
+                const { error } = await resend.emails.send({
+                    from: 'Dancoby Construction <onboarding@resend.dev>',
+                    to: [email],
+                    subject: `Welcome to the Dancoby ${portalLabel}!`,
+                    html: htmlContent
+                });
+
+                if (!error) {
+                    return Response.json({ success: true, message: `Invited ${email} via Resend` });
+                }
+                console.error("Resend error:", error);
+                // If Resend fails, fall through to fallback
+            } catch (e) {
+                console.error("Resend exception:", e);
+                // Fall through to fallback
+            }
+        }
+
+        // Fallback: Use standard inviteUser if Resend is missing or fails
+        // Note: This sends the standard Base44 invite email, not the custom one
+        try {
+            await base44.users.inviteUser(email, role);
+            return Response.json({ success: true, message: `Invited ${email} via standard invite (fallback)` });
+        } catch (inviteError) {
+             // If this also fails (e.g. user already exists), we might want to let the caller know
+             // But if user exists, we already updated them above, so maybe we are good.
+             if (users.length > 0) {
+                 return Response.json({ success: true, message: `User ${email} updated` });
+             }
+             throw inviteError;
+        }
+
     } catch (error) {
         return Response.json({ error: error.message }, { status: 500 });
     }
