@@ -77,6 +77,14 @@ export default function PortalLogin() {
               <Button asChild variant="outline" className="w-full">
                 <Link to={createPageUrl('AdminDashboard')}>Back to Admin Dashboard</Link>
               </Button>
+              <Button 
+                onClick={() => base44.auth.logout(createPageUrl('PortalLogin'))} 
+                variant="ghost" 
+                className="w-full text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
             </div>
           ) : currentUser ? (
             <div className="space-y-4 text-center">
