@@ -70,14 +70,12 @@ export default function AdminPortals() {
                                             ))}
                                         </div>
                                     )}
-                                    {portal.adminPages.length === 0 && (
-                                        <Link to={createPageUrl(portal.href)}>
-                                            <Button variant="outline" className="w-full" size="sm">
-                                                Open {portal.title}
-                                                <ChevronRight className="w-4 h-4 ml-1" />
-                                            </Button>
-                                        </Link>
-                                    )}
+                                    <Link to={createPageUrl(portal.href)} target="_blank" className="block mt-2">
+                                        <Button variant="outline" className="w-full" size="sm">
+                                            Open {portal.title}
+                                            <ExternalLink className="w-4 h-4 ml-1" />
+                                        </Button>
+                                    </Link>
                                 </div>
                             </CardContent>
                         </Card>
