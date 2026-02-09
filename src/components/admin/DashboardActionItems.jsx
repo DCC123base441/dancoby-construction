@@ -81,7 +81,7 @@ export default function DashboardActionItems() {
 
   const { data: feedback = [], isLoading: loadingFB } = useQuery({
     queryKey: ['recentFeedback'],
-    queryFn: () => base44.entities.EmployeeFeedback.list('-created_date', 10),
+    queryFn: () => base44.entities.EmployeeFeedback.filter({ resolved: false }, '-created_date', 10),
   });
 
   const { data: raiseRequests = [], isLoading: loadingRR } = useQuery({
