@@ -165,6 +165,7 @@ const translations = {
 
     // Language
     language: 'Language',
+    more: 'More',
   },
   es: {
     portalCustomer: 'Portal del Cliente',
@@ -313,6 +314,7 @@ const translations = {
     jobtreadMoreHelp: 'Necesitas más ayuda? Visita el sitio oficial de JobTread.',
 
     language: 'Idioma',
+    more: 'Más',
   }
 };
 
