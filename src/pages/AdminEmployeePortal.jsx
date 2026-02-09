@@ -9,11 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   HardHat, ExternalLink, ChevronRight, UserPlus,
-  Newspaper, CalendarDays, BookOpen, Send, History
+  Newspaper, CalendarDays, BookOpen, Send, History, Smartphone
 } from 'lucide-react';
 import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
 import DashboardActionItems from '../components/admin/DashboardActionItems';
+import MobileNavReorder from '../components/admin/MobileNavReorder';
 
 export default function AdminEmployeePortal() {
   const [showInvite, setShowInvite] = useState(false);
@@ -111,6 +112,21 @@ export default function AdminEmployeePortal() {
                 ))}
               </div>
             </CardContent>
+        </Card>
+
+        {/* Mobile Navigation Order */}
+        <Card className="border-slate-200 overflow-hidden">
+          <div className="h-1.5 bg-gradient-to-r from-violet-400 to-violet-600" />
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Smartphone className="w-5 h-5 text-violet-600" />
+              Mobile App Navigation Order
+            </CardTitle>
+            <p className="text-sm text-gray-500">Drag to reorder the bottom navigation and "More" sheet for the employee mobile app.</p>
+          </CardHeader>
+          <CardContent>
+            <MobileNavReorder />
+          </CardContent>
         </Card>
 
       </div>
