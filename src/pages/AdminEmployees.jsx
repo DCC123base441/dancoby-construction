@@ -69,7 +69,7 @@ export default function AdminEmployees() {
                             <span className="text-sm text-slate-500">{employees.length} employee{employees.length !== 1 ? 's' : ''}</span>
                         </div>
                         <Button size="sm" onClick={() => setInviteOpen(true)} className="bg-amber-600 hover:bg-amber-700">
-                            <UserPlus className="w-4 h-4 mr-1" /> Invite
+                            <UserPlus className="w-4 h-4 mr-1" /> Add Employee
                         </Button>
                     </div>
                     <Tabs defaultValue="employees" className="w-full">
@@ -112,7 +112,7 @@ export default function AdminEmployees() {
                     </Card>
                 </div>
             </div>
-            <InviteEmployeeDialog open={inviteOpen} onOpenChange={setInviteOpen} />
+            <AddEmployeeDialog open={inviteOpen} onOpenChange={setInviteOpen} />
         </AdminLayout>
     );
 }
