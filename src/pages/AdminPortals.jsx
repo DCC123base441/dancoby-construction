@@ -39,7 +39,6 @@ export default function AdminPortals() {
                 <div className="grid grid-cols-2 gap-3">
                     <Link
                         to={createPageUrl("EmployeePortal") + "?admin_view=true"}
-                        target="_blank"
                         className="group relative overflow-hidden rounded-xl border border-slate-200/80 bg-white p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -54,7 +53,6 @@ export default function AdminPortals() {
                     </Link>
                     <Link
                         to={createPageUrl("CustomerPortal")}
-                        target="_blank"
                         className="group relative overflow-hidden rounded-xl border border-slate-200/80 bg-white p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -77,7 +75,7 @@ export default function AdminPortals() {
                                     <div className={`p-3 rounded-xl ${portal.color}`}>
                                         <portal.icon className="w-6 h-6" />
                                     </div>
-                                    <Link to={createPageUrl(portal.href)} target="_blank">
+                                    <Link to={createPageUrl(portal.href)}>
                                         <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-600">
                                             <ExternalLink className="w-4 h-4" />
                                         </Button>
@@ -103,7 +101,7 @@ export default function AdminPortals() {
                                             ))}
                                         </div>
                                     )}
-                                    <Link to={createPageUrl(portal.href)} target="_blank" className="block mt-2">
+                                    <Link to={createPageUrl(portal.href)} className="block mt-2">
                                         <Button variant="outline" className="w-full" size="sm">
                                             Open {portal.title}
                                             <ExternalLink className="w-4 h-4 ml-1" />
