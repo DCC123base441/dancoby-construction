@@ -20,15 +20,7 @@ export default function PortalHeader({ user, portalType }) {
             alt="Dancoby Construction logo"
             className="h-10"
           />
-          <div className="hidden sm:block">
-            <span className={`text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-              portalType === 'customer' 
-                ? 'bg-blue-50 text-blue-700' 
-                : 'bg-amber-50 text-amber-700'
-            }`}>
-              {portalType} Portal
-            </span>
-          </div>
+
         </div>
         <div className="flex items-center gap-3">
           <NotificationCenter />
