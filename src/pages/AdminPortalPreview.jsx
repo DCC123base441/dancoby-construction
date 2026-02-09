@@ -14,8 +14,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-import EmployeePortalInner from '../components/portal/EmployeePortalInner';
-import CustomerPortalContent from '../components/portal/CustomerPortalInner';
+import EmployeePortalInner from '../components/portal/EmployeePortalInner.jsx';
+import CustomerPortalContent from '../components/portal/CustomerPortalInner.jsx';
 import { LanguageProvider } from '../components/portal/LanguageContext';
 
 export default function AdminPortalPreview() {
