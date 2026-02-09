@@ -157,6 +157,12 @@ const translations = {
     noProjectsDesc: 'Your projects will appear here once assigned by the team.',
     needHelp: 'Need Help?',
 
+    // JobTread
+    tabJobTread: 'JobTread',
+    jobtreadTitle: 'JobTread Tutorials',
+    jobtreadDesc: 'Learn how to use JobTread with these video guides.',
+    jobtreadMoreHelp: 'Need more help? Visit the official JobTread website.',
+
     // Language
     language: 'Language',
   },
@@ -300,6 +306,11 @@ const translations = {
     noProjectsYet: 'Aún no hay proyectos asignados',
     noProjectsDesc: 'Tus proyectos aparecerán aquí una vez asignados por el equipo.',
     needHelp: '¿Necesitas Ayuda?',
+
+    tabJobTread: 'JobTread',
+    jobtreadTitle: 'Tutoriales de JobTread',
+    jobtreadDesc: 'Aprende a usar JobTread con estas guías en video.',
+    jobtreadMoreHelp: 'Necesitas más ayuda? Visita el sitio oficial de JobTread.',
 
     language: 'Idioma',
   }

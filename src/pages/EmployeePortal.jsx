@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '../utils';
-import { Loader2, HardHat, UserCircle, MessageCircle, DollarSign, CalendarDays, HandCoins, ShoppingBag, CalendarOff } from 'lucide-react';
+import { Loader2, HardHat, UserCircle, MessageCircle, DollarSign, CalendarDays, HandCoins, ShoppingBag, CalendarOff, MonitorPlay } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import PortalHeader from '../components/portal/PortalHeader';
 import EmployeeProfileSetup from '../components/portal/EmployeeProfileSetup';
@@ -12,6 +12,7 @@ import HolidaySchedule from '../components/portal/HolidaySchedule';
 import RaiseRequestSection from '../components/portal/RaiseRequestSection';
 import GearShopSection from '../components/portal/GearShopSection';
 import TimeOffSection from '../components/portal/TimeOffSection';
+import JobTreadSection from '../components/portal/JobTreadSection';
 import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
 import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 
@@ -30,6 +31,7 @@ function EmployeePortalContent() {
     { id: 'timeoff', label: t('tabTimeOff') || 'Time Off', icon: CalendarOff },
     { id: 'raise', label: t('tabRaise'), icon: HandCoins },
     { id: 'gear', label: t('tabGear'), icon: ShoppingBag },
+    { id: 'jobtread', label: t('tabJobTread'), icon: MonitorPlay },
   ];
 
   useEffect(() => {
@@ -144,6 +146,7 @@ function EmployeePortalContent() {
           {activeTab === 'timeoff' && <TimeOffSection user={user} />}
           {activeTab === 'raise' && <RaiseRequestSection user={user} profile={profile} />}
           {activeTab === 'gear' && <GearShopSection />}
+          {activeTab === 'jobtread' && <JobTreadSection />}
         </div>
       </div>
     </div>
