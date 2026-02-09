@@ -18,7 +18,7 @@ export default function PortalHeader({ user, portalType }) {
           <img 
             src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/9a31637c7_Logo.png"
             alt="Dancoby Construction logo"
-            className="h-10"
+            className="h-12"
           />
 
         </div>
