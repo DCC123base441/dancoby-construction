@@ -27,6 +27,8 @@ export default function InviteEmployeeDialog({ open, onOpenChange }) {
       });
       toast.success(`Invitation sent to ${email}`);
       queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
+      queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
+      queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
       setEmail('');
       setPortalRole('employee');
       onOpenChange(false);
