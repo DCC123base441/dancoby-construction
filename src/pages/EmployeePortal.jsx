@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '../utils';
-import { Loader2, HardHat, UserCircle } from 'lucide-react';
+import { Loader2, HardHat, UserCircle, Eye } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import PortalHeader from '../components/portal/PortalHeader';
 import PortalSidebar from '../components/portal/PortalSidebar';
