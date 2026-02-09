@@ -34,7 +34,19 @@ export default function AdminPortals() {
     return (
         <AdminLayout title="Portals">
             <div className="space-y-8">
-                <p className="text-slate-500">Manage employee and customer portals, holidays, and related settings.</p>
+                <div className="flex flex-wrap items-center gap-3">
+                    <p className="text-slate-500 mr-auto">Manage employee and customer portals, holidays, and related settings.</p>
+                    <Link to={createPageUrl("EmployeePortal")} target="_blank">
+                        <Button variant="outline" size="sm" className="gap-2">
+                            <HardHat className="w-4 h-4" /> View as Employee
+                        </Button>
+                    </Link>
+                    <Link to={createPageUrl("CustomerPortal")} target="_blank">
+                        <Button variant="outline" size="sm" className="gap-2">
+                            <Users className="w-4 h-4" /> View as Customer
+                        </Button>
+                    </Link>
+                </div>
 
                 <div className="grid gap-6 md:grid-cols-2">
                     {portalLinks.map((portal) => (
