@@ -66,7 +66,8 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
         { name: 'Testimonials', href: 'AdminTestimonials', icon: MessageSquare },
         { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
-        { name: 'Portals', href: 'AdminPortals', icon: Landmark },
+        { name: 'Employee Portal', href: 'AdminEmployeePortal', icon: HardHat },
+        { name: 'Customer Portal', href: 'AdminCustomerPortal', icon: Users },
         { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
     ];
 

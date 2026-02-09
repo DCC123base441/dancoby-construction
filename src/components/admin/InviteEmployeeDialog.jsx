@@ -9,9 +9,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Loader2, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 
-export default function InviteEmployeeDialog({ open, onOpenChange }) {
+export default function InviteEmployeeDialog({ open, onOpenChange, defaultRole = 'employee' }) {
   const [email, setEmail] = useState('');
-  const [portalRole, setPortalRole] = useState('employee');
+  const [portalRole, setPortalRole] = useState(defaultRole);
+
+  React.useEffect(() => {
+    if (open) {
+      setPortalRole(defaultRole);
+    }
+  }, [open, defaultRole]);
   const [sending, setSending] = useState(false);
   const queryClient = useQueryClient();
 
