@@ -131,10 +131,6 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                     <p className="text-sm text-gray-500 mb-4">{position || 'No Position Set'}</p>
                     
                     <div className="w-full space-y-2 text-left text-sm mt-4 pt-4 border-t border-gray-100">
-                        <div className="flex items-center gap-2 text-gray-600">
-                            <Mail className="w-4 h-4" />
-                            <span className="truncate">{user.email}</span>
-                        </div>
                         {phone && (
                             <div className="flex items-center gap-2 text-gray-600">
                                 <Phone className="w-4 h-4" />
