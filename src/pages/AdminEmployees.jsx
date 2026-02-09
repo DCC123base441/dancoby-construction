@@ -7,7 +7,8 @@ import EmployeeDetail from '../components/admin/EmployeeDetail';
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Users, UserPlus, History } from 'lucide-react';
+import { Search, Users, UserPlus, History, RefreshCw } from 'lucide-react';
+import { toast } from "sonner";
 import AddEmployeeDialog from '../components/admin/AddEmployeeDialog';
 import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,16 +17,35 @@ export default function AdminEmployees() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [search, setSearch] = useState('');
     const [inviteOpen, setInviteOpen] = useState(false);
+    const [isSyncing, setIsSyncing] = useState(false);
 
-    const { data: users = [], isLoading: usersLoading } = useQuery({
+    const { data: users = [], isLoading: usersLoading, refetch: refetchUsers } = useQuery({
         queryKey: ['adminUsers'],
         queryFn: () => base44.entities.User.list(),
     });
 
-    const { data: profiles = [] } = useQuery({
+    const { data: profiles = [], refetch: refetchProfiles } = useQuery({
         queryKey: ['adminProfiles'],
         queryFn: () => base44.entities.EmployeeProfile.list(),
     });
+
+    const handleSyncJobTread = async () => {
+        setIsSyncing(true);
+        try {
+            const { data } = await base44.functions.invoke('syncJobTreadEmployees');
+            if (data.success) {
+                toast.success(`Synced ${data.count} employees from JobTread`);
+                refetchProfiles();
+            } else {
+                toast.error('Sync failed', { description: data.error });
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to sync with JobTread');
+        } finally {
+            setIsSyncing(false);
+        }
+    };
 
     // Build a combined employee list from users + profiles (for invited-but-not-yet-accepted)
     const userEmails = new Set(users.map(u => u.email));
@@ -97,9 +117,21 @@ export default function AdminEmployees() {
                             <Users className="w-4 h-4 text-slate-500" />
                             <span className="text-sm text-slate-500">{employees.length} employee{employees.length !== 1 ? 's' : ''}</span>
                         </div>
-                        <Button size="sm" onClick={() => setInviteOpen(true)} className="bg-amber-600 hover:bg-amber-700">
-                            <UserPlus className="w-4 h-4 mr-1" /> Add Employee
-                        </Button>
+                        <div className="flex gap-2">
+                            <Button 
+                                size="sm" 
+                                variant="outline" 
+                                onClick={handleSyncJobTread} 
+                                disabled={isSyncing}
+                                className="border-amber-200 hover:bg-amber-50 text-amber-700"
+                            >
+                                <RefreshCw className={`w-3.5 h-3.5 mr-1 ${isSyncing ? 'animate-spin' : ''}`} /> 
+                                {isSyncing ? 'Syncing...' : 'Sync JobTread'}
+                            </Button>
+                            <Button size="sm" onClick={() => setInviteOpen(true)} className="bg-amber-600 hover:bg-amber-700">
+                                <UserPlus className="w-4 h-4 mr-1" /> Add Employee
+                            </Button>
+                        </div>
                     </div>
                     <Tabs defaultValue="employees" className="w-full">
                         <TabsList className="grid grid-cols-2 w-full mb-3">
