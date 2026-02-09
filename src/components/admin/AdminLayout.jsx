@@ -39,6 +39,15 @@ export default function AdminLayout({ children, title, actions }) {
                 const isAuthenticated = await base44.auth.isAuthenticated();
                 if (!isAuthenticated) {
                     window.location.href = createPageUrl('AdminLogin');
+                    return;
+                }
+                
+                const user = await base44.auth.me();
+                if (user?.role !== 'admin') {
+                    // If logged in but not admin, force logout to allow admin login
+                    await base44.auth.logout();
+                    window.location.href = createPageUrl('AdminLogin');
+                    return;
                 }
             } catch (error) {
                 console.error("Auth check failed", error);
