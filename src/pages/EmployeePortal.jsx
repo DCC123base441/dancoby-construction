@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '../utils';
-import { Loader2, HardHat, UserCircle, MessageCircle, DollarSign, CalendarDays, HandCoins, ShoppingBag, CalendarOff, MonitorPlay } from 'lucide-react';
+import { Loader2, HardHat, UserCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import PortalHeader from '../components/portal/PortalHeader';
+import PortalSidebar from '../components/portal/PortalSidebar';
+import PortalBottomNav from '../components/portal/PortalBottomNav';
+import PortalMoreSheet from '../components/portal/PortalMoreSheet';
 import EmployeeProfileSetup from '../components/portal/EmployeeProfileSetup';
 import FeedbackSection from '../components/portal/FeedbackSection';
 import SalarySection from '../components/portal/SalarySection';
@@ -21,30 +24,18 @@ function EmployeePortalContent() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('profile');
   const [editingProfile, setEditingProfile] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const { t } = useLanguage();
-
-  const TABS = [
-    { id: 'profile', label: t('tabProfile'), icon: UserCircle, color: 'bg-blue-100 text-blue-700 border-blue-300', activeColor: 'bg-blue-600 text-white border-blue-600' },
-    { id: 'feedback', label: t('tabFeedback'), icon: MessageCircle, color: 'bg-purple-100 text-purple-700 border-purple-300', activeColor: 'bg-purple-600 text-white border-purple-600' },
-    { id: 'salary', label: t('tabSalary'), icon: DollarSign, color: 'bg-emerald-100 text-emerald-700 border-emerald-300', activeColor: 'bg-emerald-600 text-white border-emerald-600' },
-    { id: 'holidays', label: t('tabHolidays'), icon: CalendarDays, color: 'bg-red-100 text-red-700 border-red-300', activeColor: 'bg-red-600 text-white border-red-600' },
-    { id: 'timeoff', label: t('tabTimeOff') || 'Time Off', icon: CalendarOff, color: 'bg-orange-100 text-orange-700 border-orange-300', activeColor: 'bg-orange-600 text-white border-orange-600' },
-    { id: 'raise', label: t('tabRaise'), icon: HandCoins, color: 'bg-amber-100 text-amber-700 border-amber-300', activeColor: 'bg-amber-600 text-white border-amber-600' },
-    { id: 'gear', label: t('tabGear'), icon: ShoppingBag, color: 'bg-pink-100 text-pink-700 border-pink-300', activeColor: 'bg-pink-600 text-white border-pink-600' },
-    { id: 'jobtread', label: t('tabJobTread'), icon: MonitorPlay, color: 'bg-cyan-100 text-cyan-700 border-cyan-300', activeColor: 'bg-cyan-600 text-white border-cyan-600' },
-  ];
 
   useEffect(() => {
     const init = async () => {
       try {
-        // Check if coming from admin dashboard via bypass
         const urlParams = new URLSearchParams(window.location.search);
         const adminBypass = urlParams.get('admin_view') === 'true' || localStorage.getItem('admin_bypass') === 'true';
 
         const isAuth = await base44.auth.isAuthenticated();
         if (!isAuth) {
           if (adminBypass) {
-            // Admin bypass without real auth — show portal with mock admin user
             setUser({ full_name: 'Admin Viewer', email: 'admin@dancoby.com', role: 'admin' });
             setLoading(false);
             return;
@@ -88,83 +79,125 @@ function EmployeePortalContent() {
   if (loading || profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 animate-spin text-amber-500" />
+          <span className="text-sm text-gray-400">Loading portal...</span>
+        </div>
       </div>
     );
   }
 
   const needsProfile = !profile && !editingProfile;
+  const firstName = profile?.firstName || user?.full_name?.split(' ')[0] || 'Team Member';
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'profile':
+        return profile ? (
+          <EmployeeProfileSetup user={user} profile={profile} onSaved={() => {}} />
+        ) : (
+          <div className="text-center py-16 text-gray-400">
+            <UserCircle className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+            <p className="text-sm">{t('createProfileHere')}</p>
+          </div>
+        );
+      case 'feedback': return <FeedbackSection user={user} />;
+      case 'salary': return <SalarySection profile={profile} />;
+      case 'holidays': return <HolidaySchedule />;
+      case 'timeoff': return <TimeOffSection user={user} />;
+      case 'raise': return <RaiseRequestSection user={user} profile={profile} />;
+      case 'gear': return <GearShopSection />;
+      case 'jobtread': return <JobTreadSection />;
+      default: return null;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <PortalHeader user={user} portalType="employee" />
       
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex justify-end mb-2">
-          <LanguageSwitcher />
-        </div>
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <HardHat className="w-7 h-7 text-amber-600" />
-            {t('welcome')}, {profile?.firstName || user?.full_name?.split(' ')[0] || 'Team Member'}
-          </h1>
-          <p className="text-gray-500 mt-1">{t('employeeHub')}</p>
-        </div>
+      <div className="flex flex-1 overflow-hidden">
+        {/* Desktop sidebar */}
+        <PortalSidebar activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {needsProfile && (
-          <div className="mb-8 bg-amber-50 border border-amber-200 rounded-xl p-6 text-center">
-            <UserCircle className="w-10 h-10 text-amber-600 mx-auto mb-3" />
-            <h2 className="text-lg font-bold text-gray-900 mb-1">{t('completeProfile')}</h2>
-            <p className="text-sm text-gray-500 mb-4">{t('completeProfileDesc')}</p>
-            <Button onClick={() => setEditingProfile(true)} className="bg-amber-600 hover:bg-amber-700">
-              {t('createProfile')}
-            </Button>
-          </div>
-        )}
-
-        {editingProfile && (
-          <div className="mb-8">
-            <EmployeeProfileSetup user={user} profile={null} onSaved={() => setEditingProfile(false)} />
-          </div>
-        )}
-
-        <div className="flex flex-wrap gap-2 mb-6">
-          {TABS.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border transition-all ${
-                activeTab === tab.id
-                  ? tab.activeColor + ' shadow-sm'
-                  : tab.color + ' hover:opacity-80'
-              }`}
-            >
-              <tab.icon className="w-5 h-5" />
-              <span>{tab.label}</span>
-            </button>
-          ))}
-        </div>
-
-        <div>
-          {activeTab === 'profile' && (
-            profile ? (
-              <EmployeeProfileSetup user={user} profile={profile} onSaved={() => {}} />
-            ) : (
-              <div className="text-center py-12 text-gray-400">
-                <UserCircle className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-                <p>{t('createProfileHere')}</p>
+        {/* Main content area */}
+        <main className="flex-1 overflow-y-auto pb-20 lg:pb-0">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+            {/* Welcome banner */}
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 p-5 sm:p-6 mb-6 text-white">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
+              <div className="relative z-10 flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <HardHat className="w-5 h-5 text-amber-200" />
+                    <span className="text-amber-100 text-xs font-medium uppercase tracking-wider">
+                      {t('employeeHub').split('—')[0]}
+                    </span>
+                  </div>
+                  <h1 className="text-xl sm:text-2xl font-bold">
+                    {t('welcome')}, {firstName}
+                  </h1>
+                  <p className="text-amber-100 text-sm mt-1 hidden sm:block">
+                    {t('employeeHub')}
+                  </p>
+                </div>
+                <div className="hidden sm:block">
+                  <LanguageSwitcher />
+                </div>
               </div>
-            )
-          )}
-          {activeTab === 'feedback' && <FeedbackSection user={user} />}
-          {activeTab === 'salary' && <SalarySection profile={profile} />}
-          {activeTab === 'holidays' && <HolidaySchedule />}
-          {activeTab === 'timeoff' && <TimeOffSection user={user} />}
-          {activeTab === 'raise' && <RaiseRequestSection user={user} profile={profile} />}
-          {activeTab === 'gear' && <GearShopSection />}
-          {activeTab === 'jobtread' && <JobTreadSection />}
-        </div>
+            </div>
+
+            {/* Profile setup CTA */}
+            {needsProfile && (
+              <div className="mb-6 bg-white border border-amber-200 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+                  <UserCircle className="w-6 h-6 text-amber-600" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="font-semibold text-gray-900">{t('completeProfile')}</h2>
+                  <p className="text-sm text-gray-500 mt-0.5">{t('completeProfileDesc')}</p>
+                </div>
+                <Button onClick={() => setEditingProfile(true)} className="bg-amber-600 hover:bg-amber-700 w-full sm:w-auto">
+                  {t('createProfile')}
+                </Button>
+              </div>
+            )}
+
+            {editingProfile && (
+              <div className="mb-6">
+                <EmployeeProfileSetup user={user} profile={null} onSaved={() => setEditingProfile(false)} />
+              </div>
+            )}
+
+            {/* Mobile language switcher */}
+            <div className="flex justify-end mb-3 sm:hidden">
+              <LanguageSwitcher />
+            </div>
+
+            {/* Tab content */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="p-4 sm:p-6">
+                {renderContent()}
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
+
+      {/* Mobile bottom nav */}
+      <PortalBottomNav 
+        activeTab={activeTab} 
+        onTabChange={setActiveTab} 
+        onMorePress={() => setMoreOpen(true)} 
+      />
+      
+      {/* More items sheet */}
+      <PortalMoreSheet 
+        open={moreOpen} 
+        onOpenChange={setMoreOpen} 
+        onTabChange={setActiveTab} 
+      />
     </div>
   );
 }
