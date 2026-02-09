@@ -5,6 +5,7 @@ import { useLanguage } from './LanguageContext';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import BonusTracker from './BonusTracker';
 
 function SalaryGrowthChart({ hourly, startDate, t }) {
   const [showYoY, setShowYoY] = useState(false);
@@ -204,6 +205,8 @@ export default function SalarySection({ profile }) {
       </Card>
 
       <SalaryGrowthChart hourly={hourly} startDate={profile?.startDate} t={t} />
+
+      <BonusTracker />
 
       <MotivationalSection t={t} />
 

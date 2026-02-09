@@ -95,6 +95,16 @@ const translations = {
     didYouKnow: 'Did you know?',
     didYouKnowText: 'Employees who complete certifications and take on leadership roles earn on average 25-40% more within 3 years. Your growth is in your hands!',
 
+    // Bonus Tracker
+    bonusTracker: 'Bonus Tracker',
+    bonusTrackerDesc: 'Your bonus is tied to company revenue performance',
+    companyRevenue: 'Company Revenue',
+    yourBonusRate: 'Your Bonus Rate',
+    estimatedBonus: 'Estimated Bonus',
+    revenueGoal: 'Revenue Goal',
+    quarterly: 'Quarterly',
+    bonusNote: 'Bonuses are calculated as a percentage of total company revenue and paid quarterly.',
+
     // Holidays
     holidaySchedule: `${new Date().getFullYear()} Holiday Schedule`,
     paidHolidays: 'Company-observed paid holidays',
@@ -221,6 +231,15 @@ const translations = {
     mentorOthersDesc: 'Entrenar a nuevos miembros del equipo demuestra liderazgo y te califica para roles de capataz.',
     didYouKnow: '¿Sabías que?',
     didYouKnowText: 'Los empleados que completan certificaciones y asumen roles de liderazgo ganan en promedio 25-40% más en 3 años. ¡Tu crecimiento está en tus manos!',
+
+    bonusTracker: 'Rastreador de Bonos',
+    bonusTrackerDesc: 'Tu bono está vinculado al rendimiento de ingresos de la empresa',
+    companyRevenue: 'Ingresos de la Empresa',
+    yourBonusRate: 'Tu Tasa de Bono',
+    estimatedBonus: 'Bono Estimado',
+    revenueGoal: 'Meta de Ingresos',
+    quarterly: 'Trimestral',
+    bonusNote: 'Los bonos se calculan como un porcentaje de los ingresos totales de la empresa y se pagan trimestralmente.',
 
     holidaySchedule: `Calendario de Festivos ${new Date().getFullYear()}`,
     paidHolidays: 'Días festivos pagados de la empresa',
