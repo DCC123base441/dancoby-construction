@@ -36,7 +36,7 @@ export default function AdminPortals() {
             <div className="space-y-8">
                 <div className="flex flex-wrap items-center gap-3">
                     <p className="text-slate-500 mr-auto">Manage employee and customer portals, holidays, and related settings.</p>
-                    <Link to={createPageUrl("EmployeePortal")} target="_blank">
+                    <Link to={createPageUrl("EmployeePortal") + "?admin_view=true"} target="_blank">
                         <Button variant="outline" size="sm" className="gap-2">
                             <HardHat className="w-4 h-4" /> View as Employee
                         </Button>
