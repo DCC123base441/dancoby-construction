@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Sun, PartyPopper } from 'lucide-react';
+import { useLanguage } from './LanguageContext';
 
 const HOLIDAYS_2025 = [
   { name: "New Year's Day", date: "Jan 1", status: "past" },
@@ -15,7 +16,7 @@ const HOLIDAYS_2025 = [
 ];
 
 export default function HolidaySchedule() {
-  const today = new Date();
+  const { t } = useLanguage();
 
   return (
     <Card className="border-gray-200">
@@ -25,8 +26,8 @@ export default function HolidaySchedule() {
             <CalendarDays className="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-900">2025 Holiday Schedule</h3>
-            <p className="text-xs text-gray-500">Company-observed paid holidays</p>
+            <h3 className="font-bold text-gray-900">{t('holidaySchedule')}</h3>
+            <p className="text-xs text-gray-500">{t('paidHolidays')}</p>
           </div>
         </div>
 
@@ -48,7 +49,7 @@ export default function HolidaySchedule() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-500">{holiday.date}</span>
-                  {isPast && <Badge variant="outline" className="text-[10px] text-gray-400">Past</Badge>}
+                  {isPast && <Badge variant="outline" className="text-[10px] text-gray-400">{t('past')}</Badge>}
                 </div>
               </div>
             );
@@ -58,11 +59,9 @@ export default function HolidaySchedule() {
         <div className="mt-5 p-3 rounded-lg bg-blue-50 text-blue-700">
           <div className="flex items-center gap-2 text-sm font-medium">
             <Sun className="w-4 h-4" />
-            Summer Hours
+            {t('summerHours')}
           </div>
-          <p className="text-xs mt-1 text-blue-600">
-            During June–August, Friday hours are 7 AM – 1 PM.
-          </p>
+          <p className="text-xs mt-1 text-blue-600">{t('summerHoursDesc')}</p>
         </div>
       </CardContent>
     </Card>

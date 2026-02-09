@@ -10,12 +10,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { MessageCircle, Send, Loader2, Calendar } from 'lucide-react';
 import { toast } from "sonner";
+import { useLanguage } from './LanguageContext';
 
 export default function FeedbackSection({ user }) {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('other');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const queryClient = useQueryClient();
+  const { t } = useLanguage();
 
   const { data: myFeedback = [] } = useQuery({
     queryKey: ['myFeedback', user.email],
@@ -29,23 +31,18 @@ export default function FeedbackSection({ user }) {
       setContent('');
       setCategory('other');
       setIsAnonymous(false);
-      toast.success('Feedback submitted — thank you!');
+      toast.success(t('feedbackSubmitted'));
     },
   });
 
   const handleSubmit = () => {
     if (!content.trim()) return;
-    submitMutation.mutate({
-      userEmail: user.email,
-      content,
-      category,
-      isAnonymous,
-    });
+    submitMutation.mutate({ userEmail: user.email, content, category, isAnonymous });
   };
 
   const categoryLabels = {
-    safety: 'Safety', culture: 'Culture', tools: 'Tools & Equipment',
-    management: 'Management', other: 'Other'
+    safety: t('safety'), culture: t('culture'), tools: t('tools'),
+    management: t('management'), other: t('other')
   };
 
   return (
@@ -56,58 +53,49 @@ export default function FeedbackSection({ user }) {
             <div className="p-2 rounded-full bg-purple-50">
               <MessageCircle className="w-5 h-5 text-purple-600" />
             </div>
-            <h3 className="font-bold text-gray-900">Share Feedback</h3>
+            <h3 className="font-bold text-gray-900">{t('shareFeedback')}</h3>
           </div>
-
           <div className="space-y-4">
             <div className="space-y-1.5">
-              <Label>Category</Label>
+              <Label>{t('category')}</Label>
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="safety">Safety</SelectItem>
-                  <SelectItem value="culture">Culture</SelectItem>
-                  <SelectItem value="tools">Tools & Equipment</SelectItem>
-                  <SelectItem value="management">Management</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  <SelectItem value="safety">{t('safety')}</SelectItem>
+                  <SelectItem value="culture">{t('culture')}</SelectItem>
+                  <SelectItem value="tools">{t('tools')}</SelectItem>
+                  <SelectItem value="management">{t('management')}</SelectItem>
+                  <SelectItem value="other">{t('other')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
             <div className="space-y-1.5">
-              <Label>Your Feedback</Label>
-              <Textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="Share your thoughts on the working environment..."
-                className="h-28"
-              />
+              <Label>{t('yourFeedback')}</Label>
+              <Textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder={t('feedbackPlaceholder')} className="h-28" />
             </div>
-
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Switch checked={isAnonymous} onCheckedChange={setIsAnonymous} />
-                <Label className="text-sm text-gray-500">Submit anonymously</Label>
+                <Label className="text-sm text-gray-500">{t('submitAnonymously')}</Label>
               </div>
               <Button onClick={handleSubmit} disabled={submitMutation.isPending || !content.trim()} className="bg-gray-900 hover:bg-gray-800">
                 {submitMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Send className="w-4 h-4 mr-2" />}
-                Submit
+                {t('submit')}
               </Button>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Past Feedback */}
       {myFeedback.length > 0 && (
         <div className="space-y-3">
-          <p className="text-sm font-medium text-gray-500">Your Past Feedback</p>
+          <p className="text-sm font-medium text-gray-500">{t('pastFeedback')}</p>
           {myFeedback.map(fb => (
             <Card key={fb.id} className="border-gray-100">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Badge variant="outline" className="text-[10px] capitalize">{categoryLabels[fb.category] || fb.category}</Badge>
-                  {fb.isAnonymous && <Badge variant="outline" className="text-[10px]">Anonymous</Badge>}
+                  {fb.isAnonymous && <Badge variant="outline" className="text-[10px]">{t('anonymous')}</Badge>}
                   <span className="text-xs text-gray-400 ml-auto flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
                     {new Date(fb.created_date).toLocaleDateString()}

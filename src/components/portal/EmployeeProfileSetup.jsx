@@ -8,9 +8,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { UserCircle, Save, Loader2 } from 'lucide-react';
 import { toast } from "sonner";
+import { useLanguage } from './LanguageContext';
 
 export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const isEditing = !!profile;
+  const { t } = useLanguage();
   const [position, setPosition] = useState(profile?.position || '');
   const [department, setDepartment] = useState(profile?.department || '');
   const [startDate, setStartDate] = useState(profile?.startDate || '');
@@ -23,14 +25,12 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
 
   const saveMutation = useMutation({
     mutationFn: (data) => {
-      if (isEditing) {
-        return base44.entities.EmployeeProfile.update(profile.id, data);
-      }
+      if (isEditing) return base44.entities.EmployeeProfile.update(profile.id, data);
       return base44.entities.EmployeeProfile.create(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['employeeProfile']);
-      toast.success(isEditing ? 'Profile updated' : 'Profile created');
+      toast.success(isEditing ? t('profileUpdated') : t('profileCreated'));
       onSaved?.();
     },
   });
@@ -38,14 +38,8 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     saveMutation.mutate({
-      userEmail: user.email,
-      position,
-      department,
-      startDate,
-      phone,
-      emergencyContactName: emergencyName,
-      emergencyContactPhone: emergencyPhone,
-      bio,
+      userEmail: user.email, position, department, startDate, phone,
+      emergencyContactName: emergencyName, emergencyContactPhone: emergencyPhone, bio,
       skills: skills.split(',').map(s => s.trim()).filter(Boolean),
     });
   };
@@ -59,62 +53,56 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
           </div>
           <div>
             <h2 className="text-lg font-bold text-gray-900">
-              {isEditing ? 'Edit Your Profile' : 'Set Up Your Profile'}
+              {isEditing ? t('editProfile') : t('setupProfile')}
             </h2>
             <p className="text-sm text-gray-500">
-              {isEditing ? 'Keep your info up to date' : 'Complete your employee profile to get started'}
+              {isEditing ? t('keepInfoUpdated') : t('completeToGetStarted')}
             </p>
           </div>
         </div>
-
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label>Position / Job Title *</Label>
-              <Input value={position} onChange={(e) => setPosition(e.target.value)} placeholder="e.g. Foreman, Carpenter" required />
+              <Label>{t('position')} *</Label>
+              <Input value={position} onChange={(e) => setPosition(e.target.value)} required />
             </div>
             <div className="space-y-1.5">
-              <Label>Department</Label>
-              <Input value={department} onChange={(e) => setDepartment(e.target.value)} placeholder="e.g. Residential, Commercial" />
+              <Label>{t('department')}</Label>
+              <Input value={department} onChange={(e) => setDepartment(e.target.value)} />
             </div>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label>Start Date</Label>
+              <Label>{t('startDate')}</Label>
               <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
             </div>
             <div className="space-y-1.5">
-              <Label>Phone Number</Label>
-              <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 123-4567" />
+              <Label>{t('phone')}</Label>
+              <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
             </div>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label>Emergency Contact Name</Label>
+              <Label>{t('emergencyName')}</Label>
               <Input value={emergencyName} onChange={(e) => setEmergencyName(e.target.value)} />
             </div>
             <div className="space-y-1.5">
-              <Label>Emergency Contact Phone</Label>
+              <Label>{t('emergencyPhone')}</Label>
               <Input value={emergencyPhone} onChange={(e) => setEmergencyPhone(e.target.value)} />
             </div>
           </div>
-
           <div className="space-y-1.5">
-            <Label>Skills & Certifications</Label>
-            <Input value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="OSHA 30, Plumbing, Electrical (comma separated)" />
+            <Label>{t('skills')}</Label>
+            <Input value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="OSHA 30, Plumbing, Electrical" />
           </div>
-
           <div className="space-y-1.5">
-            <Label>Short Bio</Label>
-            <Textarea value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Tell us a bit about yourself..." className="h-20" />
+            <Label>{t('shortBio')}</Label>
+            <Textarea value={bio} onChange={(e) => setBio(e.target.value)} className="h-20" />
           </div>
-
           <div className="flex justify-end pt-2">
             <Button type="submit" disabled={saveMutation.isPending} className="bg-gray-900 hover:bg-gray-800">
               {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-              {isEditing ? 'Save Changes' : 'Create Profile'}
+              {isEditing ? t('saveChanges') : t('createProfile')}
             </Button>
           </div>
         </form>

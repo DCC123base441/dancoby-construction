@@ -8,8 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { HandCoins, Send, Loader2, Calendar, Clock } from 'lucide-react';
+import { HandCoins, Send, Loader2, Calendar } from 'lucide-react';
 import { toast } from "sonner";
+import { useLanguage } from './LanguageContext';
 
 export default function RaiseRequestSection({ user, profile }) {
   const [requestType, setRequestType] = useState('raise');
@@ -17,6 +18,7 @@ export default function RaiseRequestSection({ user, profile }) {
   const [reason, setReason] = useState('');
   const [showForm, setShowForm] = useState(false);
   const queryClient = useQueryClient();
+  const { t } = useLanguage();
 
   const { data: myRequests = [] } = useQuery({
     queryKey: ['raiseRequests', user.email],
@@ -30,15 +32,14 @@ export default function RaiseRequestSection({ user, profile }) {
       setReason('');
       setRequestedRate('');
       setShowForm(false);
-      toast.success('Request submitted successfully');
+      toast.success(t('requestSubmitted'));
     },
   });
 
   const handleSubmit = () => {
     if (!reason.trim()) return;
     submitMutation.mutate({
-      userEmail: user.email,
-      requestType,
+      userEmail: user.email, requestType,
       currentRate: profile?.hourlySalary || 0,
       requestedRate: requestType === 'raise' ? parseFloat(requestedRate) || 0 : undefined,
       reason,
@@ -61,11 +62,11 @@ export default function RaiseRequestSection({ user, profile }) {
               <div className="p-2 rounded-full bg-amber-50">
                 <HandCoins className="w-5 h-5 text-amber-600" />
               </div>
-              <h3 className="font-bold text-gray-900">Request Raise / Review</h3>
+              <h3 className="font-bold text-gray-900">{t('requestRaiseReview')}</h3>
             </div>
             {!showForm && (
               <Button size="sm" onClick={() => setShowForm(true)} className="bg-gray-900 hover:bg-gray-800">
-                New Request
+                {t('newRequest')}
               </Button>
             )}
           </div>
@@ -73,12 +74,12 @@ export default function RaiseRequestSection({ user, profile }) {
           {showForm && (
             <div className="space-y-4 border-t border-gray-100 pt-4">
               <div className="space-y-1.5">
-                <Label>Request Type</Label>
+                <Label>{t('requestType')}</Label>
                 <Select value={requestType} onValueChange={setRequestType}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="raise">Request a Raise</SelectItem>
-                    <SelectItem value="review">Request a Performance Review</SelectItem>
+                    <SelectItem value="raise">{t('requestRaise')}</SelectItem>
+                    <SelectItem value="review">{t('requestReview')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -86,31 +87,30 @@ export default function RaiseRequestSection({ user, profile }) {
               {requestType === 'raise' && (
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label>Current Rate</Label>
-                    <Input value={profile?.hourlySalary ? `$${profile.hourlySalary.toFixed(2)}` : 'Not set'} disabled />
+                    <Label>{t('currentRate')}</Label>
+                    <Input value={profile?.hourlySalary ? `$${profile.hourlySalary.toFixed(2)}` : 'N/A'} disabled />
                   </div>
                   <div className="space-y-1.5">
-                    <Label>Requested Rate ($/hr)</Label>
+                    <Label>{t('requestedRate')}</Label>
                     <Input type="number" step="0.50" value={requestedRate} onChange={(e) => setRequestedRate(e.target.value)} placeholder="e.g. 35.00" />
                   </div>
                 </div>
               )}
 
               <div className="space-y-1.5">
-                <Label>Reason / Justification</Label>
+                <Label>{t('reason')}</Label>
                 <Textarea
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  placeholder={requestType === 'raise' ? 'Describe why you deserve a raise...' : 'Why would you like a performance review?'}
+                  value={reason} onChange={(e) => setReason(e.target.value)}
+                  placeholder={requestType === 'raise' ? t('raisePlaceholder') : t('reviewPlaceholder')}
                   className="h-24"
                 />
               </div>
 
               <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
+                <Button variant="outline" onClick={() => setShowForm(false)}>{t('cancel')}</Button>
                 <Button onClick={handleSubmit} disabled={submitMutation.isPending || !reason.trim()} className="bg-gray-900 hover:bg-gray-800">
                   {submitMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Send className="w-4 h-4 mr-2" />}
-                  Submit Request
+                  {t('submitRequest')}
                 </Button>
               </div>
             </div>
@@ -118,10 +118,9 @@ export default function RaiseRequestSection({ user, profile }) {
         </CardContent>
       </Card>
 
-      {/* Past Requests */}
       {myRequests.length > 0 && (
         <div className="space-y-3">
-          <p className="text-sm font-medium text-gray-500">Your Requests</p>
+          <p className="text-sm font-medium text-gray-500">{t('yourRequests')}</p>
           {myRequests.map(req => (
             <Card key={req.id} className="border-gray-100">
               <CardContent className="p-4">
@@ -137,13 +136,13 @@ export default function RaiseRequestSection({ user, profile }) {
                 </div>
                 {req.requestType === 'raise' && req.requestedRate && (
                   <p className="text-xs text-gray-500 mb-1">
-                    Requested: ${req.requestedRate?.toFixed(2)}/hr (from ${req.currentRate?.toFixed(2)}/hr)
+                    ${req.requestedRate?.toFixed(2)}/hr (from ${req.currentRate?.toFixed(2)}/hr)
                   </p>
                 )}
                 <p className="text-sm text-gray-700">{req.reason}</p>
                 {req.adminNotes && (
                   <div className="mt-2 p-2 bg-gray-50 rounded text-xs text-gray-600">
-                    <strong>Response:</strong> {req.adminNotes}
+                    <strong>{t('response')}:</strong> {req.adminNotes}
                   </div>
                 )}
               </CardContent>
