@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
 
     // Build where clause for search only (status filtered post-fetch)
     const jobsInput = {
-      size: 50,
+      size: 25,
       sortBy: [{ field: "name", order: "asc" }],
     };
     if (searchTerm) {
