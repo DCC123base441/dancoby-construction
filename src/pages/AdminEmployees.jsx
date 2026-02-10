@@ -48,6 +48,11 @@ export default function AdminEmployees() {
         const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
             queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
             queryClient.refetchQueries({ queryKey: ['inviteHistory'] });
+            queryClient.invalidateQueries({ queryKey: ['adminInvites'] });
+            queryClient.refetchQueries({ queryKey: ['adminInvites'] });
+            // When invite status changes, user/profile data may also have changed
+            queryClient.refetchQueries({ queryKey: ['adminUsers'] });
+            queryClient.refetchQueries({ queryKey: ['adminProfiles'] });
         });
         return () => { unsubUser(); unsubProfile(); unsubInvite(); };
     }, [queryClient]);
