@@ -38,14 +38,23 @@ export default function AdminPortalPreview() {
     // Build employee list from profiles (source of truth for employees)
     const profileEmails = new Set(profiles.map(p => p.userEmail));
     
-    const employeeOptions = profiles.map(p => {
-        const matchedUser = users.find(u => u.email === p.userEmail);
-        return {
-            email: p.userEmail || p.email,
-            name: [p.firstName, p.lastName].filter(Boolean).join(' ') || matchedUser?.full_name || p.userEmail || p.email,
-            pending: !matchedUser,
-        };
-    });
+    const seenEmails = new Set();
+    const employeeOptions = profiles
+        .map(p => {
+            const matchedUser = users.find(u => u.email === p.userEmail);
+            return {
+                email: p.userEmail || p.email,
+                name: [p.firstName, p.lastName].filter(Boolean).join(' ') || matchedUser?.full_name || p.userEmail || p.email,
+                pending: !matchedUser,
+            };
+        })
+        .filter(emp => {
+            if (!emp.email) return false;
+            const key = emp.email.toLowerCase();
+            if (seenEmails.has(key)) return false;
+            seenEmails.add(key);
+            return true;
+        });
 
     // Auto-select first if none chosen
     useEffect(() => {
