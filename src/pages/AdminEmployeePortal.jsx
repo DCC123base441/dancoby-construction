@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,7 +20,6 @@ export default function AdminEmployeePortal() {
   const [showInvite, setShowInvite] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
-  const queryClient = useQueryClient();
 
   const { data: allUsers = [] } = useQuery({
     queryKey: ['portalUsers'],
@@ -32,19 +31,11 @@ export default function AdminEmployeePortal() {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
 
-  // Real-time sync: subscribe to changes so data stays fresh across devices
-  useEffect(() => {
-    const unsub1 = base44.entities.User.subscribe(() => {
-      queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
-    });
-    const unsub2 = base44.entities.InviteHistory.subscribe(() => {
-      queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
-    });
-    return () => { unsub1(); unsub2(); };
-  }, [queryClient]);
-
-  const activeEmployeeCount = allUsers.filter(u => u.role !== 'admin').length;
-  const pendingInvites = invites.filter(i => i.status === 'pending' && i.portalRole === 'employee');
+  const employees = allUsers.filter(u => u.portalRole === 'employee');
+  const pendingInvites = invites.filter(i => {
+    const emails = new Set(allUsers.map(u => u.email?.toLowerCase()));
+    return !emails.has(i.email?.toLowerCase()) && i.portalRole === 'employee';
+  });
 
   const employeeLinks = [
     { name: "Manage Employees", href: "AdminEmployees", icon: HardHat },
@@ -60,7 +51,7 @@ export default function AdminEmployeePortal() {
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <StatCard label="Active Employees" value={activeEmployeeCount} icon={HardHat} color="amber" />
+          <StatCard label="Active Employees" value={employees.length} icon={HardHat} color="amber" />
           <StatCard label="Pending Invites" value={pendingInvites.length} icon={Send} color="violet" />
           <StatCard label="Total Invites Sent" value={invites.filter(i => i.portalRole === 'employee').length} icon={History} color="emerald" />
         </div>
@@ -92,7 +83,7 @@ export default function AdminEmployeePortal() {
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0 max-h-80 overflow-y-auto">
-              <InviteHistoryPanel filterRole="employee" />
+              <InviteHistoryPanel users={allUsers} filterRole="employee" />
             </CardContent>
           </Card>
         )}

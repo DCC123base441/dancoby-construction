@@ -16,25 +16,25 @@ Deno.serve(async (req) => {
             return Response.json({ error: 'Email is required' }, { status: 400 });
         }
         
+        // Normalize email to lowercase
         const normalizedEmail = email.trim().toLowerCase();
 
         // Check if user already exists
-        const existingUsers = await base44.asServiceRole.entities.User.filter({ email: normalizedEmail });
-
-        // If it's a customer invite, set portalRole on the user (only customers need a role)
-        if (portalRole === 'customer' && existingUsers.length > 0) {
-            await base44.asServiceRole.entities.User.update(existingUsers[0].id, { portalRole: 'customer' });
+        const users = await base44.asServiceRole.entities.User.filter({ email: normalizedEmail });
+        if (users.length > 0) {
+            // If they exist, update their role
+            await base44.asServiceRole.entities.User.update(users[0].id, { portalRole });
         }
 
-        // Log invite history
+        // Log invite history first
         await base44.asServiceRole.entities.InviteHistory.create({
             email: normalizedEmail,
             portalRole,
             invitedBy: user.email,
-            status: existingUsers.length > 0 ? 'accepted' : 'pending',
+            status: 'pending',
         });
 
-        // Prepare email
+        // Prepare email content
         const portalLabel = portalRole === 'customer' ? 'Customer Portal' : 'Employee Portal';
         const portalUrl = appUrl ? `${appUrl}/PortalLogin` : 'PortalLogin';
         const htmlContent = `
@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
             </div>
         `;
 
-        // Try Resend first
+        // Try to send using Resend if available
         const resendApiKey = Deno.env.get('RESEND_API_KEY');
         if (resendApiKey) {
             try {
@@ -69,6 +69,7 @@ Deno.serve(async (req) => {
                     subject: `Welcome to the Dancoby ${portalLabel}!`,
                     html: htmlContent
                 });
+
                 if (!error) {
                     return Response.json({ success: true, message: `Invited ${normalizedEmail} via Resend` });
                 }
@@ -78,17 +79,16 @@ Deno.serve(async (req) => {
             }
         }
 
-        // Fallback: standard invite (only if user doesn't exist yet)
-        if (existingUsers.length === 0) {
-            try {
-                await base44.users.inviteUser(normalizedEmail, role);
-                return Response.json({ success: true, message: `Invited ${normalizedEmail} via standard invite` });
-            } catch (inviteError) {
-                throw inviteError;
-            }
+        // Fallback: Use standard inviteUser if Resend is missing or fails
+        try {
+            await base44.users.inviteUser(normalizedEmail, role);
+            return Response.json({ success: true, message: `Invited ${normalizedEmail} via standard invite (fallback)` });
+        } catch (inviteError) {
+             if (users.length > 0) {
+                 return Response.json({ success: true, message: `User ${normalizedEmail} updated` });
+             }
+             throw inviteError;
         }
-
-        return Response.json({ success: true, message: `User ${normalizedEmail} already exists, invite logged` });
 
     } catch (error) {
         return Response.json({ error: error.message }, { status: 500 });

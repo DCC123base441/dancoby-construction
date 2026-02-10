@@ -3,6 +3,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 Deno.serve(async (req) => {
     try {
         const base44 = createClientFromRequest(req);
+        // Check auth
         let user;
         try {
             user = await base44.auth.me();
@@ -12,32 +13,40 @@ Deno.serve(async (req) => {
         
         if (!user) return Response.json({ authorized: false });
 
-        // Auto-mark any pending invites for this user as accepted
-        try {
-            const pendingInvites = await base44.asServiceRole.entities.InviteHistory.filter({
-                email: user.email,
-                status: 'pending'
-            });
-            for (const inv of pendingInvites) {
-                await base44.asServiceRole.entities.InviteHistory.update(inv.id, { status: 'accepted' });
-            }
-        } catch (e) {
-            console.error('Failed to auto-accept invites:', e);
+        // If already has role, return it
+        if (user.portalRole === 'employee' || user.portalRole === 'customer') {
+            return Response.json({ authorized: true, role: user.portalRole });
         }
 
-        // Admins always have access
-        if (user.role === 'admin') {
-            return Response.json({ authorized: true, role: 'admin' });
+        // Search for invites/profiles
+        const email = user.email;
+        const emailLower = email.toLowerCase();
+        
+        // Check InviteHistory (try both exact and lower)
+        const invites1 = await base44.asServiceRole.entities.InviteHistory.filter({ email: email });
+        const invites2 = await base44.asServiceRole.entities.InviteHistory.filter({ email: emailLower });
+        const invite = invites1[0] || invites2[0];
+
+        if (invite) {
+            // Found invite -> Assign Role
+            await base44.asServiceRole.entities.User.update(user.id, { portalRole: invite.portalRole });
+            return Response.json({ authorized: true, role: invite.portalRole, assignedNow: true });
         }
 
-        // Check if user is explicitly a customer
-        const existingRole = user.portalRole;
-        if (existingRole === 'customer') {
-            return Response.json({ authorized: true, role: 'customer' });
+        // Check EmployeeProfile
+        // Try exact match
+        let profiles = await base44.asServiceRole.entities.EmployeeProfile.filter({ userEmail: email });
+        if (profiles.length === 0 && email !== emailLower) {
+             profiles = await base44.asServiceRole.entities.EmployeeProfile.filter({ userEmail: emailLower });
         }
 
-        // Everyone else is an employee — no portalRole needed
-        return Response.json({ authorized: true, role: 'employee' });
+        if (profiles.length > 0) {
+            // Found profile -> Assign Employee
+             await base44.asServiceRole.entities.User.update(user.id, { portalRole: 'employee' });
+             return Response.json({ authorized: true, role: 'employee', assignedNow: true });
+        }
+
+        return Response.json({ authorized: true, role: null });
 
     } catch (error) {
         return Response.json({ error: error.message }, { status: 500 });

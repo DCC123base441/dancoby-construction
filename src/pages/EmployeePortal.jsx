@@ -67,9 +67,12 @@ function EmployeePortalContent() {
           return;
         }
 
-        // Only customers get redirected; everyone else is an employee
-        if (me.portalRole === 'customer') {
-          window.location.href = createPageUrl('CustomerPortal');
+        if (me.portalRole !== 'employee' && me.role !== 'admin') {
+          if (me.portalRole === 'customer') {
+            window.location.href = createPageUrl('CustomerPortal');
+          } else {
+            window.location.href = createPageUrl('PortalLogin');
+          }
           return;
         }
         setUser(me);
@@ -102,7 +105,7 @@ function EmployeePortalContent() {
       const results = await base44.entities.PortalNavConfig.filter({ configKey: 'employee_mobile_nav' });
       return results[0] || null;
     },
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
   });
 
   // Show onboarding for first-time employees

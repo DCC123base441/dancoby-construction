@@ -4,46 +4,49 @@ import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '../utils';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { HardHat, LogIn, Loader2, ShieldCheck, LogOut } from 'lucide-react';
+import { HardHat, Users, LogIn, Loader2, ShieldCheck, LogOut } from 'lucide-react';
 
 export default function PortalLogin() {
   const [isChecking, setIsChecking] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const isAuth = await base44.auth.isAuthenticated();
-        if (!isAuth) {
-          setIsChecking(false);
-          return;
+        if (isAuth) {
+          const user = await base44.auth.me();
+          setCurrentUser(user);
+          if (user.role === 'admin') {
+            setIsAdmin(true);
+            setIsChecking(false);
+            return;
+          }
+
+          // Check/Assign access via backend (handles permissions and normalization)
+          try {
+             const { data } = await base44.functions.invoke('checkPortalAccess');
+             
+             if (data.authorized && data.role) {
+                 // Refresh user to get the new role if it was just assigned
+                 const updatedUser = data.assignedNow ? await base44.auth.me() : user;
+                 
+                 if (data.role === 'employee') {
+                     const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: updatedUser.email });
+                     const isNew = profiles.length === 0;
+                     window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
+                 } else if (data.role === 'customer') {
+                     window.location.href = createPageUrl('CustomerPortal');
+                 }
+                 return;
+             }
+          } catch (err) {
+              console.error('Portal access check failed', err);
+          }
         }
-
-        const user = await base44.auth.me();
-
-        // Admin → show admin options
-        if (user.role === 'admin') {
-          setIsAdmin(true);
-          setIsChecking(false);
-          return;
-        }
-
-        // Everyone else → check portal access and redirect
-        const { data } = await base44.functions.invoke('checkPortalAccess');
-
-        if (data.role === 'customer') {
-          window.location.href = createPageUrl('CustomerPortal');
-          return;
-        }
-
-        // Default: employee
-        const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
-        const isNew = profiles.length === 0;
-        window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
-        return;
-
       } catch (e) {
-        console.error('Auth check failed', e);
+        // not logged in
       }
       setIsChecking(false);
     };
@@ -51,6 +54,7 @@ export default function PortalLogin() {
   }, []);
 
   const handleLogin = () => {
+    // Ensure absolute URL for the redirect
     const nextUrl = new URL(createPageUrl('PortalLogin'), window.location.origin).href;
     base44.auth.redirectToLogin(nextUrl);
   };
@@ -86,6 +90,7 @@ export default function PortalLogin() {
                   Signed in as Admin
                 </div>
               </div>
+
               <Button asChild variant="outline" className="w-full">
                 <Link to={createPageUrl('AdminDashboard')}>Back to Admin Dashboard</Link>
               </Button>
@@ -98,12 +103,38 @@ export default function PortalLogin() {
                 Sign Out
               </Button>
             </div>
+          ) : currentUser ? (
+            <div className="space-y-4 text-center">
+              <div className="p-3 rounded-full bg-slate-100 w-fit mx-auto mb-2">
+                <Users className="w-6 h-6 text-slate-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900">Access Restricted</h3>
+                <p className="text-sm text-slate-500 mt-2">
+                  This portal is invite-only. Your account ({currentUser.email}) is not authorized to access this section.
+                </p>
+                <p className="text-xs text-slate-400 mt-4 mb-4">
+                  If you believe this is a mistake, please contact your administrator.
+                </p>
+              </div>
+              <Button 
+                onClick={() => base44.auth.logout(createPageUrl('PortalLogin'))} 
+                variant="outline" 
+                className="w-full"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
           ) : (
             <div className="space-y-4">
+
+
               <Button onClick={handleLogin} className="w-full h-12 bg-slate-900 hover:bg-slate-800 text-white text-base">
                 <LogIn className="w-5 h-5 mr-2" />
                 Sign In
               </Button>
+
               <div className="text-center text-xs text-slate-400">
                 Contact us if you need an account set up for you.
               </div>
