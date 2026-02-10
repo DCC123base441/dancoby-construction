@@ -32,7 +32,12 @@ export default function AdminEmployeePortal() {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
 
-  // Real-time sync for both users and invites — force immediate refetch
+  const { data: employeeProfiles = [] } = useQuery({
+    queryKey: ['employeeProfiles'],
+    queryFn: () => base44.entities.EmployeeProfile.list(),
+  });
+
+  // Real-time sync for users, invites, and employee profiles — force immediate refetch
   useEffect(() => {
     const unsubUser = base44.entities.User.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
@@ -42,9 +47,14 @@ export default function AdminEmployeePortal() {
       queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
       queryClient.refetchQueries({ queryKey: ['inviteHistory'] });
     });
-    return () => { unsubUser(); unsubInvite(); };
+    const unsubProfile = base44.entities.EmployeeProfile.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['employeeProfiles'] });
+      queryClient.refetchQueries({ queryKey: ['employeeProfiles'] });
+    });
+    return () => { unsubUser(); unsubInvite(); unsubProfile(); };
   }, [queryClient]);
 
+  const activeEmployees = employeeProfiles.filter(p => p.status === 'active');
   const employees = allUsers.filter(u => u.portalRole === 'employee');
   const pendingInvites = invites.filter(i => i.status === 'pending' && i.portalRole === 'employee');
   const totalEmployeeInvites = invites.filter(i => i.portalRole === 'employee');
