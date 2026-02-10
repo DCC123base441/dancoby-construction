@@ -65,7 +65,8 @@ Deno.serve(async (req) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      return Response.json({ error: `JobTread API error: ${response.status}` }, { status: 502 });
+      console.error("JobTread error:", errorText);
+      return Response.json({ error: `JobTread API error: ${response.status}`, details: errorText }, { status: 502 });
     }
 
     const data = await response.json();
