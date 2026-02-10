@@ -1,5 +1,5 @@
-import React from 'react';
-import { Search, Briefcase, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Briefcase, Loader2, SlidersHorizontal } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -12,6 +12,13 @@ const statusColors = {
   active: 'bg-green-100 text-green-700',
 };
 
+const statusFilters = [
+  { value: 'all', label: 'All' },
+  { value: 'created', label: 'Created' },
+  { value: 'pending', label: 'Pending' },
+  { value: 'active', label: 'Active' },
+];
+
 export default function JobList({ 
   jobs, 
   loading, 
@@ -21,10 +28,16 @@ export default function JobList({
   onSelectJob,
   unreadCounts 
 }) {
+  const [statusFilter, setStatusFilter] = useState('all');
+
+  const filteredJobs = statusFilter === 'all' 
+    ? jobs 
+    : jobs.filter(j => j.status === statusFilter);
+
   return (
     <div className="flex flex-col h-full">
       {/* Search */}
-      <div className="p-3 border-b border-slate-200">
+      <div className="p-3 border-b border-slate-200 space-y-2">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input
@@ -34,6 +47,21 @@ export default function JobList({
             className="pl-9 h-9 text-sm"
           />
         </div>
+        <div className="flex gap-1">
+          {statusFilters.map(f => (
+            <button
+              key={f.value}
+              onClick={() => setStatusFilter(f.value)}
+              className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors ${
+                statusFilter === f.value
+                  ? 'bg-amber-100 text-amber-700'
+                  : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Job list */}
@@ -42,14 +70,14 @@ export default function JobList({
           <div className="flex items-center justify-center py-12">
             <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
           </div>
-        ) : jobs.length === 0 ? (
+        ) : filteredJobs.length === 0 ? (
           <div className="text-center py-12 px-4">
             <Briefcase className="w-8 h-8 text-slate-300 mx-auto mb-2" />
             <p className="text-sm text-slate-400">No jobs found</p>
           </div>
         ) : (
           <div className="divide-y divide-slate-100">
-            {jobs.map((job) => {
+            {filteredJobs.map((job) => {
               const isSelected = selectedJobId === job.id;
               const unread = unreadCounts?.[job.id] || 0;
               return (
