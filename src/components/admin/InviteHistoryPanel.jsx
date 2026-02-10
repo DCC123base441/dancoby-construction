@@ -9,30 +9,17 @@ import { format } from 'date-fns';
 export default function InviteHistoryPanel({ filterRole }) {
   const queryClient = useQueryClient();
 
-  const { data: users = [], isLoading: usersLoading } = useQuery({
-    queryKey: ['allUsersForInvites'],
-    queryFn: () => base44.entities.User.list(),
-    staleTime: 0,
-  });
-
-  const { data: allInvites = [], isLoading: invitesLoading } = useQuery({
+  const { data: allInvites = [], isLoading } = useQuery({
     queryKey: ['inviteHistoryList'],
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 50),
     staleTime: 0,
   });
 
-  const isLoading = usersLoading || invitesLoading;
   const invites = filterRole ? allInvites.filter(i => i.portalRole === filterRole) : allInvites;
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.InviteHistory.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inviteHistoryList'] }),
-  });
-
-  // Build set of all registered user emails
-  const userEmails = new Set();
-  users.forEach(u => {
-    if (u.email) userEmails.add(u.email.toLowerCase());
   });
 
   if (isLoading) {
@@ -55,7 +42,7 @@ export default function InviteHistoryPanel({ filterRole }) {
   return (
     <div className="space-y-2">
       {invites.map((inv) => {
-        const accepted = userEmails.has(inv.email?.toLowerCase());
+        const accepted = inv.status === 'accepted';
         return (
           <div key={inv.id} className="p-3 rounded-lg border border-slate-100 bg-white space-y-2">
             <div className="flex items-start justify-between gap-2">
