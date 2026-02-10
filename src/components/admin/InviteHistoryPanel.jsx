@@ -6,35 +6,34 @@ import { Button } from "@/components/ui/button";
 import { Clock, CheckCircle2, Mail, Loader2, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
-export default function InviteHistoryPanel({ users: propUsers, filterRole }) {
+export default function InviteHistoryPanel({ filterRole }) {
   const queryClient = useQueryClient();
 
-  const { data: freshUsers = [] } = useQuery({
-    queryKey: ['inviteHistoryUsers'],
+  const { data: users = [], isLoading: usersLoading } = useQuery({
+    queryKey: ['allUsersForInvites'],
     queryFn: () => base44.entities.User.list(),
     staleTime: 0,
-    refetchOnMount: 'always',
   });
 
-  const users = freshUsers.length > 0 ? freshUsers : (propUsers || []);
-
-  const { data: allInvites = [], isLoading } = useQuery({
-    queryKey: ['inviteHistory'],
+  const { data: allInvites = [], isLoading: invitesLoading } = useQuery({
+    queryKey: ['inviteHistoryList'],
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 50),
     staleTime: 0,
-    refetchOnMount: 'always',
   });
 
+  const isLoading = usersLoading || invitesLoading;
   const invites = filterRole ? allInvites.filter(i => i.portalRole === filterRole) : allInvites;
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.InviteHistory.delete(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inviteHistory'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inviteHistoryList'] }),
   });
 
-  // Check if invited email matches an existing user to determine accepted status
-  // User emails can be at top level or nested - handle both
-  const userEmails = new Set(users.map(u => (u.email || u.data?.email || '').toLowerCase()).filter(Boolean));
+  // Build set of all registered user emails
+  const userEmails = new Set();
+  users.forEach(u => {
+    if (u.email) userEmails.add(u.email.toLowerCase());
+  });
 
   if (isLoading) {
     return (
