@@ -17,17 +17,17 @@ Deno.serve(async (req) => {
     const searchTerm = body.search || '';
     const page = body.page || null;
 
-    // Build where clause for search
-    let whereClause = undefined;
+    // Filter to active jobs only, with optional search
+    let whereClause = ["status", "=", "active"];
     if (searchTerm) {
-      whereClause = ["name", "~*", searchTerm];
+      whereClause = ["and", ["status", "=", "active"], ["name", "~*", searchTerm]];
     }
 
     const jobsInput = {
       size: 50,
-      sortBy: [{ field: "createdAt", order: "desc" }],
+      sortBy: [{ field: "name", order: "asc" }],
+      where: whereClause,
     };
-    if (whereClause) jobsInput.where = whereClause;
     if (page) jobsInput.page = page;
 
     const query = {
@@ -47,6 +47,9 @@ Deno.serve(async (req) => {
                       name: {},
                       status: {},
                       createdAt: {},
+                      location: {
+                        address: {},
+                      },
                     }
                   }
                 }
