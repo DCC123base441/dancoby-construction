@@ -30,7 +30,7 @@ export default function AdminChat() {
     staleTime: 1000 * 60 * 2,
   });
 
-  const jobs = jobsData?.jobs || [];
+  const jobs = (jobsData?.jobs || []).filter(j => j.status !== 'closed');
 
   // Fetch messages for the selected job
   const { data: messages = [], isLoading: messagesLoading } = useQuery({
