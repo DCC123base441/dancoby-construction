@@ -12,6 +12,19 @@ Deno.serve(async (req) => {
         
         if (!user) return Response.json({ authorized: false });
 
+        // Auto-mark any pending invites for this user as accepted
+        try {
+            const pendingInvites = await base44.asServiceRole.entities.InviteHistory.filter({
+                email: user.email,
+                status: 'pending'
+            });
+            for (const inv of pendingInvites) {
+                await base44.asServiceRole.entities.InviteHistory.update(inv.id, { status: 'accepted' });
+            }
+        } catch (e) {
+            console.error('Failed to auto-accept invites:', e);
+        }
+
         // Admins always have access
         if (user.role === 'admin') {
             return Response.json({ authorized: true, role: 'admin' });
