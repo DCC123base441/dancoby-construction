@@ -17,10 +17,10 @@ Deno.serve(async (req) => {
     const searchTerm = body.search || '';
     const page = body.page || null;
 
-    // Build where clause for search
-    let whereClause = undefined;
+    // Build where clause - only active jobs (not closed)
+    let whereClause = ["status", "!=", "closed"];
     if (searchTerm) {
-      whereClause = ["name", "~*", searchTerm];
+      whereClause = { and: [["status", "!=", "closed"], ["name", "~*", searchTerm]] };
     }
 
     const jobsInput = {

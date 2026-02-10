@@ -95,7 +95,7 @@ export default function AdminChat() {
         </Button>
       }
     >
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" style={{ height: 'calc(100vh - 160px)' }}>
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" style={{ height: 'calc(100vh - 180px)', minHeight: '400px' }}>
         <div className="flex h-full">
           {/* Job sidebar */}
           <div className={`${sidebarOpen ? 'w-full md:w-80' : 'hidden'} md:block md:w-80 flex-shrink-0 border-r border-slate-200 h-full ${
