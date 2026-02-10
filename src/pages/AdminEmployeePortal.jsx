@@ -20,6 +20,7 @@ export default function AdminEmployeePortal() {
   const [showInvite, setShowInvite] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data: allUsers = [] } = useQuery({
     queryKey: ['portalUsers'],
@@ -30,6 +31,17 @@ export default function AdminEmployeePortal() {
     queryKey: ['inviteHistory'],
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
+
+  // Real-time sync: subscribe to changes so data stays fresh across devices
+  useEffect(() => {
+    const unsub1 = base44.entities.User.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
+    });
+    const unsub2 = base44.entities.InviteHistory.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+    });
+    return () => { unsub1(); unsub2(); };
+  }, [queryClient]);
 
   const activeEmployeeCount = allUsers.filter(u => u.portalRole === 'employee').length;
   const pendingInvites = invites.filter(i => i.status === 'pending' && i.portalRole === 'employee');
