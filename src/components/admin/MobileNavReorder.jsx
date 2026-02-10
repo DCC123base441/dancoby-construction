@@ -62,8 +62,9 @@ export default function MobileNavReorder() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['portalNavConfig'] });
+      queryClient.refetchQueries({ queryKey: ['portalNavConfig'] });
       setHasChanges(false);
-      toast.success('Navigation order saved');
+      toast.success('Navigation order saved — other devices will see changes on next page load');
     },
   });
 

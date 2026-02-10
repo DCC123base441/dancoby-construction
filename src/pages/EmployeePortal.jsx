@@ -105,7 +105,7 @@ function EmployeePortalContent() {
       const results = await base44.entities.PortalNavConfig.filter({ configKey: 'employee_mobile_nav' });
       return results[0] || null;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
   });
 
   // Show onboarding for first-time employees
