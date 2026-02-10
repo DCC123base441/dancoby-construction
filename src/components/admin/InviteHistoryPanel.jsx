@@ -14,24 +14,18 @@ export default function InviteHistoryPanel({ users = [] }) {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 50),
   });
 
-  // Real-time sync: refresh when invites or users change
+  // Real-time sync: refresh when invites change
   useEffect(() => {
     const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
     });
-    const unsubUser = base44.entities.User.subscribe(() => {
-      queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
-    });
-    return () => { unsubInvite(); unsubUser(); };
+    return () => { unsubInvite(); };
   }, [queryClient]);
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.InviteHistory.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inviteHistory'] }),
   });
-
-  // Check if invited email matches an existing user to determine accepted status
-  const userEmails = new Set(users.map(u => u.email?.toLowerCase()));
 
   if (isLoading) {
     return (
@@ -53,7 +47,7 @@ export default function InviteHistoryPanel({ users = [] }) {
   return (
     <div className="space-y-2">
       {invites.map((inv) => {
-        const accepted = userEmails.has(inv.email?.toLowerCase());
+        const accepted = inv.status === 'accepted';
         return (
           <div key={inv.id} className="p-3 rounded-lg border border-slate-100 bg-white space-y-2">
             <div className="flex items-start justify-between gap-2">
