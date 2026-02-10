@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Clock, CheckCircle2, Mail, Loader2, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
-export default function InviteHistoryPanel({ users = [] }) {
+export default function InviteHistoryPanel({ filterRole }) {
   const queryClient = useQueryClient();
 
   const { data: invites = [], isLoading } = useQuery({
@@ -14,18 +14,20 @@ export default function InviteHistoryPanel({ users = [] }) {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 50),
   });
 
-  // Real-time sync: refresh when invites change
+  // Real-time: auto-refresh when invite records change
   useEffect(() => {
-    const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
+    const unsub = base44.entities.InviteHistory.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
     });
-    return () => { unsubInvite(); };
+    return unsub;
   }, [queryClient]);
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.InviteHistory.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inviteHistory'] }),
   });
+
+  const filtered = filterRole ? invites.filter(i => i.portalRole === filterRole) : invites;
 
   if (isLoading) {
     return (
@@ -35,7 +37,7 @@ export default function InviteHistoryPanel({ users = [] }) {
     );
   }
 
-  if (invites.length === 0) {
+  if (filtered.length === 0) {
     return (
       <div className="text-center py-8 text-slate-400">
         <Mail className="w-8 h-8 mx-auto mb-2 text-slate-300" />
@@ -46,7 +48,7 @@ export default function InviteHistoryPanel({ users = [] }) {
 
   return (
     <div className="space-y-2">
-      {invites.map((inv) => {
+      {filtered.map((inv) => {
         const accepted = inv.status === 'accepted';
         return (
           <div key={inv.id} className="p-3 rounded-lg border border-slate-100 bg-white space-y-2">

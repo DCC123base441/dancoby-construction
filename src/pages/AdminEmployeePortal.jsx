@@ -6,7 +6,6 @@ import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   HardHat, ExternalLink, ChevronRight, UserPlus,
   Newspaper, CalendarDays, BookOpen, Send, History, Smartphone
@@ -33,7 +32,7 @@ export default function AdminEmployeePortal() {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
 
-  // Real-time sync: refresh when users or invites change
+  // Real-time sync for both users and invites
   useEffect(() => {
     const unsubUser = base44.entities.User.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
@@ -45,7 +44,8 @@ export default function AdminEmployeePortal() {
   }, [queryClient]);
 
   const employees = allUsers.filter(u => u.portalRole === 'employee');
-  const pendingInvites = invites.filter(i => i.status !== 'accepted' && i.portalRole === 'employee');
+  const pendingInvites = invites.filter(i => i.status === 'pending' && i.portalRole === 'employee');
+  const totalEmployeeInvites = invites.filter(i => i.portalRole === 'employee');
 
   const employeeLinks = [
     { name: "Manage Employees", href: "AdminEmployees", icon: HardHat },
@@ -63,7 +63,7 @@ export default function AdminEmployeePortal() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <StatCard label="Active Employees" value={employees.length} icon={HardHat} color="amber" />
           <StatCard label="Pending Invites" value={pendingInvites.length} icon={Send} color="violet" />
-          <StatCard label="Total Invites Sent" value={invites.filter(i => i.portalRole === 'employee').length} icon={History} color="emerald" />
+          <StatCard label="Total Invites Sent" value={totalEmployeeInvites.length} icon={History} color="emerald" />
         </div>
 
         {/* Actions Bar */}
@@ -93,7 +93,7 @@ export default function AdminEmployeePortal() {
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0 max-h-80 overflow-y-auto">
-              <InviteHistoryPanel users={allUsers} filterRole="employee" />
+              <InviteHistoryPanel filterRole="employee" />
             </CardContent>
           </Card>
         )}

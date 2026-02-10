@@ -16,25 +16,37 @@ Deno.serve(async (req) => {
             return Response.json({ error: 'Email is required' }, { status: 400 });
         }
         
-        // Normalize email to lowercase
         const normalizedEmail = email.trim().toLowerCase();
 
-        // Check if user already exists
+        // Check if user already exists and update their role
         const users = await base44.asServiceRole.entities.User.filter({ email: normalizedEmail });
-        if (users.length > 0) {
-            // If they exist, update their role
+        const alreadyRegistered = users.length > 0;
+
+        if (alreadyRegistered) {
             await base44.asServiceRole.entities.User.update(users[0].id, { portalRole });
         }
 
-        // Log invite history first
-        await base44.asServiceRole.entities.InviteHistory.create({
-            email: normalizedEmail,
-            portalRole,
-            invitedBy: user.email,
-            status: 'pending',
-        });
+        // Check for existing pending invite to avoid duplicates
+        const existingInvites = await base44.asServiceRole.entities.InviteHistory.filter({ email: normalizedEmail, status: 'pending' });
+        
+        if (existingInvites.length > 0) {
+            // Update existing invite instead of creating duplicate
+            await base44.asServiceRole.entities.InviteHistory.update(existingInvites[0].id, {
+                portalRole,
+                invitedBy: user.email,
+                status: alreadyRegistered ? 'accepted' : 'pending',
+            });
+        } else {
+            // Create new invite record
+            await base44.asServiceRole.entities.InviteHistory.create({
+                email: normalizedEmail,
+                portalRole,
+                invitedBy: user.email,
+                status: alreadyRegistered ? 'accepted' : 'pending',
+            });
+        }
 
-        // Prepare email content
+        // Prepare email
         const portalLabel = portalRole === 'customer' ? 'Customer Portal' : 'Employee Portal';
         const portalUrl = appUrl ? `${appUrl}/PortalLogin` : 'PortalLogin';
         const htmlContent = `
@@ -58,7 +70,7 @@ Deno.serve(async (req) => {
             </div>
         `;
 
-        // Try to send using Resend if available
+        // Try Resend first
         const resendApiKey = Deno.env.get('RESEND_API_KEY');
         if (resendApiKey) {
             try {
@@ -79,15 +91,15 @@ Deno.serve(async (req) => {
             }
         }
 
-        // Fallback: Use standard inviteUser if Resend is missing or fails
+        // Fallback: standard invite
         try {
             await base44.users.inviteUser(normalizedEmail, role);
-            return Response.json({ success: true, message: `Invited ${normalizedEmail} via standard invite (fallback)` });
+            return Response.json({ success: true, message: `Invited ${normalizedEmail} via standard invite` });
         } catch (inviteError) {
-             if (users.length > 0) {
-                 return Response.json({ success: true, message: `User ${normalizedEmail} updated` });
-             }
-             throw inviteError;
+            if (alreadyRegistered) {
+                return Response.json({ success: true, message: `User ${normalizedEmail} updated` });
+            }
+            throw inviteError;
         }
 
     } catch (error) {
