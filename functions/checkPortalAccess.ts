@@ -13,9 +13,10 @@ Deno.serve(async (req) => {
         
         if (!user) return Response.json({ authorized: false });
 
-        // If already has role, return it
-        if (user.portalRole === 'employee' || user.portalRole === 'customer') {
-            return Response.json({ authorized: true, role: user.portalRole });
+        // If already has role, return it (portalRole may be at top level or inside data)
+        const existingRole = user.portalRole || user.data?.portalRole;
+        if (existingRole === 'employee' || existingRole === 'customer') {
+            return Response.json({ authorized: true, role: existingRole });
         }
 
         // Search for invites/profiles
@@ -30,6 +31,8 @@ Deno.serve(async (req) => {
         if (invite) {
             // Found invite -> Assign Role
             await base44.asServiceRole.entities.User.update(user.id, { portalRole: invite.portalRole });
+            // Mark invite as accepted
+            await base44.asServiceRole.entities.InviteHistory.update(invite.id, { status: 'accepted' });
             return Response.json({ authorized: true, role: invite.portalRole, assignedNow: true });
         }
 
