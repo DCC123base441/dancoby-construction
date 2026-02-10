@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,11 +27,20 @@ export default function AdminCustomerPortal() {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
 
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const unsubUser = base44.entities.User.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
+    });
+    const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+    });
+    return () => { unsubUser(); unsubInvite(); };
+  }, [queryClient]);
+
   const customers = allUsers.filter(u => u.portalRole === 'customer');
-  const pendingInvites = invites.filter(i => {
-    const emails = new Set(allUsers.map(u => u.email?.toLowerCase()));
-    return !emails.has(i.email?.toLowerCase()) && i.portalRole === 'customer';
-  });
+  const pendingInvites = invites.filter(i => i.status === 'pending' && i.portalRole === 'customer');
 
   return (
     <AdminLayout title="Customer Portal Management">
@@ -71,7 +80,7 @@ export default function AdminCustomerPortal() {
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0 max-h-80 overflow-y-auto">
-              <InviteHistoryPanel users={allUsers} filterRole="customer" />
+              <InviteHistoryPanel filterRole="customer" />
             </CardContent>
           </Card>
         )}
