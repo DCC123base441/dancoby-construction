@@ -183,6 +183,7 @@ export default function AdminEmployees() {
                                 <EmployeeList
                                     users={employees}
                                     profiles={profiles}
+                                    invites={invites}
                                     onSelect={setSelectedUser}
                                     selectedId={selectedUser?.id}
                                 />
