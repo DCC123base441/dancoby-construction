@@ -30,6 +30,12 @@ Deno.serve(async (req) => {
         if (invite) {
             // Found invite -> Assign Role
             await base44.asServiceRole.entities.User.update(user.id, { portalRole: invite.portalRole });
+            // Mark all matching invites as accepted
+            const allInvites = [...invites1, ...invites2];
+            const uniqueIds = [...new Set(allInvites.map(i => i.id))];
+            for (const id of uniqueIds) {
+                await base44.asServiceRole.entities.InviteHistory.update(id, { status: 'accepted' });
+            }
             return Response.json({ authorized: true, role: invite.portalRole, assignedNow: true });
         }
 

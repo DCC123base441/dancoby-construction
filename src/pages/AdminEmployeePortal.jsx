@@ -45,10 +45,7 @@ export default function AdminEmployeePortal() {
   }, [queryClient]);
 
   const employees = allUsers.filter(u => u.portalRole === 'employee');
-  const pendingInvites = invites.filter(i => {
-    const emails = new Set(allUsers.map(u => u.email?.toLowerCase()));
-    return !emails.has(i.email?.toLowerCase()) && i.portalRole === 'employee';
-  });
+  const pendingInvites = invites.filter(i => i.status !== 'accepted' && i.portalRole === 'employee');
 
   const employeeLinks = [
     { name: "Manage Employees", href: "AdminEmployees", icon: HardHat },
