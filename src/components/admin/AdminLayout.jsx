@@ -15,6 +15,7 @@ import {
     X,
     ExternalLink,
     MessageSquare,
+    MessagesSquare,
     ShoppingBag,
     HardHat,
     MonitorPlay,
@@ -69,6 +70,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Employee Portal', href: 'AdminEmployeePortal', icon: HardHat },
         { name: 'Customer Portal', href: 'AdminCustomerPortal', icon: Users },
         { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
+        { name: 'Team Chat', href: 'AdminChat', icon: MessagesSquare },
     ];
 
     const handleLogout = async () => {
