@@ -76,8 +76,16 @@ export default function AdminEmployees() {
     };
 
     // Build a combined employee list from users + profiles (for invited-but-not-yet-accepted)
-    const userEmails = new Set(users.map(u => u.email));
-    const pendingProfiles = profiles.filter(p => !userEmails.has(p.userEmail));
+    const userEmails = new Set(users.map(u => u.email?.toLowerCase()));
+    
+    // Only show as pending if their invite is actually still pending
+    const pendingProfiles = profiles.filter(p => {
+        const email = (p.userEmail || p.email)?.toLowerCase();
+        if (userEmails.has(email)) return false; // Already a real user
+        // Check if their invite is still pending
+        const inv = invites.find(i => i.email?.toLowerCase() === email);
+        return !inv || inv.status === 'pending'; // Show if no invite found or invite is pending
+    });
     
     // Convert pending profiles to user-like objects for the list
     const pendingAsUsers = pendingProfiles.map(p => ({
