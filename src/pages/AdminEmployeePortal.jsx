@@ -171,22 +171,16 @@ export default function AdminEmployeePortal() {
 
 function StatCard({ label, value, icon: Icon, color }) {
   const colorMap = {
-    amber: 'bg-amber-50 text-amber-600',
-    blue: 'bg-blue-50 text-blue-600',
-    violet: 'bg-violet-50 text-violet-600',
-    emerald: 'bg-emerald-50 text-emerald-600',
+    amber: 'text-amber-600',
+    blue: 'text-blue-600',
+    violet: 'text-violet-600',
+    emerald: 'text-emerald-600',
   };
   return (
-    <Card className="border-slate-200">
-      <CardContent className="p-4 flex items-center gap-3">
-        <div className={`p-2 rounded-lg ${colorMap[color]}`}>
-          <Icon className="w-4 h-4" />
-        </div>
-        <div>
-          <p className="text-2xl font-bold text-slate-900">{value}</p>
-          <p className="text-xs text-slate-500">{label}</p>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-slate-100 bg-white">
+      <Icon className={`w-4 h-4 ${colorMap[color]}`} />
+      <span className="text-lg font-bold text-slate-900">{value}</span>
+      <span className="text-xs text-slate-500">{label}</span>
+    </div>
   );
 }
