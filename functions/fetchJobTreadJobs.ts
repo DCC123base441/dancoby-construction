@@ -17,17 +17,14 @@ Deno.serve(async (req) => {
     const searchTerm = body.search || '';
     const page = body.page || null;
 
-    // Filter to active jobs only, with optional search
-    let whereClause = ["status", "=", "active"];
-    if (searchTerm) {
-      whereClause = ["and", ["status", "=", "active"], ["name", "~*", searchTerm]];
-    }
-
+    // Build where clause for search only (status filtered post-fetch)
     const jobsInput = {
-      size: 50,
+      size: 200,
       sortBy: [{ field: "name", order: "asc" }],
-      where: whereClause,
     };
+    if (searchTerm) {
+      jobsInput.where = ["name", "~*", searchTerm];
+    }
     if (page) jobsInput.page = page;
 
     const query = {
@@ -74,8 +71,11 @@ Deno.serve(async (req) => {
     // Navigate through the nested structure
     const memberships = data?.currentGrant?.user?.memberships?.nodes || [];
     const org = memberships[0]?.organization;
-    const jobs = org?.jobs?.nodes || [];
+    const allJobs = org?.jobs?.nodes || [];
     const nextPage = org?.jobs?.nextPage || null;
+
+    // Only return active jobs
+    const jobs = allJobs.filter(j => j.status === 'active');
 
     return Response.json({ jobs, nextPage });
   } catch (error) {
