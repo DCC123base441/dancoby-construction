@@ -11,6 +11,7 @@ import EmployeeProfileSetup from './EmployeeProfileSetup';
 import FeedbackSection from './FeedbackSection';
 import SalarySection from './SalarySection';
 import HolidaySchedule from './HolidaySchedule';
+import HolidayCalendar from './HolidayCalendar';
 import RaiseRequestSection from './RaiseRequestSection';
 import GearShopSection from './GearShopSection';
 import TimeOffSection from './TimeOffSection';
@@ -71,7 +72,7 @@ export default function EmployeePortalInner({ user }) {
         );
       case 'feedback': return <FeedbackSection user={user} />;
       case 'salary': return <SalarySection profile={profile} />;
-      case 'holidays': return <HolidaySchedule />;
+      case 'holidays': return <><HolidaySchedule /><HolidayCalendar /></>;
       case 'timeoff': return <TimeOffSection user={user} />;
       case 'raise': return <RaiseRequestSection user={user} profile={profile} />;
       case 'gear': return <GearShopSection />;
