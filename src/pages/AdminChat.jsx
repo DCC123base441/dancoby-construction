@@ -30,7 +30,15 @@ export default function AdminChat() {
     staleTime: 1000 * 60 * 2,
   });
 
-  const jobs = (jobsData?.jobs || []).filter(j => j.status !== 'closed');
+  const allJobs = (jobsData?.jobs || []).filter(j => j.status !== 'closed');
+
+  // Fetch all chat messages to know which jobs have messages
+  const { data: allMessages = [] } = useQuery({
+    queryKey: ['allChatMessages'],
+    queryFn: () => base44.entities.ChatMessage.list('-created_date', 500),
+  });
+
+  const jobsWithMessages = new Set(allMessages.map(m => m.jobId));
 
   // Fetch messages for the selected job
   const { data: messages = [], isLoading: messagesLoading } = useQuery({
@@ -106,16 +114,17 @@ export default function AdminChat() {
                 <div className="flex items-center gap-2">
                   <MessageSquare className="w-4 h-4 text-amber-600" />
                   <h3 className="text-sm font-semibold text-slate-700">Jobs</h3>
-                  <span className="text-xs text-slate-400 ml-auto">{jobs.length} jobs</span>
+                  <span className="text-xs text-slate-400 ml-auto">{allJobs.length} jobs</span>
                 </div>
               </div>
               <JobList
-                jobs={jobs}
+                jobs={allJobs}
                 loading={jobsLoading}
                 search={search}
                 onSearchChange={setSearch}
                 selectedJobId={selectedJob?.id}
                 onSelectJob={handleSelectJob}
+                jobsWithMessages={jobsWithMessages}
               />
             </div>
           </div>
