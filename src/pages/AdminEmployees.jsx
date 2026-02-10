@@ -18,6 +18,7 @@ export default function AdminEmployees() {
     const [search, setSearch] = useState('');
     const [inviteOpen, setInviteOpen] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
+    const queryClient = useQueryClient();
 
     const { data: users = [], isLoading: usersLoading, refetch: refetchUsers } = useQuery({
         queryKey: ['adminUsers'],
@@ -28,6 +29,23 @@ export default function AdminEmployees() {
         queryKey: ['adminProfiles'],
         queryFn: () => base44.entities.EmployeeProfile.list(),
     });
+
+    // Real-time subscriptions for live updates across browsers
+    useEffect(() => {
+        const unsubUser = base44.entities.User.subscribe(() => {
+            queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
+            queryClient.refetchQueries({ queryKey: ['adminUsers'] });
+        });
+        const unsubProfile = base44.entities.EmployeeProfile.subscribe(() => {
+            queryClient.invalidateQueries({ queryKey: ['adminProfiles'] });
+            queryClient.refetchQueries({ queryKey: ['adminProfiles'] });
+        });
+        const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
+            queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+            queryClient.refetchQueries({ queryKey: ['inviteHistory'] });
+        });
+        return () => { unsubUser(); unsubProfile(); unsubInvite(); };
+    }, [queryClient]);
 
     const handleSyncJobTread = async () => {
         setIsSyncing(true);
