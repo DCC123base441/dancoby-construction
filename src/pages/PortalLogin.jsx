@@ -24,20 +24,17 @@ export default function PortalLogin() {
             return;
           }
 
-          // Check/Assign access via backend (handles permissions and normalization)
+          // Check access via backend — all non-admin users default to employee
           try {
              const { data } = await base44.functions.invoke('checkPortalAccess');
              
              if (data.authorized && data.role) {
-                 // Refresh user to get the new role if it was just assigned
-                 const updatedUser = data.assignedNow ? await base44.auth.me() : user;
-                 
-                 if (data.role === 'employee') {
-                     const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: updatedUser.email });
+                 if (data.role === 'customer') {
+                     window.location.href = createPageUrl('CustomerPortal');
+                 } else if (data.role === 'employee' || data.role !== 'admin') {
+                     const profiles = await base44.entities.EmployeeProfile.filter({ userEmail: user.email });
                      const isNew = profiles.length === 0;
                      window.location.href = createPageUrl('EmployeePortal' + (isNew ? '?onboarding=true' : ''));
-                 } else if (data.role === 'customer') {
-                     window.location.href = createPageUrl('CustomerPortal');
                  }
                  return;
              }
@@ -105,26 +102,8 @@ export default function PortalLogin() {
             </div>
           ) : currentUser ? (
             <div className="space-y-4 text-center">
-              <div className="p-3 rounded-full bg-slate-100 w-fit mx-auto mb-2">
-                <Users className="w-6 h-6 text-slate-500" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900">Access Restricted</h3>
-                <p className="text-sm text-slate-500 mt-2">
-                  This portal is invite-only. Your account ({currentUser.email}) is not authorized to access this section.
-                </p>
-                <p className="text-xs text-slate-400 mt-4 mb-4">
-                  If you believe this is a mistake, please contact your administrator.
-                </p>
-              </div>
-              <Button 
-                onClick={() => base44.auth.logout(createPageUrl('PortalLogin'))} 
-                variant="outline" 
-                className="w-full"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Sign Out
-              </Button>
+              <Loader2 className="w-6 h-6 animate-spin text-slate-400 mx-auto" />
+              <p className="text-sm text-slate-500">Redirecting to your portal...</p>
             </div>
           ) : (
             <div className="space-y-4">

@@ -43,7 +43,7 @@ export default function AdminEmployeePortal() {
     return () => { unsub1(); unsub2(); };
   }, [queryClient]);
 
-  const activeEmployeeCount = allUsers.filter(u => u.portalRole === 'employee').length;
+  const activeEmployeeCount = allUsers.filter(u => u.role !== 'admin').length;
   const pendingInvites = invites.filter(i => i.status === 'pending' && i.portalRole === 'employee');
 
   const employeeLinks = [
