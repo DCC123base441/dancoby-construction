@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { DollarSign, Calendar, Briefcase, Clock } from 'lucide-react';
 
 export default function EmployeeList({ users, profiles, invites = [], onSelect, selectedId }) {
-    const getProfile = (email) => profiles.find(p => p.userEmail === email);
+    const getProfile = (email) => profiles.find(p => p.userEmail?.toLowerCase() === email?.toLowerCase());
     // Check if invite is still pending by looking at InviteHistory status directly
     const isInvitePending = (email) => {
         const inv = invites.find(i => i.email?.toLowerCase() === email?.toLowerCase());
@@ -17,8 +17,8 @@ export default function EmployeeList({ users, profiles, invites = [], onSelect, 
             {users.map((user) => {
                 const profile = getProfile(user.email);
                 const isSelected = selectedId === user.id;
-                // Use actual invite status rather than stale computed flag
-                const isPending = user._isPending && isInvitePending(user.email);
+                // Pending = either a synthetic pending-profile entry OR a real user whose invite is still pending
+                const isPending = String(user.id).startsWith('pending-') || isInvitePending(user.email);
                 return (
                     <Card
                         key={user.id}
