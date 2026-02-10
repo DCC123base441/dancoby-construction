@@ -387,18 +387,18 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                     {profile?.profilePicture ? (
-                        <img src={profile.profilePicture} alt="" className="w-14 h-14 rounded-full object-cover border-2 border-slate-200" />
+                        <img src={profile.profilePicture} alt="" className="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-slate-200 flex-shrink-0" />
                     ) : (
-                        <div className="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center text-xl font-bold">
+                        <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-slate-900 text-white flex items-center justify-center text-lg sm:text-xl font-bold flex-shrink-0">
                             {(user.full_name || user.email)?.substring(0, 2).toUpperCase()}
                         </div>
                     )}
-                    <div>
-                        <h2 className="text-xl font-bold text-slate-900">{user.full_name || 'No Name'}</h2>
-                        <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> <span className="select-text">{profile?.email || user.email}</span></p>
+                    <div className="min-w-0">
+                        <h2 className="text-lg sm:text-xl font-bold text-slate-900 truncate">{user.full_name || 'No Name'}</h2>
+                        <p className="text-xs sm:text-sm text-slate-500 flex items-center gap-1 truncate"><Mail className="w-3.5 h-3.5 flex-shrink-0" /> <span className="select-text truncate">{profile?.email || user.email}</span></p>
                         
                         <div className="flex items-center gap-2 mt-2">
                             <span className="text-xs font-medium text-slate-500">Portal Role:</span>
@@ -419,11 +419,12 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                         </div>
                     </div>
                 </div>
-                <Link to={`${createPageUrl('AdminPortalPreview')}?type=employee&employee_email=${encodeURIComponent(user.email)}`}>
-                    <Button variant="outline" size="sm" className="gap-1.5 text-xs text-amber-700 border-amber-200 hover:bg-amber-50">
-                        <Eye className="w-3.5 h-3.5" /> View Portal
-                    </Button>
-                </Link>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                    <Link to={`${createPageUrl('AdminPortalPreview')}?type=employee&employee_email=${encodeURIComponent(user.email)}`}>
+                        <Button variant="outline" size="sm" className="gap-1.5 text-xs text-amber-700 border-amber-200 hover:bg-amber-50">
+                            <Eye className="w-3.5 h-3.5" /> View Portal
+                        </Button>
+                    </Link>
                 {currentUser?.id !== user.id && (
                     <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
                         <AlertDialogTrigger asChild>
@@ -448,6 +449,7 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                         </AlertDialogContent>
                     </AlertDialog>
                 )}
+                </div>
             </div>
 
             <Tabs defaultValue="profile" className="w-full">
