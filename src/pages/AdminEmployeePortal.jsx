@@ -31,12 +31,8 @@ export default function AdminEmployeePortal() {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
 
-  // Temporarily ignoring portalRole — count all non-admin users as employees
-  const employees = allUsers.filter(u => u.role !== 'admin');
-  const allUserEmails = new Set(allUsers.map(u => (u.email || '').toLowerCase()).filter(Boolean));
-  const pendingInvites = invites.filter(i => {
-    return !allUserEmails.has((i.email || '').toLowerCase()) && i.portalRole === 'employee';
-  });
+  const activeEmployeeCount = allUsers.filter(u => u.portalRole === 'employee').length;
+  const pendingInvites = invites.filter(i => i.status === 'pending' && i.portalRole === 'employee');
 
   const employeeLinks = [
     { name: "Manage Employees", href: "AdminEmployees", icon: HardHat },
