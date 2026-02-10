@@ -38,25 +38,32 @@ Deno.serve(async (req) => {
     const query = {
       query: {
         $: { grantKey: jobTreadKey },
-        organization: {
-          $: {},
-          id: {},
-          jobs: {
-            $: jobsInput,
-            nextPage: {},
-            nodes: {
-              id: {},
-              name: {},
-              status: {},
-              createdAt: {},
-              updatedAt: {},
-              account: {
-                id: {},
-                name: {},
-              },
-              location: {
-                name: {},
-                address: {},
+        currentGrant: {
+          user: {
+            memberships: {
+              nodes: {
+                organization: {
+                  id: {},
+                  jobs: {
+                    $: jobsInput,
+                    nextPage: {},
+                    nodes: {
+                      id: {},
+                      name: {},
+                      status: {},
+                      createdAt: {},
+                      updatedAt: {},
+                      account: {
+                        id: {},
+                        name: {},
+                      },
+                      location: {
+                        name: {},
+                        address: {},
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -77,8 +84,13 @@ Deno.serve(async (req) => {
     }
 
     const data = await response.json();
-    const jobs = data?.organization?.jobs?.nodes || [];
-    const nextPage = data?.organization?.jobs?.nextPage || null;
+    console.log("JobTread response keys:", JSON.stringify(Object.keys(data || {})));
+    
+    // Navigate through the nested structure
+    const memberships = data?.currentGrant?.user?.memberships?.nodes || [];
+    const org = memberships[0]?.organization;
+    const jobs = org?.jobs?.nodes || [];
+    const nextPage = org?.jobs?.nextPage || null;
 
     return Response.json({ jobs, nextPage });
   } catch (error) {
