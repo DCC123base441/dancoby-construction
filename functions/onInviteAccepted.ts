@@ -25,6 +25,16 @@ Deno.serve(async (req) => {
             return Response.json({ skipped: true, reason: 'no email on invite' });
         }
 
+        // Update the linked User record: set role='user' and name=email
+        const users = await base44.asServiceRole.entities.User.filter({ email: email });
+        for (const u of users) {
+            await base44.asServiceRole.entities.User.update(u.id, {
+                role: 'user',
+                full_name: email,
+                portalRole: data.portalRole || 'employee'
+            });
+        }
+
         // Find the EmployeeProfile tied to this invite email
         const profiles = await base44.asServiceRole.entities.EmployeeProfile.filter({ userEmail: email });
 
@@ -33,7 +43,7 @@ Deno.serve(async (req) => {
             for (const profile of profiles) {
                 await base44.asServiceRole.entities.EmployeeProfile.update(profile.id, { status: 'active' });
             }
-            return Response.json({ success: true, updated: profiles.length, email });
+            return Response.json({ success: true, updated: profiles.length, usersUpdated: users.length, email });
         }
 
         // If no profile exists yet and it's an employee invite, create one
@@ -44,10 +54,10 @@ Deno.serve(async (req) => {
                 position: 'New Employee',
                 status: 'active'
             });
-            return Response.json({ success: true, created: true, email });
+            return Response.json({ success: true, created: true, usersUpdated: users.length, email });
         }
 
-        return Response.json({ skipped: true, reason: 'no matching employee profile and not employee role' });
+        return Response.json({ success: true, usersUpdated: users.length, reason: 'user updated, no employee profile action needed' });
 
     } catch (error) {
         console.error('onInviteAccepted error:', error);
