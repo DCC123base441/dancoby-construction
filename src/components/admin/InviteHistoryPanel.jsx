@@ -6,13 +6,26 @@ import { Button } from "@/components/ui/button";
 import { Clock, CheckCircle2, Mail, Loader2, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
-export default function InviteHistoryPanel({ users = [] }) {
+export default function InviteHistoryPanel({ users: propUsers, filterRole }) {
   const queryClient = useQueryClient();
 
-  const { data: invites = [], isLoading } = useQuery({
+  const { data: freshUsers = [] } = useQuery({
+    queryKey: ['inviteHistoryUsers'],
+    queryFn: () => base44.entities.User.list(),
+    staleTime: 0,
+    refetchOnMount: 'always',
+  });
+
+  const users = freshUsers.length > 0 ? freshUsers : (propUsers || []);
+
+  const { data: allInvites = [], isLoading } = useQuery({
     queryKey: ['inviteHistory'],
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 50),
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
+
+  const invites = filterRole ? allInvites.filter(i => i.portalRole === filterRole) : allInvites;
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.InviteHistory.delete(id),
