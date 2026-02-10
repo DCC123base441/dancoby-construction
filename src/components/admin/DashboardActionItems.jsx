@@ -120,6 +120,20 @@ export default function DashboardActionItems() {
     queryFn: () => base44.entities.RaiseRequest.filter({ status: 'pending' }, '-created_date', 10),
   });
 
+  const { data: profiles = [] } = useQuery({
+    queryKey: ['employeeProfilesForNames'],
+    queryFn: () => base44.entities.EmployeeProfile.list(),
+  });
+
+  const getNameByEmail = (email) => {
+    if (!email) return 'Unknown';
+    const p = profiles.find(pr => pr.userEmail?.toLowerCase() === email.toLowerCase());
+    if (p?.firstName || p?.lastName) {
+      return [p.firstName, p.lastName].filter(Boolean).join(' ');
+    }
+    return email;
+  };
+
   const isLoading = loadingTO || loadingFB || loadingRR;
   const totalItems = timeOffRequests.length + feedback.length + raiseRequests.length;
 
@@ -155,7 +169,7 @@ export default function DashboardActionItems() {
           items={timeOffRequests}
           onResolve={(id) => resolveTimeOffMutation.mutate(id)}
           renderItem={(item) => ({
-            primary: <span className="select-text">{item.userEmail}</span>,
+            primary: <span className="select-text">{getNameByEmail(item.userEmail)}</span>,
             secondary: `${item.type || 'Time off'} · ${item.startDate ? format(new Date(item.startDate), 'MMM d') : '—'}${item.endDate ? ` – ${format(new Date(item.endDate), 'MMM d')}` : ''}`,
           })}
         />
@@ -166,7 +180,7 @@ export default function DashboardActionItems() {
           items={raiseRequests}
           onResolve={(id) => resolveRaiseMutation.mutate(id)}
           renderItem={(item) => ({
-            primary: <span className="select-text">{item.userEmail}</span>,
+            primary: <span className="select-text">{getNameByEmail(item.userEmail)}</span>,
             secondary: `${item.requestType === 'raise' ? 'Raise' : 'Review'}${item.requestedRate ? ` · $${item.requestedRate}/hr` : ''}`,
           })}
         />
@@ -177,7 +191,7 @@ export default function DashboardActionItems() {
           items={feedback.slice(0, 5)}
           onResolve={(id) => resolveFeedbackMutation.mutate(id)}
           renderItem={(item) => ({
-            primary: <span className="select-text">{item.isAnonymous ? 'Anonymous' : (item.userEmail || 'Employee')}</span>,
+            primary: <span className="select-text">{item.isAnonymous ? 'Anonymous' : getNameByEmail(item.userEmail)}</span>,
             secondary: item.content?.substring(0, 80) + (item.content?.length > 80 ? '…' : ''),
             tag: item.category,
           })}
