@@ -33,13 +33,16 @@ export default function AdminEmployees() {
     // Real-time subscriptions for live updates across browsers
     useEffect(() => {
         const unsubUser = base44.entities.User.subscribe(() => {
-            queryClient.refetchQueries({ queryKey: ['adminUsers'], type: 'active' });
+            queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
+            queryClient.refetchQueries({ queryKey: ['adminUsers'] });
         });
         const unsubProfile = base44.entities.EmployeeProfile.subscribe(() => {
-            queryClient.refetchQueries({ queryKey: ['adminProfiles'], type: 'active' });
+            queryClient.invalidateQueries({ queryKey: ['adminProfiles'] });
+            queryClient.refetchQueries({ queryKey: ['adminProfiles'] });
         });
         const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
-            queryClient.refetchQueries({ queryKey: ['inviteHistory'], type: 'active' });
+            queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+            queryClient.refetchQueries({ queryKey: ['inviteHistory'] });
         });
         return () => { unsubUser(); unsubProfile(); unsubInvite(); };
     }, [queryClient]);
