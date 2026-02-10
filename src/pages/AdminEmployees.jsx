@@ -30,6 +30,11 @@ export default function AdminEmployees() {
         queryFn: () => base44.entities.EmployeeProfile.list(),
     });
 
+    const { data: invites = [] } = useQuery({
+        queryKey: ['adminInvites'],
+        queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
+    });
+
     // Real-time subscriptions for live updates across browsers
     useEffect(() => {
         const unsubUser = base44.entities.User.subscribe(() => {
