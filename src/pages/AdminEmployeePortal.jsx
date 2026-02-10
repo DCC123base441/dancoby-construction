@@ -73,7 +73,7 @@ export default function AdminEmployeePortal() {
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <StatCard label="Active Employees" value={employees.length} icon={HardHat} color="amber" />
+          <StatCard label="Active Employees" value={activeEmployees.length} icon={HardHat} color="amber" />
           <StatCard label="Pending Invites" value={pendingInvites.length} icon={Send} color="violet" />
           <StatCard label="Total Invites Sent" value={totalEmployeeInvites.length} icon={History} color="emerald" />
         </div>
