@@ -119,12 +119,15 @@ export default function AdminEmployees() {
     });
 
     // Get the most up-to-date user object from the list
+    // Also try to match by email if the selected user transitioned from pending to real user
     const activeUser = selectedUser 
-        ? allEmployees.find(u => u.id === selectedUser.id) || selectedUser
+        ? allEmployees.find(u => u.id === selectedUser.id) 
+          || allEmployees.find(u => u.email?.toLowerCase() === selectedUser.email?.toLowerCase())
+          || selectedUser
         : null;
 
     const selectedProfile = activeUser 
-        ? profiles.find(p => p.userEmail === activeUser.email) 
+        ? profiles.find(p => p.userEmail?.toLowerCase() === activeUser.email?.toLowerCase()) 
         : null;
 
     if (usersLoading) {
