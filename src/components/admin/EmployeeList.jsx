@@ -4,8 +4,13 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, Calendar, Briefcase, Clock } from 'lucide-react';
 
-export default function EmployeeList({ users, profiles, onSelect, selectedId }) {
+export default function EmployeeList({ users, profiles, invites = [], onSelect, selectedId }) {
     const getProfile = (email) => profiles.find(p => p.userEmail === email);
+    // Check if invite is still pending by looking at InviteHistory status directly
+    const isInvitePending = (email) => {
+        const inv = invites.find(i => i.email?.toLowerCase() === email?.toLowerCase());
+        return inv ? inv.status === 'pending' : false;
+    };
 
     return (
         <div className="space-y-2">
