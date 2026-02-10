@@ -16,6 +16,7 @@ import {
     ExternalLink,
     MessageSquare,
     MessagesSquare,
+    CalendarDays,
     ShoppingBag,
     HardHat,
     MonitorPlay,
@@ -71,6 +72,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Customer Portal', href: 'AdminCustomerPortal', icon: Users },
         { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
         { name: 'Team Chat', href: 'AdminChat', icon: MessagesSquare },
+        { name: 'Calendar', href: 'AdminCalendar', icon: CalendarDays },
     ];
 
     const handleLogout = async () => {

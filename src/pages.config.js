@@ -97,6 +97,7 @@ import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
 import AdminChat from './pages/AdminChat';
+import AdminCalendar from './pages/AdminCalendar';
 import __Layout from './Layout.jsx';
 
 
@@ -151,6 +152,7 @@ export const PAGES = {
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
     "AdminChat": AdminChat,
+    "AdminCalendar": AdminCalendar,
 }
 
 export const pagesConfig = {
