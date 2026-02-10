@@ -20,27 +20,28 @@ export default function AdminEmployees() {
     const [isSyncing, setIsSyncing] = useState(false);
     const queryClient = useQueryClient();
 
-    const { data: users = [], isLoading: usersLoading, refetch: refetchUsers } = useQuery({
+    const { data: users = [], isLoading: usersLoading } = useQuery({
         queryKey: ['adminUsers'],
         queryFn: () => base44.entities.User.list(),
+        refetchInterval: 10000,
     });
 
-    const { data: profiles = [], refetch: refetchProfiles } = useQuery({
+    const { data: profiles = [] } = useQuery({
         queryKey: ['adminProfiles'],
         queryFn: () => base44.entities.EmployeeProfile.list(),
+        refetchInterval: 10000,
     });
 
     // Real-time subscriptions for live updates across browsers
     useEffect(() => {
-        const unsubUser = base44.entities.User.subscribe(() => {
-            queryClient.refetchQueries({ queryKey: ['adminUsers'], type: 'active' });
-        });
-        const unsubProfile = base44.entities.EmployeeProfile.subscribe(() => {
-            queryClient.refetchQueries({ queryKey: ['adminProfiles'], type: 'active' });
-        });
-        const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
-            queryClient.refetchQueries({ queryKey: ['inviteHistory'], type: 'active' });
-        });
+        const refetchAll = () => {
+            queryClient.invalidateQueries({ queryKey: ['adminUsers'] });
+            queryClient.invalidateQueries({ queryKey: ['adminProfiles'] });
+            queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+        };
+        const unsubUser = base44.entities.User.subscribe(refetchAll);
+        const unsubProfile = base44.entities.EmployeeProfile.subscribe(refetchAll);
+        const unsubInvite = base44.entities.InviteHistory.subscribe(refetchAll);
         return () => { unsubUser(); unsubProfile(); unsubInvite(); };
     }, [queryClient]);
 
