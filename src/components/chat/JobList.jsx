@@ -14,6 +14,7 @@ const statusColors = {
 
 const statusFilters = [
   { value: 'all', label: 'All' },
+  { value: 'has_messages', label: 'Has Messages' },
   { value: 'created', label: 'Created' },
   { value: 'pending', label: 'Pending' },
   { value: 'active', label: 'Active' },
@@ -26,12 +27,15 @@ export default function JobList({
   onSearchChange, 
   selectedJobId, 
   onSelectJob,
-  unreadCounts 
+  unreadCounts,
+  jobsWithMessages 
 }) {
   const [statusFilter, setStatusFilter] = useState('all');
 
   const filteredJobs = statusFilter === 'all' 
     ? jobs 
+    : statusFilter === 'has_messages'
+    ? jobs.filter(j => jobsWithMessages?.has(j.id))
     : jobs.filter(j => j.status === statusFilter);
 
   return (
