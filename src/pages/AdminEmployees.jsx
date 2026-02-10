@@ -102,7 +102,8 @@ export default function AdminEmployees() {
         u.role !== 'admin' && (
             u.portalRole === 'employee' || 
             u.portalRole === 'customer' ||
-            profiles.some(p => p.userEmail === u.email)
+            profiles.some(p => p.userEmail?.toLowerCase() === u.email?.toLowerCase()) ||
+            invites.some(i => i.email?.toLowerCase() === u.email?.toLowerCase() && i.status === 'accepted')
         )
     );
 
