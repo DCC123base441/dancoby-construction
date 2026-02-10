@@ -91,6 +91,20 @@ export default function DashboardActionItems() {
     },
   });
 
+  const resolveTimeOffMutation = useMutation({
+    mutationFn: (id) => base44.entities.TimeOffRequest.update(id, { status: 'approved' }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pendingTimeOff'] });
+    },
+  });
+
+  const resolveRaiseMutation = useMutation({
+    mutationFn: (id) => base44.entities.RaiseRequest.update(id, { status: 'approved' }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pendingRaises'] });
+    },
+  });
+
   const { data: timeOffRequests = [], isLoading: loadingTO } = useQuery({
     queryKey: ['pendingTimeOff'],
     queryFn: () => base44.entities.TimeOffRequest.filter({ status: 'pending' }, '-created_date', 10),
@@ -139,6 +153,7 @@ export default function DashboardActionItems() {
           icon={CalendarOff}
           color="blue"
           items={timeOffRequests}
+          onResolve={(id) => resolveTimeOffMutation.mutate(id)}
           renderItem={(item) => ({
             primary: item.userEmail,
             secondary: `${item.type || 'Time off'} · ${item.startDate ? format(new Date(item.startDate), 'MMM d') : '—'}${item.endDate ? ` – ${format(new Date(item.endDate), 'MMM d')}` : ''}`,
@@ -149,6 +164,7 @@ export default function DashboardActionItems() {
           icon={DollarSign}
           color="emerald"
           items={raiseRequests}
+          onResolve={(id) => resolveRaiseMutation.mutate(id)}
           renderItem={(item) => ({
             primary: item.userEmail,
             secondary: `${item.requestType === 'raise' ? 'Raise' : 'Review'}${item.requestedRate ? ` · $${item.requestedRate}/hr` : ''}`,
