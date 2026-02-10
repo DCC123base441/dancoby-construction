@@ -29,13 +29,13 @@ export default function Layout({ children, currentPageName }) {
                     const user = await base44.auth.me();
                     // Check portal access via backend to handle permissions and auto-assignment
                     try {
-                        const { data } = await base44.functions.invoke('checkPortalAccess');
-                        if (data.authorized && data.role) {
-                            window.location.href = createPageUrl('PortalLogin');
+                            const { data } = await base44.functions.invoke('checkPortalAccess');
+                            if (data.authorized && data.role && data.role !== 'admin') {
+                                window.location.href = createPageUrl('PortalLogin');
+                            }
+                        } catch (err) {
+                            console.error('Failed to check portal access', err);
                         }
-                    } catch (err) {
-                        console.error('Failed to check portal access', err);
-                    }
                 }
             } catch (e) {
                 // Not logged in or error, stay on home page
