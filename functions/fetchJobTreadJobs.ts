@@ -20,12 +20,7 @@ Deno.serve(async (req) => {
     // Build where clause for search
     let whereClause = undefined;
     if (searchTerm) {
-      whereClause = {
-        or: [
-          ["name", "~*", searchTerm],
-          ["account", "name", "~*", searchTerm]
-        ]
-      };
+      whereClause = ["name", "~*", searchTerm];
     }
 
     const jobsInput = {
