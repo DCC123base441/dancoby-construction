@@ -31,10 +31,10 @@ export default function AdminEmployeePortal() {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
 
-  const employees = allUsers.filter(u => u.portalRole === 'employee');
+  const employees = allUsers.filter(u => u.portalRole === 'employee' || u.data?.portalRole === 'employee');
+  const allUserEmails = new Set(allUsers.map(u => u.email?.toLowerCase()));
   const pendingInvites = invites.filter(i => {
-    const emails = new Set(allUsers.map(u => u.email?.toLowerCase()));
-    return !emails.has(i.email?.toLowerCase()) && i.portalRole === 'employee';
+    return !allUserEmails.has(i.email?.toLowerCase()) && i.portalRole === 'employee';
   });
 
   const employeeLinks = [
@@ -83,7 +83,7 @@ export default function AdminEmployeePortal() {
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0 max-h-80 overflow-y-auto">
-              <InviteHistoryPanel users={allUsers} filterRole="employee" />
+              <InviteHistoryPanel filterRole="employee" />
             </CardContent>
           </Card>
         )}
