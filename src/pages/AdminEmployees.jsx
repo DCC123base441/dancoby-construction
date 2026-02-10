@@ -160,17 +160,6 @@ export default function AdminEmployees() {
                             <span className="text-sm text-slate-500">{employees.length} employee{employees.length !== 1 ? 's' : ''}</span>
                         </div>
                         <div className="flex gap-2">
-                            <Button 
-                                size="sm" 
-                                variant="outline" 
-                                onClick={handleSyncJobTread} 
-                                disabled={isSyncing}
-                                className="border-amber-200 hover:bg-amber-50 text-amber-700"
-                            >
-                                <RefreshCw className={`w-3.5 h-3.5 mr-1 ${isSyncing ? 'animate-spin' : ''}`} /> 
-                                <span className="hidden sm:inline">{isSyncing ? 'Syncing...' : 'Sync JobTread'}</span>
-                                <span className="sm:hidden">{isSyncing ? '...' : 'Sync'}</span>
-                            </Button>
                             <Button size="sm" onClick={() => setInviteOpen(true)} className="bg-amber-600 hover:bg-amber-700">
                                 <UserPlus className="w-4 h-4 mr-1" /> Add
                             </Button>
