@@ -31,11 +31,8 @@ export default function AdminEmployeePortal() {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
 
-  // portalRole may be at top level (SDK flattens data) or inside data object
-  const employees = allUsers.filter(u => {
-    const role = u.portalRole || u.data?.portalRole;
-    return role === 'employee';
-  });
+  // Temporarily ignoring portalRole — count all non-admin users as employees
+  const employees = allUsers.filter(u => u.role !== 'admin');
   const allUserEmails = new Set(allUsers.map(u => (u.email || '').toLowerCase()).filter(Boolean));
   const pendingInvites = invites.filter(i => {
     return !allUserEmails.has((i.email || '').toLowerCase()) && i.portalRole === 'employee';
