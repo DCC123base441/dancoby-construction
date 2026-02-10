@@ -30,8 +30,10 @@ export default function Layout({ children, currentPageName }) {
                     // Check portal access via backend to handle permissions and auto-assignment
                     try {
                             const { data } = await base44.functions.invoke('checkPortalAccess');
-                            if (data.authorized && data.role && data.role !== 'admin') {
-                                window.location.href = createPageUrl('PortalLogin');
+                            if (data.authorized && data.role === 'employee') {
+                                window.location.href = createPageUrl('EmployeePortal');
+                            } else if (data.authorized && data.role === 'customer') {
+                                window.location.href = createPageUrl('CustomerPortal');
                             }
                         } catch (err) {
                             console.error('Failed to check portal access', err);

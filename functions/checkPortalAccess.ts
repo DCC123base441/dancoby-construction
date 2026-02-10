@@ -17,14 +17,13 @@ Deno.serve(async (req) => {
             return Response.json({ authorized: true, role: 'admin' });
         }
 
-        // If user has a customer portalRole, send them to customer portal
-        const existingRole = user.portalRole || user.data?.portalRole;
+        // Check if user is explicitly a customer
+        const existingRole = user.portalRole;
         if (existingRole === 'customer') {
             return Response.json({ authorized: true, role: 'customer' });
         }
 
-        // All non-admin, non-customer users are treated as employees by default
-        // No portalRole assignment needed — they just get in
+        // Everyone else is an employee — no portalRole needed
         return Response.json({ authorized: true, role: 'employee' });
 
     } catch (error) {
