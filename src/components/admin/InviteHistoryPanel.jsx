@@ -33,7 +33,8 @@ export default function InviteHistoryPanel({ users: propUsers, filterRole }) {
   });
 
   // Check if invited email matches an existing user to determine accepted status
-  const userEmails = new Set(users.map(u => u.email?.toLowerCase()));
+  // User emails can be at top level or nested - handle both
+  const userEmails = new Set(users.map(u => (u.email || u.data?.email || '').toLowerCase()).filter(Boolean));
 
   if (isLoading) {
     return (
