@@ -44,7 +44,9 @@ Deno.serve(async (req) => {
                       name: {},
                       status: {},
                       createdAt: {},
-                      address: {},
+                      location: {
+                        name: {},
+                      },
                     }
                   }
                 }
