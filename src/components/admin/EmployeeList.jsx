@@ -17,7 +17,8 @@ export default function EmployeeList({ users, profiles, invites = [], onSelect, 
             {users.map((user) => {
                 const profile = getProfile(user.email);
                 const isSelected = selectedId === user.id;
-                const isPending = user._isPending;
+                // Use actual invite status rather than stale computed flag
+                const isPending = user._isPending && isInvitePending(user.email);
                 return (
                     <Card
                         key={user.id}
