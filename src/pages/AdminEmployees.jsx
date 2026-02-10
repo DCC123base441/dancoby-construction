@@ -106,7 +106,10 @@ export default function AdminEmployees() {
         );
     });
 
-    const allEmployees = [...validUsers, ...pendingAsUsers];
+    // Deduplicate: if a user already exists in validUsers, don't add them again from pendingAsUsers
+    const validEmails = new Set(validUsers.map(u => u.email?.toLowerCase()));
+    const deduplicatedPending = pendingAsUsers.filter(p => !validEmails.has(p.email?.toLowerCase()));
+    const allEmployees = [...validUsers, ...deduplicatedPending];
 
     const employees = allEmployees.filter(u => {
         const matchesSearch = !search || 
