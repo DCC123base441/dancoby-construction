@@ -147,7 +147,7 @@ export default function DashboardActionItems() {
         <h3 className="text-sm font-semibold text-slate-700">Needs Attention</h3>
         <Badge className="bg-red-500 text-white text-[10px] px-2 py-0 rounded-full">{totalItems}</Badge>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
         <ActionCard
           title="Time Off"
           icon={CalendarOff}
@@ -155,7 +155,7 @@ export default function DashboardActionItems() {
           items={timeOffRequests}
           onResolve={(id) => resolveTimeOffMutation.mutate(id)}
           renderItem={(item) => ({
-            primary: item.userEmail,
+            primary: <span className="select-text">{item.userEmail}</span>,
             secondary: `${item.type || 'Time off'} · ${item.startDate ? format(new Date(item.startDate), 'MMM d') : '—'}${item.endDate ? ` – ${format(new Date(item.endDate), 'MMM d')}` : ''}`,
           })}
         />
@@ -166,7 +166,7 @@ export default function DashboardActionItems() {
           items={raiseRequests}
           onResolve={(id) => resolveRaiseMutation.mutate(id)}
           renderItem={(item) => ({
-            primary: item.userEmail,
+            primary: <span className="select-text">{item.userEmail}</span>,
             secondary: `${item.requestType === 'raise' ? 'Raise' : 'Review'}${item.requestedRate ? ` · $${item.requestedRate}/hr` : ''}`,
           })}
         />
@@ -177,7 +177,7 @@ export default function DashboardActionItems() {
           items={feedback.slice(0, 5)}
           onResolve={(id) => resolveFeedbackMutation.mutate(id)}
           renderItem={(item) => ({
-            primary: item.isAnonymous ? 'Anonymous' : (item.userEmail || 'Employee'),
+            primary: <span className="select-text">{item.isAnonymous ? 'Anonymous' : (item.userEmail || 'Employee')}</span>,
             secondary: item.content?.substring(0, 80) + (item.content?.length > 80 ? '…' : ''),
             tag: item.category,
           })}

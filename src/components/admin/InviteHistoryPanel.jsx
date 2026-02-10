@@ -62,7 +62,7 @@ export default function InviteHistoryPanel({ filterRole }) {
                   )}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-slate-900 truncate">{inv.email}</p>
+                  <p className="text-sm font-medium text-slate-900 truncate select-text">{inv.email}</p>
                   <p className="text-xs text-slate-400">
                     Invited by {inv.invitedBy || 'admin'} · {inv.created_date ? format(new Date(inv.created_date), 'MMM d, yyyy') : '—'}
                   </p>

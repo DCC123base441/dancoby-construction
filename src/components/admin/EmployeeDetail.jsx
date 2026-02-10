@@ -398,7 +398,7 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                     )}
                     <div>
                         <h2 className="text-xl font-bold text-slate-900">{user.full_name || 'No Name'}</h2>
-                        <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> {profile?.email || user.email}</p>
+                        <p className="text-sm text-slate-500 flex items-center gap-1"><Mail className="w-3.5 h-3.5" /> <span className="select-text">{profile?.email || user.email}</span></p>
                         
                         <div className="flex items-center gap-2 mt-2">
                             <span className="text-xs font-medium text-slate-500">Portal Role:</span>

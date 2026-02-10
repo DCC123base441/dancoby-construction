@@ -161,10 +161,10 @@ export default function AdminLayout({ children, title, actions }) {
 
             {/* Main Content */}
             <main className="flex-1 lg:pl-0 pt-16 lg:pt-0 min-w-0">
-                <div className="p-4 lg:p-8 max-w-7xl mx-auto">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-                        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">{title}</h1>
-                        {actions && <div className="flex gap-2">{actions}</div>}
+                <div className="p-3 sm:p-4 lg:p-8 max-w-7xl mx-auto">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 lg:mb-8">
+                        <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">{title}</h1>
+                        {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
                     </div>
                     {children}
                 </div>

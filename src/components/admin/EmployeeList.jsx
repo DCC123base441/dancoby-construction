@@ -40,7 +40,7 @@ export default function EmployeeList({ users, profiles, invites = [], onSelect, 
                                 </Avatar>
                                 <div className="flex-1 min-w-0">
                                     <p className="font-semibold text-slate-900 truncate">{user.full_name || 'No Name'}</p>
-                                    <p className="text-xs text-slate-500 truncate">{user.email}</p>
+                                    <p className="text-xs text-slate-500 truncate select-text">{user.email}</p>
                                 </div>
                                 {isPending ? (
                                     <Badge className="text-xs shrink-0 bg-amber-100 text-amber-700 border-amber-200">
