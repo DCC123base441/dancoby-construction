@@ -74,8 +74,8 @@ Deno.serve(async (req) => {
     const allJobs = org?.jobs?.nodes || [];
     const nextPage = org?.jobs?.nextPage || null;
 
-    // Only return active jobs
-    const jobs = allJobs.filter(j => j.status === 'active');
+    // Only return active jobs (not closed)
+    const jobs = allJobs.filter(j => j.status !== 'closed');
 
     return Response.json({ jobs, nextPage });
   } catch (error) {
