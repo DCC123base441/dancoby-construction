@@ -68,18 +68,12 @@ Deno.serve(async (req) => {
       body: JSON.stringify(query)
     });
 
-    const responseText = await response.text();
-    console.log("JobTread raw response:", responseText.substring(0, 2000));
-    console.log("Request body sent:", JSON.stringify(query));
-    
     if (!response.ok) {
-      console.error("JobTread API Error:", responseText);
-      return Response.json({ error: `JobTread API error: ${response.status}`, details: responseText.substring(0, 500) }, { status: 502 });
+      const errorText = await response.text();
+      return Response.json({ error: `JobTread API error: ${response.status}` }, { status: 502 });
     }
-    
-    const data = JSON.parse(responseText);
 
-    console.log("JobTread response keys:", JSON.stringify(Object.keys(data || {})));
+    const data = await response.json();
     
     // Navigate through the nested structure
     const memberships = data?.currentGrant?.user?.memberships?.nodes || [];
