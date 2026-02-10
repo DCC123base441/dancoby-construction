@@ -154,7 +154,7 @@ export default function AdminEmployees() {
                             className="pl-9"
                         />
                     </div>
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                         <div className="flex items-center gap-2">
                             <Users className="w-4 h-4 text-slate-500" />
                             <span className="text-sm text-slate-500">{employees.length} employee{employees.length !== 1 ? 's' : ''}</span>
@@ -168,10 +168,11 @@ export default function AdminEmployees() {
                                 className="border-amber-200 hover:bg-amber-50 text-amber-700"
                             >
                                 <RefreshCw className={`w-3.5 h-3.5 mr-1 ${isSyncing ? 'animate-spin' : ''}`} /> 
-                                {isSyncing ? 'Syncing...' : 'Sync JobTread'}
+                                <span className="hidden sm:inline">{isSyncing ? 'Syncing...' : 'Sync JobTread'}</span>
+                                <span className="sm:hidden">{isSyncing ? '...' : 'Sync'}</span>
                             </Button>
                             <Button size="sm" onClick={() => setInviteOpen(true)} className="bg-amber-600 hover:bg-amber-700">
-                                <UserPlus className="w-4 h-4 mr-1" /> Add Employee
+                                <UserPlus className="w-4 h-4 mr-1" /> Add
                             </Button>
                         </div>
                     </div>
