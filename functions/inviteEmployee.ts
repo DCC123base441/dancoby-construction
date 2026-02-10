@@ -21,10 +21,7 @@ Deno.serve(async (req) => {
 
         // Check if user already exists
         const users = await base44.asServiceRole.entities.User.filter({ email: normalizedEmail });
-        if (users.length > 0) {
-            // If they exist, update their role
-            await base44.asServiceRole.entities.User.update(users[0].id, { portalRole });
-        }
+        // No portalRole assignment needed for employees — they default in automatically
 
         // Log invite history first
         await base44.asServiceRole.entities.InviteHistory.create({

@@ -67,13 +67,10 @@ function EmployeePortalContent() {
           return;
         }
 
-        if (me.portalRole !== 'employee' && me.role !== 'admin') {
-          if (me.portalRole === 'customer') {
+        // Only redirect customers away; all other non-admin users are employees by default
+        if (me.portalRole === 'customer') {
             window.location.href = createPageUrl('CustomerPortal');
-          } else {
-            window.location.href = createPageUrl('PortalLogin');
-          }
-          return;
+            return;
         }
         setUser(me);
       } catch {
