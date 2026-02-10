@@ -32,13 +32,15 @@ export default function AdminEmployeePortal() {
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
 
-  // Real-time sync for both users and invites
+  // Real-time sync for both users and invites — force immediate refetch
   useEffect(() => {
     const unsubUser = base44.entities.User.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
+      queryClient.refetchQueries({ queryKey: ['portalUsers'] });
     });
     const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+      queryClient.refetchQueries({ queryKey: ['inviteHistory'] });
     });
     return () => { unsubUser(); unsubInvite(); };
   }, [queryClient]);

@@ -32,9 +32,11 @@ export default function AdminCustomerPortal() {
   useEffect(() => {
     const unsubUser = base44.entities.User.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
+      queryClient.refetchQueries({ queryKey: ['portalUsers'] });
     });
     const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
       queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+      queryClient.refetchQueries({ queryKey: ['inviteHistory'] });
     });
     return () => { unsubUser(); unsubInvite(); };
   }, [queryClient]);
