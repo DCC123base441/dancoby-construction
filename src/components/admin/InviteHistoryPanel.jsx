@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,17 @@ export default function InviteHistoryPanel({ users = [] }) {
     queryKey: ['inviteHistory'],
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 50),
   });
+
+  // Real-time sync: refresh when invites or users change
+  useEffect(() => {
+    const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+    });
+    const unsubUser = base44.entities.User.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
+    });
+    return () => { unsubInvite(); unsubUser(); };
+  }, [queryClient]);
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.InviteHistory.delete(id),

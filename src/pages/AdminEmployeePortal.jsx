@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AdminLayout from '../components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,6 +21,8 @@ export default function AdminEmployeePortal() {
   const [showHistory, setShowHistory] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const { data: allUsers = [] } = useQuery({
     queryKey: ['portalUsers'],
     queryFn: () => base44.entities.User.list(),
@@ -30,6 +32,17 @@ export default function AdminEmployeePortal() {
     queryKey: ['inviteHistory'],
     queryFn: () => base44.entities.InviteHistory.list('-created_date', 100),
   });
+
+  // Real-time sync: refresh when users or invites change
+  useEffect(() => {
+    const unsubUser = base44.entities.User.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['portalUsers'] });
+    });
+    const unsubInvite = base44.entities.InviteHistory.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['inviteHistory'] });
+    });
+    return () => { unsubUser(); unsubInvite(); };
+  }, [queryClient]);
 
   const employees = allUsers.filter(u => u.portalRole === 'employee');
   const pendingInvites = invites.filter(i => {
