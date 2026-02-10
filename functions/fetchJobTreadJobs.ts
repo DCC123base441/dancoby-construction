@@ -30,7 +30,7 @@ Deno.serve(async (req) => {
 
     const jobsInput = {
       size: 50,
-      sortBy: [{ field: "updatedAt", order: "desc" }],
+      sortBy: [{ field: "createdAt", order: "desc" }],
     };
     if (whereClause) jobsInput.where = whereClause;
     if (page) jobsInput.page = page;
@@ -52,7 +52,6 @@ Deno.serve(async (req) => {
                       name: {},
                       status: {},
                       createdAt: {},
-                      updatedAt: {},
                       account: {
                         id: {},
                         name: {},
