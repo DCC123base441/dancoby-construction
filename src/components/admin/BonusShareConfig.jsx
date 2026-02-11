@@ -58,6 +58,7 @@ export default function BonusShareConfig() {
         currentRevenue: rev,
         quarterlyBreakdown: { q1: rev, q2: 0, q3: 0, q4: 0 },
         lastUpdated: new Date().toISOString(),
+        ...(hc ? { headcountOverride: hc } : {}),
       };
 
       if (!goalData?.id) {

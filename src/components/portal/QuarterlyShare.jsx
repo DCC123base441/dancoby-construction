@@ -35,8 +35,8 @@ export default function QuarterlyShare() {
 
   if (!goalData || !employees || employees.length === 0) return null;
 
-  const headcount = employees.length;
-  const bonusPercent = goalData.bonusSharePercent ?? 0.4;
+  const headcount = goalData.headcountOverride || employees.length;
+  const bonusPercent = goalData.bonusSharePercent ?? 4;
 
   // Get revenue for completed quarters only
   const breakdown = goalData.quarterlyBreakdown || {};
