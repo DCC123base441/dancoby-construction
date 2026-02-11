@@ -152,21 +152,21 @@ export default function Architects() {
             <h3 className="text-3xl md:text-4xl font-bold text-gray-900">How We Add Value to Your Projects</h3>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200 border border-gray-200">
             {benefits.map((benefit, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+                transition={{ duration: 0.4, delay: idx * 0.08 }}
+                className="bg-white p-10 group hover:bg-stone-900 transition-colors duration-500 relative"
               >
-                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center mb-5">
-                  <CheckCircle className="w-5 h-5 text-red-600" />
-                </div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-3">{benefit.title}</h4>
-                <p className="text-gray-600 leading-relaxed">{benefit.desc}</p>
+                <span className="text-[64px] font-extralight text-gray-100 group-hover:text-white/10 transition-colors duration-500 leading-none block mb-4">
+                  {String(idx + 1).padStart(2, '0')}
+                </span>
+                <h4 className="text-lg font-semibold text-gray-900 group-hover:text-white mb-3 transition-colors duration-500">{benefit.title}</h4>
+                <p className="text-gray-500 group-hover:text-gray-400 leading-relaxed text-sm transition-colors duration-500">{benefit.desc}</p>
               </motion.div>
             ))}
           </div>
