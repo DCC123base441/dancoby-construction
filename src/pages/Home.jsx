@@ -574,29 +574,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 md:py-24 bg-white border-y border-gray-200">
+      {/* Fleet & Stats Section */}
+      <section className="py-16 md:py-24 bg-white border-y border-gray-200 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-12">
-            {[
-            { number: "20+", label: "YEARS EXPERIENCE", sublabel: "Trusted craftsmanship since 2004" },
-            { number: "500+", label: "PROJECTS COMPLETED", sublabel: "Across the NYC metro area" },
-            { number: "5.0", label: "GOOGLE RATING", sublabel: "Based on 50+ reviews" },
-            { number: "3-Year", label: "WARRANTY", sublabel: "On all our projects" }].
-            map((stat, idx) =>
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="text-center">
+              transition={{ duration: 0.7 }}
+            >
+              <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">On the Road</p>
+              <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Bringing Craftsmanship<br />to Your Doorstep
+              </h3>
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                Our fleet is ready to roll — fully equipped and branded, because the quality starts before we even step inside your home.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                {[
+                  { number: "20+", label: "Years Experience" },
+                  { number: "500+", label: "Projects Completed" },
+                  { number: "5.0", label: "Google Rating" },
+                  { number: "3-Year", label: "Warranty" },
+                ].map((stat, idx) => (
+                  <div key={idx} className="text-center px-4 py-3 bg-gray-50 rounded-lg">
+                    <div className="text-2xl font-bold text-red-600">{stat.number}</div>
+                    <div className="text-xs text-gray-500 font-medium">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
 
-                <div className="text-5xl font-bold text-red-600 mb-3">{stat.number}</div>
-                <div className="text-sm font-bold text-gray-900 mb-1">{stat.label}</div>
-                <div className="text-xs text-gray-500">{stat.sublabel}</div>
-              </motion.div>
-            )}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="relative"
+            >
+              <div className="relative">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/2735193cb_79253312687__21808B29-B752-4A18-9D29-1AF223044461.jpg"
+                  alt="Dancoby Construction Van"
+                  className="w-full rounded-xl shadow-2xl object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="absolute -bottom-4 -right-4 bg-red-600 text-white px-5 py-3 rounded-lg shadow-lg">
+                  <p className="text-xs font-bold uppercase tracking-wider">Serving All of NYC</p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
