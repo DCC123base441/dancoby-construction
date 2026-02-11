@@ -13,7 +13,7 @@ const ALL_TABS = [
   { id: 'notifications', icon: Bell, labelKey: 'notifications', color: 'text-blue-600 bg-blue-50' },
   { id: 'jobtread', icon: MonitorPlay, labelKey: 'tabJobTread', color: 'text-cyan-600 bg-cyan-50' },
   { id: 'jobtread_app', labelKey: null, label: 'Open JobTread', color: 'text-cyan-600 bg-cyan-50', isExternal: true, externalUrl: JOBTREAD_APP_URL, logoSrc: JOBTREAD_LOGO },
-  { id: 'salary', icon: DollarSign, labelKey: 'tabSalary', label: 'Finance', color: 'text-emerald-600 bg-emerald-50' },
+  { id: 'salary', icon: DollarSign, labelKey: 'tabFinance', color: 'text-emerald-600 bg-emerald-50' },
   { id: 'feedback', icon: MessageCircle, labelKey: 'tabFeedback', color: 'text-purple-600 bg-purple-50' },
   { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays', color: 'text-red-600 bg-red-50' },
   { id: 'timeoff', icon: CalendarOff, labelKey: 'tabTimeOff', color: 'text-orange-600 bg-orange-50' },
