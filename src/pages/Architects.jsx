@@ -24,7 +24,7 @@ export default function Architects() {
 
   const benefits = [
     { title: "Pre-Construction Collaboration", desc: "We partner with you early in the design phase, providing pricing input and feasibility insights as the design progresses." },
-    { title: "Permitting Liaison", desc: "Navigating DOB filings, landmark reviews, and co-op board approvals is second nature to us — we keep your projects moving through NYC's regulatory maze without missing a beat." },
+    { title: "Design-Sensitive Builds", desc: "We respect the integrity of your designs down to the last detail. Our crews are trained to read drawings carefully and ask questions early — so the finished product matches your intent exactly." },
     { title: "Accurate Cost Estimating", desc: "Our detailed estimating process ensures your clients have realistic budgets from day one — no surprises." },
     { title: "Seamless Communication", desc: "Through our JobTread project management platform, all documents, updates, and communications are centralized and transparent." },
     { title: "Quality Execution", desc: "Over 20 years of experience delivering high-end residential renovations in Brooklyn and across NYC with a 3-year warranty." },
