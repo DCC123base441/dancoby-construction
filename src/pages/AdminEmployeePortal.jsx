@@ -146,13 +146,15 @@ export default function AdminEmployeePortal() {
                     );
                   }
                   return (
-                    <Link
+                    <a
                       key={page.name}
-                      to={createPageUrl(page.href)}
+                      href={createPageUrl(page.href)}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-slate-100 bg-white shadow-sm hover:border-amber-200 hover:shadow-md transition-all group"
                     >
                       {content}
-                    </Link>
+                    </a>
                   );
                 })}
               </div>
