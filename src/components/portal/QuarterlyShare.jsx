@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { PiggyBank, TrendingUp, TrendingDown, Sparkles, Trophy, Target } from 'lucide-react';
+import { PiggyBank, TrendingUp, Sparkles, Trophy } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useLanguage } from './LanguageContext';
@@ -65,16 +65,9 @@ export default function QuarterlyShare() {
   const latestCompleted = currentQuarter > 1 ? quarterShares[currentQuarter - 2] : null;
   const inProgressShare = quarterShares[currentQuarter - 1];
 
-  // Goal tracking — $4M annual goal
-  const annualGoal = 4000000;
-  const expectedYtdRevenue = (annualGoal / 4) * currentQuarter; // Expected revenue by current quarter
-  const isOnTrack = ytdRevenue >= expectedYtdRevenue;
-  const progressPercent = Math.min(100, Math.round((ytdRevenue / annualGoal) * 100));
-  const behindAmount = expectedYtdRevenue - ytdRevenue;
-
-  const growthMessage = isOnTrack
-    ? (t('onTrackMessage') || "🎉 We're on track to hit our $4M goal — keep crushing it!")
-    : (t('behindMessage') || `💪 We're ${Math.round((behindAmount / 1000))}K behind pace — let's push hard and close strong!`);
+  const growthMessage = totalPerPerson > 0 
+    ? (t('keepItUp') || "You're growing with the company — keep up the great work! 💪")
+    : (t('stayTuned') || "Revenue is building — your share is on its way!");
 
   return (
     <Card className="border-0 overflow-hidden shadow-lg ring-1 ring-emerald-100">
@@ -112,34 +105,17 @@ export default function QuarterlyShare() {
               </span>
             </div>
             <p className="text-sm text-emerald-700 mt-1.5 font-medium">{t('earningsFromGrowth') || 'Earnings from growth'}</p>
-            <div className={`mt-3 flex items-center justify-center gap-1.5 text-xs rounded-full py-1 px-3 w-fit mx-auto ${
-              isOnTrack 
-                ? 'text-emerald-600 bg-emerald-100/60' 
-                : 'text-amber-700 bg-amber-100/60'
-            }`}>
-              {isOnTrack ? (
-                <>
-                  <TrendingUp className="w-3 h-3" />
-                  <span>{t('onTrackBadge') || `On track! ${progressPercent}% of $4M goal`}</span>
-                </>
-              ) : (
-                <>
-                  <Target className="w-3 h-3" />
-                  <span>{t('behindBadge') || `${progressPercent}% of $4M — let's close the gap!`}</span>
-                </>
-              )}
-            </div>
+            {totalPerPerson > 0 && (
+              <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-emerald-600 bg-emerald-100/60 rounded-full py-1 px-3 w-fit mx-auto">
+                <TrendingUp className="w-3 h-3" />
+                <span>{t('growingStrong') || 'Growing strong this quarter!'}</span>
+              </div>
+            )}
           </div>
 
           {/* Motivational message */}
-          <div className={`rounded-xl px-4 py-3 text-center ${
-            isOnTrack 
-              ? 'bg-emerald-50 border border-emerald-200/60' 
-              : 'bg-amber-50 border border-amber-200/60'
-          }`}>
-            <p className={`text-sm font-medium ${isOnTrack ? 'text-emerald-800' : 'text-amber-800'}`}>
-              {growthMessage}
-            </p>
+          <div className="bg-amber-50 border border-amber-200/60 rounded-xl px-4 py-3 text-center">
+            <p className="text-sm text-amber-800 font-medium">{growthMessage}</p>
           </div>
 
           {/* Past quarters */}

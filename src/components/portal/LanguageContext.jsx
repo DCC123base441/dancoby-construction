@@ -214,10 +214,6 @@ const translations = {
     stayTuned: 'Revenue is building — your share is on its way!',
     growingStrong: 'Growing strong this quarter!',
     pastQuarters: 'Past Quarters',
-    onTrackMessage: "🎉 We're on track to hit our $4M goal — keep crushing it!",
-    behindMessage: "💪 We're behind pace — let's push hard and close strong!",
-    onTrackBadge: 'On track to $4M goal',
-    behindBadge: "Let's close the gap!",
   },
   es: {
     portalCustomer: 'Portal del Cliente',
@@ -414,10 +410,6 @@ const translations = {
     stayTuned: 'Los ingresos están creciendo — ¡tu parte viene en camino!',
     growingStrong: '¡Creciendo fuerte este trimestre!',
     pastQuarters: 'Trimestres Anteriores',
-    onTrackMessage: '🎉 ¡Vamos en camino a nuestra meta de $4M — sigan así!',
-    behindMessage: '💪 Estamos detrás del ritmo — ¡empujemos fuerte para cerrar bien!',
-    onTrackBadge: 'En camino a la meta de $4M',
-    behindBadge: '¡Cerremos la brecha!',
   }
 };
 
