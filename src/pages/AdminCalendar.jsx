@@ -12,6 +12,7 @@ import {
   addDays, addMonths, subMonths, isSameMonth, isSameDay,
   isWithinInterval, parseISO
 } from 'date-fns';
+import BonusShareConfig from '../components/admin/BonusShareConfig';
 
 const TAG_BG = {
   off: 'bg-red-100 text-red-700',
@@ -195,6 +196,8 @@ export default function AdminCalendar() {
             )}
             <p className="text-[10px] text-slate-400 pt-2">Click a tag to cycle: Off → Paid → Working</p>
           </div>
+
+          <BonusShareConfig />
         </div>
       </div>
     </AdminLayout>
