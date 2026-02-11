@@ -137,9 +137,9 @@ export default function Architects() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div {...fadeIn}>
             <blockquote className="text-2xl md:text-3xl font-light italic leading-relaxed mb-6 text-stone-200">
-              "Quality is never an accident; it is always the result of high intention, sincere effort, intelligent direction and skillful execution; it represents the wise choice of many alternatives."
+              "Architecture is a visual art and the buildings speak for themselves. But the best buildings are born from a conversation between architect and builder."
             </blockquote>
-            <p className="text-stone-400 text-sm uppercase tracking-widest">— William A. Foster</p>
+            <p className="text-stone-400 text-sm uppercase tracking-widest">— Julia Morgan</p>
           </motion.div>
         </div>
       </section>
