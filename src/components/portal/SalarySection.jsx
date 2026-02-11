@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { DollarSign, TrendingUp, Star, Target, Zap, Users, HandCoins } from 'lucide-react';
+import { DollarSign, TrendingUp, Award, BookOpen, ShieldCheck, Star, Target, Zap, Users } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Switch } from "@/components/ui/switch";
@@ -167,9 +167,16 @@ function MotivationalSection({ t }) {
   );
 }
 
-export default function SalarySection({ profile, onTabChange }) {
+export default function SalarySection({ profile }) {
   const hourly = profile?.hourlySalary;
   const { t } = useLanguage();
+
+  const RECOMMENDATIONS = [
+    { icon: ShieldCheck, title: t('osha'), desc: t('oshaDesc') },
+    { icon: Award, title: t('leadProject'), desc: t('leadProjectDesc') },
+    { icon: BookOpen, title: t('learnSkill'), desc: t('learnSkillDesc') },
+    { icon: TrendingUp, title: t('attendance'), desc: t('attendanceDesc') },
+  ];
 
   return (
     <div className="space-y-4">
@@ -203,19 +210,21 @@ export default function SalarySection({ profile, onTabChange }) {
 
       <MotivationalSection t={t} />
 
-      <Card className="border-gray-200 hover:shadow-sm transition-shadow cursor-pointer" onClick={() => onTabChange?.('raise')}>
+      <Card className="border-gray-200">
         <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-amber-50">
-                <HandCoins className="w-5 h-5 text-amber-600" />
+          <h4 className="font-semibold text-gray-900 mb-4">{t('waysToIncrease')}</h4>
+          <div className="space-y-4">
+            {RECOMMENDATIONS.map((rec, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="p-2 rounded-lg bg-gray-50 h-fit">
+                  <rec.icon className="w-4 h-4 text-gray-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{rec.title}</p>
+                  <p className="text-xs text-gray-500">{rec.desc}</p>
+                </div>
               </div>
-              <div>
-                <h4 className="font-semibold text-gray-900">Submit Request</h4>
-                <p className="text-xs text-gray-500">Request a raise or performance review</p>
-              </div>
-            </div>
-            <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            ))}
           </div>
         </CardContent>
       </Card>
