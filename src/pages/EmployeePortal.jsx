@@ -140,7 +140,7 @@ function EmployeePortalContent() {
       case 'profile':
         return null; // Rendered outside the white card container
       case 'feedback': return <FeedbackSection user={user} />;
-      case 'salary': return <SalarySection profile={profile} />;
+      case 'salary': return <SalarySection profile={profile} onTabChange={setActiveTab} />;
       case 'holidays': return <HolidaySchedule />;
       case 'timeoff': return <TimeOffSection user={user} />;
       case 'raise': return <RaiseRequestSection user={user} profile={profile} />;
