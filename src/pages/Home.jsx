@@ -15,6 +15,7 @@ import TrustBadges from '../components/TrustBadges';
 import CurrentProjectCard from '../components/home/CurrentProjectCard';
 import CurrentProjectsSkeleton from '../components/home/CurrentProjectsSkeleton';
 import HeroImageFade from '../components/home/HeroImageFade';
+import VanImageSection from '../components/home/VanImageSection';
 
 
 export default function Home() {
