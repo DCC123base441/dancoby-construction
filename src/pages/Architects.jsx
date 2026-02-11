@@ -223,25 +223,25 @@ export default function Architects() {
                 step: "01",
                 title: "Introduction & Alignment",
                 desc: "We start by understanding your design philosophy, project scope, and client expectations. This initial conversation ensures we're the right fit before any work begins.",
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg",
-              },
-              {
+                image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
+                },
+                {
                 step: "02",
                 title: "Pre-Construction & Estimating",
                 desc: "As your design evolves, we provide real-time pricing input and constructability feedback — catching potential issues early and keeping budgets honest.",
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg",
-              },
-              {
+                image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80",
+                },
+                {
                 step: "03",
                 title: "Permitting & Approvals",
                 desc: "We handle NYC's complex permitting landscape so you don't have to. From DOB filings to landmark approvals, we act as your dedicated liaison.",
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg",
-              },
-              {
+                image: "https://images.unsplash.com/photo-1555374018-13a8994ab246?w=800&q=80",
+                },
+                {
                 step: "04",
                 title: "Execution & Delivery",
                 desc: "Our skilled crews bring your designs to life with precision and care. You'll have full visibility through our project management platform every step of the way.",
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg",
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg",
               },
             ].map((item, idx) => (
               <motion.div
