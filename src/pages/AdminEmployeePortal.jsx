@@ -8,17 +8,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   HardHat, ExternalLink, ChevronRight, UserPlus,
-  Newspaper, CalendarDays, BookOpen, Send, History, Smartphone
+  Newspaper, CalendarDays, BookOpen, Send, History, Smartphone, DollarSign
 } from 'lucide-react';
 import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
 import DashboardActionItems from '../components/admin/DashboardActionItems';
 import MobileNavReorder from '../components/admin/MobileNavReorder';
+import BonusShareConfig from '../components/admin/BonusShareConfig';
 
 export default function AdminEmployeePortal() {
   const [showInvite, setShowInvite] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
+  const [showBonusConfig, setShowBonusConfig] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -65,6 +67,7 @@ export default function AdminEmployeePortal() {
     { name: "Holiday Schedule", href: "AdminHolidays", icon: CalendarDays },
     { name: "JobTread Tutorials", href: "AdminJobTread", icon: BookOpen },
     { name: "Mobile Nav Order", icon: Smartphone, action: () => setShowMobileNav(!showMobileNav) },
+    { name: "Quarterly Share Settings", icon: DollarSign, action: () => setShowBonusConfig(!showBonusConfig) },
   ];
 
   return (
@@ -157,6 +160,11 @@ export default function AdminEmployeePortal() {
                 <div className="mt-4 pt-4 border-t border-slate-200">
                   <p className="text-sm text-gray-500 mb-3">Drag to reorder the bottom navigation and "More" sheet for the employee mobile app.</p>
                   <MobileNavReorder />
+                </div>
+              )}
+              {showBonusConfig && (
+                <div className="mt-4 pt-4 border-t border-slate-200">
+                  <BonusShareConfig />
                 </div>
               )}
             </CardContent>
