@@ -210,6 +210,10 @@ const translations = {
     ytdTotal: 'Year-to-date total',
     updated: 'Updated',
     paidViaPayroll: 'Paid via payroll',
+    keepItUp: "You're growing with the company — keep up the great work! 💪",
+    stayTuned: 'Revenue is building — your share is on its way!',
+    growingStrong: 'Growing strong this quarter!',
+    pastQuarters: 'Past Quarters',
   },
   es: {
     portalCustomer: 'Portal del Cliente',
@@ -402,6 +406,10 @@ const translations = {
     ytdTotal: 'Total del año hasta la fecha',
     updated: 'Actualizado',
     paidViaPayroll: 'Pagado por nómina',
+    keepItUp: '¡Estás creciendo con la empresa — sigue así! 💪',
+    stayTuned: 'Los ingresos están creciendo — ¡tu parte viene en camino!',
+    growingStrong: '¡Creciendo fuerte este trimestre!',
+    pastQuarters: 'Trimestres Anteriores',
   }
 };
 

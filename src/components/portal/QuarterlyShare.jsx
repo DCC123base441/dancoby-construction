@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { PiggyBank } from 'lucide-react';
+import { PiggyBank, TrendingUp, Sparkles, Trophy } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useLanguage } from './LanguageContext';
@@ -65,58 +65,85 @@ export default function QuarterlyShare() {
   const latestCompleted = currentQuarter > 1 ? quarterShares[currentQuarter - 2] : null;
   const inProgressShare = quarterShares[currentQuarter - 1];
 
+  const growthMessage = totalPerPerson > 0 
+    ? (t('keepItUp') || "You're growing with the company — keep up the great work! 💪")
+    : (t('stayTuned') || "Revenue is building — your share is on its way!");
+
   return (
-    <Card className="border-gray-200 overflow-hidden">
+    <Card className="border-0 overflow-hidden shadow-lg ring-1 ring-emerald-100">
       <CardContent className="p-0">
-        {/* Main display — clean, no formulas */}
-        <div className="p-5 bg-gradient-to-br from-emerald-50 via-white to-emerald-50/30">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 rounded-full bg-emerald-100">
-              <PiggyBank className="w-5 h-5 text-emerald-600" />
+        {/* Hero banner */}
+        <div className="relative bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-500 p-5 pb-6 text-white overflow-hidden">
+          {/* Decorative circles */}
+          <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/10" />
+          <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-white/10" />
+          
+          <div className="relative flex items-center gap-3 mb-1">
+            <div className="p-2.5 rounded-xl bg-white/20 backdrop-blur-sm">
+              <PiggyBank className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900 text-sm">{t('quarterlyShare') || 'Quarterly Share'}</h3>
-              <p className="text-xs text-gray-500">{t('quarterlyShareDesc') || 'Your share of company growth'}</p>
+              <h3 className="font-bold text-base">{t('quarterlyShare') || 'Quarterly Share'}</h3>
+              <p className="text-emerald-100 text-xs">{t('quarterlyShareDesc') || 'Your share of company growth'}</p>
             </div>
           </div>
+        </div>
 
-          {/* Current quarter in-progress */}
-          <div className="bg-white rounded-xl border border-emerald-200 p-4 mb-3">
-            <p className="text-xs text-emerald-600 font-medium uppercase tracking-wider mb-1">
-              Q{currentQuarter} {currentYear} — {t('inProgress') || 'In Progress'}
-            </p>
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-gray-900">
+        <div className="p-5 space-y-4">
+          {/* Current quarter — big highlight */}
+          <div className="relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200/60 p-5 text-center">
+            <div className="flex items-center justify-center gap-1.5 mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+              <p className="text-xs text-emerald-700 font-semibold uppercase tracking-wider">
+                Q{currentQuarter} {currentYear} — {t('inProgress') || 'In Progress'}
+              </p>
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            </div>
+            <div className="flex items-baseline justify-center gap-1">
+              <span className="text-4xl font-extrabold text-gray-900">
                 ${inProgressShare ? inProgressShare.amount.toFixed(2) : '0.00'}
               </span>
             </div>
-            <p className="text-sm text-gray-600 mt-1">{t('earningsFromGrowth') || 'Earnings from growth'}</p>
+            <p className="text-sm text-emerald-700 mt-1.5 font-medium">{t('earningsFromGrowth') || 'Earnings from growth'}</p>
+            {totalPerPerson > 0 && (
+              <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-emerald-600 bg-emerald-100/60 rounded-full py-1 px-3 w-fit mx-auto">
+                <TrendingUp className="w-3 h-3" />
+                <span>{t('growingStrong') || 'Growing strong this quarter!'}</span>
+              </div>
+            )}
           </div>
 
-          {/* Past quarters this year */}
+          {/* Motivational message */}
+          <div className="bg-amber-50 border border-amber-200/60 rounded-xl px-4 py-3 text-center">
+            <p className="text-sm text-amber-800 font-medium">{growthMessage}</p>
+          </div>
+
+          {/* Past quarters */}
           {quarterShares.filter(q => q.quarter < currentQuarter).length > 0 && (
             <div className="space-y-2">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('pastQuarters') || 'Past Quarters'}</p>
               {quarterShares.filter(q => q.quarter < currentQuarter).map(q => (
-                <div key={q.quarter} className="flex items-center justify-between py-2 px-3 rounded-lg bg-gray-50">
-                  <span className="text-sm text-gray-600">Q{q.quarter} {currentYear}</span>
-                  <span className="text-sm font-semibold text-gray-900">
-                    {t('earningsFromGrowth') || 'Earnings from growth'}: ${q.amount.toFixed(2)}
-                  </span>
+                <div key={q.quarter} className="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-gray-50 border border-gray-100">
+                  <div className="flex items-center gap-2">
+                    <Trophy className="w-3.5 h-3.5 text-amber-500" />
+                    <span className="text-sm font-medium text-gray-700">Q{q.quarter} {currentYear}</span>
+                  </div>
+                  <span className="text-sm font-bold text-gray-900">${q.amount.toFixed(2)}</span>
                 </div>
               ))}
             </div>
           )}
 
           {/* YTD Total */}
-          <div className="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">{t('ytdTotal') || 'Year-to-date total'}</span>
-            <span className="text-lg font-bold text-emerald-700">${totalPerPerson.toFixed(2)}</span>
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl p-4 flex items-center justify-between text-white">
+            <span className="text-sm font-semibold">{t('ytdTotal') || 'Year-to-date total'}</span>
+            <span className="text-xl font-extrabold">${totalPerPerson.toFixed(2)}</span>
           </div>
         </div>
 
         {/* Last updated */}
         {goalData.lastUpdated && (
-          <div className="px-5 py-2 bg-gray-50 border-t border-gray-100">
+          <div className="px-5 py-2.5 bg-gray-50 border-t border-gray-100">
             <p className="text-[11px] text-gray-400">
               {t('updated') || 'Updated'} {moment(goalData.lastUpdated).fromNow()} · {t('paidViaPayroll') || 'Paid via payroll'}
             </p>
