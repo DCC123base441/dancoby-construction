@@ -28,7 +28,7 @@ export default function Architects() {
     { title: "Accurate Cost Estimating", desc: "Our detailed estimating process ensures your clients have realistic budgets from day one — no surprises." },
     { title: "Seamless Communication", desc: "Through our JobTread project management platform, all documents, updates, and communications are centralized and transparent." },
     { title: "Quality Execution", desc: "Over 20 years of experience delivering high-end residential renovations in Brooklyn and across NYC with a 3-year warranty." },
-    { title: "Personality Compatibility", desc: "We match our team to your project style and client expectations — we're an extension of your practice." },
+    { title: "Warranty-Backed Work", desc: "Every project comes with our 3-year craftsmanship warranty — giving you and your clients lasting confidence in the finished build." },
   ];
 
   return (
