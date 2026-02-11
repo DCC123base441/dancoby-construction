@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { TrendingUp } from 'lucide-react';
+import { PiggyBank } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useLanguage } from './LanguageContext';
@@ -72,7 +72,7 @@ export default function QuarterlyShare() {
         <div className="p-5 bg-gradient-to-br from-emerald-50 via-white to-emerald-50/30">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-full bg-emerald-100">
-              <TrendingUp className="w-5 h-5 text-emerald-600" />
+              <PiggyBank className="w-5 h-5 text-emerald-600" />
             </div>
             <div>
               <h3 className="font-bold text-gray-900 text-sm">Quarterly Share</h3>
