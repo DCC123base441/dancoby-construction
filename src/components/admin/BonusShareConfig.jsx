@@ -36,6 +36,9 @@ export default function BonusShareConfig() {
     if (goalData?.currentRevenue != null) {
       setRevenue(String(goalData.currentRevenue));
     }
+    if (goalData?.headcountOverride) {
+      setHeadcountOverride(String(goalData.headcountOverride));
+    }
   }, [goalData]);
 
   const saveMutation = useMutation({
