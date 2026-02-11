@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { DollarSign, TrendingUp, Award, BookOpen, ShieldCheck, Star, Target, Zap, Users } from 'lucide-react';
+import { DollarSign, TrendingUp, Award, BookOpen, ShieldCheck, Star, Target, Zap, Users, ArrowUpRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 import { useLanguage } from './LanguageContext';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Switch } from "@/components/ui/switch";
@@ -167,7 +168,7 @@ function MotivationalSection({ t }) {
   );
 }
 
-export default function SalarySection({ profile }) {
+export default function SalarySection({ profile, onTabChange }) {
   const hourly = profile?.hourlySalary;
   const { t } = useLanguage();
 
@@ -182,11 +183,22 @@ export default function SalarySection({ profile }) {
     <div className="space-y-4">
       <Card className="border-gray-200">
         <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 rounded-full bg-green-50">
-              <DollarSign className="w-5 h-5 text-green-600" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-full bg-green-50">
+                <DollarSign className="w-5 h-5 text-green-600" />
+              </div>
+              <h3 className="font-bold text-gray-900">{t('yourCompensation')}</h3>
             </div>
-            <h3 className="font-bold text-gray-900">{t('yourCompensation')}</h3>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="text-xs gap-1.5 border-amber-200 text-amber-700 hover:bg-amber-50"
+              onClick={() => onTabChange?.('raise')}
+            >
+              <ArrowUpRight className="w-3.5 h-3.5" />
+              {t('requestRaise') || 'Request Raise'}
+            </Button>
           </div>
           {hourly ? (
             <div className="flex items-end gap-1 mb-1">
