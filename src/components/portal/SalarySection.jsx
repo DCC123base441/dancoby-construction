@@ -197,7 +197,7 @@ export default function SalarySection({ profile, onTabChange }) {
               onClick={() => onTabChange?.('raise')}
             >
               <ArrowUpRight className="w-3.5 h-3.5" />
-              {t('requestRaise') || 'Request Raise'}
+              {t('raiseReview') || 'Raise/Review'}
             </Button>
           </div>
           {hourly ? (
