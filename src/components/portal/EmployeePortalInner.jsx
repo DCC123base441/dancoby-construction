@@ -71,7 +71,7 @@ export default function EmployeePortalInner({ user }) {
           </div>
         );
       case 'feedback': return <FeedbackSection user={user} />;
-      case 'salary': return <SalarySection profile={profile} />;
+      case 'salary': return <SalarySection profile={profile} onTabChange={setActiveTab} />;
       case 'holidays': return <><HolidaySchedule /><HolidayCalendar /></>;
       case 'timeoff': return <TimeOffSection user={user} />;
       case 'raise': return <RaiseRequestSection user={user} profile={profile} />;
