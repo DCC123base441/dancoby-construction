@@ -59,6 +59,7 @@ export default function Header() {
     { name: 'Reviews', path: 'Home', hash: 'reviews', desc: 'Client stories' },
     { name: 'Careers', path: 'HiringApplication', desc: 'Join our team' },
     { name: 'Partner With Us', path: 'VendorIntake', desc: 'Vendor opportunities' },
+    { name: 'Architects & Designers', path: 'Architects', desc: 'Collaborate with us' },
     { name: 'FAQ', path: 'FAQ', desc: 'Common questions' },
   ];
 

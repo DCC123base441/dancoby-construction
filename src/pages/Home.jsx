@@ -15,7 +15,7 @@ import TrustBadges from '../components/TrustBadges';
 import CurrentProjectCard from '../components/home/CurrentProjectCard';
 import CurrentProjectsSkeleton from '../components/home/CurrentProjectsSkeleton';
 import HeroImageFade from '../components/home/HeroImageFade';
-import VanImageSection from '../components/home/VanImageSection';
+
 
 
 export default function Home() {
@@ -571,43 +571,6 @@ export default function Home() {
 
               View Open Positions
             </VibrantExternalLink>
-          </div>
-        </div>
-      </section>
-
-      {/* Fleet & Stats Section */}
-      <section className="py-16 md:py-24 bg-white border-y border-gray-200 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-            >
-              <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">On the Road</p>
-              <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Bringing Craftsmanship<br />to Your Doorstep
-              </h3>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                Our fleet is ready to roll — fully equipped and branded, because the quality starts before we even step inside your home.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                {[
-                  { number: "20+", label: "Years Experience" },
-                  { number: "500+", label: "Projects Completed" },
-                  { number: "5.0", label: "Google Rating" },
-                  { number: "3-Year", label: "Warranty" },
-                ].map((stat, idx) => (
-                  <div key={idx} className="text-center px-4 py-3 bg-gray-50 rounded-lg">
-                    <div className="text-2xl font-bold text-red-600">{stat.number}</div>
-                    <div className="text-xs text-gray-500 font-medium">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            <VanImageSection />
           </div>
         </div>
       </section>
