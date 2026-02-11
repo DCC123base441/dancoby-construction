@@ -61,7 +61,7 @@ export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress,
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 lg:hidden safe-area-bottom">
-      <div className="flex items-center justify-around py-1.5 px-2">
+      <div className="flex items-center justify-around py-3 px-2">
         {navItems.map((item) => {
           const isActive = item.id === 'more' ? false : activeTab === item.id;
           const handleClick = item.id === 'more' ? onMorePress : () => onTabChange(item.id);
