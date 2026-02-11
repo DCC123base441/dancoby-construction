@@ -200,6 +200,15 @@ const translations = {
     onboardNext: 'Next',
     onboardSetupProfile: 'Set Up Profile',
     firstName: 'First Name',
+
+    // Quarterly Share
+    quarterlyShare: 'Quarterly Share',
+    quarterlyShareDesc: 'Your share of company growth',
+    inProgress: 'In Progress',
+    earningsFromGrowth: 'Earnings from growth',
+    ytdTotal: 'Year-to-date total',
+    updated: 'Updated',
+    paidViaPayroll: 'Paid via payroll',
   },
   es: {
     portalCustomer: 'Portal del Cliente',
@@ -382,6 +391,15 @@ const translations = {
     onboardNext: 'Siguiente',
     onboardSetupProfile: 'Configurar Perfil',
     firstName: 'Nombre',
+
+    // Quarterly Share
+    quarterlyShare: 'Participación Trimestral',
+    quarterlyShareDesc: 'Tu parte del crecimiento de la empresa',
+    inProgress: 'En Progreso',
+    earningsFromGrowth: 'Ganancias del crecimiento',
+    ytdTotal: 'Total del año hasta la fecha',
+    updated: 'Actualizado',
+    paidViaPayroll: 'Pagado por nómina',
   }
 };
 
