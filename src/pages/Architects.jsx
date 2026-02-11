@@ -229,7 +229,7 @@ export default function Architects() {
                 step: "02",
                 title: "Pre-Construction & Estimating",
                 desc: "As your design evolves, we provide real-time pricing input and constructability feedback — catching potential issues early and keeping budgets honest.",
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/c1b1b6c5a_img-lifestyle1.png",
+                image: "https://www.jobtread.com/images/brand-guide/img-lifestyle1.png",
                 },
                 {
                 step: "03",
