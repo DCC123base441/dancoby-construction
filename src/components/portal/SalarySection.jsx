@@ -6,6 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import BonusTracker from './BonusTracker';
+import QuarterlyShare from './QuarterlyShare';
 
 function SalaryGrowthChart({ hourly, startDate, t }) {
   const [showYoY, setShowYoY] = useState(false);
@@ -205,6 +206,8 @@ export default function SalarySection({ profile }) {
       </Card>
 
       <SalaryGrowthChart hourly={hourly} startDate={profile?.startDate} t={t} />
+
+      <QuarterlyShare />
 
       <BonusTracker />
 
