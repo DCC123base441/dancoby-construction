@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { CheckCircle, Phone, Mail, ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
-import VanImageSection from '../components/home/VanImageSection';
+
 
 export default function Architects() {
   const heroRef = useRef(null);
@@ -209,39 +209,66 @@ export default function Architects() {
         </div>
       </section>
 
-      {/* Fleet / On the Road Section */}
-      <section className="py-16 md:py-24 bg-white border-y border-gray-200 overflow-hidden">
+      {/* How We Work Together Section */}
+      <section className="py-16 md:py-24 bg-[#f8f7f6]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-            >
-              <p className="text-xs tracking-[2px] text-[#a39e96] uppercase mb-4">On the Road</p>
-              <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Bringing Craftsmanship<br />to Your Doorstep
-              </h3>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                Our fleet is ready to roll — fully equipped and branded, because the quality starts before we even step inside your home.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                {[
-                  { number: "20+", label: "Years Experience" },
-                  { number: "500+", label: "Projects Completed" },
-                  { number: "5.0", label: "Google Rating" },
-                  { number: "3-Year", label: "Warranty" },
-                ].map((stat, idx) => (
-                  <div key={idx} className="text-center px-4 py-3 bg-gray-50 rounded-lg">
-                    <div className="text-2xl font-bold text-red-600">{stat.number}</div>
-                    <div className="text-xs text-gray-500 font-medium">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+          <motion.div {...fadeIn} className="text-center mb-16">
+            <h2 className="text-sm uppercase tracking-widest text-gray-400 mb-4">Our Process</h2>
+            <h3 className="text-3xl md:text-4xl font-bold text-gray-900">How We Work With You</h3>
+          </motion.div>
 
-            <VanImageSection />
+          <div className="space-y-0">
+            {[
+              {
+                step: "01",
+                title: "Introduction & Alignment",
+                desc: "We start by understanding your design philosophy, project scope, and client expectations. This initial conversation ensures we're the right fit before any work begins.",
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg",
+              },
+              {
+                step: "02",
+                title: "Pre-Construction & Estimating",
+                desc: "As your design evolves, we provide real-time pricing input and constructability feedback — catching potential issues early and keeping budgets honest.",
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg",
+              },
+              {
+                step: "03",
+                title: "Permitting & Approvals",
+                desc: "We handle NYC's complex permitting landscape so you don't have to. From DOB filings to landmark approvals, we act as your dedicated liaison.",
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg",
+              },
+              {
+                step: "04",
+                title: "Execution & Delivery",
+                desc: "Our skilled crews bring your designs to life with precision and care. You'll have full visibility through our project management platform every step of the way.",
+                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg",
+              },
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.05 }}
+                className={`grid lg:grid-cols-2 gap-0 ${idx % 2 === 1 ? 'lg:direction-rtl' : ''}`}
+              >
+                <div className={`${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-72 lg:h-80 object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className={`flex items-center p-8 lg:p-12 bg-white ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
+                  <div>
+                    <span className="text-5xl font-extralight text-red-600/20 block mb-2">{item.step}</span>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-3">{item.title}</h4>
+                    <p className="text-gray-600 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
