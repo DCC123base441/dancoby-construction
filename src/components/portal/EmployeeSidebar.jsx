@@ -13,7 +13,7 @@ const ALL_TABS = [
   { id: 'notifications', icon: Bell, labelKey: 'notifications', color: 'text-blue-600 bg-blue-50' },
   { id: 'jobtread', icon: MonitorPlay, labelKey: 'tabJobTread', color: 'text-cyan-600 bg-cyan-50' },
   { id: 'jobtread_app', labelKey: null, label: 'Open JobTread', color: 'text-cyan-600 bg-cyan-50', isExternal: true, externalUrl: JOBTREAD_APP_URL, logoSrc: JOBTREAD_LOGO },
-  { id: 'salary', icon: DollarSign, labelKey: 'tabSalary', color: 'text-emerald-600 bg-emerald-50' },
+  { id: 'salary', icon: DollarSign, labelKey: 'tabSalary', label: 'Finance', color: 'text-emerald-600 bg-emerald-50' },
   { id: 'feedback', icon: MessageCircle, labelKey: 'tabFeedback', color: 'text-purple-600 bg-purple-50' },
   { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays', color: 'text-red-600 bg-red-50' },
   { id: 'timeoff', icon: CalendarOff, labelKey: 'tabTimeOff', color: 'text-orange-600 bg-orange-50' },
@@ -74,7 +74,7 @@ export default function EmployeeSidebar({ activeTab, onTabChange, user }) {
               }`}>
                 <tab.icon className={`w-4 h-4 ${isActive ? 'text-amber-700' : tab.color.split(' ')[0]}`} />
               </div>
-              <span className="flex-1 text-left">{t(tab.labelKey) || tab.labelKey}</span>
+              <span className="flex-1 text-left">{tab.label || t(tab.labelKey) || tab.labelKey}</span>
               {tab.id === 'notifications' && unreadCount > 0 && (
                 <span className="w-5 h-5 flex items-center justify-center bg-red-500 text-white text-[10px] font-bold rounded-full">
                   {unreadCount}
