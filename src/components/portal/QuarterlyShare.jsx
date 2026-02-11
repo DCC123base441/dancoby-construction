@@ -75,22 +75,22 @@ export default function QuarterlyShare() {
               <PiggyBank className="w-5 h-5 text-emerald-600" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900 text-sm">Quarterly Share</h3>
-              <p className="text-xs text-gray-500">Your share of company growth</p>
+              <h3 className="font-bold text-gray-900 text-sm">{t('quarterlyShare') || 'Quarterly Share'}</h3>
+              <p className="text-xs text-gray-500">{t('quarterlyShareDesc') || 'Your share of company growth'}</p>
             </div>
           </div>
 
           {/* Current quarter in-progress */}
           <div className="bg-white rounded-xl border border-emerald-200 p-4 mb-3">
             <p className="text-xs text-emerald-600 font-medium uppercase tracking-wider mb-1">
-              Q{currentQuarter} {currentYear} — In Progress
+              Q{currentQuarter} {currentYear} — {t('inProgress') || 'In Progress'}
             </p>
             <div className="flex items-baseline gap-2">
               <span className="text-3xl font-bold text-gray-900">
                 ${inProgressShare ? inProgressShare.amount.toFixed(2) : '0.00'}
               </span>
             </div>
-            <p className="text-sm text-gray-600 mt-1">Earnings from growth</p>
+            <p className="text-sm text-gray-600 mt-1">{t('earningsFromGrowth') || 'Earnings from growth'}</p>
           </div>
 
           {/* Past quarters this year */}
@@ -100,7 +100,7 @@ export default function QuarterlyShare() {
                 <div key={q.quarter} className="flex items-center justify-between py-2 px-3 rounded-lg bg-gray-50">
                   <span className="text-sm text-gray-600">Q{q.quarter} {currentYear}</span>
                   <span className="text-sm font-semibold text-gray-900">
-                    Earnings from growth: ${q.amount.toFixed(2)}
+                    {t('earningsFromGrowth') || 'Earnings from growth'}: ${q.amount.toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -109,7 +109,7 @@ export default function QuarterlyShare() {
 
           {/* YTD Total */}
           <div className="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">Year-to-date total</span>
+            <span className="text-sm font-medium text-gray-700">{t('ytdTotal') || 'Year-to-date total'}</span>
             <span className="text-lg font-bold text-emerald-700">${totalPerPerson.toFixed(2)}</span>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default function QuarterlyShare() {
         {goalData.lastUpdated && (
           <div className="px-5 py-2 bg-gray-50 border-t border-gray-100">
             <p className="text-[11px] text-gray-400">
-              Updated {moment(goalData.lastUpdated).fromNow()} · Paid via payroll
+              {t('updated') || 'Updated'} {moment(goalData.lastUpdated).fromNow()} · {t('paidViaPayroll') || 'Paid via payroll'}
             </p>
           </div>
         )}
