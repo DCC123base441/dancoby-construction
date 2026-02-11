@@ -26,37 +26,59 @@ export default function BonusShareConfig() {
   });
 
   const [percent, setPercent] = useState('');
+  const [revenue, setRevenue] = useState('');
+  const [headcountOverride, setHeadcountOverride] = useState('');
 
   useEffect(() => {
     if (goalData?.bonusSharePercent != null) {
       setPercent(String(goalData.bonusSharePercent));
+    }
+    if (goalData?.currentRevenue != null) {
+      setRevenue(String(goalData.currentRevenue));
     }
   }, [goalData]);
 
   const saveMutation = useMutation({
     mutationFn: async () => {
       const val = parseFloat(percent);
-      if (isNaN(val) || val < 0 || val > 10) {
-        throw new Error('Enter a value between 0 and 10');
+      if (isNaN(val) || val < 0 || val > 100) {
+        throw new Error('Enter a valid percentage');
       }
+      const rev = parseFloat(revenue);
+      if (isNaN(rev) || rev < 0) {
+        throw new Error('Enter a valid revenue amount');
+      }
+      const hc = headcountOverride ? parseInt(headcountOverride) : null;
+      if (headcountOverride && (isNaN(hc) || hc < 1)) {
+        throw new Error('Enter a valid headcount');
+      }
+
+      const updateData = {
+        bonusSharePercent: val,
+        currentRevenue: rev,
+        quarterlyBreakdown: { q1: rev, q2: 0, q3: 0, q4: 0 },
+        lastUpdated: new Date().toISOString(),
+      };
+
       if (!goalData?.id) {
         await base44.entities.CompanyGoal.create({
           year: currentYear,
-          bonusSharePercent: val,
+          ...updateData,
         });
       } else {
-        await base44.entities.CompanyGoal.update(goalData.id, { bonusSharePercent: val });
+        await base44.entities.CompanyGoal.update(goalData.id, updateData);
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companyGoal'] });
-      toast.success('Bonus share % updated');
+      toast.success('Share settings updated');
     },
     onError: (err) => toast.error(err.message),
   });
 
-  const headcount = employees.length;
-  const ytdRevenue = goalData?.currentRevenue || 0;
+  const actualHeadcount = employees.length;
+  const headcount = headcountOverride ? parseInt(headcountOverride) || actualHeadcount : actualHeadcount;
+  const ytdRevenue = parseFloat(revenue) || 0;
   const pct = parseFloat(percent) || 0;
   const pool = ytdRevenue * (pct / 100);
   const perPerson = headcount > 0 ? pool / headcount : 0;
@@ -69,25 +91,55 @@ export default function BonusShareConfig() {
           <h3 className="text-sm font-semibold text-slate-900">Quarterly Share Settings</h3>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex-1">
-            <label className="text-xs text-slate-500 mb-1 block">Revenue share %</label>
+        <div className="space-y-3">
+          <div>
+            <label className="text-xs text-slate-500 mb-1 block">YTD Revenue ($)</label>
             <div className="flex items-center gap-2">
+              <span className="text-sm text-slate-500">$</span>
               <Input
                 type="number"
-                step="0.01"
+                step="1"
                 min="0"
-                max="10"
-                value={percent}
-                onChange={e => setPercent(e.target.value)}
-                className="h-8 w-24 text-sm"
+                value={revenue}
+                onChange={e => setRevenue(e.target.value)}
+                className="h-8 w-32 text-sm"
               />
-              <span className="text-sm text-slate-500">%</span>
-              <Button size="sm" className="h-8" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
-                <Save className="w-3.5 h-3.5 mr-1" /> Save
-              </Button>
             </div>
           </div>
+
+          <div className="flex gap-4">
+            <div>
+              <label className="text-xs text-slate-500 mb-1 block">Bonus share %</label>
+              <div className="flex items-center gap-1">
+                <Input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="100"
+                  value={percent}
+                  onChange={e => setPercent(e.target.value)}
+                  className="h-8 w-20 text-sm"
+                />
+                <span className="text-sm text-slate-500">%</span>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-slate-500 mb-1 block">Headcount override</label>
+              <Input
+                type="number"
+                step="1"
+                min="1"
+                value={headcountOverride}
+                onChange={e => setHeadcountOverride(e.target.value)}
+                placeholder={String(actualHeadcount)}
+                className="h-8 w-20 text-sm"
+              />
+            </div>
+          </div>
+
+          <Button size="sm" className="h-8" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
+            <Save className="w-3.5 h-3.5 mr-1" /> Save
+          </Button>
         </div>
 
         <div className="grid grid-cols-3 gap-3 text-center">
