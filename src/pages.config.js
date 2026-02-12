@@ -70,6 +70,7 @@ import AdminPortalPreview from './pages/AdminPortalPreview';
 import AdminProjects from './pages/AdminProjects';
 import AdminShop from './pages/AdminShop';
 import AdminTestimonials from './pages/AdminTestimonials';
+import Architects from './pages/Architects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
@@ -98,7 +99,6 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import Architects from './pages/Architects';
 import __Layout from './Layout.jsx';
 
 
@@ -126,6 +126,7 @@ export const PAGES = {
     "AdminProjects": AdminProjects,
     "AdminShop": AdminShop,
     "AdminTestimonials": AdminTestimonials,
+    "Architects": Architects,
     "Blog": Blog,
     "BlogPost": BlogPost,
     "Contact": Contact,
@@ -154,7 +155,6 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "Architects": Architects,
 }
 
 export const pagesConfig = {
