@@ -21,7 +21,8 @@ import {
     HardHat,
     MonitorPlay,
     Newspaper,
-    Landmark
+    Landmark,
+    ImageIcon
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -73,6 +74,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
         { name: 'Team Chat', href: 'AdminChat', icon: MessagesSquare },
         { name: 'Calendar', href: 'AdminCalendar', icon: CalendarDays },
+        { name: 'Architects Images', href: 'AdminArchitectsImages', icon: ImageIcon },
     ];
 
     const handleLogout = async () => {
