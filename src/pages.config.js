@@ -99,6 +99,7 @@ import StepSuccess from './pages/StepSuccess';
 import StepSummary from './pages/StepSummary';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
+import AdminArchitectsImages from './pages/AdminArchitectsImages';
 import __Layout from './Layout.jsx';
 
 
@@ -155,6 +156,7 @@ export const PAGES = {
     "StepSummary": StepSummary,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
+    "AdminArchitectsImages": AdminArchitectsImages,
 }
 
 export const pagesConfig = {

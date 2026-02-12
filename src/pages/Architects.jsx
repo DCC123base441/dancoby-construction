@@ -5,9 +5,27 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { CheckCircle, Phone, Mail, ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
+const DEFAULT_IMAGES = {
+  hero: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg",
+  intro: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg",
+  commitment: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg",
+  process_01: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
+  process_02: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+  process_03: "https://images.unsplash.com/photo-1555374018-13a8994ab246?w=800&q=80",
+  process_04: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg",
+};
 
 export default function Architects() {
+  const { data: pageImages = [] } = useQuery({
+    queryKey: ['architectsPageImages'],
+    queryFn: () => base44.entities.ArchitectsPageImage.list(),
+  });
+
+  const imgMap = { ...DEFAULT_IMAGES };
+  pageImages.forEach(img => { if (img.imageUrl) imgMap[img.section] = img.imageUrl; });
   const heroRef = useRef(null);
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroRef,
