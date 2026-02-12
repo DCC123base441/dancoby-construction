@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -60,6 +60,8 @@ export default function AdminEmployeePortal() {
   const employees = allUsers.filter(u => u.portalRole === 'employee');
   const pendingInvites = invites.filter(i => i.status === 'pending' && i.portalRole === 'employee');
   const totalEmployeeInvites = invites.filter(i => i.portalRole === 'employee');
+
+  const navigate = useNavigate();
 
   const employeeLinks = [
     { name: "Manage Employees", href: "AdminEmployees", icon: HardHat },
@@ -146,15 +148,13 @@ export default function AdminEmployeePortal() {
                     );
                   }
                   return (
-                    <a
+                    <Link
                       key={page.name}
-                      href={createPageUrl(page.href)}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      to={createPageUrl(page.href)}
                       className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-slate-100 bg-white shadow-sm hover:border-amber-200 hover:shadow-md transition-all group"
                     >
                       {content}
-                    </a>
+                    </Link>
                   );
                 })}
               </div>
