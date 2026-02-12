@@ -64,7 +64,7 @@ export default function Architects() {
           style={{ y: heroY }}
         >
           <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
+            src={imgMap.hero}
             alt="Dancoby Construction Interior"
             className="w-full h-[120%] object-cover"
           />
@@ -140,7 +140,7 @@ export default function Architects() {
 
             <motion.div {...fadeIn}>
               <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
+                src={imgMap.intro}
                 alt="Dancoby finished project"
                 className="w-full h-[500px] object-cover shadow-2xl rounded-sm"
                 loading="lazy"
@@ -197,7 +197,7 @@ export default function Architects() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div {...fadeIn}>
               <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg"
+                src={imgMap.commitment}
                 alt="Dancoby project detail"
                 className="w-full h-[450px] object-cover shadow-2xl rounded-sm"
                 loading="lazy"
@@ -241,25 +241,25 @@ export default function Architects() {
                 step: "01",
                 title: "Introduction & Alignment",
                 desc: "We start by understanding your design philosophy, project scope, and client expectations. This initial conversation ensures we're the right fit before any work begins.",
-                image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
+                image: imgMap.process_01,
                 },
                 {
                 step: "02",
                 title: "Pre-Construction & Estimating",
                 desc: "As your design evolves, we provide real-time pricing input and constructability feedback — catching potential issues early and keeping budgets honest.",
-                image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+                image: imgMap.process_02,
                 },
                 {
                 step: "03",
                 title: "Permitting & Approvals",
                 desc: "We handle NYC's complex permitting landscape so you don't have to. From DOB filings to landmark approvals, we act as your dedicated liaison.",
-                image: "https://images.unsplash.com/photo-1555374018-13a8994ab246?w=800&q=80",
+                image: imgMap.process_03,
                 },
                 {
                 step: "04",
                 title: "Execution & Delivery",
                 desc: "Our skilled crews bring your designs to life with precision and care. You'll have full visibility through our project management platform every step of the way.",
-                image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg",
+                image: imgMap.process_04,
               },
             ].map((item, idx) => (
               <motion.div
