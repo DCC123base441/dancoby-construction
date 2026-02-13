@@ -30,6 +30,12 @@ export default function EmployeePortalInner({ user }) {
   const [moreOpen, setMoreOpen] = useState(false);
   const { t } = useLanguage();
 
+  useEffect(() => {
+    const handler = (e) => setActiveTab(e.detail);
+    window.addEventListener('portal-tab-change', handler);
+    return () => window.removeEventListener('portal-tab-change', handler);
+  }, []);
+
   const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ['employeeProfile', user?.email],
     queryFn: async () => {

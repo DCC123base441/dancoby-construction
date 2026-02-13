@@ -28,10 +28,13 @@ export default function EmployeeHeader({ user }) {
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
           <NotificationCenter user={user} />
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <button 
+            onClick={() => window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: 'profile' }))}
+            className="flex items-center gap-2 text-sm text-gray-600 hover:text-amber-600 transition-colors cursor-pointer"
+          >
             <User className="w-4 h-4" />
             <span className="hidden sm:inline">{user?.full_name || user?.email}</span>
-          </div>
+          </button>
           <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-500">
             <LogOut className="w-4 h-4" />
           </Button>
