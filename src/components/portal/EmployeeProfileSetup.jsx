@@ -141,10 +141,10 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
         {/* Main Content Tabs */}
         <div className="md:col-span-8 lg:col-span-9">
             <Tabs defaultValue="general" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-6">
-                    <TabsTrigger value="general">{t('general')}</TabsTrigger>
-                    <TabsTrigger value="work">{t('workDetails')}</TabsTrigger>
-                    <TabsTrigger value="security">{t('security')}</TabsTrigger>
+                <TabsList className="flex w-full mb-6">
+                    <TabsTrigger value="general" className="flex-1 text-xs sm:text-sm px-1 sm:px-3 truncate">{t('general')}</TabsTrigger>
+                    <TabsTrigger value="work" className="flex-1 text-xs sm:text-sm px-1 sm:px-3 truncate">{t('workDetails')}</TabsTrigger>
+                    <TabsTrigger value="security" className="flex-1 text-xs sm:text-sm px-1 sm:px-3 truncate">{t('security')}</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="general">
