@@ -214,6 +214,74 @@ const translations = {
     stayTuned: 'Revenue is building — your share is on its way!',
     growingStrong: 'Growing strong this quarter!',
     pastQuarters: 'Past Quarters',
+
+    // Standards
+    companyStandards: 'Company Standards',
+    standardsDesc: 'Reference images showing the right and wrong way to do things.',
+    noStandards: 'No standards have been added yet.',
+    allFilter: 'All',
+
+    // Profile Setup
+    profileSettings: 'Profile Settings',
+    profileSettingsDesc: 'Manage your personal information and account security.',
+    personalInfo: 'Personal Information',
+    personalInfoDesc: 'Update your personal details and contact information.',
+    general: 'General',
+    workDetails: 'Work Details',
+    security: 'Security',
+    lastName: 'Last Name',
+    contactEmail: 'Contact Email',
+    emergencyContact: 'Emergency Contact',
+    contactName: 'Contact Name',
+    contactPhone: 'Contact Phone',
+    employmentDetails: 'Employment Details',
+    employmentDetailsDesc: 'View and manage your role information.',
+    positionTitle: 'Position / Title',
+    accountSecurity: 'Account Security',
+    accountSecurityDesc: 'Manage your login credentials.',
+    loginEmail: 'Login Email',
+    loginEmailManaged: 'This email is managed by your organization administrator.',
+    passwordReset: 'Password Reset',
+    passwordResetDesc: 'Receive an email with instructions to reset your password.',
+    sendResetInstructions: 'Send Reset Instructions',
+    sendingEmail: 'Sending Email...',
+    saving: 'Saving...',
+    saved: 'Saved',
+    noPosition: 'No Position Set',
+    joined: 'Joined',
+    tellAboutYourself: 'Tell us about yourself...',
+
+    // Time Off
+    requestTimeOff: 'Request Time Off',
+    endDate: 'End Date',
+    notes: 'Notes (optional)',
+    additionalDetails: 'Any additional details...',
+    timeOffSubmitted: 'Time off request submitted',
+    noTimeOffRequests: 'No time off requests yet.',
+    businessDays: 'business days',
+    businessDay: 'business day',
+    vacation: 'Vacation',
+    personal: 'Personal',
+    sick: 'Sick',
+    family: 'Family',
+    manager: 'Manager',
+
+    // Notifications
+    noNotifications: 'No notifications yet',
+    loading: 'Loading...',
+
+    // JobTread
+    noTutorials: 'No tutorials available yet.',
+
+    // Feedback
+    feedbackPrivate: 'Messages are private and only shared with your supervisor.',
+
+    // Holidays
+    noHolidays: 'No holidays configured yet.',
+
+    // More sheet / Sidebar
+    openJobTread: 'Open JobTread',
+    external: 'External',
   },
   es: {
     portalCustomer: 'Portal del Cliente',
@@ -410,6 +478,74 @@ const translations = {
     stayTuned: 'Los ingresos están creciendo — ¡tu parte viene en camino!',
     growingStrong: '¡Creciendo fuerte este trimestre!',
     pastQuarters: 'Trimestres Anteriores',
+
+    // Standards
+    companyStandards: 'Estándares de la Empresa',
+    standardsDesc: 'Imágenes de referencia que muestran la forma correcta e incorrecta de hacer las cosas.',
+    noStandards: 'Aún no se han agregado estándares.',
+    allFilter: 'Todos',
+
+    // Profile Setup
+    profileSettings: 'Configuración del Perfil',
+    profileSettingsDesc: 'Administra tu información personal y seguridad de la cuenta.',
+    personalInfo: 'Información Personal',
+    personalInfoDesc: 'Actualiza tus datos personales y de contacto.',
+    general: 'General',
+    workDetails: 'Detalles del Trabajo',
+    security: 'Seguridad',
+    lastName: 'Apellido',
+    contactEmail: 'Correo de Contacto',
+    emergencyContact: 'Contacto de Emergencia',
+    contactName: 'Nombre del Contacto',
+    contactPhone: 'Teléfono del Contacto',
+    employmentDetails: 'Detalles del Empleo',
+    employmentDetailsDesc: 'Ve y administra la información de tu puesto.',
+    positionTitle: 'Puesto / Título',
+    accountSecurity: 'Seguridad de la Cuenta',
+    accountSecurityDesc: 'Administra tus credenciales de acceso.',
+    loginEmail: 'Correo de Acceso',
+    loginEmailManaged: 'Este correo es administrado por el administrador de tu organización.',
+    passwordReset: 'Restablecer Contraseña',
+    passwordResetDesc: 'Recibe un correo con instrucciones para restablecer tu contraseña.',
+    sendResetInstructions: 'Enviar Instrucciones',
+    sendingEmail: 'Enviando Correo...',
+    saving: 'Guardando...',
+    saved: 'Guardado',
+    noPosition: 'Sin Puesto Asignado',
+    joined: 'Se unió',
+    tellAboutYourself: 'Cuéntanos sobre ti...',
+
+    // Time Off
+    requestTimeOff: 'Solicitar Tiempo Libre',
+    endDate: 'Fecha de Fin',
+    notes: 'Notas (opcional)',
+    additionalDetails: 'Detalles adicionales...',
+    timeOffSubmitted: 'Solicitud de tiempo libre enviada',
+    noTimeOffRequests: 'Aún no hay solicitudes de tiempo libre.',
+    businessDays: 'días hábiles',
+    businessDay: 'día hábil',
+    vacation: 'Vacaciones',
+    personal: 'Personal',
+    sick: 'Enfermedad',
+    family: 'Familia',
+    manager: 'Gerente',
+
+    // Notifications
+    noNotifications: 'Aún no hay notificaciones',
+    loading: 'Cargando...',
+
+    // JobTread
+    noTutorials: 'Aún no hay tutoriales disponibles.',
+
+    // Feedback
+    feedbackPrivate: 'Los mensajes son privados y solo se comparten con tu supervisor.',
+
+    // Holidays
+    noHolidays: 'Aún no se han configurado festivos.',
+
+    // More sheet / Sidebar
+    openJobTread: 'Abrir JobTread',
+    external: 'Externo',
   }
 };
 
