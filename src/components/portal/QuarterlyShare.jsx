@@ -153,11 +153,11 @@ export default function QuarterlyShare() {
               );
             })()}
             <p className="text-sm text-emerald-700 mt-1.5 font-medium">
-              {sliderValue > 0
+              {isExploring
                 ? `${t('basedOnBonusShare') || 'Based on'} ${bonusPercent}% ${t('bonusShare') || 'bonus share'}`
                 : (t('earningsFromGrowth') || 'Earnings from growth')}
             </p>
-            {totalPerPerson > 0 && sliderValue === 0 && (
+            {totalPerPerson > 0 && !isExploring && (
               <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-emerald-600 bg-emerald-100/60 rounded-full py-1 px-3 w-fit mx-auto">
                 <TrendingUp className="w-3 h-3" />
                 <span>{t('growingStrong') || 'Growing strong this quarter!'}</span>
