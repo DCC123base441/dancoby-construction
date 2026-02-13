@@ -120,7 +120,7 @@ export default function FAQ() {
       <SEOHead 
         title="FAQ | Dancoby Construction"
         description="Find answers to common questions about our renovation process, costs, timelines, and warranties. Dancoby Construction – NYC's premier renovation experts."
-        keywords="renovation FAQ, construction questions, NYC renovation costs, home renovation process, contractor warranty"
+        keywords="renovation FAQ, construction questions, NYC renovation costs, home renovation process, contractor warranty, how much does renovation cost NYC, renovation timeline, general contractor questions, home remodel warranty, licensed contractor FAQ"
         structuredData={faqSchema}
       />
 
