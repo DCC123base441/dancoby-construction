@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import {
   GripVertical, Save, RotateCcw, ArrowDown, ArrowUp,
   Newspaper, MonitorPlay, Bell, UserCircle, DollarSign,
-  CalendarDays, MessageCircle, CalendarOff, HandCoins, ShoppingBag, ClipboardCheck
+  CalendarDays, MessageCircle, CalendarOff, HandCoins, ShoppingBag, ClipboardList
 } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
@@ -21,7 +21,7 @@ const TAB_META = {
   timeoff: { icon: CalendarOff, label: 'Time Off' },
   raise: { icon: HandCoins, label: 'Raise/Review' },
   gear: { icon: ShoppingBag, label: 'Gear Shop' },
-  standards: { icon: ClipboardCheck, label: 'Standards' },
+  standards: { icon: ClipboardList, label: 'Standards' },
 };
 
 const DEFAULT_BOTTOM = ['news', 'jobtread', 'notifications', 'profile'];

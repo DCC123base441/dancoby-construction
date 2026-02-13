@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, Menu, Newspaper, MonitorPlay, Bell, ClipboardCheck } from 'lucide-react';
+import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, Menu, Newspaper, MonitorPlay, Bell, ClipboardList } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 const ICON_MAP = {
@@ -15,7 +15,7 @@ const ICON_MAP = {
   timeoff: CalendarOff,
   raise: HandCoins,
   gear: ShoppingBag,
-  standards: ClipboardCheck,
+  standards: ClipboardList,
 };
 
 const LABEL_MAP = {
