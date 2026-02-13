@@ -15,7 +15,7 @@ export default function QuarterlyShare() {
   const currentYear = new Date().getFullYear();
   const currentQuarter = Math.floor(new Date().getMonth() / 3) + 1;
   const queryClient = useQueryClient();
-  const [sliderValue, setSliderValue] = useState(0);
+  const [sliderValue, setSliderValue] = useState(null);
   const hasFiredConfetti = useRef(false);
 
   const fireConfetti = useCallback(() => {
