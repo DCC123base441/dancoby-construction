@@ -172,6 +172,8 @@ export default function SalarySection({ profile, onTabChange }) {
   const hourly = profile?.hourlySalary;
   const { t } = useLanguage();
   const [showWage, setShowWage] = useState(false);
+  const [rateMode, setRateMode] = useState('day'); // 'day' or 'hour'
+  const HOURS_PER_DAY = 8;
 
   const RECOMMENDATIONS = [
     { icon: ShieldCheck, title: t('osha'), desc: t('oshaDesc') },
@@ -205,8 +207,10 @@ export default function SalarySection({ profile, onTabChange }) {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <div className="flex items-end gap-1">
-                  <span className="text-4xl font-bold text-gray-900">{showWage ? `$${hourly.toFixed(2)}` : '••••'}</span>
-                  {showWage && <span className="text-gray-500 text-sm mb-1">{t('perDay')}</span>}
+                  <span className="text-4xl font-bold text-gray-900">
+                    {showWage ? `$${rateMode === 'day' ? hourly.toFixed(2) : (hourly / HOURS_PER_DAY).toFixed(2)}` : '••••'}
+                  </span>
+                  {showWage && <span className="text-gray-500 text-sm mb-1">/{rateMode === 'day' ? 'day' : 'hr'}</span>}
                 </div>
                 <button
                   onClick={() => setShowWage(!showWage)}
@@ -216,9 +220,29 @@ export default function SalarySection({ profile, onTabChange }) {
                 </button>
               </div>
               {showWage && (
-                <p className="text-xs text-gray-400 mt-1">
-                  ≈ ${(hourly * 5).toFixed(0)}/week · ${(hourly * 5 * 52).toLocaleString()}/year (5 days/wk)
-                </p>
+                <>
+                  <div className="flex items-center gap-1 mt-2 mb-2">
+                    <button
+                      onClick={() => setRateMode('day')}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                        rateMode === 'day' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                      }`}
+                    >
+                      /day
+                    </button>
+                    <button
+                      onClick={() => setRateMode('hour')}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                        rateMode === 'hour' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                      }`}
+                    >
+                      /hour
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-400">
+                    ≈ ${(hourly * 5).toFixed(0)}/week · ${(hourly * 5 * 52).toLocaleString()}/year (5 days/wk)
+                  </p>
+                </>
               )}
             </div>
           ) : (
