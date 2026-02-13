@@ -12,7 +12,7 @@ const ALL_TABS = [
   { id: 'news', icon: Newspaper, labelKey: 'tabNews', color: 'text-indigo-600 bg-indigo-50' },
   { id: 'notifications', icon: Bell, labelKey: 'notifications', color: 'text-blue-600 bg-blue-50' },
   { id: 'jobtread', icon: MonitorPlay, labelKey: 'tabJobTread', color: 'text-cyan-600 bg-cyan-50' },
-  { id: 'jobtread_app', labelKey: 'openJobTread', label: 'Open JobTread', color: 'text-cyan-600 bg-cyan-50', isExternal: true, externalUrl: JOBTREAD_APP_URL, logoSrc: JOBTREAD_LOGO },
+  { id: 'jobtread_app', labelKey: 'openJobTread', color: 'text-cyan-600 bg-cyan-50', isExternal: true, externalUrl: JOBTREAD_APP_URL, logoSrc: JOBTREAD_LOGO },
   { id: 'salary', icon: DollarSign, labelKey: 'tabFinance', color: 'text-emerald-600 bg-emerald-50' },
   { id: 'feedback', icon: MessageCircle, labelKey: 'tabFeedback', color: 'text-purple-600 bg-purple-50' },
   { id: 'holidays', icon: CalendarDays, labelKey: 'tabHolidays', color: 'text-red-600 bg-red-50' },
@@ -20,7 +20,7 @@ const ALL_TABS = [
   { id: 'raise', icon: HandCoins, labelKey: 'tabRaise', color: 'text-amber-600 bg-amber-50' },
   { id: 'gear', icon: ShoppingBag, labelKey: 'tabGear', color: 'text-pink-600 bg-pink-50' },
   { id: 'checkin', icon: SmilePlus, labelKey: 'tabCheckIn', color: 'text-lime-600 bg-lime-50' },
-  { id: 'standards', icon: ClipboardList, labelKey: 'companyStandards', label: 'Standards', color: 'text-teal-600 bg-teal-50' },
+  { id: 'standards', icon: ClipboardList, labelKey: 'companyStandards', color: 'text-teal-600 bg-teal-50' },
   { id: 'profile', icon: UserCircle, labelKey: 'tabProfile', color: 'text-slate-600 bg-slate-50' },
 ];
 
