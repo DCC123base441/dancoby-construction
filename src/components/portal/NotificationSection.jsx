@@ -85,11 +85,11 @@ export default function NotificationSection({ user }) {
 
       <div className="space-y-3">
         {isLoading ? (
-            <div className="text-center py-12 text-gray-400">Loading...</div>
+            <div className="text-center py-12 text-gray-400">{t('loading')}</div>
         ) : notifications.length === 0 ? (
             <div className="text-center py-16 text-gray-400 bg-white rounded-xl border border-gray-100">
                 <Bell className="w-10 h-10 mx-auto mb-3 text-gray-200" />
-                <p>No notifications yet</p>
+                <p>{t('noNotifications')}</p>
             </div>
         ) : (
             notifications.map(n => (

@@ -70,7 +70,7 @@ export default function HolidaySchedule() {
         </div>
 
         {holidays.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-6">No holidays configured yet.</p>
+          <p className="text-sm text-gray-400 text-center py-6">{t('noHolidays')}</p>
         ) : (
           <div className="space-y-3">
             {sortedHolidays.map((holiday) => {

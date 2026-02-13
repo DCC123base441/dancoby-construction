@@ -25,16 +25,24 @@ const STATUS_ICONS = {
   denied: XCircle,
 };
 
-const REASON_LABELS = {
+const REASON_LABELS_EN = {
   vacation: 'Vacation',
   personal: 'Personal',
   sick: 'Sick',
   family: 'Family',
   other: 'Other',
 };
+const REASON_LABELS_ES = {
+  vacation: 'Vacaciones',
+  personal: 'Personal',
+  sick: 'Enfermedad',
+  family: 'Familia',
+  other: 'Otro',
+};
 
 export default function TimeOffSection({ user }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const REASON_LABELS = lang === 'es' ? REASON_LABELS_ES : REASON_LABELS_EN;
   const [showForm, setShowForm] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -95,10 +103,10 @@ export default function TimeOffSection({ user }) {
           <div className="p-2 rounded-full bg-purple-50">
             <CalendarOff className="w-5 h-5 text-purple-600" />
           </div>
-          <h3 className="font-bold text-gray-900">{t('requestTimeOff') || 'Request Time Off'}</h3>
+          <h3 className="font-bold text-gray-900">{t('requestTimeOff')}</h3>
         </div>
         <Button onClick={() => setShowForm(!showForm)} size="sm" className="bg-gray-900 hover:bg-gray-800">
-          <Plus className="w-4 h-4 mr-1" /> {t('newRequest') || 'New Request'}
+          <Plus className="w-4 h-4 mr-1" /> {t('newRequest')}
         </Button>
       </div>
 
@@ -107,42 +115,42 @@ export default function TimeOffSection({ user }) {
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <Label>{t('startDate') || 'Start Date'}</Label>
+                <Label>{t('startDate')}</Label>
                 <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
               </div>
               <div className="space-y-1.5">
-                <Label>{t('endDate') || 'End Date'}</Label>
+                <Label>{t('endDate')}</Label>
                 <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} min={startDate} />
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label>{t('reason') || 'Reason'}</Label>
+              <Label>{t('reason')}</Label>
               <Select value={reason} onValueChange={setReason}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="vacation">Vacation</SelectItem>
-                  <SelectItem value="personal">Personal</SelectItem>
-                  <SelectItem value="sick">Sick</SelectItem>
-                  <SelectItem value="family">Family</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  <SelectItem value="vacation">{t('vacation')}</SelectItem>
+                  <SelectItem value="personal">{t('personal')}</SelectItem>
+                  <SelectItem value="sick">{t('sick')}</SelectItem>
+                  <SelectItem value="family">{t('family')}</SelectItem>
+                  <SelectItem value="other">{t('other')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label>{t('notes') || 'Notes (optional)'}</Label>
+              <Label>{t('notes')}</Label>
               <Textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Any additional details..."
+                placeholder={t('additionalDetails')}
                 className="h-20"
               />
             </div>
             <div className="flex gap-2">
               <Button onClick={handleSubmit} disabled={!startDate || !endDate || createMutation.isPending} className="bg-gray-900 hover:bg-gray-800">
                 {createMutation.isPending && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
-                {t('submitRequest') || 'Submit Request'}
+                {t('submitRequest')}
               </Button>
-              <Button variant="outline" onClick={() => setShowForm(false)}>{t('cancel') || 'Cancel'}</Button>
+              <Button variant="outline" onClick={() => setShowForm(false)}>{t('cancel')}</Button>
             </div>
           </CardContent>
         </Card>
@@ -153,7 +161,7 @@ export default function TimeOffSection({ user }) {
       ) : requests.length === 0 ? (
         <div className="text-center py-12 text-gray-400">
           <CalendarOff className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-          <p className="text-sm">No time off requests yet.</p>
+          <p className="text-sm">{t('noTimeOffRequests')}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -173,11 +181,11 @@ export default function TimeOffSection({ user }) {
                           {formatDateRange(req.startDate, req.endDate)}
                         </p>
                         <p className="text-xs text-gray-500 mt-0.5">
-                          {getDayCount(req.startDate, req.endDate)} business day{getDayCount(req.startDate, req.endDate) !== 1 ? 's' : ''} • {REASON_LABELS[req.reason] || req.reason}
+                          {getDayCount(req.startDate, req.endDate)} {getDayCount(req.startDate, req.endDate) !== 1 ? t('businessDays') : t('businessDay')} • {REASON_LABELS[req.reason] || req.reason}
                         </p>
                         {req.notes && <p className="text-xs text-gray-400 mt-1">{req.notes}</p>}
                         {req.adminNotes && (
-                          <p className="text-xs text-blue-600 mt-1 italic">Manager: {req.adminNotes}</p>
+                          <p className="text-xs text-blue-600 mt-1 italic">{t('manager')}: {req.adminNotes}</p>
                         )}
                       </div>
                     </div>

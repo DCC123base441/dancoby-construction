@@ -67,8 +67,8 @@ export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange, nav
               <img src={JOBTREAD_LOGO} alt="JobTread" className="w-6 h-6 rounded-full" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-medium text-gray-800">Open JobTread</span>
-              <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><ExternalLink className="w-2.5 h-2.5" /> External</span>
+              <span className="text-sm font-medium text-gray-800">{t('openJobTread')}</span>
+              <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><ExternalLink className="w-2.5 h-2.5" /> {t('external')}</span>
             </div>
           </a>
         </div>

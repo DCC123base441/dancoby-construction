@@ -36,7 +36,7 @@ export default function JobTreadSection() {
       ) : tutorials.length === 0 ? (
         <div className="text-center py-12 text-gray-400">
           <MonitorPlay className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-          <p className="text-sm">No tutorials available yet.</p>
+          <p className="text-sm">{t('noTutorials')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
