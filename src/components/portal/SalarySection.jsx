@@ -183,21 +183,21 @@ export default function SalarySection({ profile, onTabChange }) {
     <div className="space-y-4">
       <Card className="border-gray-200">
         <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-green-50">
+          <div className="flex items-center justify-between gap-2 mb-4">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-2 rounded-full bg-green-50 flex-shrink-0">
                 <DollarSign className="w-5 h-5 text-green-600" />
               </div>
-              <h3 className="font-bold text-gray-900">{t('yourCompensation')}</h3>
+              <h3 className="font-bold text-gray-900 truncate">{t('yourCompensation')}</h3>
             </div>
             <Button 
-              size="sm" 
+              size="icon" 
               variant="outline" 
-              className="text-xs gap-1.5 border-amber-200 text-amber-700 hover:bg-amber-50"
+              className="border-amber-200 text-amber-700 hover:bg-amber-50 flex-shrink-0 h-8 w-8"
               onClick={() => onTabChange?.('raise')}
+              title={t('requestRaise')}
             >
-              <ArrowUpRight className="w-3.5 h-3.5" />
-              {t('requestRaise') || 'Request Raise'}
+              <ArrowUpRight className="w-4 h-4" />
             </Button>
           </div>
           {hourly ? (
