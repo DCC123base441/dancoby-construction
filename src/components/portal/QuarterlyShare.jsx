@@ -166,7 +166,7 @@ export default function QuarterlyShare() {
               <div className="relative w-full h-10 flex items-center">
                 <div className="absolute inset-x-0 h-2 rounded-full bg-emerald-200 overflow-hidden">
                   <div
-                    className="h-full bg-emerald-500 rounded-full transition-[width] duration-75"
+                    className="h-full bg-emerald-500 rounded-full"
                     style={{ width: `${sliderValue}%` }}
                   />
                 </div>
@@ -178,10 +178,10 @@ export default function QuarterlyShare() {
                   value={sliderValue}
                   onChange={(e) => handleSliderChange([Number(e.target.value)])}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                  style={{ WebkitAppearance: 'none', touchAction: 'pan-x' }}
+                  style={{ WebkitAppearance: 'none', touchAction: 'none' }}
                 />
                 <div
-                  className="absolute w-7 h-7 rounded-full bg-white border-2 border-emerald-500 shadow-md pointer-events-none transition-[left] duration-75"
+                  className="absolute w-7 h-7 rounded-full bg-white border-2 border-emerald-500 shadow-md pointer-events-none"
                   style={{ left: `calc(${sliderValue}% - 14px)` }}
                 />
               </div>
