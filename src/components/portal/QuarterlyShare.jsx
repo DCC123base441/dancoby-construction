@@ -221,8 +221,10 @@ export default function QuarterlyShare() {
                   />
                   <div className="flex justify-between text-[10px] text-emerald-600 font-medium">
                     <span>$0</span>
-                    <span>{baseProgress.toFixed(0)}%</span>
                     <span>2026 Goal 🎯</span>
+                  </div>
+                  <div className="text-center text-sm font-bold text-emerald-700 mt-1">
+                    {effectiveValue.toFixed(0)}%
                   </div>
                 </div>
               );
