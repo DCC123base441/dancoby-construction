@@ -161,77 +161,60 @@ export default function QuarterlyShare() {
               </div>
             )}
 
-            {/* Revenue progress bar */}
+            {/* Slider — starts at current YTD progress, drag to explore */}
             {(() => {
-              const progressPct = Math.min((ytdRevenue / QUARTERLY_GOAL) * 100, 100);
+              const baseProgress = Math.min((ytdRevenue / QUARTERLY_GOAL) * 100, 100);
+              const effectiveValue = sliderValue !== null ? sliderValue : baseProgress;
               return (
-                <div className="mt-4 space-y-1.5">
-                  <div className="w-full h-3 rounded-full bg-emerald-200 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 transition-all duration-700"
-                      style={{ width: `${progressPct}%` }}
-                    />
-                  </div>
+                <div className="mt-4 space-y-2">
+                  <style>{`
+                    .qs-slider {
+                      -webkit-appearance: none;
+                      appearance: none;
+                      width: 100%;
+                      height: 8px;
+                      border-radius: 9999px;
+                      outline: none;
+                      background: linear-gradient(to right, #10b981 0%, #10b981 ${effectiveValue}%, #a7f3d0 ${effectiveValue}%, #a7f3d0 100%);
+                    }
+                    .qs-slider::-webkit-slider-thumb {
+                      -webkit-appearance: none;
+                      appearance: none;
+                      width: 28px;
+                      height: 28px;
+                      border-radius: 50%;
+                      background: white;
+                      border: 2px solid #10b981;
+                      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+                      cursor: pointer;
+                    }
+                    .qs-slider::-moz-range-thumb {
+                      width: 28px;
+                      height: 28px;
+                      border-radius: 50%;
+                      background: white;
+                      border: 2px solid #10b981;
+                      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+                      cursor: pointer;
+                    }
+                  `}</style>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={effectiveValue}
+                    onChange={(e) => handleSliderChange([Number(e.target.value)])}
+                    className="qs-slider"
+                  />
                   <div className="flex justify-between text-[10px] text-emerald-600 font-medium">
-                    <span>${(ytdRevenue / 1000000).toFixed(2)}M</span>
-                    <span>{progressPct.toFixed(0)}%</span>
+                    <span>$0</span>
+                    <span>${(ytdRevenue / 1000000).toFixed(2)}M ({baseProgress.toFixed(0)}%)</span>
                     <span>${(QUARTERLY_GOAL / 1000000).toFixed(1)}M 🎯</span>
                   </div>
                 </div>
               );
             })()}
-
-            {/* Slider — explore potential */}
-            <div className="mt-3 space-y-2">
-              <p className="text-[10px] text-emerald-600 font-medium flex items-center gap-1 justify-center">
-                <SlidersHorizontal className="w-3 h-3" />
-                {t('slideToSeeEarnings') || 'Slide to see what you could earn as the company grows'}
-              </p>
-              <style>{`
-                .qs-slider {
-                  -webkit-appearance: none;
-                  appearance: none;
-                  width: 100%;
-                  height: 8px;
-                  border-radius: 9999px;
-                  outline: none;
-                  background: linear-gradient(to right, #10b981 0%, #10b981 ${sliderValue}%, #a7f3d0 ${sliderValue}%, #a7f3d0 100%);
-                }
-                .qs-slider::-webkit-slider-thumb {
-                  -webkit-appearance: none;
-                  appearance: none;
-                  width: 28px;
-                  height: 28px;
-                  border-radius: 50%;
-                  background: white;
-                  border: 2px solid #10b981;
-                  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-                  cursor: pointer;
-                }
-                .qs-slider::-moz-range-thumb {
-                  width: 28px;
-                  height: 28px;
-                  border-radius: 50%;
-                  background: white;
-                  border: 2px solid #10b981;
-                  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-                  cursor: pointer;
-                }
-              `}</style>
-              <input
-                type="range"
-                min={0}
-                max={100}
-                step={1}
-                value={sliderValue}
-                onChange={(e) => handleSliderChange([Number(e.target.value)])}
-                className="qs-slider"
-              />
-              <div className="flex justify-between text-[10px] text-emerald-600 font-medium">
-                <span>{t('today') || 'Today'}</span>
-                <span>2026 {t('goal') || 'Goal'} 🎯</span>
-              </div>
-            </div>
           </div>
 
           {/* Motivational message */}
