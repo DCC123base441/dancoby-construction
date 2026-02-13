@@ -85,28 +85,21 @@ export default function QuarterlyShare() {
     : (t('stayTuned') || "Revenue is building — your share is on its way!");
 
   return (
-    <Card className="border-0 overflow-hidden shadow-lg ring-1 ring-emerald-100">
-      <CardContent className="p-0">
-        {/* Hero banner */}
-        <div className="relative bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-500 p-5 pb-6 text-white overflow-hidden">
-          {/* Decorative circles */}
-          <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/10" />
-          <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-white/10" />
-          
-          <div className="relative flex items-center gap-3 mb-1">
-            <div className="p-2.5 rounded-xl bg-white/20 backdrop-blur-sm">
-              <PiggyBank className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h3 className="font-bold text-base">{t('quarterlyShare') || 'Quarterly Share'}</h3>
-              <p className="text-emerald-100 text-xs">{t('quarterlyShareDesc') || 'Your share of company growth'}</p>
-            </div>
+    <Card className="border-gray-200">
+      <CardContent className="p-4 sm:p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-2 rounded-full bg-emerald-50">
+            <PiggyBank className="w-5 h-5 text-emerald-600" />
+          </div>
+          <div>
+            <h3 className="font-bold text-gray-900">{t('quarterlyShare') || 'Quarterly Share'}</h3>
+            <p className="text-xs text-gray-500">{t('quarterlyShareDesc') || 'Your share of company growth'}</p>
           </div>
         </div>
 
-        <div className="p-5 space-y-4">
+        <div className="space-y-4">
           {/* Current quarter — big highlight */}
-          <div className="relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200/60 p-5 text-center">
+          <div className="bg-emerald-50 rounded-lg border border-emerald-100 p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
               <p className="text-xs text-emerald-700 font-semibold uppercase tracking-wider">
@@ -114,11 +107,9 @@ export default function QuarterlyShare() {
               </p>
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             </div>
-            <div className="flex items-baseline justify-center gap-1">
-              <span className="text-4xl font-extrabold text-gray-900">
-                ${inProgressShare ? inProgressShare.amount.toFixed(2) : '0.00'}
-              </span>
-            </div>
+            <span className="text-4xl font-bold text-gray-900">
+              ${inProgressShare ? inProgressShare.amount.toFixed(2) : '0.00'}
+            </span>
             <p className="text-sm text-emerald-700 mt-1.5 font-medium">{t('earningsFromGrowth') || 'Earnings from growth'}</p>
             {totalPerPerson > 0 && (
               <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-emerald-600 bg-emerald-100/60 rounded-full py-1 px-3 w-fit mx-auto">
@@ -129,14 +120,14 @@ export default function QuarterlyShare() {
           </div>
 
           {/* Potential Earnings Slider */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200/60 rounded-2xl p-4 space-y-3">
-            <div className="flex items-center gap-2 mb-1">
+          <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 space-y-3">
+            <div className="flex items-center gap-2">
               <SlidersHorizontal className="w-3.5 h-3.5 text-blue-600" />
               <p className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
                 {t('potentialEarnings') || 'Potential Earnings'}
               </p>
             </div>
-            <p className="text-[11px] text-blue-600/80">
+            <p className="text-xs text-blue-600/80">
               {t('slideToSeeEarnings') || 'Slide to see what you could earn as the company grows'}
             </p>
             <Slider
@@ -145,7 +136,7 @@ export default function QuarterlyShare() {
               min={0}
               max={100}
               step={1}
-              className="w-full [&_[role=slider]]:bg-blue-600 [&_[role=slider]]:border-blue-600 [&_[data-orientation=horizontal]>[data-orientation=horizontal]]:bg-blue-600"
+              className="w-full"
             />
             <div className="flex justify-between text-[10px] text-blue-500 font-medium">
               <span>{t('today') || 'Today'}</span>
@@ -157,8 +148,8 @@ export default function QuarterlyShare() {
               const simulatedPerPerson = headcount > 0 ? simulatedPool / headcount : 0;
               const diff = simulatedPerPerson - totalPerPerson;
               return (
-                <div className="bg-white/70 rounded-xl p-3 text-center border border-blue-100">
-                  <p className="text-2xl font-extrabold text-blue-700">
+                <div className="bg-white rounded-lg p-3 text-center border border-blue-100">
+                  <p className="text-2xl font-bold text-blue-700">
                     ${simulatedPerPerson.toFixed(2)}
                   </p>
                   {diff > 0 && (
@@ -175,7 +166,7 @@ export default function QuarterlyShare() {
           </div>
 
           {/* Motivational message */}
-          <div className="bg-amber-50 border border-amber-200/60 rounded-xl px-4 py-3 text-center">
+          <div className="bg-amber-50 border border-amber-100 rounded-lg px-4 py-3 text-center">
             <p className="text-sm text-amber-800 font-medium">{growthMessage}</p>
           </div>
 
@@ -184,7 +175,7 @@ export default function QuarterlyShare() {
             <div className="space-y-2">
               <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('pastQuarters') || 'Past Quarters'}</p>
               {quarterShares.filter(q => q.quarter < currentQuarter).map(q => (
-                <div key={q.quarter} className="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-gray-50 border border-gray-100">
+                <div key={q.quarter} className="flex items-center justify-between py-2.5 px-3.5 rounded-lg bg-gray-50 border border-gray-100">
                   <div className="flex items-center gap-2">
                     <Trophy className="w-3.5 h-3.5 text-amber-500" />
                     <span className="text-sm font-medium text-gray-700">Q{q.quarter} {currentYear}</span>
@@ -196,20 +187,18 @@ export default function QuarterlyShare() {
           )}
 
           {/* YTD Total */}
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl p-4 flex items-center justify-between text-white">
+          <div className="bg-emerald-600 rounded-lg p-4 flex items-center justify-between text-white">
             <span className="text-sm font-semibold">{t('ytdTotal') || 'Year-to-date total'}</span>
-            <span className="text-xl font-extrabold">${totalPerPerson.toFixed(2)}</span>
+            <span className="text-xl font-bold">${totalPerPerson.toFixed(2)}</span>
           </div>
-        </div>
 
-        {/* Last updated */}
-        {goalData.lastUpdated && (
-          <div className="px-5 py-2.5 bg-gray-50 border-t border-gray-100">
+          {/* Last updated */}
+          {goalData.lastUpdated && (
             <p className="text-[11px] text-gray-400">
               {t('updated') || 'Updated'} {moment(goalData.lastUpdated).fromNow()} · {t('paidViaPayroll') || 'Paid via payroll'}
             </p>
-          </div>
-        )}
+          )}
+        </div>
       </CardContent>
     </Card>
   );
