@@ -18,7 +18,6 @@ import {
 "@/components/ui/sheet";
 import { toast } from "sonner";
 import { createPageUrl } from '../utils';
-import SEOHead from '../components/SEOHead';
 import NotifyDialog from '../components/shop/NotifyDialog';
 import SpinWheel from '../components/shop/SpinWheel';
 import FakeCheckoutDialog from '../components/shop/FakeCheckoutDialog';
@@ -184,11 +183,6 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-white">
-      <SEOHead 
-        title="Shop | Official Dancoby Construction Apparel"
-        description="Shop official Dancoby Construction merchandise. T-shirts, hoodies, hats. 100% of proceeds go to the ASPCA. Support a great cause."
-        keywords="Dancoby Construction merchandise, construction apparel, contractor gear, Dancoby shop, construction company clothing"
-      />
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-zinc-900">
         <div className="absolute inset-0 flex opacity-40">
@@ -223,9 +217,7 @@ export default function Shop() {
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                     WEAR THE <span className="text-red-600">CRAFT</span>
                 </h1>
-                <p className="text-gray-300 mb-10 mx-auto pb-40 text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.
-
-            </p>
+                <p className="text-gray-300 mb-10 mx-auto text-xl font-light max-w-2xl">Official Dancoby apparel. Designed for the builders, the dreamers, and the doers. Support a great cause with every purchase.</p>
                 <Button
               size="lg"
               className="bg-white text-zinc-900 hover:bg-gray-100 px-8 py-6 text-lg rounded-full"
