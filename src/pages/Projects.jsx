@@ -58,7 +58,7 @@ export default function Projects() {
       <SEOHead 
         title="Our Projects | Kitchen, Bath & Home Renovation Portfolio"
         description="Browse our portfolio of completed renovation projects in NYC & Long Island. Kitchen remodels, bathroom renovations, brownstone restorations. See our craftsmanship."
-        keywords="renovation portfolio Brooklyn, kitchen remodel examples, bathroom renovation photos, brownstone restoration projects, NYC construction portfolio"
+        keywords="renovation portfolio Brooklyn, kitchen remodel examples, bathroom renovation photos, brownstone restoration projects, NYC construction portfolio, before and after renovation, home renovation gallery, completed projects NYC, renovation inspiration, custom home renovation examples"
       />
       {/* Hero Section */}
       <section 
