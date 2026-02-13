@@ -163,28 +163,46 @@ export default function QuarterlyShare() {
 
             {/* Slider */}
             <div className="mt-4 space-y-2">
-              <div className="relative w-full h-10 flex items-center">
-                <div className="absolute inset-x-0 h-2 rounded-full bg-emerald-200 overflow-hidden">
-                  <div
-                    className="h-full bg-emerald-500 rounded-full"
-                    style={{ width: `${sliderValue}%` }}
-                  />
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  step={1}
-                  value={sliderValue}
-                  onChange={(e) => handleSliderChange([Number(e.target.value)])}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                  style={{ WebkitAppearance: 'none', touchAction: 'none' }}
-                />
-                <div
-                  className="absolute w-7 h-7 rounded-full bg-white border-2 border-emerald-500 shadow-md pointer-events-none"
-                  style={{ left: `calc(${sliderValue}% - 14px)` }}
-                />
-              </div>
+              <style>{`
+                .qs-slider {
+                  -webkit-appearance: none;
+                  appearance: none;
+                  width: 100%;
+                  height: 8px;
+                  border-radius: 9999px;
+                  outline: none;
+                  background: linear-gradient(to right, #10b981 0%, #10b981 ${sliderValue}%, #a7f3d0 ${sliderValue}%, #a7f3d0 100%);
+                }
+                .qs-slider::-webkit-slider-thumb {
+                  -webkit-appearance: none;
+                  appearance: none;
+                  width: 28px;
+                  height: 28px;
+                  border-radius: 50%;
+                  background: white;
+                  border: 2px solid #10b981;
+                  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+                  cursor: pointer;
+                }
+                .qs-slider::-moz-range-thumb {
+                  width: 28px;
+                  height: 28px;
+                  border-radius: 50%;
+                  background: white;
+                  border: 2px solid #10b981;
+                  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+                  cursor: pointer;
+                }
+              `}</style>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={1}
+                value={sliderValue}
+                onChange={(e) => handleSliderChange([Number(e.target.value)])}
+                className="qs-slider"
+              />
               <div className="flex justify-between text-[10px] text-emerald-600 font-medium">
                 <span>{t('today') || 'Today'}</span>
                 <span>2026 {t('goal') || 'Goal'} 🎯</span>
