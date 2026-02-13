@@ -30,9 +30,9 @@ export default function EmployeeHeader({ user }) {
           <NotificationCenter user={user} />
           <button 
             onClick={() => window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: 'profile' }))}
-            className="flex items-center gap-2 text-sm text-gray-600 hover:text-amber-600 transition-colors cursor-pointer"
+            className="flex items-center justify-center gap-2 text-sm text-gray-600 hover:text-amber-600 transition-colors cursor-pointer min-w-[40px] min-h-[40px] rounded-full hover:bg-gray-100 sm:min-w-0 sm:min-h-0 sm:rounded-md sm:px-2 sm:py-1"
           >
-            <User className="w-4 h-4" />
+            <User className="w-5 h-5 sm:w-4 sm:h-4" />
             <span className="hidden sm:inline">{user?.full_name || user?.email}</span>
           </button>
           <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-500">
