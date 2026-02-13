@@ -7,9 +7,16 @@ import { Button } from "@/components/ui/button";
 import NotificationCenter from './NotificationCenter';
 import LanguageSwitcher from './LanguageSwitcher';
 
-export default function EmployeeHeader({ user }) {
+export default function EmployeeHeader({ user, onProfilePress }) {
   const handleLogout = async () => {
     await base44.auth.logout(createPageUrl('PortalLogin'));
+  };
+
+  const handleProfileClick = () => {
+    if (onProfilePress) {
+      onProfilePress();
+    }
+    window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: 'profile' }));
   };
 
   return (
@@ -25,19 +32,22 @@ export default function EmployeeHeader({ user }) {
             Employee Portal
           </span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5">
           <LanguageSwitcher />
           <NotificationCenter user={user} />
           <button 
-            onClick={() => window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: 'profile' }))}
-            className="flex items-center justify-center gap-2 text-sm text-gray-600 hover:text-amber-600 transition-colors cursor-pointer min-w-[40px] min-h-[40px] rounded-full hover:bg-gray-100 sm:min-w-0 sm:min-h-0 sm:rounded-md sm:px-2 sm:py-1"
+            onClick={handleProfileClick}
+            className="flex items-center justify-center gap-2 text-gray-500 hover:text-amber-600 hover:bg-gray-100 transition-colors cursor-pointer w-9 h-9 rounded-lg sm:w-auto sm:h-auto sm:px-2 sm:py-1.5"
           >
-            <User className="w-5 h-5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">{user?.full_name || user?.email}</span>
+            <User className="w-5 h-5" />
+            <span className="hidden sm:inline text-sm">{user?.full_name || user?.email}</span>
           </button>
-          <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-500">
-            <LogOut className="w-4 h-4" />
-          </Button>
+          <button 
+            onClick={handleLogout} 
+            className="flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-gray-100 transition-colors w-9 h-9 rounded-lg"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </header>
