@@ -100,6 +100,9 @@ export default function QuarterlyShare() {
   const latestCompleted = currentQuarter > 1 ? quarterShares[currentQuarter - 2] : null;
   const inProgressShare = quarterShares[currentQuarter - 1];
 
+  const baseProgress = Math.min((ytdRevenue / QUARTERLY_GOAL) * 100, 100);
+  const isExploring = sliderValue !== null && Math.abs(sliderValue - baseProgress) > 1;
+
   const growthMessage = totalPerPerson > 0 
     ? (t('keepItUp') || "You're growing with the company — keep up the great work! 💪")
     : (t('stayTuned') || "Revenue is building — your share is on its way!");
