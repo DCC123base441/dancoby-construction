@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Loader2 } from 'lucide-react';
+import { Loader2, Trash2 } from 'lucide-react';
 import moment from 'moment';
 import {
   Select,
@@ -13,6 +13,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useQueryClient } from '@tanstack/react-query';
 
 const MOODS = {
   great: { emoji: '😄', label: 'Great', color: 'bg-green-100 text-green-700' },
@@ -24,6 +37,20 @@ const MOODS = {
 
 export default function MoodTracker() {
   const [range, setRange] = React.useState('7');
+  const [isResetting, setIsResetting] = React.useState(false);
+  const queryClient = useQueryClient();
+
+  const handleResetMood = async () => {
+    setIsResetting(true);
+    try {
+      await base44.functions.invoke('resetAnalytics', { target: 'checkins' });
+      queryClient.invalidateQueries({ queryKey: ['adminCheckIns'] });
+    } catch (error) {
+      console.error("Failed to reset mood data", error);
+    } finally {
+      setIsResetting(false);
+    }
+  };
 
   const { data: checkIns = [], isLoading } = useQuery({
     queryKey: ['adminCheckIns'],
@@ -81,16 +108,39 @@ export default function MoodTracker() {
           <CardTitle className="text-base">Employee Mood Tracker</CardTitle>
           <CardDescription className="text-xs">Daily check-in overview</CardDescription>
         </div>
-        <Select value={range} onValueChange={setRange}>
-          <SelectTrigger className="w-[130px] h-8 text-xs">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="7">Last 7 Days</SelectItem>
-            <SelectItem value="14">Last 14 Days</SelectItem>
-            <SelectItem value="30">Last 30 Days</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-2">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50">
+                <Trash2 className="w-3.5 h-3.5" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Reset Mood Data?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will permanently delete all employee mood check-in history. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleResetMood} className="bg-red-600 hover:bg-red-700">
+                  {isResetting ? "Resetting..." : "Yes, Delete All"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <Select value={range} onValueChange={setRange}>
+            <SelectTrigger className="w-[130px] h-8 text-xs">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7">Last 7 Days</SelectItem>
+              <SelectItem value="14">Last 14 Days</SelectItem>
+              <SelectItem value="30">Last 30 Days</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </CardHeader>
       <CardContent className="pt-4">
         {isLoading ? (
