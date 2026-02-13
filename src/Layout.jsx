@@ -72,7 +72,8 @@ export default function Layout({ children, currentPageName }) {
 
   if (isPortal || isAdmin) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50" style={{ fontFamily: "'Roboto', sans-serif" }}>
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');`}</style>
         {children}
       </div>
     );
