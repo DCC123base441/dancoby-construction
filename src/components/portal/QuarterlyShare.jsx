@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
+
 import { PiggyBank, TrendingUp, Sparkles, Trophy, SlidersHorizontal } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -163,14 +163,28 @@ export default function QuarterlyShare() {
 
             {/* Slider */}
             <div className="mt-4 space-y-2">
-              <Slider
-                value={[sliderValue]}
-                onValueChange={handleSliderChange}
-                min={0}
-                max={100}
-                step={1}
-                className="w-full"
-              />
+              <div className="relative w-full h-10 flex items-center">
+                <div className="absolute inset-x-0 h-2 rounded-full bg-emerald-200 overflow-hidden">
+                  <div
+                    className="h-full bg-emerald-500 rounded-full transition-[width] duration-75"
+                    style={{ width: `${sliderValue}%` }}
+                  />
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={1}
+                  value={sliderValue}
+                  onChange={(e) => handleSliderChange([Number(e.target.value)])}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  style={{ WebkitAppearance: 'none', touchAction: 'pan-x' }}
+                />
+                <div
+                  className="absolute w-7 h-7 rounded-full bg-white border-2 border-emerald-500 shadow-md pointer-events-none transition-[left] duration-75"
+                  style={{ left: `calc(${sliderValue}% - 14px)` }}
+                />
+              </div>
               <div className="flex justify-between text-[10px] text-emerald-600 font-medium">
                 <span>{t('today') || 'Today'}</span>
                 <span>2026 {t('goal') || 'Goal'} 🎯</span>
