@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Calendar } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 export default function Press() {
   const articles = [
@@ -18,6 +19,11 @@ export default function Press() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="Press & News | Dancoby Construction"
+        description="Featured articles and press coverage about Dancoby Construction. Read about our renovation projects in Brooklyn, Park Slope, and Long Island."
+        keywords="Dancoby Construction press, renovation news Brooklyn, construction company featured, Park Slope renovation article, Brownstoner feature, Long Island contractor news"
+      />
       {/* Hero Section */}
       <section className="relative bg-[#3d3d3d] py-24 overflow-hidden">
         <div className="absolute inset-0 opacity-5">

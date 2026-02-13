@@ -6,6 +6,7 @@ import { createPageUrl } from '../utils';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import SEOHead from '../components/SEOHead';
 
 export default function ServiceKitchenBath() {
   const fadeIn = {
@@ -24,6 +25,11 @@ export default function ServiceKitchenBath() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="Kitchen & Bath Remodeling | Dancoby Construction"
+        description="Premium kitchen and bathroom remodeling in Brooklyn & Long Island. Custom cabinetry, countertops, fixtures. Licensed general contractor serving Park Slope & Five Towns."
+        keywords="kitchen remodeling Brooklyn, bathroom renovation Long Island, kitchen contractor Park Slope, bath remodel Five Towns, custom kitchen cabinets Brooklyn, bathroom remodel near me, kitchen renovation Nassau County, general contractor kitchen bath, luxury kitchen renovation Long Island"
+      />
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div 

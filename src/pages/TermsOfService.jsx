@@ -15,6 +15,7 @@ import {
   FileText
 } from 'lucide-react';
 import { Card } from "@/components/ui/card";
+import SEOHead from '../components/SEOHead';
 
 const sections = [
   { id: 'overview', title: 'Overview', icon: FileText },
@@ -62,6 +63,11 @@ export default function TermsOfService() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <SEOHead 
+        title="Terms of Service | Dancoby Construction"
+        description="Review Dancoby Construction's terms of service. Understand our policies for construction services, payments, and warranties."
+        keywords="Dancoby Construction terms of service, contractor terms, construction company policies"
+      />
       {/* Hero Section */}
       <div className="relative bg-[#3d3d3d] overflow-hidden">
         {/* Decorative Elements */}

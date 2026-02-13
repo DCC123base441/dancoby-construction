@@ -14,6 +14,7 @@ import {
   Phone
 } from 'lucide-react';
 import { Card } from "@/components/ui/card";
+import SEOHead from '../components/SEOHead';
 
 const sections = [
   { id: 'overview', title: 'Overview', icon: Shield },
@@ -59,6 +60,11 @@ export default function PrivacyPolicy() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <SEOHead 
+        title="Privacy Policy | Dancoby Construction"
+        description="Read Dancoby Construction's privacy policy. Learn how we collect, use, and protect your personal information."
+        keywords="Dancoby Construction privacy policy, contractor privacy policy, construction company data protection"
+      />
       {/* Hero Section */}
       <div className="relative bg-gray-900 overflow-hidden">
         {/* Decorative Elements */}

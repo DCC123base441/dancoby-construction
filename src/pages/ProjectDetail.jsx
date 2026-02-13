@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import TestimonialCard from '../components/TestimonialCard';
 import ProjectStats from '../components/ProjectStats';
 import ProjectGallery from '../components/ProjectGallery';
+import SEOHead from '../components/SEOHead';
 
 export default function ProjectDetail() {
   const [searchParams] = useSearchParams();
@@ -32,8 +33,12 @@ export default function ProjectDetail() {
 
   return (
     <div className="min-h-screen bg-white">
-
-
+      <SEOHead 
+        title={`${project.title} | Dancoby Construction Project`}
+        description={project.description?.slice(0, 160) || `View the ${project.title} renovation project by Dancoby Construction. Expert craftsmanship in Brooklyn & Long Island.`}
+        keywords={`${project.title}, ${project.category} renovation, Dancoby Construction project, ${project.location || 'Brooklyn Long Island'} renovation, general contractor portfolio`}
+        ogImage={project.mainImage}
+      />
 
 
       {/* Project Details */}

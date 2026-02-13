@@ -6,6 +6,7 @@ import { createPageUrl } from '../utils';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import SEOHead from '../components/SEOHead';
 
 export default function ServiceInteriorRenovations() {
   const fadeIn = {
@@ -24,6 +25,11 @@ export default function ServiceInteriorRenovations() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="Interior Renovations | Dancoby Construction"
+        description="Complete interior renovation services in Brooklyn & Long Island. Custom millwork, flooring, lighting design. Licensed general contractor serving Park Slope & Nassau County."
+        keywords="interior renovation Brooklyn, home renovation Long Island, interior remodel Park Slope, full home renovation Five Towns, general contractor interior renovation, living room renovation Brooklyn, custom millwork Long Island, residential renovation Nassau County, interior contractor near me"
+      />
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div 

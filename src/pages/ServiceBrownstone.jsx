@@ -6,6 +6,7 @@ import { createPageUrl } from '../utils';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import SEOHead from '../components/SEOHead';
 
 export default function ServiceBrownstone() {
   const fadeIn = {
@@ -24,6 +25,11 @@ export default function ServiceBrownstone() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="Brownstone Restorations | Dancoby Construction"
+        description="Expert brownstone restoration in Brooklyn & Park Slope. Historic facade preservation, original hardwood refinishing, modern integration. Licensed general contractor."
+        keywords="brownstone restoration Brooklyn, brownstone renovation Park Slope, historic home restoration, brownstone contractor Brooklyn, facade preservation, brownstone remodel Long Island, general contractor brownstone, Park Slope brownstone renovation, brownstone restoration near me"
+      />
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div 

@@ -8,6 +8,7 @@ import { ChevronRight, ChevronLeft, AlertCircle, Loader2, Sparkles, ImageIcon, C
 import { base44 } from '@/api/base44Client';
 import ImageUpload from '../components/estimator/ImageUpload';
 import FinishSelector from '../components/estimator/FinishSelector';
+import SEOHead from '../components/SEOHead';
 
 export default function Estimator() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -388,6 +389,11 @@ export default function Estimator() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-12 pb-8 md:pt-20 md:pb-12">
+      <SEOHead 
+        title="Free Online Renovation Estimator | Dancoby Construction"
+        description="Get an instant renovation cost estimate with AI. Upload a photo and see your transformation. Kitchen, bath, and full home renovation estimates for Brooklyn & Long Island."
+        keywords="renovation cost estimator, free renovation estimate Brooklyn, home remodel cost calculator, kitchen renovation cost Long Island, bathroom remodel estimate, AI renovation visualization, online contractor estimate, general contractor estimate Park Slope Five Towns"
+      />
       <div className="max-w-3xl mx-auto px-6">
         {/* Header */}
         <motion.div

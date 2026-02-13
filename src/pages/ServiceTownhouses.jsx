@@ -6,6 +6,7 @@ import { createPageUrl } from '../utils';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import SEOHead from '../components/SEOHead';
 
 export default function ServiceTownhouses() {
   const fadeIn = {
@@ -26,6 +27,11 @@ export default function ServiceTownhouses() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="Townhouse & Apartment Renovations | Dancoby Construction"
+        description="High-end townhouse and apartment renovation in Brooklyn & Long Island. Smart home integration, premium finishes, expert project management. Licensed general contractor."
+        keywords="townhouse renovation Brooklyn, apartment renovation Long Island, luxury apartment remodel Park Slope, townhouse contractor Five Towns, high-end residential renovation, condo renovation Nassau County, general contractor townhouse, apartment renovation near me"
+      />
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div 

@@ -7,6 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import SEOHead from '../components/SEOHead';
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -38,6 +39,11 @@ const SectionNumber = ({ number }) => (
 export default function Hiring() {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="Careers | Project Coordinator | Dancoby Construction"
+        description="Join Dancoby Construction as a Project Coordinator. Residential remodeling career in Brooklyn & Long Island. Competitive pay, career growth, professional development."
+        keywords="construction jobs Brooklyn, project coordinator Long Island, renovation career, general contractor hiring, construction employment Nassau County, remodeling jobs near me, Dancoby Construction careers"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-6">
