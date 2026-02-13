@@ -8,6 +8,7 @@ import { useLanguage } from './LanguageContext';
 export default function StandardsSection() {
   const { t } = useLanguage();
   const [filterCategory, setFilterCategory] = useState('all');
+  const [expandedImage, setExpandedImage] = useState(null);
 
   const { data: standards = [], isLoading } = useQuery({
     queryKey: ['standards'],
