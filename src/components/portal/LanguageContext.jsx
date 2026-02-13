@@ -216,7 +216,7 @@ const translations = {
     pastQuarters: 'Past Quarters',
 
     // Standards
-    companyStandards: 'Company Standards',
+    companyStandards: 'Standards',
     standardsDesc: 'Reference images showing the right and wrong way to do things.',
     noStandards: 'No standards have been added yet.',
     allFilter: 'All',
@@ -492,7 +492,7 @@ const translations = {
     pastQuarters: 'Trimestres Anteriores',
 
     // Standards
-    companyStandards: 'Estándares de la Empresa',
+    companyStandards: 'Estándares',
     standardsDesc: 'Imágenes de referencia que muestran la forma correcta e incorrecta de hacer las cosas.',
     noStandards: 'Aún no se han agregado estándares.',
     allFilter: 'Todos',
