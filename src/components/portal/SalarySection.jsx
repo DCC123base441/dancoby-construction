@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { DollarSign, TrendingUp, Award, BookOpen, ShieldCheck, Star, Target, Zap, Users, ArrowUpRight } from 'lucide-react';
+import { DollarSign, TrendingUp, Award, BookOpen, ShieldCheck, Star, Target, Zap, Users, ArrowUpRight, Eye, EyeOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useLanguage } from './LanguageContext';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
@@ -171,6 +171,7 @@ function MotivationalSection({ t }) {
 export default function SalarySection({ profile, onTabChange }) {
   const hourly = profile?.hourlySalary;
   const { t } = useLanguage();
+  const [showWage, setShowWage] = useState(false);
 
   const RECOMMENDATIONS = [
     { icon: ShieldCheck, title: t('osha'), desc: t('oshaDesc') },
@@ -201,17 +202,27 @@ export default function SalarySection({ profile, onTabChange }) {
             </Button>
           </div>
           {hourly ? (
-            <div className="flex items-end gap-1 mb-1">
-              <span className="text-4xl font-bold text-gray-900">${hourly.toFixed(2)}</span>
-              <span className="text-gray-500 text-sm mb-1">{t('perDay')}</span>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-end gap-1">
+                  <span className="text-4xl font-bold text-gray-900">{showWage ? `$${hourly.toFixed(2)}` : '••••'}</span>
+                  {showWage && <span className="text-gray-500 text-sm mb-1">{t('perDay')}</span>}
+                </div>
+                <button
+                  onClick={() => setShowWage(!showWage)}
+                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  {showWage ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              {showWage && (
+                <p className="text-xs text-gray-400 mt-1">
+                  ≈ ${(hourly * 5).toFixed(0)}/week · ${(hourly * 5 * 52).toLocaleString()}/year (5 days/wk)
+                </p>
+              )}
             </div>
           ) : (
             <p className="text-gray-400 text-sm">{t('rateNotSet')}</p>
-          )}
-          {hourly && (
-            <p className="text-xs text-gray-400 mt-1">
-              ≈ ${(hourly * 5).toFixed(0)}/week · ${(hourly * 5 * 52).toLocaleString()}/year (5 days/wk)
-            </p>
           )}
         </CardContent>
       </Card>
