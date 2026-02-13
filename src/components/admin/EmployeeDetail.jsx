@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import AdminReplyBox from './AdminReplyBox';
 
 function ProfileTab({ profile, user, onProfileUpdate }) {
     const [editing, setEditing] = useState(false);
