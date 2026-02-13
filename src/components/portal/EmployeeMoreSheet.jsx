@@ -25,7 +25,11 @@ const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gea
 export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange, navConfig }) {
   const { t } = useLanguage();
 
-  const moreIds = navConfig?.moreSheetOrder?.length ? navConfig.moreSheetOrder : DEFAULT_MORE;
+  const allKnownIds = Object.keys(ITEM_META);
+  const bottomIds = navConfig?.bottomNavOrder || [];
+  const savedMore = navConfig?.moreSheetOrder?.length ? navConfig.moreSheetOrder : DEFAULT_MORE;
+  const missing = allKnownIds.filter(id => !bottomIds.includes(id) && !savedMore.includes(id));
+  const moreIds = [...savedMore, ...missing];
   const moreItems = moreIds.map(id => ({ id, ...ITEM_META[id] })).filter(item => item.icon);
 
   return (
