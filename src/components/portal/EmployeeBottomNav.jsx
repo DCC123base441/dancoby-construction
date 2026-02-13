@@ -30,12 +30,12 @@ const LABEL_MAP = {
   timeoff: 'tabTimeOff',
   raise: 'tabRaise',
   gear: 'tabGear',
-  standards: 'Standards',
+  standards: 'companyStandards',
   checkin: 'tabCheckIn',
 };
 
-const LABEL_OVERRIDE = {
-  salary: 'Finance',
+const LABEL_OVERRIDE_KEY = {
+  salary: 'tabFinance',
 };
 
 const DEFAULT_NAV = ['news', 'jobtread', 'notifications', 'profile'];
@@ -90,7 +90,7 @@ export default function EmployeeBottomNav({ activeTab, onTabChange, onMorePress,
                 )}
               </div>
               <span className="text-[10px] font-medium leading-tight truncate max-w-[56px]">
-                {item.id === 'more' ? (t('more') || 'More') : (LABEL_OVERRIDE[item.id] || t(item.labelKey))}
+                {item.id === 'more' ? (t('more') || 'More') : t(LABEL_OVERRIDE_KEY[item.id] || item.labelKey)}
               </span>
               {isActive && (
                 <div className="w-4 h-0.5 rounded-full bg-amber-500 mt-0.5" />
