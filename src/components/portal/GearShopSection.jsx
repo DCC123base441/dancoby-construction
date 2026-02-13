@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ShoppingBag, Tag, ArrowRight, Copy } from 'lucide-react';
+import { ShoppingBag, Tag, ArrowRight, Copy, Check } from 'lucide-react';
 import { toast } from "sonner";
 import { useLanguage } from './LanguageContext';
 
@@ -11,21 +11,22 @@ const EMPLOYEE_DISCOUNT_CODE = 'TEAM100';
 
 export default function GearShopSection() {
   const { t } = useLanguage();
+  const [copied, setCopied] = React.useState(false);
 
   const copyCode = async () => {
     try {
       await navigator.clipboard.writeText(EMPLOYEE_DISCOUNT_CODE);
-      toast.success(t('codeCopied'));
     } catch {
-      // Fallback for environments where clipboard API is blocked
       const textarea = document.createElement('textarea');
       textarea.value = EMPLOYEE_DISCOUNT_CODE;
       document.body.appendChild(textarea);
       textarea.select();
       document.execCommand('copy');
       document.body.removeChild(textarea);
-      toast.success(t('codeCopied'));
     }
+    setCopied(true);
+    toast.success(t('codeCopied'));
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -51,7 +52,7 @@ export default function GearShopSection() {
                 <p className="text-xs text-green-400 mt-1">{t('freeGear')}</p>
               </div>
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-10 w-10" onClick={copyCode}>
-                <Copy className="w-5 h-5" />
+                {copied ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
               </Button>
             </div>
           </div>
