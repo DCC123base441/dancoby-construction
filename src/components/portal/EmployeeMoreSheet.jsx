@@ -17,7 +17,7 @@ const ITEM_META = {
   news: { icon: Newspaper, labelKey: 'tabNews', color: 'bg-indigo-100 text-indigo-600' },
   jobtread: { icon: MonitorPlay, labelKey: 'tabJobTread', color: 'bg-cyan-100 text-cyan-600' },
   notifications: { icon: Bell, labelKey: 'notifications', color: 'bg-blue-100 text-blue-600' },
-  standards: { icon: ClipboardList, labelKey: 'Standards', color: 'bg-teal-100 text-teal-600' },
+  standards: { icon: ClipboardList, labelKey: 'companyStandards', color: 'bg-teal-100 text-teal-600' },
   checkin: { icon: SmilePlus, labelKey: 'tabCheckIn', color: 'bg-lime-100 text-lime-600' },
 };
 
