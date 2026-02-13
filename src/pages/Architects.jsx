@@ -9,13 +9,13 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 
 const DEFAULT_IMAGES = {
-  hero: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg",
-  intro: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg",
+  hero: "https://base44.app/api/apps/697c18d2dbda3b3101bfe937/files/public/697c18d2dbda3b3101bfe937/a77afc325_Dancoby_WoodmereBathroom_FrontofHouse_Shot2.jpeg",
+  intro: "https://base44.app/api/apps/697c18d2dbda3b3101bfe937/files/public/697c18d2dbda3b3101bfe937/6234de9b7_Dancoby_498Westminster_LivingRoom_01LensFlare.jpg",
   commitment: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg",
   process_01: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
-  process_02: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
-  process_03: "https://images.unsplash.com/photo-1555374018-13a8994ab246?w=800&q=80",
-  process_04: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg",
+  process_02: "https://base44.app/api/apps/697c18d2dbda3b3101bfe937/files/public/697c18d2dbda3b3101bfe937/40b3b134b_VAN_SARKI_STUDIO_8_PARK_SLOPE_2300.jpg",
+  process_03: "https://base44.app/api/apps/697c18d2dbda3b3101bfe937/files/public/697c18d2dbda3b3101bfe937/c512a3cd4_block_02_Bushwick_0119.jpg",
+  process_04: "https://base44.app/api/apps/697c18d2dbda3b3101bfe937/files/public/697c18d2dbda3b3101bfe937/ab61961ea_Dancoby_PenthouseFinished_Shot11.jpeg",
 };
 
 export default function Architects() {
