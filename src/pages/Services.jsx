@@ -67,7 +67,7 @@ export default function Services() {
       <SEOHead 
         title="Renovation Services | Kitchen, Bath, Brownstone Restoration"
         description="Full-service home renovation in NYC. Kitchen & bath remodeling, brownstone restorations, townhouse renovations, interior transformations. Licensed & insured contractors."
-        keywords="kitchen remodeling Brooklyn, bathroom renovation NYC, brownstone restoration Brooklyn, townhouse renovation, interior design contractor, home improvement NYC"
+        keywords="kitchen remodeling Brooklyn, bathroom renovation NYC, brownstone restoration Brooklyn, townhouse renovation, interior design contractor, home improvement NYC, kitchen renovation near me, bathroom remodel contractor, custom cabinetry NYC, luxury home renovation, residential remodeling services, full service renovation contractor"
       />
       {/* Hero Section */}
       <section ref={heroRef} className="relative h-[75vh] flex items-center overflow-hidden">
