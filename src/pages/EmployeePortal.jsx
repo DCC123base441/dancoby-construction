@@ -220,9 +220,7 @@ function EmployeePortalContent() {
                     )}
                   </div>
                 </div>
-                <div className="hidden sm:block">
-                  <LanguageSwitcher />
-                </div>
+                <div className="hidden sm:block" />
               </div>
               
             </div>
