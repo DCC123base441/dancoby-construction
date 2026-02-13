@@ -565,7 +565,7 @@ const translations = {
     checkInThanksDesc: '¡Que tengas un gran día!',
     checkInTodayDone: '¡Ya hiciste tu check-in hoy!',
     checkInHistory: 'Check-Ins Recientes',
-    tabCheckIn: 'Check-In',
+    tabCheckIn: 'Registro',
 
     // More sheet / Sidebar
     openJobTread: 'Abrir JobTread',
