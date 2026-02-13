@@ -21,6 +21,7 @@ import TenureBadge from './TenureBadge';
 import NewsFeedSection from './NewsFeedSection';
 import NotificationSection from './NotificationSection';
 import StandardsSection from './StandardsSection';
+import TrainingSection from './TrainingSection';
 import { useMediaQuery } from "@/components/hooks/use-media-query";
 
 export default function EmployeePortalInner({ user }) {
@@ -85,6 +86,7 @@ export default function EmployeePortalInner({ user }) {
       case 'jobtread': return <JobTreadSection />;
       case 'notifications': return <NotificationSection user={user} />;
       case 'standards': return <StandardsSection />;
+      case 'training': return <TrainingSection user={user} />;
       default: return null;
     }
   };

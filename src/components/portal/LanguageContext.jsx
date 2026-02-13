@@ -291,6 +291,20 @@ const translations = {
     checkInHistory: 'Recent Check-Ins',
     tabCheckIn: 'Check-In',
 
+    // Training
+    tabTraining: 'Training',
+    trainingTitle: 'Training Center',
+    trainingDesc: 'Complete courses to grow your skills and career.',
+    trainingCompleted: 'Completed',
+    trainingRemaining: 'Remaining',
+    noTrainingCourses: 'No training courses available yet.',
+    trainingRequired: 'Required',
+    trainingProgress: 'Progress',
+    trainingItemsCompleted: 'items completed',
+    trainingCourseComplete: 'Course Complete!',
+    trainingNoResources: 'No resources in this course yet.',
+    trainingBackToCourses: 'Back to Courses',
+
     // More sheet / Sidebar
     openJobTread: 'Open JobTread',
     external: 'External',
@@ -566,6 +580,20 @@ const translations = {
     checkInTodayDone: '¡Ya hiciste tu check-in hoy!',
     checkInHistory: 'Check-Ins Recientes',
     tabCheckIn: 'Registro',
+
+    // Training
+    tabTraining: 'Capacitación',
+    trainingTitle: 'Centro de Capacitación',
+    trainingDesc: 'Completa cursos para desarrollar tus habilidades y carrera.',
+    trainingCompleted: 'Completados',
+    trainingRemaining: 'Pendientes',
+    noTrainingCourses: 'Aún no hay cursos de capacitación disponibles.',
+    trainingRequired: 'Obligatorio',
+    trainingProgress: 'Progreso',
+    trainingItemsCompleted: 'elementos completados',
+    trainingCourseComplete: '¡Curso Completado!',
+    trainingNoResources: 'Aún no hay recursos en este curso.',
+    trainingBackToCourses: 'Volver a Cursos',
 
     // More sheet / Sidebar
     openJobTread: 'Abrir JobTread',
