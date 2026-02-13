@@ -67,6 +67,23 @@ export default function StandardsSection() {
           </div>
         ))}
       </div>
+
+      {/* Fullscreen image viewer */}
+      {expandedImage && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={() => setExpandedImage(null)}>
+          <button className="absolute top-4 right-4 text-white bg-black/50 rounded-full p-2" onClick={() => setExpandedImage(null)}>
+            <X className="w-6 h-6" />
+          </button>
+          <div className="relative max-w-full max-h-full" onClick={(e) => e.stopPropagation()}>
+            <img src={expandedImage.imageUrl} alt={expandedImage.note} className="max-w-full max-h-[85vh] object-contain rounded-lg" />
+            <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-bold shadow-lg ${
+              expandedImage.note === 'This' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            }`}>
+              {expandedImage.note === 'This' ? '✅' : '❌'} {expandedImage.note}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
