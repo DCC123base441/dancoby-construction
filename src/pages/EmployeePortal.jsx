@@ -250,11 +250,6 @@ function EmployeePortalContent() {
               </div>
             )}
 
-            {/* Mobile language switcher */}
-            <div className="flex justify-end mb-3 sm:hidden">
-              <LanguageSwitcher />
-            </div>
-
             {/* Tab content */}
             {activeTab === 'profile' ? (
               profile ? (
