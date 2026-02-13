@@ -38,6 +38,7 @@ const MOODS = {
 export default function MoodTracker() {
   const [range, setRange] = React.useState('7');
   const [isResetting, setIsResetting] = React.useState(false);
+  const [showResetDialog, setShowResetDialog] = React.useState(false);
   const queryClient = useQueryClient();
 
   const handleResetMood = async () => {
