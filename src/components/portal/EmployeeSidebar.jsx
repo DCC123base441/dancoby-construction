@@ -55,7 +55,7 @@ export default function EmployeeSidebar({ activeTab, onTabChange, user }) {
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${tab.color.split(' ')[1]}`}>
                   <img src={tab.logoSrc} alt="" className="w-5 h-5 rounded-full" />
                 </div>
-                <span className="flex-1 text-left">{t(tab.labelKey) || tab.label}</span>
+                <span className="flex-1 text-left">{t(tab.labelKey)}</span>
                 <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
               </a>
             );
