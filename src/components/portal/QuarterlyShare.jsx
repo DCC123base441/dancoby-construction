@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { PiggyBank, TrendingUp, Sparkles, Trophy, SlidersHorizontal } from 'lucide-react';
@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useLanguage } from './LanguageContext';
 import moment from 'moment';
+import confetti from 'canvas-confetti';
 
 const QUARTERLY_GOAL = 3500000;
 
@@ -15,6 +16,23 @@ export default function QuarterlyShare() {
   const currentQuarter = Math.floor(new Date().getMonth() / 3) + 1;
   const queryClient = useQueryClient();
   const [sliderValue, setSliderValue] = useState(0);
+  const hasFiredConfetti = useRef(false);
+
+  const fireConfetti = useCallback(() => {
+    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+    confetti({ particleCount: 80, spread: 100, origin: { y: 0.7 }, startVelocity: 25 });
+  }, []);
+
+  const handleSliderChange = useCallback((val) => {
+    setSliderValue(val[0]);
+    if (val[0] === 100 && !hasFiredConfetti.current) {
+      hasFiredConfetti.current = true;
+      fireConfetti();
+    }
+    if (val[0] < 100) {
+      hasFiredConfetti.current = false;
+    }
+  }, [fireConfetti]);
 
   useEffect(() => {
     const unsub1 = base44.entities.CompanyGoal.subscribe(() => {
@@ -132,7 +150,7 @@ export default function QuarterlyShare() {
             </p>
             <Slider
               value={[sliderValue]}
-              onValueChange={(val) => setSliderValue(val[0])}
+              onValueChange={handleSliderChange}
               min={0}
               max={100}
               step={1}
