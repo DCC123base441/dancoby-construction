@@ -115,7 +115,7 @@ export default function QuarterlyShare() {
             <PiggyBank className="w-5 h-5 text-emerald-600" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-900">{t('quarterlyShare') || 'Quarterly Share'}</h3>
+            <h3 className="font-bold text-gray-900">{t('quarterlyShare') || 'Yearly Share'}</h3>
             <p className="text-xs text-gray-500">{t('quarterlyShareDesc') || 'Your share of company growth'}</p>
           </div>
         </div>
