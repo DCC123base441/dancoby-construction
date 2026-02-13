@@ -177,7 +177,7 @@ function EmployeePortalContent() {
           }}
         />
       )}
-      <EmployeeHeader user={user} />
+      <EmployeeHeader user={user} onProfilePress={() => setActiveTab('profile')} />
       
       <div className="flex flex-1 overflow-hidden">
         {/* Desktop sidebar */}
