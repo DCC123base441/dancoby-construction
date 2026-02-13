@@ -174,7 +174,7 @@ export default function Contact() {
       <SEOHead 
         title="Contact Us | Get a Free Renovation Estimate"
         description="Contact Dancoby Construction for a free renovation estimate. Call (516) 684-9766 or fill out our form. Kitchen, bath, brownstone renovations in Brooklyn & Long Island."
-        keywords="free renovation estimate NYC, contact general contractor Brooklyn, home renovation quote, kitchen remodel estimate, bathroom renovation consultation"
+        keywords="free renovation estimate NYC, contact general contractor Brooklyn, home renovation quote, kitchen remodel estimate, bathroom renovation consultation, free consultation contractor, renovation estimate Long Island, home improvement quote, schedule renovation appointment, Brooklyn contractor phone number"
       />
       <style>{`
         .success-message { display: none; background: #dc2626; color: white; padding: 16px; border-radius: 8px; margin-bottom: 24px; animation: slideIn 0.3s; align-items: flex-start; gap: 12px; }
