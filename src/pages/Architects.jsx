@@ -19,10 +19,10 @@ const DEFAULT_IMAGES = {
 };
 
 export default function Architects() {
-  const { data: pageImages = [], isLoading: imagesLoading } = useQuery({
+  const { data: pageImages = [] } = useQuery({
     queryKey: ['architectsPageImages'],
     queryFn: () => base44.entities.ArchitectsPageImage.list(),
-    staleTime: 1000 * 60 * 10,
+    placeholderData: [],
   });
 
   const imgMap = { ...DEFAULT_IMAGES };
@@ -49,14 +49,6 @@ export default function Architects() {
     { title: "Quality Execution", desc: "Over 20 years of experience delivering high-end residential renovations in Brooklyn and across NYC with a 3-year warranty." },
     { title: "Warranty-Backed Work", desc: "Every project comes with our 3-year craftsmanship warranty — giving you and your clients lasting confidence in the finished build." },
   ];
-
-  if (imagesLoading) {
-    return (
-      <main className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600" />
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen bg-white">
