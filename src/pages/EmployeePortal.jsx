@@ -22,6 +22,7 @@ import TenureBadge from '../components/portal/TenureBadge';
 import OnboardingWelcome from '../components/portal/OnboardingWelcome';
 import NewsFeedSection from '../components/portal/NewsFeedSection';
 import NotificationSection from '../components/portal/NotificationSection';
+import StandardsSection from '../components/portal/StandardsSection';
 
 
 function EmployeePortalContent() {
