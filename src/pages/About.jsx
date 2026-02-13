@@ -35,7 +35,7 @@ export default function About() {
       <SEOHead
         title="About Us | 20+ Years of NYC Home Renovation Excellence"
         description="Learn about Dancoby Construction's 20+ years of NYC renovation experience. Licensed, insured contractors with 5-year warranty. Meet our founder and team."
-        keywords="about Dancoby Construction, NYC renovation company, licensed contractor Brooklyn, home renovation experience, general contractor history" />
+        keywords="about Dancoby Construction, NYC renovation company, licensed contractor Brooklyn, home renovation experience, general contractor history, licensed insured contractor NYC, 20 years renovation experience, trusted home builder New York, customer first contractor, renovation company near me, Brooklyn construction company" />
 
       {/* Hero Section */}
       <section
