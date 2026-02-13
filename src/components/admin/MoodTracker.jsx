@@ -124,7 +124,13 @@ export default function MoodTracker() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleResetMood} className="bg-red-600 hover:bg-red-700">
+                <AlertDialogAction 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleResetMood();
+                  }} 
+                  className="bg-red-600 hover:bg-red-700"
+                >
                   {isResetting ? "Resetting..." : "Yes, Delete All"}
                 </AlertDialogAction>
               </AlertDialogFooter>
