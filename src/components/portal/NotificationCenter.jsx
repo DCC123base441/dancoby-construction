@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { format } from 'date-fns';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 export default function NotificationCenter({ user }) {
@@ -125,7 +125,7 @@ function NotificationContent({ n }) {
                     {n.message}
                 </p>
                 <p className="text-[10px] text-slate-400 mt-1.5">
-                    {format(new Date(n.created_date), 'MMM d, h:mm a')}
+                    {moment(n.created_date).format('MMM D, h:mm A')}
                 </p>
             </div>
         </div>
