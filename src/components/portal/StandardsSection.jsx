@@ -50,9 +50,9 @@ export default function StandardsSection() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {filtered.map((item) => (
-          <div key={item.id} className="rounded-xl overflow-hidden border border-gray-200 bg-white">
+          <div key={item.id} className="rounded-xl overflow-hidden border border-gray-200 bg-white cursor-pointer active:scale-[0.98] transition-transform" onClick={() => setExpandedImage(item)}>
             <div className="relative">
-              <img src={item.imageUrl} alt={item.note} className="w-full h-48 object-cover" />
+              <img src={item.imageUrl} alt={item.note} loading="lazy" className="w-full h-48 object-cover" />
               <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-bold shadow-lg ${
                 item.note === 'This' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
               }`}>
