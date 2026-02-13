@@ -125,7 +125,7 @@ function NotificationContent({ n }) {
                     {n.message}
                 </p>
                 <p className="text-[10px] text-slate-400 mt-1.5">
-                    {moment(n.created_date).format('MMM D, h:mm A')}
+                    {moment.utc(n.created_date).local().format('MMM D, h:mm A')}
                 </p>
             </div>
         </div>

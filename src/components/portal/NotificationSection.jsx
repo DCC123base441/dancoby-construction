@@ -116,7 +116,7 @@ export default function NotificationSection({ user }) {
                                     {n.title}
                                 </h4>
                                 <span className="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">
-                                    {moment(n.created_date).format('MMM D, h:mm A')}
+                                    {moment.utc(n.created_date).local().format('MMM D, h:mm A')}
                                 </span>
                             </div>
                             <p className="text-sm text-gray-600 mt-1">{n.message}</p>
