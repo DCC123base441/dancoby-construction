@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   HardHat, ExternalLink, ChevronRight, UserPlus,
-  Newspaper, CalendarDays, BookOpen, Send, History, Smartphone, DollarSign, ClipboardList
+  Newspaper, CalendarDays, BookOpen, Send, History, Smartphone, DollarSign, ClipboardList, GraduationCap
 } from 'lucide-react';
 import InviteEmployeeDialog from '../components/admin/InviteEmployeeDialog';
 import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
@@ -70,6 +70,7 @@ export default function AdminEmployeePortal() {
     { name: "Holiday Schedule", href: "AdminHolidays", icon: CalendarDays },
     { name: "JobTread Tutorials", href: "AdminJobTread", icon: BookOpen },
     { name: "Standards", href: "AdminStandards", icon: ClipboardList },
+    { name: "Training", href: "AdminTraining", icon: GraduationCap },
     { name: "Mobile Nav Order", icon: Smartphone, action: () => setShowMobileNav(!showMobileNav) },
     { name: "Quarterly Share Settings", icon: DollarSign, action: () => setShowBonusConfig(!showBonusConfig) },
   ];
