@@ -215,7 +215,7 @@ export default function QuarterlyShare() {
                   />
                   <div className="flex justify-between text-[10px] text-emerald-600 font-medium">
                     <span>$0</span>
-                    <span>${(ytdRevenue / 1000000).toFixed(2)}M ({baseProgress.toFixed(0)}%)</span>
+                    <span>{baseProgress.toFixed(0)}%</span>
                     <span>${(QUARTERLY_GOAL / 1000000).toFixed(1)}M 🎯</span>
                   </div>
                 </div>
