@@ -17,7 +17,6 @@ import GearShopSection from './GearShopSection';
 import TimeOffSection from './TimeOffSection';
 import JobTreadSection from './JobTreadSection';
 import { useLanguage } from './LanguageContext';
-import LanguageSwitcher from './LanguageSwitcher';
 import TenureBadge from './TenureBadge';
 import NewsFeedSection from './NewsFeedSection';
 import NotificationSection from './NotificationSection';
