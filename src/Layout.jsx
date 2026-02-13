@@ -79,7 +79,8 @@ export default function Layout({ children, currentPageName }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ fontFamily: "'Roboto', sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');`}</style>
       <ScrollProgress />
       <Header />
       <main className="flex-1 pt-20">
