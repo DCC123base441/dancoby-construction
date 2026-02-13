@@ -12,9 +12,20 @@ const EMPLOYEE_DISCOUNT_CODE = 'TEAM100';
 export default function GearShopSection() {
   const { t } = useLanguage();
 
-  const copyCode = () => {
-    navigator.clipboard.writeText(EMPLOYEE_DISCOUNT_CODE);
-    toast.success(t('codeCopied'));
+  const copyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(EMPLOYEE_DISCOUNT_CODE);
+      toast.success(t('codeCopied'));
+    } catch {
+      // Fallback for environments where clipboard API is blocked
+      const textarea = document.createElement('textarea');
+      textarea.value = EMPLOYEE_DISCOUNT_CODE;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      toast.success(t('codeCopied'));
+    }
   };
 
   return (
