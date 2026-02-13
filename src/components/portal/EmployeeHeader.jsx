@@ -12,11 +12,14 @@ export default function EmployeeHeader({ user, onProfilePress }) {
     await base44.auth.logout(createPageUrl('PortalLogin'));
   };
 
-  const handleProfileClick = () => {
+  const handleProfileClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (onProfilePress) {
       onProfilePress();
+    } else {
+      window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: 'profile' }));
     }
-    window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: 'profile' }));
   };
 
   return (
