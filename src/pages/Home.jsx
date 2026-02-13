@@ -64,7 +64,7 @@ export default function Home() {
       <SEOHead
         title="Dancoby Construction | Sophisticated Home Renovations NYC"
         description="Transform your home with NYC's premier renovation experts. Specializing in high-end kitchens, bathrooms, and brownstone restorations. 20+ years of excellence."
-        keywords="home renovation Brooklyn, kitchen remodeling NYC, bathroom renovation New York, brownstone restoration, interior renovation contractor, construction company Brooklyn, NYC general contractor, home remodeling Long Island, luxury renovation NYC, residential contractor New York, house renovation near me, best general contractor Brooklyn, full home renovation NYC, apartment renovation Manhattan, condo renovation Brooklyn"
+        keywords="general contractor Brooklyn, Long Island contractor, home renovation Brooklyn, kitchen remodeling Long Island, bathroom renovation Park Slope, brownstone restoration Brooklyn, interior renovation contractor, construction company Five Towns, general contractor Nassau County, home remodeling Long Island, luxury renovation Park Slope, residential contractor Long Island, house renovation near me, best general contractor Brooklyn, full home renovation Long Island, renovation contractor Hewlett Woodmere Cedarhurst"
         ogImage="https://static.wixstatic.com/media/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_90/c1b522_066e32d57b844b4893dd7de976dd6613~mv2.jpeg" />
 
       {/* Hero Section */}

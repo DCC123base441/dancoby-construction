@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 
 export default function SEOHead({ 
   title = "Dancoby Construction Company", 
-  description = "NYC's premier home renovation contractor. Kitchen & bath remodeling, brownstone restorations, interior renovations. 20+ years experience, 5-year warranty. Brooklyn & Long Island.",
-  keywords = "home renovation Brooklyn, kitchen remodeling NYC, bathroom renovation New York, brownstone restoration, interior renovation contractor, construction company Brooklyn",
+  description = "Brooklyn & Long Island's premier home renovation contractor. Kitchen & bath remodeling, brownstone restorations, interior renovations. 20+ years experience. Park Slope, Five Towns, Nassau County.",
+  keywords = "general contractor Brooklyn, Long Island contractor, home renovation Brooklyn, kitchen remodeling Long Island, bathroom renovation Park Slope, brownstone restoration, interior renovation contractor, construction company Five Towns Nassau County",
   canonical,
   ogImage = "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg",
   ogType = "website",
@@ -88,7 +88,7 @@ export default function SEOHead({
         "latitude": "40.6782",
         "longitude": "-73.9442"
       },
-      "areaServed": ["Brooklyn", "Manhattan", "Queens", "Long Island", "New York City"],
+      "areaServed": ["Brooklyn", "Park Slope", "Five Towns", "Nassau County", "Long Island", "Hewlett", "Woodmere", "Cedarhurst", "Lawrence", "Inwood"],
       "priceRange": "$$$",
       "aggregateRating": {
         "@type": "AggregateRating",

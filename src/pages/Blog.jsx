@@ -27,7 +27,7 @@ export default function Blog() {
             <SEOHead 
                 title="Dancoby Construction Blog | Renovation Tips & Insights"
                 description="Expert advice on home renovation, kitchen remodeling, bathroom design, and construction trends in NYC and Long Island."
-                keywords="home renovation blog, kitchen remodeling tips, bathroom design ideas, construction trends NYC, renovation advice Brooklyn, home improvement tips, remodeling inspiration, contractor blog NYC"
+                keywords="home renovation blog, kitchen remodeling tips, bathroom design ideas, construction trends Brooklyn, renovation advice Brooklyn, home improvement tips Long Island, remodeling inspiration, contractor blog, Park Slope renovation tips, Five Towns home improvement, Nassau County renovation advice"
             />
 
             {/* Hero Section */}
