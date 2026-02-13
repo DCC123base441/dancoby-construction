@@ -15,6 +15,7 @@ import InviteHistoryPanel from '../components/admin/InviteHistoryPanel';
 import DashboardActionItems from '../components/admin/DashboardActionItems';
 import MobileNavReorder from '../components/admin/MobileNavReorder';
 import BonusShareConfig from '../components/admin/BonusShareConfig';
+import MoodTracker from '../components/admin/MoodTracker';
 
 export default function AdminEmployeePortal() {
   const [showInvite, setShowInvite] = useState(false);
@@ -115,6 +116,9 @@ export default function AdminEmployeePortal() {
             </CardContent>
           </Card>
         )}
+
+        {/* Mood Tracker */}
+        <MoodTracker />
 
         {/* Action Items */}
         <DashboardActionItems />

@@ -46,7 +46,7 @@ import {
 import DashboardQuickActions from '../components/admin/DashboardQuickActions';
 import DashboardStatCards from '../components/admin/DashboardStatCards';
 import DashboardPortalCards from '../components/admin/DashboardPortalCards.jsx';
-import MoodTracker from '../components/admin/MoodTracker';
+
 
 export default function AdminDashboard() {
     const [isResetting, setIsResetting] = React.useState(false);
@@ -401,9 +401,6 @@ export default function AdminDashboard() {
                     </Card>
                 </div>
 
-
-                {/* Mood Tracker */}
-                <MoodTracker />
 
                 {/* Portal Cards */}
                 <DashboardPortalCards />
