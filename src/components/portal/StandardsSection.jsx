@@ -1,0 +1,69 @@
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
+import { Loader2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+
+export default function StandardsSection() {
+  const [filterCategory, setFilterCategory] = useState('all');
+
+  const { data: standards = [], isLoading } = useQuery({
+    queryKey: ['standards'],
+    queryFn: () => base44.entities.Standard.list('order'),
+  });
+
+  const categories = [...new Set(standards.map(s => s.category).filter(Boolean))];
+  const filtered = filterCategory === 'all' ? standards : standards.filter(s => s.category === filterCategory);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 className="w-6 h-6 animate-spin text-amber-500" />
+      </div>
+    );
+  }
+
+  if (standards.length === 0) {
+    return (
+      <div className="text-center py-12 text-gray-400">
+        <p className="text-sm">No standards have been added yet.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h2 className="text-lg font-semibold text-gray-900 mb-1">Company Standards</h2>
+      <p className="text-sm text-gray-500 mb-4">Reference images showing the right and wrong way to do things.</p>
+
+      {categories.length > 0 && (
+        <div className="flex gap-2 mb-4 flex-wrap">
+          <Button size="sm" variant={filterCategory === 'all' ? 'default' : 'outline'} onClick={() => setFilterCategory('all')}>All</Button>
+          {categories.map(cat => (
+            <Button key={cat} size="sm" variant={filterCategory === cat ? 'default' : 'outline'} onClick={() => setFilterCategory(cat)}>{cat}</Button>
+          ))}
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {filtered.map((item) => (
+          <div key={item.id} className="rounded-xl overflow-hidden border border-gray-200 bg-white">
+            <div className="relative">
+              <img src={item.imageUrl} alt={item.note} className="w-full h-48 object-cover" />
+              <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-bold shadow-lg ${
+                item.note === 'This' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+              }`}>
+                {item.note === 'This' ? '✅' : '❌'} {item.note}
+              </div>
+            </div>
+            {item.category && (
+              <div className="px-3 py-2 border-t border-gray-100">
+                <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">{item.category}</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
