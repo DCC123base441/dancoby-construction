@@ -205,6 +205,8 @@ const translations = {
     // Quarterly Share
     quarterlyShare: 'Quarterly Share',
     quarterlyShareDesc: 'Your share of company growth',
+    yearlyShare: 'Yearly Share',
+    yearlyShareDesc: 'Your share of company growth',
     inProgress: 'In Progress',
     earningsFromGrowth: 'Earnings from growth',
     ytdTotal: 'Year-to-date total',
@@ -504,6 +506,8 @@ const translations = {
     // Quarterly Share
     quarterlyShare: 'Participación Trimestral',
     quarterlyShareDesc: 'Tu parte del crecimiento de la empresa',
+    yearlyShare: 'Participación Anual',
+    yearlyShareDesc: 'Tu parte del crecimiento de la empresa',
     inProgress: 'En Progreso',
     earningsFromGrowth: 'Ganancias del crecimiento',
     ytdTotal: 'Total del año hasta la fecha',
