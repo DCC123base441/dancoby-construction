@@ -151,7 +151,6 @@ function TimeOffTab({ userEmail }) {
     const updateMutation = useMutation({
         mutationFn: async ({ id, status }) => {
             const result = await base44.entities.TimeOffRequest.update(id, { status });
-            // Create notification
             if (status === 'approved' || status === 'denied') {
                 await base44.entities.Notification.create({
                     userEmail: userEmail?.toLowerCase(),
@@ -167,6 +166,23 @@ function TimeOffTab({ userEmail }) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['adminTimeOff', userEmail] });
             toast.success('Time off request updated');
+        },
+    });
+    const replyMutation = useMutation({
+        mutationFn: async ({ id, adminNotes }) => {
+            await base44.entities.TimeOffRequest.update(id, { adminNotes });
+            await base44.entities.Notification.create({
+                userEmail: userEmail?.toLowerCase(),
+                type: 'time_off',
+                title: 'New Reply on Time Off Request',
+                message: adminNotes,
+                link: createPageUrl('EmployeePortal'),
+                relatedId: id
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['adminTimeOff', userEmail] });
+            toast.success('Reply sent');
         },
     });
 
@@ -200,6 +216,11 @@ function TimeOffTab({ userEmail }) {
                             {new Date(r.startDate).toLocaleDateString()} — {new Date(r.endDate).toLocaleDateString()}
                         </p>
                         {r.notes && <p className="text-xs text-slate-500 mt-1">{r.notes}</p>}
+                        <AdminReplyBox
+                            currentReply={r.adminNotes}
+                            onSend={(text) => replyMutation.mutate({ id: r.id, adminNotes: text })}
+                            isSending={replyMutation.isPending}
+                        />
                     </div>
                 );
             })}
@@ -234,6 +255,23 @@ function FeedbackTab({ userEmail }) {
             toast.success('Feedback updated');
         },
     });
+    const replyMutation = useMutation({
+        mutationFn: async ({ id, adminReply }) => {
+            await base44.entities.EmployeeFeedback.update(id, { adminReply });
+            await base44.entities.Notification.create({
+                userEmail: userEmail?.toLowerCase(),
+                type: 'general',
+                title: 'New Reply on Your Feedback',
+                message: adminReply,
+                link: createPageUrl('EmployeePortal'),
+                relatedId: id
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['adminFeedback', userEmail] });
+            toast.success('Reply sent');
+        },
+    });
 
     if (feedback.length === 0) return <p className="text-sm text-slate-400 py-4">No feedback submitted.</p>;
 
@@ -248,7 +286,12 @@ function FeedbackTab({ userEmail }) {
                         <span className="text-xs text-slate-400 ml-auto">{new Date(f.created_date).toLocaleDateString()}</span>
                     </div>
                     <p className="text-sm text-slate-700">{f.content}</p>
-                    <div className="mt-2 flex justify-end">
+                    <div className="mt-2 flex items-center justify-between">
+                        <AdminReplyBox
+                            currentReply={f.adminReply}
+                            onSend={(text) => replyMutation.mutate({ id: f.id, adminReply: text })}
+                            isSending={replyMutation.isPending}
+                        />
                         <Button
                             size="sm"
                             variant="ghost"
@@ -275,7 +318,6 @@ function RaiseTab({ userEmail }) {
     const updateMutation = useMutation({
         mutationFn: async ({ id, status }) => {
             const result = await base44.entities.RaiseRequest.update(id, { status });
-             // Create notification
              if (status === 'approved' || status === 'denied' || status === 'scheduled') {
                 await base44.entities.Notification.create({
                     userEmail: userEmail?.toLowerCase(),
@@ -291,6 +333,23 @@ function RaiseTab({ userEmail }) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['adminRaises', userEmail] });
             toast.success('Raise request updated');
+        },
+    });
+    const replyMutation = useMutation({
+        mutationFn: async ({ id, adminNotes }) => {
+            await base44.entities.RaiseRequest.update(id, { adminNotes });
+            await base44.entities.Notification.create({
+                userEmail: userEmail?.toLowerCase(),
+                type: 'raise',
+                title: 'New Reply on Raise Request',
+                message: adminNotes,
+                link: createPageUrl('EmployeePortal'),
+                relatedId: id
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['adminRaises', userEmail] });
+            toast.success('Reply sent');
         },
     });
 
@@ -322,6 +381,11 @@ function RaiseTab({ userEmail }) {
                     {r.requestedRate && <p className="text-xs text-slate-500">Requested: ${r.requestedRate}/day</p>}
                     <p className="text-sm text-slate-700 mt-1">{r.reason}</p>
                     <span className="text-xs text-slate-400">{new Date(r.created_date).toLocaleDateString()}</span>
+                    <AdminReplyBox
+                        currentReply={r.adminNotes}
+                        onSend={(text) => replyMutation.mutate({ id: r.id, adminNotes: text })}
+                        isSending={replyMutation.isPending}
+                    />
                 </div>
             ))}
         </div>
