@@ -116,71 +116,64 @@ export default function QuarterlyShare() {
         </div>
 
         <div className="space-y-4">
-          {/* Current quarter — big highlight */}
+          {/* Current quarter — big highlight with slider */}
           <div className="bg-emerald-50 rounded-lg border border-emerald-100 p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
               <p className="text-xs text-emerald-700 font-semibold uppercase tracking-wider">
-                Q{currentQuarter} {currentYear} — {t('inProgress') || 'In Progress'}
+                {sliderValue > 0
+                  ? (t('potentialEarnings') || 'Potential Earnings')
+                  : `Q${currentQuarter} ${currentYear} — ${t('inProgress') || 'In Progress'}`}
               </p>
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            </div>
-            <span className="text-4xl font-bold text-gray-900">
-              ${inProgressShare ? inProgressShare.amount.toFixed(2) : '0.00'}
-            </span>
-            <p className="text-sm text-emerald-700 mt-1.5 font-medium">{t('earningsFromGrowth') || 'Earnings from growth'}</p>
-            {totalPerPerson > 0 && (
-              <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-emerald-600 bg-emerald-100/60 rounded-full py-1 px-3 w-fit mx-auto">
-                <TrendingUp className="w-3 h-3" />
-                <span>{t('growingStrong') || 'Growing strong this quarter!'}</span>
-              </div>
-            )}
-          </div>
-
-          {/* Potential Earnings Slider */}
-          <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 space-y-3">
-            <div className="flex items-center gap-2">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-blue-600" />
-              <p className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
-                {t('potentialEarnings') || 'Potential Earnings'}
-              </p>
-            </div>
-            <p className="text-xs text-blue-600/80">
-              {t('slideToSeeEarnings') || 'Slide to see what you could earn as the company grows'}
-            </p>
-            <Slider
-              value={[sliderValue]}
-              onValueChange={handleSliderChange}
-              min={0}
-              max={100}
-              step={1}
-              className="w-full"
-            />
-            <div className="flex justify-between text-[10px] text-blue-500 font-medium">
-              <span>{t('today') || 'Today'}</span>
-              <span>2026 {t('goal') || 'Goal'} 🎯</span>
             </div>
             {(() => {
               const simulatedRevenue = ytdRevenue + (QUARTERLY_GOAL - ytdRevenue) * (sliderValue / 100);
               const simulatedPool = simulatedRevenue * (bonusPercent / 100);
               const simulatedPerPerson = headcount > 0 ? simulatedPool / headcount : 0;
+              const currentAmount = inProgressShare ? inProgressShare.amount : 0;
+              const displayAmount = sliderValue > 0 ? simulatedPerPerson : currentAmount;
               const diff = simulatedPerPerson - totalPerPerson;
               return (
-                <div className="bg-white rounded-lg p-3 text-center border border-blue-100">
-                  <p className="text-2xl font-bold text-blue-700">
-                    ${simulatedPerPerson.toFixed(2)}
-                  </p>
-                  {diff > 0 && (
-                    <p className="text-xs text-emerald-600 font-semibold mt-0.5">
+                <>
+                  <span className="text-4xl font-bold text-gray-900">
+                    ${displayAmount.toFixed(2)}
+                  </span>
+                  {sliderValue > 0 && diff > 0 && (
+                    <p className="text-xs text-emerald-600 font-semibold mt-1">
                       +${diff.toFixed(2)} {t('moreThanCurrent') || 'more than current'}
                     </p>
                   )}
-                  <p className="text-[10px] text-blue-500 mt-1">
-                    {t('basedOnBonusShare') || 'Based on'} {bonusPercent}% {t('bonusShare') || 'bonus share'}
-                  </p>
-                </div>
+                </>
               );
             })()}
+            <p className="text-sm text-emerald-700 mt-1.5 font-medium">
+              {sliderValue > 0
+                ? `${t('basedOnBonusShare') || 'Based on'} ${bonusPercent}% ${t('bonusShare') || 'bonus share'}`
+                : (t('earningsFromGrowth') || 'Earnings from growth')}
+            </p>
+            {totalPerPerson > 0 && sliderValue === 0 && (
+              <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-emerald-600 bg-emerald-100/60 rounded-full py-1 px-3 w-fit mx-auto">
+                <TrendingUp className="w-3 h-3" />
+                <span>{t('growingStrong') || 'Growing strong this quarter!'}</span>
+              </div>
+            )}
+
+            {/* Slider */}
+            <div className="mt-4 space-y-2">
+              <Slider
+                value={[sliderValue]}
+                onValueChange={handleSliderChange}
+                min={0}
+                max={100}
+                step={1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-[10px] text-emerald-600 font-medium">
+                <span>{t('today') || 'Today'}</span>
+                <span>2026 {t('goal') || 'Goal'} 🎯</span>
+              </div>
+            </div>
           </div>
 
           {/* Motivational message */}
