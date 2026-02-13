@@ -38,6 +38,7 @@ export default function ActiveProjects() {
       <SEOHead 
         title="Active Projects | Dancoby Construction" 
         description="See what we're working on right now. Current renovations in Brooklyn, Queens, and Long Island."
+        keywords="active construction projects NYC, current renovations Brooklyn, home renovation in progress, Long Island renovation projects, NYC construction updates"
       />
       
       <div className="max-w-7xl mx-auto px-6">
