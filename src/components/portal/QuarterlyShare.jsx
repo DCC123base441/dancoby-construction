@@ -204,6 +204,12 @@ export default function QuarterlyShare() {
                       cursor: pointer;
                     }
                   `}</style>
+                  {!isExploring && (
+                    <div className="flex items-center justify-center gap-1.5 text-xs text-emerald-600/70 animate-pulse mb-1">
+                      <MoveHorizontal className="w-3.5 h-3.5" />
+                      <span>{t('slideToSeeEarnings') || 'Drag to explore potential earnings'}</span>
+                    </div>
+                  )}
                   <input
                     type="range"
                     min={0}
