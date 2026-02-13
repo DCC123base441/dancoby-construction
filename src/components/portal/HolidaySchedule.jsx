@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useMemo, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,6 +32,14 @@ function formatHolidayDate(holiday) {
 export default function HolidaySchedule() {
   const { t, lang } = useLanguage();
   const tagLabels = lang === 'es' ? TAG_LABELS_ES : TAG_LABELS_EN;
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const unsubscribe = base44.entities.Holiday.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['holidays'] });
+    });
+    return unsubscribe;
+  }, [queryClient]);
 
   const { data: holidays = [], isLoading } = useQuery({
     queryKey: ['holidays'],

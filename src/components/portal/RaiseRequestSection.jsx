@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,6 +19,13 @@ export default function RaiseRequestSection({ user, profile }) {
   const [showForm, setShowForm] = useState(false);
   const queryClient = useQueryClient();
   const { t } = useLanguage();
+
+  useEffect(() => {
+    const unsubscribe = base44.entities.RaiseRequest.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['raiseRequests'] });
+    });
+    return unsubscribe;
+  }, [queryClient]);
 
   const { data: myRequests = [] } = useQuery({
     queryKey: ['raiseRequests', user.email],

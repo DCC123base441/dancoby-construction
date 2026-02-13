@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Loader2, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,14 @@ export default function StandardsSection() {
   const { t } = useLanguage();
   const [filterCategory, setFilterCategory] = useState('all');
   const [expandedImage, setExpandedImage] = useState(null);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const unsubscribe = base44.entities.Standard.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['standards'] });
+    });
+    return unsubscribe;
+  }, [queryClient]);
 
   const { data: standards = [], isLoading } = useQuery({
     queryKey: ['standards'],

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Bell, Check, X } from 'lucide-react';
@@ -13,6 +13,13 @@ export default function NotificationCenter({ user }) {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    const unsubscribe = base44.entities.Notification.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['myNotifications'] });
+    });
+    return unsubscribe;
+  }, [queryClient]);
+
   const { data: notifications = [], isLoading } = useQuery({
     queryKey: ['myNotifications', user?.email],
     queryFn: async () => {
@@ -20,7 +27,6 @@ export default function NotificationCenter({ user }) {
       return base44.entities.Notification.filter({ userEmail: targetUser.email?.toLowerCase() }, '-created_date', 20);
     },
     enabled: !!(user?.email),
-    refetchInterval: 30000, // Poll every 30s
   });
 
   const unreadCount = notifications.filter(n => !n.read).length;

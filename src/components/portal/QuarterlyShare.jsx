@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { PiggyBank, TrendingUp, Sparkles, Trophy } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useLanguage } from './LanguageContext';
 import moment from 'moment';
@@ -10,6 +10,17 @@ export default function QuarterlyShare() {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
   const currentQuarter = Math.floor(new Date().getMonth() / 3) + 1;
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const unsub1 = base44.entities.CompanyGoal.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['companyGoal'] });
+    });
+    const unsub2 = base44.entities.EmployeeProfile.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['activeEmployees'] });
+    });
+    return () => { unsub1(); unsub2(); };
+  }, [queryClient]);
 
   const { data: goalData, isLoading: goalLoading } = useQuery({
     queryKey: ['companyGoal', currentYear],

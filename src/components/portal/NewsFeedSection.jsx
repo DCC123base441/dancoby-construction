@@ -1,5 +1,5 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from './LanguageContext';
@@ -19,6 +19,14 @@ const categoryConfig = {
 
 export default function NewsFeedSection() {
   const { lang, t } = useLanguage();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const unsubscribe = base44.entities.CompanyNews.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['companyNews'] });
+    });
+    return unsubscribe;
+  }, [queryClient]);
 
   const { data: news = [], isLoading } = useQuery({
     queryKey: ['companyNews'],

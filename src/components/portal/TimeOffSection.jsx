@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,6 +49,13 @@ export default function TimeOffSection({ user }) {
   const [reason, setReason] = useState('vacation');
   const [notes, setNotes] = useState('');
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const unsubscribe = base44.entities.TimeOffRequest.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['timeOffRequests'] });
+    });
+    return unsubscribe;
+  }, [queryClient]);
 
   const { data: requests = [], isLoading } = useQuery({
     queryKey: ['timeOffRequests', user?.email],

@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Gift, Info, CheckCircle2, Circle, RefreshCw } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import moment from 'moment';
 
@@ -50,6 +50,14 @@ function QuarterBar({ label, revenue, goal, bonus, isCurrent, t }) {
 export default function BonusTracker() {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const unsubscribe = base44.entities.CompanyGoal.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['companyGoal'] });
+    });
+    return unsubscribe;
+  }, [queryClient]);
 
   const { data: goalData, isLoading } = useQuery({
     queryKey: ['companyGoal', currentYear],

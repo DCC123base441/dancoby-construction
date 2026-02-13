@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +13,13 @@ export default function ProjectUpdates({ project, user, canPost, onBack }) {
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const unsubscribe = base44.entities.ProjectUpdate.subscribe(() => {
+      queryClient.invalidateQueries({ queryKey: ['projectUpdates', project.id] });
+    });
+    return unsubscribe;
+  }, [queryClient, project.id]);
 
   const { data: updates = [], isLoading } = useQuery({
     queryKey: ['projectUpdates', project.id],
