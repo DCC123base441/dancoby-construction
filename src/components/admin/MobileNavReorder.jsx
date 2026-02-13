@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import {
   GripVertical, Save, RotateCcw, ArrowDown, ArrowUp,
   Newspaper, MonitorPlay, Bell, UserCircle, DollarSign,
-  CalendarDays, MessageCircle, CalendarOff, HandCoins, ShoppingBag
+  CalendarDays, MessageCircle, CalendarOff, HandCoins, ShoppingBag, ClipboardCheck
 } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
@@ -21,10 +21,11 @@ const TAB_META = {
   timeoff: { icon: CalendarOff, label: 'Time Off' },
   raise: { icon: HandCoins, label: 'Raise/Review' },
   gear: { icon: ShoppingBag, label: 'Gear Shop' },
+  standards: { icon: ClipboardCheck, label: 'Standards' },
 };
 
 const DEFAULT_BOTTOM = ['news', 'jobtread', 'notifications', 'profile'];
-const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear'];
+const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear', 'standards'];
 
 export default function MobileNavReorder() {
   const queryClient = useQueryClient();
