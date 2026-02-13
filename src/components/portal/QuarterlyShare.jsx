@@ -161,8 +161,32 @@ export default function QuarterlyShare() {
               </div>
             )}
 
-            {/* Slider */}
-            <div className="mt-4 space-y-2">
+            {/* Revenue progress bar */}
+            {(() => {
+              const progressPct = Math.min((ytdRevenue / QUARTERLY_GOAL) * 100, 100);
+              return (
+                <div className="mt-4 space-y-1.5">
+                  <div className="w-full h-3 rounded-full bg-emerald-200 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 transition-all duration-700"
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+                  <div className="flex justify-between text-[10px] text-emerald-600 font-medium">
+                    <span>${(ytdRevenue / 1000000).toFixed(2)}M</span>
+                    <span>{progressPct.toFixed(0)}%</span>
+                    <span>${(QUARTERLY_GOAL / 1000000).toFixed(1)}M 🎯</span>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Slider — explore potential */}
+            <div className="mt-3 space-y-2">
+              <p className="text-[10px] text-emerald-600 font-medium flex items-center gap-1 justify-center">
+                <SlidersHorizontal className="w-3 h-3" />
+                {t('slideToSeeEarnings') || 'Slide to see what you could earn as the company grows'}
+              </p>
               <style>{`
                 .qs-slider {
                   -webkit-appearance: none;
