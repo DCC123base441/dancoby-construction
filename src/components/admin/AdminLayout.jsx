@@ -73,7 +73,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Employee Portal', href: 'AdminEmployeePortal', icon: HardHat },
         { name: 'Customer Portal', href: 'AdminCustomerPortal', icon: Users },
         { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
-        { name: 'Team Chat', href: 'AdminChat', icon: MessagesSquare },
+
         { name: 'Calendar', href: 'AdminCalendar', icon: CalendarDays },
         { name: 'Architects Images', href: 'AdminArchitectsImages', icon: ImageIcon },
 
