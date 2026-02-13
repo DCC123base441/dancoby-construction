@@ -6,8 +6,10 @@ import { LogOut, User } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import NotificationCenter from './NotificationCenter';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useLanguage } from './LanguageContext';
 
 export default function EmployeeHeader({ user, onProfilePress }) {
+  const { t } = useLanguage();
   const handleLogout = async () => {
     await base44.auth.logout(createPageUrl('PortalLogin'));
   };
@@ -32,7 +34,7 @@ export default function EmployeeHeader({ user, onProfilePress }) {
             className="h-12"
           />
           <span className="text-sm font-semibold text-amber-600 uppercase tracking-wider hidden sm:inline-block border-l border-gray-300 pl-3 ml-1">
-            Employee Portal
+            {t('portalEmployee')}
           </span>
         </div>
         <div className="flex items-center gap-1.5">

@@ -3,8 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useLanguage } from './LanguageContext';
 
 export default function StandardsSection() {
+  const { t } = useLanguage();
   const [filterCategory, setFilterCategory] = useState('all');
 
   const { data: standards = [], isLoading } = useQuery({
@@ -26,19 +28,19 @@ export default function StandardsSection() {
   if (standards.length === 0) {
     return (
       <div className="text-center py-12 text-gray-400">
-        <p className="text-sm">No standards have been added yet.</p>
+        <p className="text-sm">{t('noStandards')}</p>
       </div>
     );
   }
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-900 mb-1">Company Standards</h2>
-      <p className="text-sm text-gray-500 mb-4">Reference images showing the right and wrong way to do things.</p>
+      <h2 className="text-lg font-semibold text-gray-900 mb-1">{t('companyStandards')}</h2>
+      <p className="text-sm text-gray-500 mb-4">{t('standardsDesc')}</p>
 
       {categories.length > 0 && (
         <div className="flex gap-2 mb-4 flex-wrap">
-          <Button size="sm" variant={filterCategory === 'all' ? 'default' : 'outline'} onClick={() => setFilterCategory('all')}>All</Button>
+          <Button size="sm" variant={filterCategory === 'all' ? 'default' : 'outline'} onClick={() => setFilterCategory('all')}>{t('allFilter')}</Button>
           {categories.map(cat => (
             <Button key={cat} size="sm" variant={filterCategory === cat ? 'default' : 'outline'} onClick={() => setFilterCategory(cat)}>{cat}</Button>
           ))}

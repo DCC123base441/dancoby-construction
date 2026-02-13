@@ -96,8 +96,8 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
   return (
     <div className="max-w-4xl mx-auto py-4 sm:py-8 px-0 sm:px-4">
       <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Profile Settings</h1>
-        <p className="text-gray-500 mt-1 text-sm sm:text-base">Manage your personal information and account security.</p>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">{t('profileSettings')}</h1>
+        <p className="text-gray-500 mt-1 text-sm sm:text-base">{t('profileSettingsDesc')}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -118,7 +118,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                         </label>
                     </div>
                     <h2 className="text-xl font-bold text-gray-900">{firstName} {lastName}</h2>
-                    <p className="text-sm text-gray-500 mb-4">{position || 'No Position Set'}</p>
+                    <p className="text-sm text-gray-500 mb-4">{position || t('noPosition')}</p>
                     
                     <div className="w-full space-y-2 text-left text-sm mt-4 pt-4 border-t border-gray-100">
                         {phone && (
@@ -130,7 +130,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                         {startDate && (
                             <div className="flex items-center gap-2 text-gray-600">
                                 <Calendar className="w-4 h-4" />
-                                <span>Joined {new Date(startDate).toLocaleDateString()}</span>
+                                <span>{t('joined')} {new Date(startDate).toLocaleDateString()}</span>
                             </div>
                         )}
                     </div>
@@ -142,35 +142,35 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
         <div className="md:col-span-8 lg:col-span-9">
             <Tabs defaultValue="general" className="w-full">
                 <TabsList className="grid w-full grid-cols-3 mb-6">
-                    <TabsTrigger value="general">General</TabsTrigger>
-                    <TabsTrigger value="work">Work Details</TabsTrigger>
-                    <TabsTrigger value="security">Security</TabsTrigger>
+                    <TabsTrigger value="general">{t('general')}</TabsTrigger>
+                    <TabsTrigger value="work">{t('workDetails')}</TabsTrigger>
+                    <TabsTrigger value="security">{t('security')}</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="general">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Personal Information</CardTitle>
-                            <CardDescription>Update your personal details and contact information.</CardDescription>
+                            <CardTitle>{t('personalInfo')}</CardTitle>
+                            <CardDescription>{t('personalInfoDesc')}</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label>First Name</Label>
+                                    <Label>{t('firstName')}</Label>
                                     <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Last Name</Label>
+                                    <Label>{t('lastName')}</Label>
                                     <Input value={lastName} onChange={(e) => setLastName(e.target.value)} />
                                 </div>
                             </div>
                             
                             <div className="space-y-2">
-                                <Label>Bio</Label>
+                                <Label>{t('shortBio')}</Label>
                                 <Textarea 
                                     value={bio} 
                                     onChange={(e) => setBio(e.target.value)} 
-                                    placeholder="Tell us about yourself..."
+                                    placeholder={t('tellAboutYourself')}
                                     className="min-h-[100px] resize-none"
                                 />
                             </div>
@@ -179,11 +179,11 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label>Contact Email</Label>
+                                    <Label>{t('contactEmail')}</Label>
                                     <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Phone Number</Label>
+                                    <Label>{t('phone')}</Label>
                                     <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
                                 </div>
                             </div>
@@ -191,15 +191,15 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                             <div className="p-4 bg-amber-50 rounded-lg border border-amber-100 space-y-4">
                                 <h3 className="font-semibold text-amber-900 flex items-center gap-2">
                                     <AlertCircle className="w-4 h-4" />
-                                    Emergency Contact
+                                    {t('emergencyContact')}
                                 </h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label className="text-amber-900/80">Contact Name</Label>
+                                        <Label className="text-amber-900/80">{t('contactName')}</Label>
                                         <Input className="bg-white" value={emergencyName} onChange={(e) => setEmergencyName(e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-amber-900/80">Contact Phone</Label>
+                                        <Label className="text-amber-900/80">{t('contactPhone')}</Label>
                                         <Input className="bg-white" value={emergencyPhone} onChange={(e) => setEmergencyPhone(e.target.value)} />
                                     </div>
                                 </div>
@@ -211,12 +211,12 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                 <TabsContent value="work">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Employment Details</CardTitle>
-                            <CardDescription>View and manage your role information.</CardDescription>
+                            <CardTitle>{t('employmentDetails')}</CardTitle>
+                            <CardDescription>{t('employmentDetailsDesc')}</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
                             <div className="space-y-2">
-                                <Label>Position / Title</Label>
+                                <Label>{t('positionTitle')}</Label>
                                 <div className="relative">
                                     <Briefcase className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
                                     <Input className="pl-9" value={position} onChange={(e) => setPosition(e.target.value)} />
@@ -224,7 +224,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                             </div>
                             
                             <div className="space-y-2">
-                                <Label>Start Date</Label>
+                                <Label>{t('startDate')}</Label>
                                 <div className="relative">
                                     <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
                                     <Input type="date" className="pl-9" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
@@ -237,17 +237,17 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                 <TabsContent value="security">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Account Security</CardTitle>
-                            <CardDescription>Manage your login credentials.</CardDescription>
+                            <CardTitle>{t('accountSecurity')}</CardTitle>
+                            <CardDescription>{t('accountSecurityDesc')}</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
                             <div className="space-y-2">
-                                <Label>Login Email</Label>
+                                <Label>{t('loginEmail')}</Label>
                                 <div className="flex items-center gap-2">
                                     <Input value={user.email} disabled className="bg-slate-50 text-slate-500" />
                                     <Shield className="w-4 h-4 text-green-500" />
                                 </div>
-                                <p className="text-xs text-slate-500">This email is managed by your organization administrator.</p>
+                                <p className="text-xs text-slate-500">{t('loginEmailManaged')}</p>
                             </div>
 
                             <Separator />
@@ -258,9 +258,9 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                                         <KeyRound className="w-5 h-5 text-slate-600" />
                                     </div>
                                     <div className="space-y-1">
-                                        <h4 className="font-medium text-gray-900">Password Reset</h4>
+                                        <h4 className="font-medium text-gray-900">{t('passwordReset')}</h4>
                                         <p className="text-sm text-gray-500">
-                                            Receive an email with instructions to reset your password.
+                                            {t('passwordResetDesc')}
                                         </p>
                                     </div>
                                 </div>
@@ -270,7 +270,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
                                     disabled={passwordResetMutation.isPending}
                                     className="w-full sm:w-auto"
                                 >
-                                    {passwordResetMutation.isPending ? 'Sending Email...' : 'Send Reset Instructions'}
+                                    {passwordResetMutation.isPending ? t('sendingEmail') : t('sendResetInstructions')}
                                 </Button>
                             </div>
                         </CardContent>
@@ -288,7 +288,7 @@ export default function EmployeeProfileSetup({ user, profile, onSaved }) {
           className={`${saved ? 'bg-green-600 hover:bg-green-700' : ''} min-w-[120px] transition-all w-full sm:w-auto`}
         >
           {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : saved ? <CheckCircle2 className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
-          {saveMutation.isPending ? 'Saving...' : saved ? 'Saved' : 'Save Changes'}
+          {saveMutation.isPending ? t('saving') : saved ? t('saved') : t('saveChanges')}
         </Button>
       </div>
     </div>
