@@ -39,7 +39,7 @@ export default function EmployeeList({ users, profiles, invites = [], onSelect, 
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1 min-w-0">
-                                    <p className="font-semibold text-slate-900 truncate">{user.full_name || 'No Name'}</p>
+                                    <p className="font-semibold text-slate-900 truncate">{user.full_name ? user.full_name.split(' ').filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ') : 'No Name'}</p>
                                     <p className="text-xs text-slate-500 truncate select-text">{user.email}</p>
                                 </div>
                                 {isPending ? (
