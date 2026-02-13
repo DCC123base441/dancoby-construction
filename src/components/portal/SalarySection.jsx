@@ -38,7 +38,7 @@ function SalaryGrowthChart({ hourly, startDate, t }) {
     for (let i = 0; i <= yearsWorked; i++) {
       const year = startYear + i;
       const rate = yearlyRates[i];
-      const annualSalary = rate * 40 * 52;
+      const annualSalary = rate * 5 * 52;
       const prevRate = i > 0 ? yearlyRates[i - 1] : rate;
       const yoyGrowth = i > 0 ? ((rate - prevRate) / prevRate * 100) : 0;
 
@@ -203,14 +203,14 @@ export default function SalarySection({ profile, onTabChange }) {
           {hourly ? (
             <div className="flex items-end gap-1 mb-1">
               <span className="text-4xl font-bold text-gray-900">${hourly.toFixed(2)}</span>
-              <span className="text-gray-500 text-sm mb-1">{t('perHour')}</span>
+              <span className="text-gray-500 text-sm mb-1">{t('perDay')}</span>
             </div>
           ) : (
             <p className="text-gray-400 text-sm">{t('rateNotSet')}</p>
           )}
           {hourly && (
             <p className="text-xs text-gray-400 mt-1">
-              ≈ ${(hourly * 40).toFixed(0)}/week · ${(hourly * 40 * 52).toLocaleString()}/year (40 hrs/wk)
+              ≈ ${(hourly * 5).toFixed(0)}/week · ${(hourly * 5 * 52).toLocaleString()}/year (5 days/wk)
             </p>
           )}
         </CardContent>
