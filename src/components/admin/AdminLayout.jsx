@@ -75,6 +75,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Team Chat', href: 'AdminChat', icon: MessagesSquare },
         { name: 'Calendar', href: 'AdminCalendar', icon: CalendarDays },
         { name: 'Architects Images', href: 'AdminArchitectsImages', icon: ImageIcon },
+        { name: 'Standards', href: 'AdminStandards', icon: Landmark },
     ];
 
     const handleLogout = async () => {
