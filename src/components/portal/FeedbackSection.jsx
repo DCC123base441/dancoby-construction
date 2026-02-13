@@ -106,6 +106,12 @@ export default function FeedbackSection({ user }) {
                   </span>
                 </div>
                 <p className="text-sm text-gray-700">{fb.content}</p>
+                {fb.adminReply && (
+                  <div className="mt-3 p-2.5 rounded-lg bg-blue-50 border border-blue-100">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-blue-500 mb-1">Admin Reply</p>
+                    <p className="text-sm text-blue-800">{fb.adminReply}</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}
