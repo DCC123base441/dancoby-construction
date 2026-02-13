@@ -305,6 +305,15 @@ const translations = {
     trainingNoResources: 'No resources in this course yet.',
     trainingBackToCourses: 'Back to Courses',
 
+    // Quarterly Share Slider
+    potentialEarnings: 'Potential Earnings',
+    slideToSeeEarnings: 'Slide to see what you could earn as the company grows',
+    today: 'Today',
+    goal: 'Goal',
+    moreThanCurrent: 'more than current',
+    basedOnBonusShare: 'Based on',
+    bonusShare: 'bonus share',
+
     // More sheet / Sidebar
     openJobTread: 'Open JobTread',
     external: 'External',
@@ -580,6 +589,15 @@ const translations = {
     checkInTodayDone: '¡Ya hiciste tu check-in hoy!',
     checkInHistory: 'Check-Ins Recientes',
     tabCheckIn: 'Registro',
+
+    // Quarterly Share Slider
+    potentialEarnings: 'Ganancias Potenciales',
+    slideToSeeEarnings: 'Desliza para ver lo que podrías ganar a medida que la empresa crece',
+    today: 'Hoy',
+    goal: 'Meta',
+    moreThanCurrent: 'más que el actual',
+    basedOnBonusShare: 'Basado en',
+    bonusShare: 'reparto de bonos',
 
     // Training
     tabTraining: 'Capacitación',

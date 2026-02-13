@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { PiggyBank, TrendingUp, Sparkles, Trophy } from 'lucide-react';
+import { Slider } from "@/components/ui/slider";
+import { PiggyBank, TrendingUp, Sparkles, Trophy, SlidersHorizontal } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useLanguage } from './LanguageContext';
 import moment from 'moment';
+
+const QUARTERLY_GOAL = 3500000;
 
 export default function QuarterlyShare() {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
   const currentQuarter = Math.floor(new Date().getMonth() / 3) + 1;
   const queryClient = useQueryClient();
+  const [sliderValue, setSliderValue] = useState(0);
 
   useEffect(() => {
     const unsub1 = base44.entities.CompanyGoal.subscribe(() => {
@@ -122,6 +126,52 @@ export default function QuarterlyShare() {
                 <span>{t('growingStrong') || 'Growing strong this quarter!'}</span>
               </div>
             )}
+          </div>
+
+          {/* Potential Earnings Slider */}
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200/60 rounded-2xl p-4 space-y-3">
+            <div className="flex items-center gap-2 mb-1">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-blue-600" />
+              <p className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
+                {t('potentialEarnings') || 'Potential Earnings'}
+              </p>
+            </div>
+            <p className="text-[11px] text-blue-600/80">
+              {t('slideToSeeEarnings') || 'Slide to see what you could earn as the company grows'}
+            </p>
+            <Slider
+              value={[sliderValue]}
+              onValueChange={(val) => setSliderValue(val[0])}
+              min={0}
+              max={100}
+              step={1}
+              className="w-full [&_[role=slider]]:bg-blue-600 [&_[role=slider]]:border-blue-600 [&_[data-orientation=horizontal]>[data-orientation=horizontal]]:bg-blue-600"
+            />
+            <div className="flex justify-between text-[10px] text-blue-500 font-medium">
+              <span>{t('today') || 'Today'}</span>
+              <span>{t('goal') || 'Goal'} 🎯</span>
+            </div>
+            {(() => {
+              const simulatedRevenue = ytdRevenue + (QUARTERLY_GOAL - ytdRevenue) * (sliderValue / 100);
+              const simulatedPool = simulatedRevenue * (bonusPercent / 100);
+              const simulatedPerPerson = headcount > 0 ? simulatedPool / headcount : 0;
+              const diff = simulatedPerPerson - totalPerPerson;
+              return (
+                <div className="bg-white/70 rounded-xl p-3 text-center border border-blue-100">
+                  <p className="text-2xl font-extrabold text-blue-700">
+                    ${simulatedPerPerson.toFixed(2)}
+                  </p>
+                  {diff > 0 && (
+                    <p className="text-xs text-emerald-600 font-semibold mt-0.5">
+                      +${diff.toFixed(2)} {t('moreThanCurrent') || 'more than current'}
+                    </p>
+                  )}
+                  <p className="text-[10px] text-blue-500 mt-1">
+                    {t('basedOnBonusShare') || 'Based on'} {bonusPercent}% {t('bonusShare') || 'bonus share'}
+                  </p>
+                </div>
+              );
+            })()}
           </div>
 
           {/* Motivational message */}
