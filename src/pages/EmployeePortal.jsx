@@ -22,6 +22,7 @@ import OnboardingWelcome from '../components/portal/OnboardingWelcome';
 import NewsFeedSection from '../components/portal/NewsFeedSection';
 import NotificationSection from '../components/portal/NotificationSection';
 import StandardsSection from '../components/portal/StandardsSection';
+import VoiceTranslator from '../components/VoiceTranslator';
 
 
 function EmployeePortalContent() {
@@ -286,6 +287,7 @@ function EmployeePortalContent() {
         onTabChange={setActiveTab}
         navConfig={navConfig}
       />
+      <VoiceTranslator />
     </div>
   );
 }
