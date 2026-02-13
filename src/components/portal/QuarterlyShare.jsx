@@ -130,11 +130,14 @@ export default function QuarterlyShare() {
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             </div>
             {(() => {
-              const simulatedRevenue = ytdRevenue + (QUARTERLY_GOAL - ytdRevenue) * (sliderValue / 100);
+              const baseProgress = Math.min((ytdRevenue / QUARTERLY_GOAL) * 100, 100);
+              const effectiveValue = sliderValue !== null ? sliderValue : baseProgress;
+              const simulatedRevenue = QUARTERLY_GOAL * (effectiveValue / 100);
               const simulatedPool = simulatedRevenue * (bonusPercent / 100);
               const simulatedPerPerson = headcount > 0 ? simulatedPool / headcount : 0;
               const currentAmount = inProgressShare ? inProgressShare.amount : 0;
-              const displayAmount = sliderValue > 0 ? simulatedPerPerson : currentAmount;
+              const isExploring = sliderValue !== null && Math.abs(sliderValue - baseProgress) > 1;
+              const displayAmount = isExploring ? simulatedPerPerson : currentAmount;
               const diff = simulatedPerPerson - totalPerPerson;
               return (
                 <>
