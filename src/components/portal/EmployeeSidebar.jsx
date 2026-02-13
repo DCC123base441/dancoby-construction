@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, Newspaper, Bell, ClipboardList, SmilePlus } from 'lucide-react';
+import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, Newspaper, Bell, ClipboardList, SmilePlus, GraduationCap } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 
@@ -20,6 +20,7 @@ const ALL_TABS = [
   { id: 'raise', icon: HandCoins, labelKey: 'tabRaise', color: 'text-amber-600 bg-amber-50' },
   { id: 'gear', icon: ShoppingBag, labelKey: 'tabGear', color: 'text-pink-600 bg-pink-50' },
   { id: 'checkin', icon: SmilePlus, labelKey: 'tabCheckIn', color: 'text-lime-600 bg-lime-50' },
+  { id: 'training', icon: GraduationCap, labelKey: 'tabTraining', color: 'text-amber-600 bg-amber-50' },
   { id: 'standards', icon: ClipboardList, labelKey: 'companyStandards', color: 'text-teal-600 bg-teal-50' },
   { id: 'profile', icon: UserCircle, labelKey: 'tabProfile', color: 'text-slate-600 bg-slate-50' },
 ];

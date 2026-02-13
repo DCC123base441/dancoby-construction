@@ -23,6 +23,7 @@ import NewsFeedSection from '../components/portal/NewsFeedSection';
 import NotificationSection from '../components/portal/NotificationSection';
 import StandardsSection from '../components/portal/StandardsSection';
 import CheckInSection from '../components/portal/CheckInSection';
+import TrainingSection from '../components/portal/TrainingSection';
 import DailyCheckInPopup from '../components/portal/DailyCheckInPopup';
 import VoiceTranslator from '../components/VoiceTranslator';
 
@@ -152,6 +153,7 @@ function EmployeePortalContent() {
       case 'notifications': return <NotificationSection user={user} />;
       case 'standards': return <StandardsSection />;
       case 'checkin': return <CheckInSection user={user} />;
+      case 'training': return <TrainingSection user={user} />;
       default: return null;
     }
   };

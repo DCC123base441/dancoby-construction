@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, Menu, Newspaper, MonitorPlay, Bell, ClipboardList, SmilePlus } from 'lucide-react';
+import { UserCircle, MessageCircle, DollarSign, CalendarDays, CalendarOff, HandCoins, ShoppingBag, Menu, Newspaper, MonitorPlay, Bell, ClipboardList, SmilePlus, GraduationCap } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 const ICON_MAP = {
@@ -17,6 +17,7 @@ const ICON_MAP = {
   gear: ShoppingBag,
   standards: ClipboardList,
   checkin: SmilePlus,
+  training: GraduationCap,
 };
 
 const LABEL_MAP = {
@@ -32,6 +33,7 @@ const LABEL_MAP = {
   gear: 'tabGear',
   standards: 'companyStandards',
   checkin: 'tabCheckIn',
+  training: 'tabTraining',
 };
 
 const LABEL_OVERRIDE_KEY = {

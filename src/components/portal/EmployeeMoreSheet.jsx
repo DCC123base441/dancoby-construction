@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, Bell, Newspaper, DollarSign, CalendarDays, MessageCircle, ExternalLink, ClipboardList, SmilePlus } from 'lucide-react';
+import { UserCircle, CalendarOff, HandCoins, ShoppingBag, MonitorPlay, Bell, Newspaper, DollarSign, CalendarDays, MessageCircle, ExternalLink, ClipboardList, SmilePlus, GraduationCap } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 const JOBTREAD_LOGO = "https://yt3.ggpht.com/QWox277KuhTRFhCWHnkwLJKwYyY-pIZopKYRWhFhdsggxm9Z7BFfy3VlgyEJxYdXbyNbwjdQYz4=s68-c-k-c0x00ffffff-no-rj";
@@ -19,6 +19,7 @@ const ITEM_META = {
   notifications: { icon: Bell, labelKey: 'notifications', color: 'bg-blue-100 text-blue-600' },
   standards: { icon: ClipboardList, labelKey: 'companyStandards', color: 'bg-teal-100 text-teal-600' },
   checkin: { icon: SmilePlus, labelKey: 'tabCheckIn', color: 'bg-lime-100 text-lime-600' },
+  training: { icon: GraduationCap, labelKey: 'tabTraining', color: 'bg-amber-100 text-amber-600' },
 };
 
 const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear'];

@@ -22,7 +22,8 @@ import {
     MonitorPlay,
     Newspaper,
     Landmark,
-    ImageIcon
+    ImageIcon,
+    GraduationCap
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -75,6 +76,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Team Chat', href: 'AdminChat', icon: MessagesSquare },
         { name: 'Calendar', href: 'AdminCalendar', icon: CalendarDays },
         { name: 'Architects Images', href: 'AdminArchitectsImages', icon: ImageIcon },
+        { name: 'Training', href: 'AdminTraining', icon: GraduationCap },
 
     ];
 
