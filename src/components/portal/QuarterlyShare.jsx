@@ -123,7 +123,7 @@ export default function QuarterlyShare() {
             <div className="flex items-center justify-center gap-1.5 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
               <p className="text-xs text-emerald-700 font-semibold uppercase tracking-wider">
-                {sliderValue > 0
+                {(sliderValue !== null && Math.abs(sliderValue - Math.min((ytdRevenue / QUARTERLY_GOAL) * 100, 100)) > 1)
                   ? (t('potentialEarnings') || 'Potential Earnings')
                   : `Q${currentQuarter} ${currentYear} — ${t('inProgress') || 'In Progress'}`}
               </p>
