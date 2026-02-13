@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { Bell, Check, Trash2, Calendar, Link as LinkIcon, ExternalLink } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { format } from 'date-fns';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
 
@@ -116,7 +116,7 @@ export default function NotificationSection({ user }) {
                                     {n.title}
                                 </h4>
                                 <span className="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">
-                                    {format(new Date(n.created_date), 'MMM d, h:mm a')}
+                                    {moment(n.created_date).format('MMM D, h:mm A')}
                                 </span>
                             </div>
                             <p className="text-sm text-gray-600 mt-1">{n.message}</p>
