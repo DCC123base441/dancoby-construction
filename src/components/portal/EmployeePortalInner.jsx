@@ -92,7 +92,7 @@ export default function EmployeePortalInner({ user }) {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20 sm:pb-0">
-      <EmployeeHeader user={user} />
+      <EmployeeHeader user={user} onProfilePress={() => setActiveTab('profile')} />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex gap-6">
         {/* Sidebar for desktop */}
