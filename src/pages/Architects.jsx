@@ -55,7 +55,7 @@ export default function Architects() {
       <SEOHead
         title="For Architects & Designers | Dancoby Construction"
         description="Partner with Dancoby Construction for your next NYC renovation project. Pre-construction collaboration, permitting, and expert execution for architects and designers."
-        keywords="architect partner NYC, construction partner for architects, builder for architects Brooklyn, designer collaboration, NYC renovation contractor"
+        keywords="architect partner NYC, construction partner for architects, builder for architects Brooklyn, designer collaboration, NYC renovation contractor, pre-construction collaboration, general contractor for architects, design build NYC, architect builder partnership, permitting NYC construction"
       />
 
       {/* Hero Section */}
