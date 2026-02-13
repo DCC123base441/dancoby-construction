@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 
-import { PiggyBank, TrendingUp, Sparkles, Trophy, SlidersHorizontal } from 'lucide-react';
+import { PiggyBank, TrendingUp, Sparkles, Trophy, MoveHorizontal } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useLanguage } from './LanguageContext';
