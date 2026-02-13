@@ -109,7 +109,7 @@ export default function MoodTracker() {
           <CardDescription className="text-xs">Daily check-in overview</CardDescription>
         </div>
         <div className="flex items-center gap-2">
-          <AlertDialog>
+          <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
             <AlertDialogTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50">
                 <Trash2 className="w-3.5 h-3.5" />
@@ -124,15 +124,16 @@ export default function MoodTracker() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleResetMood();
+                <Button 
+                  onClick={async () => {
+                    await handleResetMood();
+                    setShowResetDialog(false);
                   }} 
-                  className="bg-red-600 hover:bg-red-700"
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                  disabled={isResetting}
                 >
                   {isResetting ? "Resetting..." : "Yes, Delete All"}
-                </AlertDialogAction>
+                </Button>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
