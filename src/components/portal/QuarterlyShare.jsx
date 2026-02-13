@@ -18,42 +18,11 @@ export default function QuarterlyShare() {
   const [sliderValue, setSliderValue] = useState(null);
   const hasFiredConfetti = useRef(false);
 
-  const audioRef = useRef(null);
-
-  useEffect(() => {
-    const audio = new Audio('https://cdn.freesound.org/previews/397/397354_4284968-lq.mp3');
-    audio.preload = 'auto';
-    audio.load();
-    audioRef.current = audio;
-
-    // Unlock audio on first user interaction (mobile requirement)
-    const unlock = () => {
-      if (audioRef.current) {
-        audioRef.current.play().then(() => {
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-        }).catch(() => {});
-      }
-      document.removeEventListener('touchstart', unlock);
-      document.removeEventListener('click', unlock);
-    };
-    document.addEventListener('touchstart', unlock, { once: true });
-    document.addEventListener('click', unlock, { once: true });
-
-    return () => {
-      document.removeEventListener('touchstart', unlock);
-      document.removeEventListener('click', unlock);
-    };
-  }, []);
-
   const fireConfetti = useCallback(() => {
     confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
     confetti({ particleCount: 80, spread: 100, origin: { y: 0.7 }, startVelocity: 25 });
     if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
-    }
+    try { new Audio('https://cdn.freesound.org/previews/397/397354_4284968-lq.mp3').play(); } catch (e) {}
   }, []);
 
   const handleSliderChange = useCallback((val) => {
