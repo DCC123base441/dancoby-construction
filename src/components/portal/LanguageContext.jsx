@@ -279,6 +279,18 @@ const translations = {
     // Holidays
     noHolidays: 'No holidays configured yet.',
 
+    // Daily Check-In
+    checkInTitle: 'How are you feeling today?',
+    checkInSubtitle: 'Your daily mood check-in',
+    checkInNotePlaceholder: 'Want to share more? (optional)',
+    checkInSkip: 'Skip',
+    checkInSubmit: 'Submit',
+    checkInThanks: 'Thanks for checking in!',
+    checkInThanksDesc: 'Have a great day!',
+    checkInTodayDone: "You've checked in today!",
+    checkInHistory: 'Recent Check-Ins',
+    tabCheckIn: 'Check-In',
+
     // More sheet / Sidebar
     openJobTread: 'Open JobTread',
     external: 'External',
@@ -542,6 +554,18 @@ const translations = {
 
     // Holidays
     noHolidays: 'Aún no se han configurado festivos.',
+
+    // Daily Check-In
+    checkInTitle: '¿Cómo te sientes hoy?',
+    checkInSubtitle: 'Tu check-in diario de ánimo',
+    checkInNotePlaceholder: '¿Quieres compartir más? (opcional)',
+    checkInSkip: 'Omitir',
+    checkInSubmit: 'Enviar',
+    checkInThanks: '¡Gracias por registrarte!',
+    checkInThanksDesc: '¡Que tengas un gran día!',
+    checkInTodayDone: '¡Ya hiciste tu check-in hoy!',
+    checkInHistory: 'Check-Ins Recientes',
+    tabCheckIn: 'Check-In',
 
     // More sheet / Sidebar
     openJobTread: 'Abrir JobTread',
