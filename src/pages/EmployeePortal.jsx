@@ -17,7 +17,6 @@ import GearShopSection from '../components/portal/GearShopSection';
 import TimeOffSection from '../components/portal/TimeOffSection';
 import JobTreadSection from '../components/portal/JobTreadSection';
 import { LanguageProvider, useLanguage } from '../components/portal/LanguageContext';
-import LanguageSwitcher from '../components/portal/LanguageSwitcher';
 import TenureBadge from '../components/portal/TenureBadge';
 import OnboardingWelcome from '../components/portal/OnboardingWelcome';
 import NewsFeedSection from '../components/portal/NewsFeedSection';
