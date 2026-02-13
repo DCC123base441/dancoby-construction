@@ -22,6 +22,8 @@ import OnboardingWelcome from '../components/portal/OnboardingWelcome';
 import NewsFeedSection from '../components/portal/NewsFeedSection';
 import NotificationSection from '../components/portal/NotificationSection';
 import StandardsSection from '../components/portal/StandardsSection';
+import CheckInSection from '../components/portal/CheckInSection';
+import DailyCheckInPopup from '../components/portal/DailyCheckInPopup';
 import VoiceTranslator from '../components/VoiceTranslator';
 
 
@@ -149,6 +151,7 @@ function EmployeePortalContent() {
       case 'jobtread': return <JobTreadSection />;
       case 'notifications': return <NotificationSection user={user} />;
       case 'standards': return <StandardsSection />;
+      case 'checkin': return <CheckInSection user={user} />;
       default: return null;
     }
   };
@@ -288,6 +291,7 @@ function EmployeePortalContent() {
         navConfig={navConfig}
       />
       <VoiceTranslator />
+      <DailyCheckInPopup user={user} />
     </div>
   );
 }
