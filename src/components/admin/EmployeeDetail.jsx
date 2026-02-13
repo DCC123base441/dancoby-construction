@@ -60,7 +60,7 @@ function ProfileTab({ profile, user, onProfileUpdate }) {
         { key: 'position', label: 'Position', icon: Briefcase },
         { key: 'department', label: 'Department', icon: User },
         { key: 'phone', label: 'Phone', icon: Phone },
-        { key: 'hourlySalary', label: 'Hourly Wage ($)', icon: DollarSign, type: 'number' },
+        { key: 'hourlySalary', label: 'Daily Wage ($)', icon: DollarSign, type: 'number' },
         { key: 'startDate', label: 'Start Date', icon: Calendar, type: 'date' },
         { key: 'emergencyContactName', label: 'Emergency Contact', icon: User },
         { key: 'emergencyContactPhone', label: 'Emergency Phone', icon: Phone },
