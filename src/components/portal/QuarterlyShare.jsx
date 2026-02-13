@@ -144,7 +144,7 @@ export default function QuarterlyShare() {
                   <span className="text-4xl font-bold text-gray-900">
                     ${displayAmount.toFixed(2)}
                   </span>
-                  {sliderValue > 0 && diff > 0 && (
+                  {isExploring && diff > 0 && (
                     <p className="text-xs text-emerald-600 font-semibold mt-1">
                       +${diff.toFixed(2)} {t('moreThanCurrent') || 'more than current'}
                     </p>
