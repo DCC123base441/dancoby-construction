@@ -149,7 +149,7 @@ export default function QuarterlyShare() {
             />
             <div className="flex justify-between text-[10px] text-blue-500 font-medium">
               <span>{t('today') || 'Today'}</span>
-              <span>{t('goal') || 'Goal'} 🎯</span>
+              <span>2026 {t('goal') || 'Goal'} 🎯</span>
             </div>
             {(() => {
               const simulatedRevenue = ytdRevenue + (QUARTERLY_GOAL - ytdRevenue) * (sliderValue / 100);
