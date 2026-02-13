@@ -25,6 +25,12 @@ Deno.serve(async (req) => {
             for (const p of profiles) {
                 await base44.asServiceRole.entities.EmployeeProfile.delete(p.id);
             }
+
+            // Delete their daily check-ins / mood data
+            const checkIns = await base44.asServiceRole.entities.DailyCheckIn.filter({ userEmail });
+            for (const c of checkIns) {
+                await base44.asServiceRole.entities.DailyCheckIn.delete(c.id);
+            }
         }
 
         return Response.json({ success: true, message: `Deleted user ${userEmail || userId}` });

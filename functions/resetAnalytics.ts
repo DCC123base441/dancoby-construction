@@ -74,13 +74,19 @@ Deno.serve(async (req) => {
             deletedLeads = await deleteBatch('Lead');
         }
 
+        let deletedCheckIns = 0;
+        if (target === 'checkins' || target === 'all') {
+            deletedCheckIns = await deleteBatch('DailyCheckIn');
+        }
+
         return Response.json({ 
             success: true, 
             deletedVisits, 
             deletedEstimates,
             deletedProjects,
             deletedBlogs,
-            deletedLeads
+            deletedLeads,
+            deletedCheckIns
         });
 
     } catch (error) {
