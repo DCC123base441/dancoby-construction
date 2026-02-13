@@ -47,7 +47,27 @@ export default function AdminNews() {
   const saveMutation = useMutation({
     mutationFn: async (data) => {
       const me = await base44.auth.me();
-      const payload = { ...data, authorName: me.full_name || me.email, authorEmail: me.email };
+      
+      // Auto-translate to Spanish if not provided
+      let finalData = { ...data };
+      if (finalData.title && !finalData.title_es) {
+        try {
+          const res = await base44.integrations.Core.InvokeLLM({
+            prompt: `Translate the following text to Spanish. Return ONLY the translation, nothing else:\n\n${finalData.title}`,
+          });
+          finalData.title_es = res;
+        } catch (e) { console.warn('Auto-translate title failed', e); }
+      }
+      if (finalData.content && !finalData.content_es) {
+        try {
+          const res = await base44.integrations.Core.InvokeLLM({
+            prompt: `Translate the following text to Spanish. Keep any markdown formatting. Return ONLY the translation, nothing else:\n\n${finalData.content}`,
+          });
+          finalData.content_es = res;
+        } catch (e) { console.warn('Auto-translate content failed', e); }
+      }
+      
+      const payload = { ...finalData, authorName: me.full_name || me.email, authorEmail: me.email };
       if (editingItem) {
         return base44.entities.CompanyNews.update(editingItem.id, payload);
       }
