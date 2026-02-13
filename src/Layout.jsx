@@ -9,6 +9,7 @@ import FloatingCTA from './components/FloatingCTA';
 import BackToTop from './components/BackToTop';
 import ScrollProgress from './components/ScrollProgress';
 import CookieConsent from './components/CookieConsent';
+import VoiceTranslator from './components/VoiceTranslator';
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from './utils';
 
@@ -91,7 +92,8 @@ export default function Layout({ children, currentPageName }) {
               <InstagramFollowNotification />
       <FloatingCTA />
       <BackToTop />
-      <CookieConsent />
+          <CookieConsent />
+          <VoiceTranslator />
     </div>
   );
 }
