@@ -148,6 +148,7 @@ function EmployeePortalContent() {
       case 'gear': return <GearShopSection />;
       case 'jobtread': return <JobTreadSection />;
       case 'notifications': return <NotificationSection user={user} />;
+      case 'standards': return <StandardsSection />;
       default: return null;
     }
   };
