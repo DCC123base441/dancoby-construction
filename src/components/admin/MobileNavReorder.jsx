@@ -43,12 +43,15 @@ export default function MobileNavReorder() {
 
   useEffect(() => {
     if (config) {
-      const bottom = config.bottomNavOrder?.length ? [...new Set(config.bottomNavOrder)] : DEFAULT_BOTTOM;
+      const allKnownIds = Object.keys(TAB_META);
+      const bottom = config.bottomNavOrder?.length ? [...new Set(config.bottomNavOrder)].filter(id => allKnownIds.includes(id)) : DEFAULT_BOTTOM;
       const more = config.moreSheetOrder?.length 
-        ? [...new Set(config.moreSheetOrder)].filter(id => !bottom.includes(id))
+        ? [...new Set(config.moreSheetOrder)].filter(id => allKnownIds.includes(id) && !bottom.includes(id))
         : DEFAULT_MORE.filter(id => !bottom.includes(id));
+      // Add any new tabs that aren't in either saved list
+      const missing = allKnownIds.filter(id => !bottom.includes(id) && !more.includes(id));
       setBottomNav(bottom);
-      setMoreSheet(more);
+      setMoreSheet([...more, ...missing]);
     }
   }, [config]);
 
