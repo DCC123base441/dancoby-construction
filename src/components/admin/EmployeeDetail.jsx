@@ -317,8 +317,8 @@ function RaiseTab({ userEmail }) {
                             </div>
                         )}
                     </div>
-                    {r.currentRate && <p className="text-xs text-slate-500">Current: ${r.currentRate}/hr</p>}
-                    {r.requestedRate && <p className="text-xs text-slate-500">Requested: ${r.requestedRate}/hr</p>}
+                    {r.currentRate && <p className="text-xs text-slate-500">Current: ${r.currentRate}/day</p>}
+                    {r.requestedRate && <p className="text-xs text-slate-500">Requested: ${r.requestedRate}/day</p>}
                     <p className="text-sm text-slate-700 mt-1">{r.reason}</p>
                     <span className="text-xs text-slate-400">{new Date(r.created_date).toLocaleDateString()}</span>
                 </div>
