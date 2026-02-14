@@ -106,12 +106,6 @@ export default function NotificationSection({ user }) {
                             ? 'bg-blue-50/40 border-blue-100 shadow-sm' 
                             : 'bg-white border-gray-100'
                     }`}
-                    onClick={(e) => {
-                        // Only mark as read if clicking the card itself, not buttons inside
-                        if (e.target === e.currentTarget || !e.target.closest('button')) {
-                            handleNotificationClick(n);
-                        }
-                    }}
                 >
                     <div className="flex gap-4">
                         <div className={`mt-1.5 w-2.5 h-2.5 rounded-full flex-shrink-0 ${!n.read ? 'bg-blue-500' : 'bg-gray-200'}`} />
@@ -130,14 +124,17 @@ export default function NotificationSection({ user }) {
                                 {(n.type || n.link) ? (
                                     <button 
                                         type="button"
-                                        onPointerUp={(e) => {
+                                        onClick={(e) => {
+                                            e.preventDefault();
                                             e.stopPropagation();
                                             if (!n.read) markAsReadMutation.mutate(n.id);
                                             const tabMap = { time_off: 'timeoff', raise: 'raise', general: 'feedback', news: 'news' };
                                             const tab = tabMap[n.type] || 'news';
-                                            window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: tab }));
+                                            setTimeout(() => {
+                                                window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: tab }));
+                                            }, 0);
                                         }}
-                                        className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 py-1 px-1 -ml-1 touch-manipulation"
+                                        className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 py-2 px-2 -ml-2 touch-manipulation active:bg-blue-50 rounded"
                                     >
                                         <ExternalLink className="w-3 h-3" />
                                         {t('viewDetails') || 'View Details'}
