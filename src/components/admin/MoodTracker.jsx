@@ -112,8 +112,19 @@ export default function MoodTracker() {
   };
 
   const getInitials = (email) => {
-    const name = getName(email);
-    return name.substring(0, 2).toUpperCase();
+    const p = profileMap[email];
+    let initials = '';
+    if (p?.firstName && p?.lastName) {
+      initials = `${p.firstName.charAt(0)}${p.lastName.charAt(0)}`;
+    } else if (p?.firstName) {
+      initials = p.firstName.substring(0, 2);
+    } else if (p?.lastName) {
+      initials = p.lastName.substring(0, 2);
+    } else {
+      const namePart = email?.split('@')[0] || '';
+      initials = namePart.substring(0, 2);
+    }
+    return initials.toUpperCase();
   };
 
   return (
