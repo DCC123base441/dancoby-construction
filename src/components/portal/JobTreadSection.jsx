@@ -324,27 +324,28 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   };
 
   return (
-    <div className="flex items-center gap-3 px-3 py-3 hover:bg-blue-50/50 transition-colors group">
+    <div className="flex items-center gap-0 px-1 py-1 hover:bg-blue-50/50 transition-colors group">
       <button
         type="button"
-        onClick={handleToggle}
+        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleToggle(); }}
         disabled={toggling}
-        className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg active:bg-gray-100 touch-manipulation select-none"
-        style={{ WebkitTapHighlightColor: 'transparent', minWidth: 40, minHeight: 40 }}
+        className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg active:bg-gray-200 touch-manipulation select-none cursor-pointer"
+        style={{ WebkitTapHighlightColor: 'rgba(0,0,0,0.1)', minWidth: 48, minHeight: 48 }}
+        aria-label={isCompleted ? 'Mark incomplete' : 'Mark complete'}
       >
         {toggling ? (
-          <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+          <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
         ) : isCompleted ? (
-          <CheckCircle2 className="w-6 h-6 text-green-500" />
+          <CheckCircle2 className="w-7 h-7 text-green-500" />
         ) : (
-          <Circle className="w-6 h-6 text-gray-300" />
+          <Circle className="w-7 h-7 text-gray-300" />
         )}
       </button>
       <a
         href={tut.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-1 min-w-0 flex items-center gap-3"
+        className="flex-1 min-w-0 flex items-center gap-3 px-2 py-2"
       >
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
