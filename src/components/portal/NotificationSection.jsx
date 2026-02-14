@@ -129,14 +129,15 @@ export default function NotificationSection({ user }) {
                             <div className="flex items-center justify-between mt-3">
                                 {(n.type || n.link) ? (
                                     <button 
-                                        onClick={(e) => {
+                                        type="button"
+                                        onPointerUp={(e) => {
                                             e.stopPropagation();
                                             if (!n.read) markAsReadMutation.mutate(n.id);
                                             const tabMap = { time_off: 'timeoff', raise: 'raise', general: 'feedback', news: 'news' };
                                             const tab = tabMap[n.type] || 'news';
                                             window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: tab }));
                                         }}
-                                        className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800"
+                                        className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 py-1 px-1 -ml-1 touch-manipulation"
                                     >
                                         <ExternalLink className="w-3 h-3" />
                                         {t('viewDetails') || 'View Details'}
