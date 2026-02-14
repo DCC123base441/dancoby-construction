@@ -327,7 +327,6 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
         target="_blank"
         rel="noopener noreferrer"
         className="flex-1 min-w-0 flex items-center gap-3"
-        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
