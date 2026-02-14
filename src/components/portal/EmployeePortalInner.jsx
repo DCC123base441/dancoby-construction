@@ -63,7 +63,9 @@ export default function EmployeePortalInner({ user }) {
   }
 
   const needsProfile = !profile && !editingProfile;
-  const firstName = profile?.firstName || user?.full_name?.split(' ')[0] || 'Team Member';
+  const firstName = profile?.firstName
+    || ((user?.displayName || user?.full_name || '').trim().split(/\s+/)[0]?.replace(/^./, c => c.toUpperCase()))
+    || 'Team Member';
 
   const renderContent = () => {
     switch (activeTab) {

@@ -10,6 +10,17 @@ import { useLanguage } from './LanguageContext';
 
 export default function EmployeeHeader({ user, onProfilePress }) {
   const { t } = useLanguage();
+
+  const formatDisplayName = (u) => {
+    if (!u) return '';
+    if (u.displayName && u.displayName.trim()) return u.displayName;
+    const base = u.full_name && u.full_name.trim() ? u.full_name : (u.email ? u.email.split('@')[0] : '');
+    return base
+      .replace(/[._]/g, ' ')
+      .split(/\s+/)
+      .map(w => w ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : w)
+      .join(' ');
+  };
   const handleLogout = async () => {
     await base44.auth.logout(createPageUrl('PortalLogin'));
   };
@@ -45,7 +56,7 @@ export default function EmployeeHeader({ user, onProfilePress }) {
             className="flex items-center justify-center gap-2 text-gray-500 hover:text-amber-600 hover:bg-gray-100 transition-colors cursor-pointer w-9 h-9 rounded-lg sm:w-auto sm:h-auto sm:px-2 sm:py-1.5"
           >
             <User className="w-5 h-5" />
-            <span className="hidden sm:inline text-sm">{user?.full_name || user?.email}</span>
+            <span className="hidden sm:inline text-sm">{formatDisplayName(user)}</span>
           </button>
           <button 
             onClick={handleLogout} 
