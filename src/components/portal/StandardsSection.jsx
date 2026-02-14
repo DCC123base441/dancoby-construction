@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from './LanguageContext';
 
 export default function StandardsSection() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [filterCategory, setFilterCategory] = useState('all');
   const [expandedImage, setExpandedImage] = useState(null);
   const queryClient = useQueryClient();
@@ -50,11 +50,9 @@ export default function StandardsSection() {
       {categories.length > 0 && (
         <div className="flex gap-2 mb-4 flex-wrap">
           <Button size="sm" variant={filterCategory === 'all' ? 'default' : 'outline'} onClick={() => setFilterCategory('all')}>{t('allFilter')}</Button>
-          {categories.map(cat => {
-            const std = standards.find(s => s.category === cat);
-            const displayCat = lang === 'es' && std?.categoryEs ? std.categoryEs : cat;
-            return <Button key={cat} size="sm" variant={filterCategory === cat ? 'default' : 'outline'} onClick={() => setFilterCategory(cat)}>{displayCat}</Button>;
-          })}
+          {categories.map(cat => (
+            <Button key={cat} size="sm" variant={filterCategory === cat ? 'default' : 'outline'} onClick={() => setFilterCategory(cat)}>{cat}</Button>
+          ))}
         </div>
       )}
 
@@ -71,7 +69,7 @@ export default function StandardsSection() {
             </div>
             {item.category && (
               <div className="px-3 py-2 border-t border-gray-100">
-                <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">{lang === 'es' && item.categoryEs ? item.categoryEs : item.category}</span>
+                <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">{item.category}</span>
               </div>
             )}
           </div>
