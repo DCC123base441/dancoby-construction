@@ -113,6 +113,27 @@ export default function JobTreadSection({ user }) {
   };
 
   const isSearching = search.trim().length > 0;
+  const completedCount = completedSet.size;
+  const totalCount = tutorials.length;
+  const progressPct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+  const toggleComplete = async (tutorialId) => {
+    const existing = progress.find(p => p.tutorialId === tutorialId);
+    if (existing) {
+      await base44.entities.TutorialProgress.update(existing.id, {
+        completed: !existing.completed,
+        completedDate: !existing.completed ? new Date().toISOString().split('T')[0] : null,
+      });
+    } else {
+      await base44.entities.TutorialProgress.create({
+        userEmail: user.email,
+        tutorialId,
+        completed: true,
+        completedDate: new Date().toISOString().split('T')[0],
+      });
+    }
+    queryClient.invalidateQueries({ queryKey: ['tutorial-progress', user?.email] });
+  };
 
   return (
     <div className="space-y-5">
@@ -126,6 +147,27 @@ export default function JobTreadSection({ user }) {
           <p className="text-sm text-gray-500">{t('jobtreadDesc')}</p>
         </div>
       </div>
+
+      {/* Progress bar */}
+      {totalCount > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium text-gray-700">Your Progress</span>
+            <span className="text-sm text-gray-500">{completedCount}/{totalCount} completed</span>
+          </div>
+          <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div 
+              className={`h-full rounded-full transition-all duration-500 ${progressPct === 100 ? 'bg-green-500' : 'bg-blue-500'}`}
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
+          {progressPct === 100 && (
+            <p className="text-xs text-green-600 font-medium mt-2 flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5" /> All tutorials completed!
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Search */}
       <div className="relative">
