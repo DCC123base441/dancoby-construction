@@ -48,7 +48,7 @@ export default function CustomerHeader({ user }) {
           <NotificationCenter />
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <User className="w-4 h-4" />
-            <span className="hidden sm:inline">{user?.full_name || user?.email}</span>
+            <span className="hidden sm:inline">{headerName}</span>
           </div>
           <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-500">
             <LogOut className="w-4 h-4" />
