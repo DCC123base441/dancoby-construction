@@ -120,6 +120,7 @@ export default function AdminStandards() {
                         {generatingAi ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Sparkles className="w-4 h-4 mr-2" />}
                         {generatingAi ? 'Generating...' : 'Generate Image'}
                       </Button>
+                      {aiError && <p className="text-sm text-red-500">{aiError}</p>}
                     </div>
                   ) : (
                     <label className="flex flex-col items-center justify-center h-40 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-red-400 transition-colors">
