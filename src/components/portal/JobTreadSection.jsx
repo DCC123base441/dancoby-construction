@@ -8,6 +8,7 @@ import {
   MonitorPlay, ExternalLink, Loader2, ChevronDown, ChevronRight, 
   Clock, BookOpen, Search, FolderOpen, X, CheckCircle2, Circle
 } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useLanguage } from './LanguageContext';
 
 const CATEGORY_ORDER = [
