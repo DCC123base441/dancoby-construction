@@ -19,6 +19,8 @@ Deno.serve(async (req) => {
     if (full_name !== undefined) updateData.full_name = full_name;
     if (role !== undefined) updateData.role = role;
 
+    console.log(`Updating user ${userId} with data:`, updateData);
+
     // Use the admin's token to make the update
     const response = await fetch(
       `https://api.base44.com/apps/${Deno.env.get('BASE44_APP_ID')}/entities/User/${userId}`,
@@ -32,9 +34,12 @@ Deno.serve(async (req) => {
       }
     );
 
+    console.log(`Response status: ${response.status}`);
     const data = await response.json();
+    console.log(`Response data:`, data);
     
     if (!response.ok) {
+      console.error('API error:', data);
       return Response.json({ error: data.detail || 'Failed to update user' }, { status: response.status });
     }
 
