@@ -122,10 +122,11 @@ export default function NotificationSection({ user }) {
                             <p className="text-sm text-gray-600 mt-1">{n.message}</p>
                             
                             <div className="flex items-center justify-between mt-3">
-                                {n.type ? (
+                                {(n.type || n.link) ? (
                                     <button 
                                         onClick={(e) => {
                                             e.stopPropagation();
+                                            if (!n.read) markAsReadMutation.mutate(n.id);
                                             const tabMap = { time_off: 'timeoff', raise: 'raise', general: 'feedback', news: 'news' };
                                             const tab = tabMap[n.type] || 'news';
                                             window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: tab }));
