@@ -8,7 +8,7 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
 
-export default function NotificationSection({ user }) {
+export default function NotificationSection({ user, onNavigate }) {
   const queryClient = useQueryClient();
   const { t } = useLanguage();
 
@@ -130,9 +130,11 @@ export default function NotificationSection({ user }) {
                                             if (!n.read) markAsReadMutation.mutate(n.id);
                                             const tabMap = { time_off: 'timeoff', raise: 'raise', general: 'feedback', news: 'news' };
                                             const tab = tabMap[n.type] || 'news';
-                                            setTimeout(() => {
+                                            if (onNavigate) {
+                                                onNavigate(tab);
+                                            } else {
                                                 window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: tab }));
-                                            }, 0);
+                                            }
                                         }}
                                         className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 py-2 px-2 -ml-2 touch-manipulation active:bg-blue-50 rounded"
                                     >
