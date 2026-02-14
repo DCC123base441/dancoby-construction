@@ -91,10 +91,24 @@ export default function MoodTracker() {
     ? (filtered.reduce((sum, c) => sum + (moodScores[c.mood] || 3), 0) / total).toFixed(1)
     : '—';
 
+  const toTitleCase = (str) => {
+    if (!str) return '';
+    return str
+      .toLowerCase()
+      .split(/[\s._-]+/)
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+  };
+
   const getName = (email) => {
     const p = profileMap[email];
-    if (p?.firstName) return [p.firstName, p.lastName].filter(Boolean).join(' ');
-    return email?.split('@')[0] || 'Unknown';
+    if (p?.firstName || p?.lastName) {
+      const full = [p.firstName, p.lastName].filter(Boolean).join(' ');
+      return toTitleCase(full);
+    }
+    const local = email?.split('@')[0] || 'Unknown';
+    return toTitleCase(local);
   };
 
   const getInitials = (email) => {
