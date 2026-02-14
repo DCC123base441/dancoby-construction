@@ -7,6 +7,7 @@ import { ArrowLeft, CheckCircle2, Circle, PlayCircle, FileText, Link2, HelpCircl
 import { useLanguage } from './LanguageContext';
 import { toast } from 'sonner';
 import moment from 'moment';
+import ResourceQuiz from './ResourceQuiz';
 
 const TYPE_ICONS = {
   video: PlayCircle,
@@ -25,6 +26,7 @@ const TYPE_COLORS = {
 export default function TrainingCourseDetail({ course, resources, progress, user, onBack }) {
   const { t, lang } = useLanguage();
   const queryClient = useQueryClient();
+  const [openQuizId, setOpenQuizId] = React.useState(null);
 
   const toggleMutation = useMutation({
     mutationFn: async ({ resource, currentProgress }) => {
@@ -179,7 +181,33 @@ export default function TrainingCourseDetail({ course, resources, progress, user
                     <Icon className="w-4 h-4" />
                   </a>
                 )}
+
+                {/* Quiz button */}
+                {resource.quizQuestions?.length > 0 && !isCompleted && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs flex-shrink-0"
+                    onClick={(e) => { e.stopPropagation(); setOpenQuizId(openQuizId === resource.id ? null : resource.id); }}
+                  >
+                    <HelpCircle className="w-3.5 h-3.5 mr-1" />
+                    {lang === 'es' ? 'Quiz' : 'Quiz'}
+                  </Button>
+                )}
               </div>
+
+              {/* Inline quiz */}
+              {openQuizId === resource.id && resource.quizQuestions?.length > 0 && (
+                <div className="mt-2 ml-9">
+                  <ResourceQuiz
+                    questions={resource.quizQuestions}
+                    onPass={() => {
+                      toggleMutation.mutate({ resource, currentProgress: prog });
+                      setOpenQuizId(null);
+                    }}
+                  />
+                </div>
+              )}
             );
           })
         )}

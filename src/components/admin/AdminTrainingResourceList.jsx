@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Plus, Trash2, Save, Loader2, PlayCircle, FileText, Link2, HelpCircle, GripVertical } from 'lucide-react';
+import { Plus, Trash2, Save, Loader2, PlayCircle, FileText, Link2, HelpCircle, GripVertical, ChevronDown, ChevronUp } from 'lucide-react';
 import { toast } from 'sonner';
+import AdminQuizEditor from './AdminQuizEditor';
 
 const TYPE_ICONS = {
   video: PlayCircle,
@@ -20,6 +21,7 @@ export default function AdminTrainingResourceList({ courseId }) {
   const queryClient = useQueryClient();
   const [showAdd, setShowAdd] = useState(false);
   const [newResource, setNewResource] = useState({ title: '', title_es: '', type: 'video', url: '', duration: '', order: 0 });
+  const [expandedQuiz, setExpandedQuiz] = useState(null);
 
   const { data: resources = [], isLoading } = useQuery({
     queryKey: ['adminTrainingResources', courseId],
@@ -110,25 +112,41 @@ export default function AdminTrainingResourceList({ courseId }) {
             {resources.map((resource, index) => {
               const Icon = TYPE_ICONS[resource.type] || FileText;
               return (
-                <div key={resource.id} className="flex items-center gap-3 p-3 rounded-lg border border-slate-200 bg-white">
-                  <span className="text-xs text-slate-400 font-mono w-5 text-center">{index + 1}</span>
-                  <Icon className="w-4 h-4 text-slate-500 flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{resource.title}</p>
-                    <div className="flex items-center gap-2 text-[10px] text-slate-400">
-                      <span className="capitalize">{resource.type}</span>
-                      {resource.duration && <span>· {resource.duration}</span>}
-                      {resource.url && <span className="truncate max-w-[150px]">· {resource.url}</span>}
+                <div key={resource.id} className="rounded-lg border border-slate-200 bg-white">
+                  <div className="flex items-center gap-3 p-3">
+                    <span className="text-xs text-slate-400 font-mono w-5 text-center">{index + 1}</span>
+                    <Icon className="w-4 h-4 text-slate-500 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-800 truncate">{resource.title}</p>
+                      <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                        <span className="capitalize">{resource.type}</span>
+                        {resource.duration && <span>· {resource.duration}</span>}
+                        {resource.quizQuestions?.length > 0 && <span>· {resource.quizQuestions.length} quiz Q</span>}
+                        {resource.url && <span className="truncate max-w-[150px]">· {resource.url}</span>}
+                      </div>
                     </div>
+                    <Button
+                      size="icon" variant="ghost"
+                      className="h-7 w-7 text-slate-400 hover:text-slate-600"
+                      onClick={() => setExpandedQuiz(expandedQuiz === resource.id ? null : resource.id)}
+                      title="Edit quiz"
+                    >
+                      {expandedQuiz === resource.id ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                    </Button>
+                    <Button
+                      size="icon" variant="ghost"
+                      className="h-7 w-7 text-red-400 hover:text-red-600 hover:bg-red-50"
+                      onClick={() => deleteMutation.mutate(resource.id)}
+                      disabled={deleteMutation.isPending}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
                   </div>
-                  <Button
-                    size="icon" variant="ghost"
-                    className="h-7 w-7 text-red-400 hover:text-red-600 hover:bg-red-50"
-                    onClick={() => deleteMutation.mutate(resource.id)}
-                    disabled={deleteMutation.isPending}
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </Button>
+                  {expandedQuiz === resource.id && (
+                    <div className="border-t border-slate-100 p-4">
+                      <AdminQuizEditor resource={resource} />
+                    </div>
+                  )}
                 </div>
               );
             })}
