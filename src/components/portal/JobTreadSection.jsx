@@ -308,24 +308,36 @@ export default function JobTreadSection({ user }) {
 }
 
 function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
+  const handleToggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onToggle();
+  };
+
+  const openTutorial = () => {
+    window.open(tut.url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
-    <div className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group">
-      <button
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(); }}
-        className="flex-shrink-0 focus:outline-none p-2 -m-2 touch-manipulation"
-        title={isCompleted ? 'Mark as not done' : 'Mark as done'}
+    <div className="flex items-center px-4 py-3 hover:bg-blue-50/50 transition-colors group">
+      <div
+        role="button"
+        tabIndex={0}
+        onPointerDown={handleToggle}
+        className="flex-shrink-0 cursor-pointer p-3 -m-3 mr-1 touch-manipulation select-none"
+        aria-label={isCompleted ? 'Mark as not done' : 'Mark as done'}
       >
         {isCompleted ? (
           <CheckCircle2 className="w-6 h-6 text-green-500" />
         ) : (
           <Circle className="w-6 h-6 text-gray-300 hover:text-blue-400 transition-colors" />
         )}
-      </button>
-      <a
-        href={tut.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex-1 min-w-0 flex items-center gap-3"
+      </div>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={openTutorial}
+        className="flex-1 min-w-0 flex items-center gap-3 cursor-pointer ml-2"
       >
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
@@ -346,7 +358,7 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
           </span>
         )}
         <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
-      </a>
+      </div>
     </div>
   );
 }
