@@ -317,8 +317,13 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   const handleToggle = async () => {
     if (toggling) return;
     setToggling(true);
-    await onToggle();
-    setToggling(false);
+    try {
+      await onToggle();
+    } catch (err) {
+      console.error('Toggle failed:', err);
+    } finally {
+      setToggling(false);
+    }
   };
 
   return (
