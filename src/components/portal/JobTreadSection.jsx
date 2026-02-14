@@ -313,24 +313,23 @@ export default function JobTreadSection({ user }) {
 
 function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group">
-      <button
-        onClick={(e) => { e.stopPropagation(); onToggle(); }}
-        onTouchEnd={(e) => { e.stopPropagation(); onToggle(); }}
-        className="flex-shrink-0 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded active:scale-90 transition-transform cursor-pointer select-none touch-manipulation"
-        title={isCompleted ? 'Mark as not done' : 'Mark as done'}
-      >
+    <div 
+      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group active:bg-blue-100 cursor-pointer"
+      onClick={onToggle}
+    >
+      <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
         {isCompleted ? (
           <CheckCircle2 className="w-5 h-5 text-green-500" />
         ) : (
-          <Circle className="w-5 h-5 text-gray-300 active:text-blue-500" />
+          <Circle className="w-5 h-5 text-gray-300" />
         )}
-      </button>
+      </div>
       <a
         href={tut.url}
         target="_blank"
         rel="noopener noreferrer"
         className="flex-1 min-w-0 flex items-center gap-3"
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
