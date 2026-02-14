@@ -19,7 +19,7 @@ const ITEM_META = {
   notifications: { icon: Bell, labelKey: 'notifications', color: 'bg-blue-100 text-blue-600' },
   standards: { icon: ClipboardList, labelKey: 'companyStandards', color: 'bg-teal-100 text-teal-600' },
   checkin: { icon: SmilePlus, labelKey: 'tabCheckIn', color: 'bg-lime-100 text-lime-600' },
-  training: { icon: GraduationCap, labelKey: 'tabTraining', color: 'bg-amber-100 text-amber-600' },
+  training: { icon: GraduationCap, labelKey: 'tabTraining', color: 'bg-amber-100 text-amber-600' }
 };
 
 const DEFAULT_MORE = ['salary', 'holidays', 'feedback', 'timeoff', 'raise', 'gear'];
@@ -30,9 +30,9 @@ export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange, nav
   const allKnownIds = Object.keys(ITEM_META);
   const bottomIds = navConfig?.bottomNavOrder || [];
   const savedMore = navConfig?.moreSheetOrder?.length ? navConfig.moreSheetOrder : DEFAULT_MORE;
-  const missing = allKnownIds.filter(id => !bottomIds.includes(id) && !savedMore.includes(id));
+  const missing = allKnownIds.filter((id) => !bottomIds.includes(id) && !savedMore.includes(id));
   const moreIds = [...savedMore, ...missing];
-  const moreItems = moreIds.map(id => ({ id, ...ITEM_META[id] })).filter(item => item.icon);
+  const moreItems = moreIds.map((id) => ({ id, ...ITEM_META[id] })).filter((item) => item.icon);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -41,15 +41,15 @@ export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange, nav
           <SheetTitle className="text-base">{t('more') || 'More'}</SheetTitle>
         </SheetHeader>
         <div className="grid grid-cols-2 gap-3">
-          {moreItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => {
-                onTabChange(item.id);
-                onOpenChange(false);
-              }}
-              className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors text-left"
-            >
+          {moreItems.map((item) =>
+          <button
+            key={item.id}
+            onClick={() => {
+              onTabChange(item.id);
+              onOpenChange(false);
+            }}
+            className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors text-left">
+
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${item.color}`}>
                 <item.icon className="w-5 h-5" />
               </div>
@@ -57,24 +57,24 @@ export default function EmployeeMoreSheet({ open, onOpenChange, onTabChange, nav
                 {t(item.labelKey) || item.labelKey}
               </span>
             </button>
-          ))}
+          )}
           {/* JobTread App quick link */}
-          <a
-            href={JOBTREAD_APP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors text-left"
-          >
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-cyan-100">
-              <img src={JOBTREAD_LOGO} alt="JobTread" className="w-6 h-6 rounded-full" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-gray-800">{t('openJobTread')}</span>
-              <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><ExternalLink className="w-2.5 h-2.5" /> {t('external')}</span>
-            </div>
-          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
       </SheetContent>
-    </Sheet>
-  );
+    </Sheet>);
+
 }
