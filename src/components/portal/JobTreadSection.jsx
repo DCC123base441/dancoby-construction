@@ -41,16 +41,27 @@ const CATEGORY_ICONS = {
   "Additional Resources": "📚",
 };
 
-export default function JobTreadSection() {
+export default function JobTreadSection({ user }) {
   const { t } = useLanguage();
   const [expandedCats, setExpandedCats] = useState(new Set());
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const queryClient = useQueryClient();
 
   const { data: tutorials = [], isLoading } = useQuery({
     queryKey: ['jobtread-tutorials-employee'],
     queryFn: () => base44.entities.JobTreadTutorial.filter({ isActive: true }, 'order', 200),
   });
+
+  const { data: progress = [] } = useQuery({
+    queryKey: ['tutorial-progress', user?.email],
+    queryFn: () => base44.entities.TutorialProgress.filter({ userEmail: user.email }),
+    enabled: !!user?.email,
+  });
+
+  const completedSet = useMemo(() => {
+    return new Set(progress.filter(p => p.completed).map(p => p.tutorialId));
+  }, [progress]);
 
   const filtered = useMemo(() => {
     let result = tutorials;
