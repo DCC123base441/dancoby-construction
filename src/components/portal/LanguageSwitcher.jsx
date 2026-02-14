@@ -7,10 +7,10 @@ export default function LanguageSwitcher() {
   return (
     <button
       onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
-      className="flex items-center justify-center gap-1 h-9 px-2 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+      className="flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-amber-600 hover:bg-gray-100 transition-colors"
       title={lang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
     >
-      <span className="text-sm font-bold">{lang === 'en' ? 'EN' : 'ES'}</span>
+      <span className="text-xs font-bold">EN</span>
     </button>
   );
 }
