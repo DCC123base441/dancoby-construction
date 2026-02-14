@@ -118,6 +118,7 @@ export default function JobTreadSection({ user }) {
   const progressPct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const toggleComplete = async (tutorialId) => {
+    if (!user?.email) return;
     const existing = progress.find(p => p.tutorialId === tutorialId);
     if (existing) {
       await base44.entities.TutorialProgress.update(existing.id, {
