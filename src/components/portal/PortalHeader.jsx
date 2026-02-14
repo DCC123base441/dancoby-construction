@@ -11,6 +11,26 @@ export default function PortalHeader({ user, portalType }) {
     await base44.auth.logout(createPageUrl('PortalLogin'));
   };
 
+  const toTitleCase = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().split(/[\s._-]+/).filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  };
+
+  const formatFromUser = (u) => {
+    const n = u?.full_name?.trim();
+    if (n) {
+      if (n.includes(',')) {
+        const [last, first] = n.split(',').map(s => s.trim());
+        return toTitleCase(`${first} ${last}`);
+      }
+      return toTitleCase(n);
+    }
+    const emailPart = u?.email?.split('@')[0] || '';
+    return toTitleCase(emailPart);
+  };
+
+  const headerName = formatFromUser(user);
+
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
       <div className="w-full px-4 sm:px-6 py-3 flex items-center justify-between">
@@ -26,7 +46,7 @@ export default function PortalHeader({ user, portalType }) {
           <NotificationCenter />
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <User className="w-4 h-4" />
-            <span className="hidden sm:inline">{user?.full_name || user?.email}</span>
+            <span className="hidden sm:inline">{headerName}</span>
           </div>
           <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-500">
             <LogOut className="w-4 h-4" />
