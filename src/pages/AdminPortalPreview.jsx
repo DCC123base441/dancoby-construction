@@ -77,6 +77,24 @@ export default function AdminPortalPreview() {
         _adminPreview: true,
     } : null;
 
+    const toTitleCase = (str) => {
+        if (!str) return '';
+        return str.toLowerCase().split(/[\s._-]+/).filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    };
+    const formatFromUser = (u) => {
+        const n = u?.full_name?.trim();
+        if (n) {
+            if (n.includes(',')) {
+                const [last, first] = n.split(',').map(s => s.trim());
+                return toTitleCase(`${first} ${last}`);
+            }
+            return toTitleCase(n);
+        }
+        const emailPart = u?.email?.split('@')[0] || '';
+        return toTitleCase(emailPart);
+    };
+    const previewName = previewUser ? formatFromUser(previewUser) : '';
+
     return (
         <AdminLayout
             title={isEmployee ? "Employee Portal Preview" : "Customer Portal Preview"}
