@@ -487,7 +487,7 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                         <img src={profile.profilePicture} alt="" className="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-slate-200 flex-shrink-0" />
                     ) : (
                         <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-slate-900 text-white flex items-center justify-center text-lg sm:text-xl font-bold flex-shrink-0">
-                            {(user.full_name || user.email)?.substring(0, 2).toUpperCase()}
+                            {getInitials(user, profile)}
                         </div>
                     )}
                     <div className="min-w-0">
