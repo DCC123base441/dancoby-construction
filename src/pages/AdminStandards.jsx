@@ -21,6 +21,9 @@ export default function AdminStandards() {
   const [aiPrompt, setAiPrompt] = useState('');
   const [generatingAi, setGeneratingAi] = useState(false);
   const [useAi, setUseAi] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [editCategory, setEditCategory] = useState('');
+  const [replacingImageId, setReplacingImageId] = useState(null);
 
   const { data: standards = [], isLoading } = useQuery({
     queryKey: ['standards'],
