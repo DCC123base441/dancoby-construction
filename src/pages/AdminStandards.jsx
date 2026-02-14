@@ -54,6 +54,14 @@ export default function AdminStandards() {
     setUploading(false);
   };
 
+  const handleAiGenerate = async () => {
+    if (!aiPrompt.trim()) return;
+    setGeneratingAi(true);
+    const { url } = await base44.integrations.Core.GenerateImage({ prompt: aiPrompt });
+    setNewItem(prev => ({ ...prev, imageUrl: url }));
+    setGeneratingAi(false);
+  };
+
   const handleSubmit = () => {
     if (!newItem.imageUrl) return;
     createMutation.mutate(newItem);
