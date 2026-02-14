@@ -315,16 +315,13 @@ export default function JobTreadSection({ user }) {
 function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   return (
     <div 
-      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group active:bg-blue-100 cursor-pointer"
-      onClick={onToggle}
+      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group"
     >
-      <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-        {isCompleted ? (
-          <CheckCircle2 className="w-5 h-5 text-green-500" />
-        ) : (
-          <Circle className="w-5 h-5 text-gray-300" />
-        )}
-      </div>
+      <Checkbox
+        checked={isCompleted}
+        onCheckedChange={onToggle}
+        className="flex-shrink-0"
+      />
       <a
         href={tut.url}
         target="_blank"
