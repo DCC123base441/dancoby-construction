@@ -12,6 +12,39 @@ export default function EmployeeList({ users, profiles, invites = [], onSelect, 
         return inv ? inv.status === 'pending' : false;
     };
 
+    const toTitleCase = (str) => {
+        if (!str) return '';
+        return str.toLowerCase().split(/[\s._-]+/).filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    };
+
+    const getDisplayName = (user) => {
+        const profile = getProfile(user.email);
+        if (profile?.firstName || profile?.lastName) {
+            return toTitleCase([profile.firstName, profile.lastName].filter(Boolean).join(' '));
+        }
+        const n = user.full_name?.trim();
+        if (n) {
+            if (n.includes(',')) {
+                const [last, first] = n.split(',').map(s => s.trim());
+                return toTitleCase(`${first} ${last}`);
+            }
+            return toTitleCase(n);
+        }
+        return toTitleCase(user.email?.split('@')[0] || 'Unknown');
+    };
+
+    const getInitials = (user) => {
+        const profile = getProfile(user.email);
+        if (profile?.firstName && profile?.lastName) {
+            return `${profile.firstName.charAt(0)}${profile.lastName.charAt(0)}`.toUpperCase();
+        }
+        if (profile?.firstName) return profile.firstName.substring(0, 2).toUpperCase();
+        const name = getDisplayName(user);
+        const parts = name.split(' ').filter(Boolean);
+        if (parts.length >= 2) return `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase();
+        return name.substring(0, 2).toUpperCase();
+    };
+
     return (
         <div className="space-y-2">
             {users.map((user) => {
