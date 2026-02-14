@@ -118,21 +118,25 @@ export default function JobTreadSection({ user }) {
   const progressPct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const toggleComplete = async (tutorialId) => {
-    const existing = progress.find(p => p.tutorialId === tutorialId);
-    if (existing) {
-      await base44.entities.TutorialProgress.update(existing.id, {
-        completed: !existing.completed,
-        completedDate: !existing.completed ? new Date().toISOString().split('T')[0] : null,
-      });
-    } else {
-      await base44.entities.TutorialProgress.create({
-        userEmail: user.email,
-        tutorialId,
-        completed: true,
-        completedDate: new Date().toISOString().split('T')[0],
-      });
+    try {
+      const existing = progress.find(p => p.tutorialId === tutorialId);
+      if (existing) {
+        await base44.entities.TutorialProgress.update(existing.id, {
+          completed: !existing.completed,
+          completedDate: !existing.completed ? new Date().toISOString().split('T')[0] : null,
+        });
+      } else {
+        await base44.entities.TutorialProgress.create({
+          userEmail: user.email,
+          tutorialId,
+          completed: true,
+          completedDate: new Date().toISOString().split('T')[0],
+        });
+      }
+      await queryClient.invalidateQueries({ queryKey: ['tutorial-progress', user?.email] });
+    } catch (err) {
+      console.error('Failed to toggle tutorial:', err);
     }
-    queryClient.invalidateQueries({ queryKey: ['tutorial-progress', user?.email] });
   };
 
   return (
