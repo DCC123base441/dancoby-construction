@@ -26,8 +26,14 @@ export default function AdminQuizEditor({ resource }) {
     },
   });
 
+  const getCorrectIndices = (q) => {
+    if (q.correctIndices && q.correctIndices.length > 0) return q.correctIndices;
+    if (q.correctIndex !== undefined && q.correctIndex !== null) return [q.correctIndex];
+    return [0];
+  };
+
   const addQuestion = () => {
-    setQuestions([...questions, { question: '', question_es: '', options: ['', ''], options_es: ['', ''], correctIndex: 0 }]);
+    setQuestions([...questions, { question: '', question_es: '', options: ['', ''], options_es: ['', ''], correctIndices: [0] }]);
     setDirty(true);
   };
 
@@ -64,14 +70,30 @@ export default function AdminQuizEditor({ resource }) {
     setDirty(true);
   };
 
+  const toggleCorrect = (qi, oi) => {
+    const updated = [...questions];
+    const current = getCorrectIndices(updated[qi]);
+    let next;
+    if (current.includes(oi)) {
+      next = current.filter(i => i !== oi);
+      if (next.length === 0) next = [oi]; // must have at least one correct
+    } else {
+      next = [...current, oi].sort((a, b) => a - b);
+    }
+    updated[qi] = { ...updated[qi], correctIndices: next, correctIndex: next[0] };
+    setQuestions(updated);
+    setDirty(true);
+  };
+
   const removeOption = (qi, oi) => {
     const updated = [...questions];
     const opts = updated[qi].options.filter((_, i) => i !== oi);
     const optsEs = (updated[qi].options_es || []).filter((_, i) => i !== oi);
-    let correctIdx = updated[qi].correctIndex;
-    if (oi === correctIdx) correctIdx = 0;
-    else if (oi < correctIdx) correctIdx--;
-    updated[qi] = { ...updated[qi], options: opts, options_es: optsEs, correctIndex: correctIdx };
+    let indices = getCorrectIndices(updated[qi])
+      .filter(i => i !== oi)
+      .map(i => i > oi ? i - 1 : i);
+    if (indices.length === 0) indices = [0];
+    updated[qi] = { ...updated[qi], options: opts, options_es: optsEs, correctIndices: indices, correctIndex: indices[0] };
     setQuestions(updated);
     setDirty(true);
   };
@@ -117,14 +139,16 @@ export default function AdminQuizEditor({ resource }) {
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-[10px] text-slate-400">Options (click ✓ to mark correct answer)</Label>
-            {(q.options || []).map((opt, oi) => (
+            <Label className="text-[10px] text-slate-400">Options (click ✓ to toggle correct — multiple allowed)</Label>
+            {(q.options || []).map((opt, oi) => {
+              const isCorrect = getCorrectIndices(q).includes(oi);
+              return (
               <div key={oi} className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => updateQuestion(qi, 'correctIndex', oi)}
+                  onClick={() => toggleCorrect(qi, oi)}
                   className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 border-2 transition-colors ${
-                    q.correctIndex === oi ? 'border-green-500 bg-green-500 text-white' : 'border-slate-300 text-slate-300 hover:border-green-400'
+                    isCorrect ? 'border-green-500 bg-green-500 text-white' : 'border-slate-300 text-slate-300 hover:border-green-400'
                   }`}
                 >
                   <Check className="w-3 h-3" />
@@ -137,7 +161,8 @@ export default function AdminQuizEditor({ resource }) {
                   </Button>
                 )}
               </div>
-            ))}
+              );
+            })}
             {(q.options || []).length < 6 && (
               <Button size="sm" variant="ghost" className="text-xs text-slate-400" onClick={() => addOption(qi)}>
                 <Plus className="w-3 h-3 mr-1" /> Add Option
