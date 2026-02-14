@@ -69,7 +69,7 @@ export default function RaiseRequestSection({ user, profile }) {
               <div className="p-2 rounded-full bg-amber-50 flex-shrink-0">
                 <HandCoins className="w-5 h-5 text-amber-600" />
               </div>
-              <h3 className="font-bold text-gray-900 truncate text-sm sm:text-base">{t('requestRaiseReview')}</h3>
+              <h3 className="font-bold text-gray-900 truncate text-sm sm:text-base">Request A Raise</h3>
             </div>
             {!showForm && (
               <Button size="sm" onClick={() => setShowForm(true)} className="bg-gray-900 hover:bg-gray-800 flex-shrink-0 text-xs sm:text-sm px-2.5 sm:px-3">
