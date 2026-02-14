@@ -308,36 +308,37 @@ export default function JobTreadSection({ user }) {
 }
 
 function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
-  const handleToggle = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onToggle();
-  };
+  const [toggling, setToggling] = useState(false);
 
-  const openTutorial = () => {
-    window.open(tut.url, '_blank', 'noopener,noreferrer');
+  const handleToggle = async () => {
+    if (toggling) return;
+    setToggling(true);
+    await onToggle();
+    setToggling(false);
   };
 
   return (
-    <div className="flex items-center px-4 py-3 hover:bg-blue-50/50 transition-colors group">
-      <div
-        role="button"
-        tabIndex={0}
-        onPointerDown={handleToggle}
-        className="flex-shrink-0 cursor-pointer p-3 -m-3 mr-1 touch-manipulation select-none"
-        aria-label={isCompleted ? 'Mark as not done' : 'Mark as done'}
+    <div className="flex items-center gap-3 px-3 py-3 hover:bg-blue-50/50 transition-colors group">
+      <button
+        type="button"
+        onClick={handleToggle}
+        disabled={toggling}
+        className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg active:bg-gray-100 touch-manipulation select-none"
+        style={{ WebkitTapHighlightColor: 'transparent', minWidth: 40, minHeight: 40 }}
       >
-        {isCompleted ? (
+        {toggling ? (
+          <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+        ) : isCompleted ? (
           <CheckCircle2 className="w-6 h-6 text-green-500" />
         ) : (
-          <Circle className="w-6 h-6 text-gray-300 hover:text-blue-400 transition-colors" />
+          <Circle className="w-6 h-6 text-gray-300" />
         )}
-      </div>
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={openTutorial}
-        className="flex-1 min-w-0 flex items-center gap-3 cursor-pointer ml-2"
+      </button>
+      <a
+        href={tut.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1 min-w-0 flex items-center gap-3"
       >
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
@@ -358,7 +359,7 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
           </span>
         )}
         <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
-      </div>
+      </a>
     </div>
   );
 }
