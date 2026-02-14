@@ -274,7 +274,7 @@ export default function JobTreadSection({ user }) {
                 {isExpanded && (
                   <div className="border-t border-gray-100 divide-y divide-gray-50">
                     {items.map((tut) => (
-                      <TutorialRow key={tut.id} tut={tut} />
+                      <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleComplete(tut.id)} />
                     ))}
                   </div>
                 )}
