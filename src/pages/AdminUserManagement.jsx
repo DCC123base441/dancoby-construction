@@ -14,7 +14,7 @@ export default function AdminUserManagement() {
   const [formData, setFormData] = useState({});
   const queryClient = useQueryClient();
 
-  const { data: users = [], isLoading } = useQuery({
+  const { data: users = [], isLoading, refetch } = useQuery({
     queryKey: ['admin-users'],
     queryFn: () => base44.entities.User.list('email', 100),
   });
