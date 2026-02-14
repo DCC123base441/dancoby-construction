@@ -6,29 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Plus, Trash2, GripVertical, Pencil, X, Check, MonitorPlay, Eye, EyeOff, RefreshCw } from 'lucide-react';
+import { Plus, Trash2, Pencil, X, Check, MonitorPlay, Eye, EyeOff, RefreshCw, ExternalLink, ChevronDown, ChevronRight, BookOpen, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 
 function TutorialForm({ tutorial, onSave, onCancel }) {
   const [form, setForm] = useState({
     title: tutorial?.title || '',
-    videoId: tutorial?.videoId || '',
+    category: tutorial?.category || '',
+    url: tutorial?.url || '',
+    duration: tutorial?.duration || '',
     description: tutorial?.description || '',
     order: tutorial?.order || 0,
     isActive: tutorial?.isActive !== false,
   });
-
-  const extractVideoId = (input) => {
-    // Handle full YouTube URLs
-    const match = input.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
-    return match ? match[1] : input;
-  };
-
-  const handleVideoInput = (val) => {
-    setForm({ ...form, videoId: extractVideoId(val) });
-  };
 
   return (
     <Card className="border-blue-200 bg-blue-50/50">
@@ -39,40 +32,42 @@ function TutorialForm({ tutorial, onSave, onCancel }) {
           onChange={(e) => setForm({ ...form, title: e.target.value })}
         />
         <Input
-          placeholder="YouTube video ID or full URL"
-          value={form.videoId}
-          onChange={(e) => handleVideoInput(e.target.value)}
+          placeholder="Category (e.g. Estimating, Job Management)"
+          value={form.category}
+          onChange={(e) => setForm({ ...form, category: e.target.value })}
         />
-        {form.videoId && (
-          <div className="aspect-video max-w-xs rounded overflow-hidden">
-            <iframe
-              src={`https://www.youtube.com/embed/${form.videoId}`}
-              title="Preview"
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        )}
+        <Input
+          placeholder="URL to tutorial page"
+          value={form.url}
+          onChange={(e) => setForm({ ...form, url: e.target.value })}
+        />
+        <div className="flex gap-3">
+          <Input
+            placeholder="Duration (e.g. 5 min)"
+            value={form.duration}
+            onChange={(e) => setForm({ ...form, duration: e.target.value })}
+            className="w-40"
+          />
+          <Input
+            type="number"
+            placeholder="Order"
+            value={form.order}
+            onChange={(e) => setForm({ ...form, order: parseInt(e.target.value) || 0 })}
+            className="w-32"
+          />
+        </div>
         <Textarea
           placeholder="Short description (optional)"
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
           rows={2}
         />
-        <Input
-          type="number"
-          placeholder="Display order"
-          value={form.order}
-          onChange={(e) => setForm({ ...form, order: parseInt(e.target.value) || 0 })}
-          className="w-32"
-        />
         <div className="flex items-center gap-2">
           <Switch checked={form.isActive} onCheckedChange={(v) => setForm({ ...form, isActive: v })} />
           <Label className="text-sm">Visible to employees</Label>
         </div>
         <div className="flex gap-2 pt-1">
-          <Button size="sm" onClick={() => onSave(form)} disabled={!form.title || !form.videoId}>
+          <Button size="sm" onClick={() => onSave(form)} disabled={!form.title || !form.url || !form.category}>
             <Check className="w-4 h-4 mr-1" /> Save
           </Button>
           <Button size="sm" variant="outline" onClick={onCancel}>
@@ -88,11 +83,12 @@ export default function AdminJobTread() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [expandedCat, setExpandedCat] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: tutorials = [], isLoading } = useQuery({
     queryKey: ['jobtread-tutorials'],
-    queryFn: () => base44.entities.JobTreadTutorial.list('order'),
+    queryFn: () => base44.entities.JobTreadTutorial.list('order', 200),
   });
 
   const handleSyncRevenue = async () => {
@@ -103,7 +99,6 @@ export default function AdminJobTread() {
         toast.success(`Revenue synced: $${data.revenue.toLocaleString()}`, {
           description: `Updated from ${data.count} orders.`
         });
-        // Optionally invalidate goal queries if they were global, but they are in another component
       } else {
         toast.error('Sync failed', { description: data.error });
       }
@@ -141,20 +136,30 @@ export default function AdminJobTread() {
     },
   });
 
+  // Group by category
+  const grouped = tutorials.reduce((acc, tut) => {
+    const cat = tut.category || 'Uncategorized';
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(tut);
+    return acc;
+  }, {});
+
+  const sortedCategories = Object.keys(grouped).sort();
+
   return (
     <AdminLayout
-      title="JobTread Integration"
+      title="JobTread Tutorials"
       actions={
         !showForm && (
           <div className="flex gap-2">
             <Button 
-                variant="outline" 
-                onClick={handleSyncRevenue} 
-                disabled={isSyncing}
-                className="border-amber-200 hover:bg-amber-50 text-amber-700"
+              variant="outline" 
+              onClick={handleSyncRevenue} 
+              disabled={isSyncing}
+              className="border-amber-200 hover:bg-amber-50 text-amber-700"
             >
-                <RefreshCw className={`w-3.5 h-3.5 mr-2 ${isSyncing ? 'animate-spin' : ''}`} /> 
-                {isSyncing ? 'Syncing...' : 'Sync Revenue'}
+              <RefreshCw className={`w-3.5 h-3.5 mr-2 ${isSyncing ? 'animate-spin' : ''}`} /> 
+              {isSyncing ? 'Syncing...' : 'Sync Revenue'}
             </Button>
             <Button onClick={() => setShowForm(true)} className="bg-blue-600 hover:bg-blue-700">
               <Plus className="w-4 h-4 mr-2" /> Add Tutorial
@@ -171,69 +176,104 @@ export default function AdminJobTread() {
           />
         )}
 
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <BookOpen className="w-4 h-4" />
+          <span>{tutorials.length} tutorials across {sortedCategories.length} categories</span>
+        </div>
+
         {isLoading ? (
           <p className="text-gray-400 text-center py-12">Loading...</p>
         ) : tutorials.length === 0 && !showForm ? (
           <div className="text-center py-16 text-gray-400">
             <MonitorPlay className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-            <p>No tutorials yet. Add your first JobTread tutorial video.</p>
+            <p>No tutorials yet. Add your first JobTread tutorial.</p>
           </div>
         ) : (
-          tutorials.map((tut) =>
-            editingId === tut.id ? (
-              <TutorialForm
-                key={tut.id}
-                tutorial={tut}
-                onSave={(data) => updateMutation.mutate({ id: tut.id, data })}
-                onCancel={() => setEditingId(null)}
-              />
-            ) : (
-              <Card key={tut.id} className={`border-gray-200 ${!tut.isActive ? 'opacity-50' : ''}`}>
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-40 aspect-video rounded overflow-hidden bg-gray-100 flex-shrink-0">
-                    <img
-                      src={`https://img.youtube.com/vi/${tut.videoId}/mqdefault.jpg`}
-                      alt={tut.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-sm text-gray-900 truncate">{tut.title}</h3>
-                      {!tut.isActive && (
-                        <span className="text-xs bg-gray-200 text-gray-500 px-1.5 py-0.5 rounded">Hidden</span>
+          <div className="space-y-2">
+            {sortedCategories.map((cat) => {
+              const isExpanded = expandedCat === cat;
+              const items = grouped[cat];
+              return (
+                <Card key={cat} className="border-gray-200">
+                  <button
+                    onClick={() => setExpandedCat(isExpanded ? null : cat)}
+                    className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="w-4 h-4 text-blue-500" />
+                      <span className="font-semibold text-sm text-gray-900">{cat}</span>
+                      <Badge variant="outline" className="text-xs">{items.length}</Badge>
+                    </div>
+                    {isExpanded ? (
+                      <ChevronDown className="w-4 h-4 text-gray-400" />
+                    ) : (
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                    )}
+                  </button>
+                  {isExpanded && (
+                    <div className="border-t border-gray-100 divide-y divide-gray-50">
+                      {items.map((tut) =>
+                        editingId === tut.id ? (
+                          <div key={tut.id} className="p-3">
+                            <TutorialForm
+                              tutorial={tut}
+                              onSave={(data) => updateMutation.mutate({ id: tut.id, data })}
+                              onCancel={() => setEditingId(null)}
+                            />
+                          </div>
+                        ) : (
+                          <div key={tut.id} className={`flex items-center gap-3 px-4 py-3 ${!tut.isActive ? 'opacity-50' : ''}`}>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <p className="text-sm font-medium text-gray-800 truncate">{tut.title}</p>
+                                {!tut.isActive && <Badge variant="outline" className="text-[10px]">Hidden</Badge>}
+                              </div>
+                              {tut.description && (
+                                <p className="text-xs text-gray-400 truncate mt-0.5">{tut.description}</p>
+                              )}
+                              <div className="flex items-center gap-3 mt-1">
+                                {tut.duration && (
+                                  <span className="flex items-center gap-1 text-xs text-gray-400">
+                                    <Clock className="w-3 h-3" /> {tut.duration}
+                                  </span>
+                                )}
+                                {tut.url && (
+                                  <a href={tut.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700">
+                                    <ExternalLink className="w-3 h-3" /> Link
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1 flex-shrink-0">
+                              <Button size="icon" variant="ghost" onClick={() => setEditingId(tut.id)}>
+                                <Pencil className="w-4 h-4 text-gray-400" />
+                              </Button>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                onClick={() => updateMutation.mutate({ id: tut.id, data: { isActive: !tut.isActive } })}
+                              >
+                                {tut.isActive ? <Eye className="w-4 h-4 text-gray-400" /> : <EyeOff className="w-4 h-4 text-gray-400" />}
+                              </Button>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                onClick={() => {
+                                  if (confirm('Delete this tutorial?')) deleteMutation.mutate(tut.id);
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4 text-red-400" />
+                              </Button>
+                            </div>
+                          </div>
+                        )
                       )}
                     </div>
-                    {tut.description && (
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">{tut.description}</p>
-                    )}
-                    <p className="text-xs text-gray-400 mt-1">Order: {tut.order} · ID: {tut.videoId}</p>
-                  </div>
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                    <Button size="icon" variant="ghost" onClick={() => setEditingId(tut.id)}>
-                      <Pencil className="w-4 h-4 text-gray-400" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => updateMutation.mutate({ id: tut.id, data: { isActive: !tut.isActive } })}
-                    >
-                      {tut.isActive ? <Eye className="w-4 h-4 text-gray-400" /> : <EyeOff className="w-4 h-4 text-gray-400" />}
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => {
-                        if (confirm('Delete this tutorial?')) deleteMutation.mutate(tut.id);
-                      }}
-                    >
-                      <Trash2 className="w-4 h-4 text-red-400" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )
-          )
+                  )}
+                </Card>
+              );
+            })}
+          </div>
         )}
       </div>
     </AdminLayout>
