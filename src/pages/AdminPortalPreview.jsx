@@ -128,7 +128,7 @@ export default function AdminPortalPreview() {
                 <span className="font-medium">Preview Mode</span>
                 <span className="text-amber-600">
                     — Viewing {isEmployee ? 'employee' : 'customer'} portal
-                    {previewUser ? ` as ${previewUser.full_name || previewUser.email}` : ''}
+                    {previewUser ? ` as ${previewName}` : ''}
                 </span>
             </div>
 
