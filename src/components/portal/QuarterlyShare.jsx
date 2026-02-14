@@ -18,109 +18,12 @@ export default function QuarterlyShare() {
   const [sliderValue, setSliderValue] = useState(null);
   const hasFiredConfetti = useRef(false);
 
-  // Casino "cha-ching" jackpot (~3.2s): triple cha-ching motif + coin rain + shimmer tail
-  const playJackpot = useCallback(() => {
-    try {
-      const AudioCtx = (window.AudioContext || window.webkitAudioContext);
-      const ctx = new AudioCtx();
-      const now = ctx.currentTime;
-      const endAt = now + 3.2;
-
-      const master = ctx.createGain();
-      master.gain.setValueAtTime(0.0001, now);
-      master.gain.exponentialRampToValueAtTime(0.7, now + 0.05);
-      master.gain.exponentialRampToValueAtTime(0.0001, endAt);
-      master.connect(ctx.destination);
-
-      // Shared short noise buffer for clicks/cha accents
-      const noiseBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.1), ctx.sampleRate);
-      const ndata = noiseBuf.getChannelData(0);
-      for (let i = 0; i < ndata.length; i++) ndata[i] = (Math.random() * 2 - 1);
-
-      const makeNoiseBurst = (t) => {
-        const src = ctx.createBufferSource(); src.buffer = noiseBuf;
-        const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 900;
-        const g = ctx.createGain();
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.18, t + 0.008);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
-        src.connect(hp); hp.connect(g); g.connect(master);
-        src.start(t); src.stop(t + 0.08);
-      };
-
-      // One "cha-ching": click + bell partials + tiny gliss
-      const chaChing = (t) => {
-        makeNoiseBurst(t);
-        // Bell 1
-        const b1 = ctx.createOscillator(); const g1 = ctx.createGain();
-        b1.type = 'triangle'; b1.frequency.setValueAtTime(1200, t);
-        b1.frequency.exponentialRampToValueAtTime(1500, t + 0.06);
-        g1.gain.setValueAtTime(0.0001, t);
-        g1.gain.exponentialRampToValueAtTime(0.32, t + 0.02);
-        g1.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
-        b1.connect(g1); g1.connect(master); b1.start(t); b1.stop(t + 0.3);
-        // Bell 2 (higher overtone)
-        const b2 = ctx.createOscillator(); const g2 = ctx.createGain();
-        b2.type = 'triangle'; b2.frequency.setValueAtTime(1800, t + 0.05);
-        g2.gain.setValueAtTime(0.0001, t + 0.05);
-        g2.gain.exponentialRampToValueAtTime(0.25, t + 0.08);
-        g2.gain.exponentialRampToValueAtTime(0.0001, t + 0.36);
-        b2.connect(g2); g2.connect(master); b2.start(t + 0.05); b2.stop(t + 0.38);
-        // Subtle gliss
-        const gl = ctx.createOscillator(); const glg = ctx.createGain();
-        gl.type = 'sawtooth'; gl.frequency.setValueAtTime(600, t + 0.02);
-        gl.frequency.exponentialRampToValueAtTime(1200, t + 0.17);
-        glg.gain.setValueAtTime(0.0001, t + 0.02);
-        glg.gain.exponentialRampToValueAtTime(0.06, t + 0.05);
-        glg.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
-        gl.connect(glg); glg.connect(master); gl.start(t + 0.02); gl.stop(t + 0.22);
-      };
-
-      // Triple cha-ching sequence
-      [0, 0.6, 1.2].forEach((off) => chaChing(now + off));
-
-      // Coin rain (more pings over longer window)
-      const makePing = (t, baseFreq) => {
-        const o = ctx.createOscillator(); const g = ctx.createGain(); const bp = ctx.createBiquadFilter();
-        bp.type = 'bandpass'; bp.frequency.value = baseFreq; bp.Q.value = 12;
-        o.type = 'sine';
-        o.frequency.setValueAtTime(baseFreq, t);
-        o.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, t + 0.08);
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.18, t + 0.012);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
-        o.connect(bp); bp.connect(g); g.connect(master);
-        o.start(t); o.stop(t + 0.24);
-      };
-      for (let i = 0; i < 18; i++) {
-        const t = now + 1.0 + Math.random() * 1.8; // 1.0s..2.8s
-        const f = 1600 + Math.random() * 1100;
-        makePing(t, f);
-      }
-
-      // Shimmering high-noise tail
-      const tailBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.7), ctx.sampleRate);
-      const tdata = tailBuf.getChannelData(0);
-      for (let i = 0; i < tdata.length; i++) tdata[i] = (Math.random() * 2 - 1) * (1 - i / tdata.length);
-      const tail = ctx.createBufferSource(); tail.buffer = tailBuf;
-      const tg = ctx.createGain(); const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1200;
-      const startTail = now + 2.2;
-      tg.gain.setValueAtTime(0.0001, startTail);
-      tg.gain.exponentialRampToValueAtTime(0.14, startTail + 0.05);
-      tg.gain.exponentialRampToValueAtTime(0.0001, endAt);
-      tail.connect(hp); hp.connect(tg); tg.connect(master);
-      tail.start(startTail); tail.stop(endAt);
-    } catch (e) {
-      // Silently ignore audio errors
-    }
-  }, []);
-
   const fireConfetti = useCallback(() => {
     confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
     confetti({ particleCount: 80, spread: 100, origin: { y: 0.7 }, startVelocity: 25 });
     if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-    playJackpot();
-  }, [playJackpot]);
+    try { new Audio('https://cdn.freesound.org/previews/397/397354_4284968-lq.mp3').play(); } catch (e) {}
+  }, []);
 
   const handleSliderChange = useCallback((val) => {
     setSliderValue(val[0]);
