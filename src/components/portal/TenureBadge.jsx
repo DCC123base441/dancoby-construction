@@ -87,7 +87,7 @@ export default function TenureBadge({ startDate }) {
               repeatDelay: 3 
             } : {}}
           >
-            <Icon className="w-4.5 h-4.5 text-white" />
+            <Icon className="w-3.5 h-3.5 text-white" />
           </motion.div>
 
           {/* Text */}
