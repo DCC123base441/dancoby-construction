@@ -311,14 +311,14 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   return (
     <div className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group">
       <button
-        onClick={(e) => { e.preventDefault(); onToggle(); }}
-        className="flex-shrink-0 focus:outline-none"
+        onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(); }}
+        className="flex-shrink-0 focus:outline-none p-2 -m-2 touch-manipulation"
         title={isCompleted ? 'Mark as not done' : 'Mark as done'}
       >
         {isCompleted ? (
-          <CheckCircle2 className="w-5 h-5 text-green-500" />
+          <CheckCircle2 className="w-6 h-6 text-green-500" />
         ) : (
-          <Circle className="w-5 h-5 text-gray-300 hover:text-blue-400 transition-colors" />
+          <Circle className="w-6 h-6 text-gray-300 hover:text-blue-400 transition-colors" />
         )}
       </button>
       <a
