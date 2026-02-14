@@ -319,7 +319,7 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
         {isCompleted ? (
           <CheckCircle2 className="w-5 h-5 text-green-500" />
         ) : (
-          <Circle className="w-5 h-5 text-gray-300 hover:text-blue-400 active:text-blue-500 transition-colors" />
+          <Circle className="w-5 h-5 text-gray-300 active:text-blue-500" />
         )}
       </button>
       <a
