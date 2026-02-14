@@ -312,7 +312,8 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
     <div className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group">
       <button
         onClick={(e) => { e.stopPropagation(); onToggle(); }}
-        className="flex-shrink-0 p-1 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded active:scale-90 transition-transform"
+        onTouchEnd={(e) => { e.stopPropagation(); onToggle(); }}
+        className="flex-shrink-0 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded active:scale-90 transition-transform cursor-pointer select-none touch-manipulation"
         title={isCompleted ? 'Mark as not done' : 'Mark as done'}
       >
         {isCompleted ? (
