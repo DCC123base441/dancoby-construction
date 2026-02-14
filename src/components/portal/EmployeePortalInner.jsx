@@ -63,7 +63,21 @@ export default function EmployeePortalInner({ user }) {
   }
 
   const needsProfile = !profile && !editingProfile;
-  const firstName = profile?.firstName || user?.full_name?.split(' ')[0] || 'Team Member';
+  const toTitleCase = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().split(/[\s._-]+/).filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  };
+  const firstName = toTitleCase(profile?.firstName || user?.full_name?.split(' ')[0] || 'Team Member');
+  const displayName = profile
+    ? toTitleCase([profile.firstName, profile.lastName].filter(Boolean).join(' '))
+    : (() => {
+        const n = user?.full_name || '';
+        if (n.includes(',')) {
+          const [last, first] = n.split(',').map(s => s.trim());
+          return toTitleCase(`${first} ${last}`);
+        }
+        return toTitleCase(n || (user?.email?.split('@')[0] || ''));
+      })();
 
   const renderContent = () => {
     switch (activeTab) {
@@ -93,7 +107,7 @@ export default function EmployeePortalInner({ user }) {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20 sm:pb-0">
-      <EmployeeHeader user={user} onProfilePress={() => setActiveTab('profile')} />
+      <EmployeeHeader user={user} displayName={displayName} onProfilePress={() => setActiveTab('profile')} />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex gap-6">
         {/* Sidebar for desktop */}

@@ -8,7 +8,7 @@ import NotificationCenter from './NotificationCenter';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from './LanguageContext';
 
-export default function EmployeeHeader({ user, onProfilePress }) {
+export default function EmployeeHeader({ user, onProfilePress, displayName }) {
   const { t } = useLanguage();
   const handleLogout = async () => {
     await base44.auth.logout(createPageUrl('PortalLogin'));
@@ -23,6 +23,26 @@ export default function EmployeeHeader({ user, onProfilePress }) {
       window.dispatchEvent(new CustomEvent('portal-tab-change', { detail: 'profile' }));
     }
   };
+
+  const toTitleCase = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().split(/[\s._-]+/).filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  };
+
+  const formatFromUser = (u) => {
+    const n = u?.full_name?.trim();
+    if (n) {
+      if (n.includes(',')) {
+        const [last, first] = n.split(',').map(s => s.trim());
+        return toTitleCase(`${first} ${last}`);
+      }
+      return toTitleCase(n);
+    }
+    const emailPart = u?.email?.split('@')[0] || '';
+    return toTitleCase(emailPart);
+  };
+
+  const headerName = displayName || formatFromUser(user);
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
@@ -45,7 +65,7 @@ export default function EmployeeHeader({ user, onProfilePress }) {
             className="flex items-center justify-center gap-2 text-gray-500 hover:text-amber-600 hover:bg-gray-100 transition-colors cursor-pointer w-9 h-9 rounded-lg sm:w-auto sm:h-auto sm:px-2 sm:py-1.5"
           >
             <User className="w-5 h-5" />
-            <span className="hidden sm:inline text-sm">{user?.full_name || user?.email}</span>
+            <span className="hidden sm:inline text-sm">{headerName}</span>
           </button>
           <button 
             onClick={handleLogout} 
