@@ -76,6 +76,7 @@ export default function AdminLayout({ children, title, actions }) {
 
         { name: 'Calendar', href: 'AdminCalendar', icon: CalendarDays },
         { name: 'Architects Images', href: 'AdminArchitectsImages', icon: ImageIcon },
+        { name: 'JobTread Tutorials', href: 'AdminJobTread', icon: MonitorPlay },
 
 
     ];
