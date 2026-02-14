@@ -140,18 +140,18 @@ export default function TenureBadge({ startDate }) {
                       isCurrent ? 'bg-white/15 ring-1 ring-amber-400/50' : isAchieved ? 'bg-white/5' : 'opacity-40'
                     }`}
                   >
-                    <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center flex-shrink-0 ${
+                    <div className={`w-7 h-7 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center flex-shrink-0 ${
                       !isAchieved ? 'grayscale' : ''
                     }`}>
-                      <TIcon className="w-3 h-3 text-white" />
+                      <TIcon className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-[11px] font-semibold ${isCurrent ? 'text-amber-300' : 'text-white/80'}`}>
+                      <p className={`text-xs font-semibold ${isCurrent ? 'text-amber-300' : 'text-white/80'}`}>
                         {lang === 'es' ? t.labelEs : t.label}
-                        {isCurrent && <span className="ml-1.5 text-[9px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded-full">{lang === 'es' ? 'TÚ' : 'YOU'}</span>}
+                        {isCurrent && <span className="ml-1.5 text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded-full">{lang === 'es' ? 'TÚ' : 'YOU'}</span>}
                       </p>
                     </div>
-                    <span className="text-[10px] text-white/40 flex-shrink-0">
+                    <span className="text-xs text-white/40 flex-shrink-0">
                       {lang === 'es' ? t.reqEs : t.req}
                     </span>
                   </div>
