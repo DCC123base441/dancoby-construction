@@ -249,7 +249,7 @@ export default function JobTreadSection({ user }) {
         /* Single category selected - show flat */
         <Card className="border-gray-200 overflow-hidden divide-y divide-gray-50">
           {filtered.map(tut => (
-            <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleComplete(tut.id)} />
+            <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleMutation.mutateAsync(tut.id)} />
           ))}
         </Card>
       ) : (
@@ -283,7 +283,7 @@ export default function JobTreadSection({ user }) {
                 {isExpanded && (
                   <div className="border-t border-gray-100 divide-y divide-gray-50">
                     {items.map((tut) => (
-                      <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleComplete(tut.id)} />
+                      <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleMutation.mutateAsync(tut.id)} />
                     ))}
                   </div>
                 )}
