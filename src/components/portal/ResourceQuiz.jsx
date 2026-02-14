@@ -6,7 +6,7 @@ import { useLanguage } from './LanguageContext';
 export default function ResourceQuiz({ questions, onPass }) {
   const { lang } = useLanguage();
   const [currentQ, setCurrentQ] = useState(0);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState([]); // array of selected indices
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
@@ -19,15 +19,31 @@ export default function ResourceQuiz({ questions, onPass }) {
     ? q.options_es.map((o, i) => o || q.options[i])
     : q.options || [];
 
+  const correctSet = (q.correctIndices && q.correctIndices.length > 0)
+    ? q.correctIndices
+    : (q.correctIndex !== undefined && q.correctIndex !== null ? [q.correctIndex] : [0]);
+  const isMulti = correctSet.length > 1;
+
   const handleSelect = (idx) => {
     if (showResult) return;
-    setSelected(idx);
+    if (isMulti) {
+      setSelected(prev => prev.includes(idx) ? prev.filter(i => i !== idx) : [...prev, idx]);
+    } else {
+      setSelected([idx]);
+    }
+  };
+
+  const isCorrectAnswer = () => {
+    if (selected.length !== correctSet.length) return false;
+    const sortedSel = [...selected].sort((a, b) => a - b);
+    const sortedCorr = [...correctSet].sort((a, b) => a - b);
+    return sortedSel.every((v, i) => v === sortedCorr[i]);
   };
 
   const handleConfirm = () => {
-    if (selected === null) return;
+    if (selected.length === 0) return;
     setShowResult(true);
-    if (selected === q.correctIndex) {
+    if (isCorrectAnswer()) {
       setScore(s => s + 1);
     }
   };
@@ -35,11 +51,11 @@ export default function ResourceQuiz({ questions, onPass }) {
   const handleNext = () => {
     if (currentQ + 1 < questions.length) {
       setCurrentQ(currentQ + 1);
-      setSelected(null);
+      setSelected([]);
       setShowResult(false);
     } else {
       setFinished(true);
-      const finalScore = selected === q.correctIndex ? score + 1 : score;
+      const finalScore = isCorrectAnswer() ? score + 1 : score;
       const passed = finalScore >= Math.ceil(questions.length * 0.7);
       if (passed && onPass) onPass();
     }
@@ -47,7 +63,7 @@ export default function ResourceQuiz({ questions, onPass }) {
 
   const handleRetry = () => {
     setCurrentQ(0);
-    setSelected(null);
+    setSelected([]);
     setShowResult(false);
     setScore(0);
     setFinished(false);
@@ -82,14 +98,20 @@ export default function ResourceQuiz({ questions, onPass }) {
 
       <p className="font-semibold text-gray-900">{questionText}</p>
 
+      {isMulti && !showResult && (
+        <p className="text-xs text-amber-600 font-medium">{lang === 'es' ? 'Selecciona todas las respuestas correctas' : 'Select all correct answers'}</p>
+      )}
+
       <div className="space-y-2">
         {options.map((opt, idx) => {
+          const isSel = selected.includes(idx);
+          const isCorr = correctSet.includes(idx);
           let style = 'border-gray-200 bg-white hover:border-amber-300';
           if (showResult) {
-            if (idx === q.correctIndex) style = 'border-green-500 bg-green-50';
-            else if (idx === selected) style = 'border-red-400 bg-red-50';
+            if (isCorr) style = 'border-green-500 bg-green-50';
+            else if (isSel) style = 'border-red-400 bg-red-50';
             else style = 'border-gray-200 bg-gray-50 opacity-60';
-          } else if (selected === idx) {
+          } else if (isSel) {
             style = 'border-amber-500 bg-amber-50';
           }
 
@@ -101,14 +123,14 @@ export default function ResourceQuiz({ questions, onPass }) {
             >
               <div className="flex items-center gap-3">
                 <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                  showResult && idx === q.correctIndex ? 'bg-green-500 text-white' :
-                  showResult && idx === selected ? 'bg-red-400 text-white' :
-                  selected === idx ? 'bg-amber-500 text-white' :
+                  showResult && isCorr ? 'bg-green-500 text-white' :
+                  showResult && isSel ? 'bg-red-400 text-white' :
+                  isSel ? 'bg-amber-500 text-white' :
                   'bg-gray-100 text-gray-500'
                 }`}>
                   {String.fromCharCode(65 + idx)}
                 </span>
-                <span className={showResult && idx !== q.correctIndex && idx !== selected ? 'text-gray-400' : 'text-gray-800'}>{opt}</span>
+                <span className={showResult && !isCorr && !isSel ? 'text-gray-400' : 'text-gray-800'}>{opt}</span>
               </div>
             </button>
           );
@@ -117,7 +139,7 @@ export default function ResourceQuiz({ questions, onPass }) {
 
       <div className="flex justify-end">
         {!showResult ? (
-          <Button size="sm" onClick={handleConfirm} disabled={selected === null}>
+          <Button size="sm" onClick={handleConfirm} disabled={selected.length === 0}>
             {lang === 'es' ? 'Confirmar' : 'Confirm'}
           </Button>
         ) : (
