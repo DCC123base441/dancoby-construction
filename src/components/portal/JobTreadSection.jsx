@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MonitorPlay, ExternalLink, Loader2, ChevronDown, ChevronRight, Clock, BookOpen } from 'lucide-react';
+import { Input } from "@/components/ui/input";
+import { 
+  MonitorPlay, ExternalLink, Loader2, ChevronDown, ChevronRight, 
+  Clock, BookOpen, Search, FolderOpen, X
+} from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 const CATEGORY_ORDER = [
@@ -14,69 +18,199 @@ const CATEGORY_ORDER = [
   "Other Integrations", "Automations", "Additional Resources"
 ];
 
+const CATEGORY_ICONS = {
+  "Your Account": "👤",
+  "Customer Management - CRM": "🤝",
+  "Vendor Management": "🏪",
+  "Job Management": "📋",
+  "Job Budget": "💰",
+  "Estimating": "🧮",
+  "Selections": "✅",
+  "Catalog": "📦",
+  "Global Catalog": "🌐",
+  "Scheduling and To-Do's": "📅",
+  "Invoicing": "💵",
+  "Team Management": "👥",
+  "Time Tracking": "⏱️",
+  "Communications": "💬",
+  "Documents": "📄",
+  "Reporting": "📊",
+  "QuickBooks Integration": "🔗",
+  "Other Integrations": "🔌",
+  "Automations": "⚡",
+  "Additional Resources": "📚",
+};
+
 export default function JobTreadSection() {
   const { t } = useLanguage();
-  const [expandedCat, setExpandedCat] = useState(null);
+  const [expandedCats, setExpandedCats] = useState(new Set());
+  const [search, setSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { data: tutorials = [], isLoading } = useQuery({
     queryKey: ['jobtread-tutorials-employee'],
     queryFn: () => base44.entities.JobTreadTutorial.filter({ isActive: true }, 'order', 200),
   });
 
-  // Group by category
-  const grouped = tutorials.reduce((acc, tut) => {
-    const cat = tut.category || 'Other';
-    if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(tut);
-    return acc;
-  }, {});
+  const filtered = useMemo(() => {
+    let result = tutorials;
+    if (selectedCategory) result = result.filter(t => t.category === selectedCategory);
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      result = result.filter(t => 
+        t.title?.toLowerCase().includes(q) || 
+        t.category?.toLowerCase().includes(q) ||
+        t.description?.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }, [tutorials, search, selectedCategory]);
 
-  const sortedCategories = CATEGORY_ORDER.filter(c => grouped[c]);
-  // Add any categories not in the predefined order
-  Object.keys(grouped).forEach(c => {
-    if (!sortedCategories.includes(c)) sortedCategories.push(c);
-  });
+  const grouped = useMemo(() => {
+    return filtered.reduce((acc, tut) => {
+      const cat = tut.category || 'Other';
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(tut);
+      return acc;
+    }, {});
+  }, [filtered]);
+
+  const sortedCategories = useMemo(() => {
+    const ordered = CATEGORY_ORDER.filter(c => grouped[c]);
+    Object.keys(grouped).forEach(c => { if (!ordered.includes(c)) ordered.push(c); });
+    return ordered;
+  }, [grouped]);
+
+  // All categories for the quick-browse chips
+  const allCategories = useMemo(() => {
+    const cats = {};
+    tutorials.forEach(t => {
+      const cat = t.category || 'Other';
+      cats[cat] = (cats[cat] || 0) + 1;
+    });
+    const ordered = CATEGORY_ORDER.filter(c => cats[c]);
+    Object.keys(cats).forEach(c => { if (!ordered.includes(c)) ordered.push(c); });
+    return ordered.map(c => ({ name: c, count: cats[c] }));
+  }, [tutorials]);
+
+  const toggleCategory = (cat) => {
+    setExpandedCats(prev => {
+      const next = new Set(prev);
+      next.has(cat) ? next.delete(cat) : next.add(cat);
+      return next;
+    });
+  };
+
+  const isSearching = search.trim().length > 0;
 
   return (
-    <div className="space-y-4">
-      <Card className="border-gray-200">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-full bg-blue-50">
-              <MonitorPlay className="w-5 h-5 text-blue-600" />
-            </div>
-            <div>
-              <h3 className="font-bold text-gray-900">{t('jobtreadTitle')}</h3>
-              <p className="text-xs text-gray-500">{t('jobtreadDesc')}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="space-y-5">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <div className="p-2.5 rounded-xl bg-blue-100">
+          <MonitorPlay className="w-6 h-6 text-blue-700" />
+        </div>
+        <div className="flex-1">
+          <h3 className="font-bold text-gray-900 text-lg">{t('jobtreadTitle')}</h3>
+          <p className="text-sm text-gray-500">{t('jobtreadDesc')}</p>
+        </div>
+      </div>
+
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Input
+          placeholder="Search tutorials..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="pl-9 pr-9 bg-gray-50 border-gray-200 focus:bg-white"
+        />
+        {search && (
+          <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2">
+            <X className="w-4 h-4 text-gray-400 hover:text-gray-600" />
+          </button>
+        )}
+      </div>
+
+      {/* Category quick-browse chips */}
+      {!isSearching && (
+        <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={() => setSelectedCategory(null)}
+            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+              !selectedCategory
+                ? 'bg-blue-100 text-blue-800 ring-1 ring-blue-300'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            All ({tutorials.length})
+          </button>
+          {allCategories.map(({ name, count }) => (
+            <button
+              key={name}
+              onClick={() => setSelectedCategory(selectedCategory === name ? null : name)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                selectedCategory === name
+                  ? 'bg-blue-100 text-blue-800 ring-1 ring-blue-300'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {CATEGORY_ICONS[name] || '📖'} {name} ({count})
+            </button>
+          ))}
+        </div>
+      )}
+
+      {isSearching && filtered.length > 0 && (
+        <p className="text-xs text-gray-500">
+          Found <strong>{filtered.length}</strong> tutorial{filtered.length !== 1 ? 's' : ''} matching "{search}"
+        </p>
+      )}
 
       {isLoading ? (
         <div className="flex justify-center py-12">
           <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
         </div>
-      ) : tutorials.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <div className="text-center py-12 text-gray-400">
           <MonitorPlay className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-          <p className="text-sm">{t('noTutorials')}</p>
+          <p className="text-sm">{isSearching ? 'No tutorials match your search.' : t('noTutorials')}</p>
+          {isSearching && (
+            <button onClick={() => { setSearch(''); setSelectedCategory(null); }} className="text-blue-500 text-sm mt-2 hover:underline">
+              Clear filters
+            </button>
+          )}
         </div>
+      ) : isSearching ? (
+        /* Flat results when searching */
+        <Card className="border-gray-200 overflow-hidden divide-y divide-gray-50">
+          {filtered.map(tut => (
+            <TutorialRow key={tut.id} tut={tut} showCategory />
+          ))}
+        </Card>
+      ) : selectedCategory ? (
+        /* Single category selected - show flat */
+        <Card className="border-gray-200 overflow-hidden divide-y divide-gray-50">
+          {filtered.map(tut => (
+            <TutorialRow key={tut.id} tut={tut} />
+          ))}
+        </Card>
       ) : (
+        /* Grouped by category */
         <div className="space-y-2">
           {sortedCategories.map((cat) => {
-            const isExpanded = expandedCat === cat;
+            const isExpanded = expandedCats.has(cat);
             const items = grouped[cat];
             return (
               <Card key={cat} className="border-gray-200 overflow-hidden">
                 <button
-                  onClick={() => setExpandedCat(isExpanded ? null : cat)}
+                  onClick={() => toggleCategory(cat)}
                   className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors text-left"
                 >
                   <div className="flex items-center gap-3">
-                    <BookOpen className="w-4 h-4 text-blue-500" />
+                    <span className="text-base">{CATEGORY_ICONS[cat] || '📖'}</span>
                     <span className="font-semibold text-sm text-gray-900">{cat}</span>
-                    <Badge variant="outline" className="text-xs">{items.length}</Badge>
+                    <Badge variant="outline" className="text-xs font-normal">{items.length}</Badge>
                   </div>
                   {isExpanded ? (
                     <ChevronDown className="w-4 h-4 text-gray-400" />
@@ -87,26 +221,7 @@ export default function JobTreadSection() {
                 {isExpanded && (
                   <div className="border-t border-gray-100 divide-y divide-gray-50">
                     {items.map((tut) => (
-                      <a
-                        key={tut.id}
-                        href={tut.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors group"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm text-gray-800 group-hover:text-blue-700 font-medium truncate">{tut.title}</p>
-                          {tut.description && (
-                            <p className="text-xs text-gray-400 truncate mt-0.5">{tut.description}</p>
-                          )}
-                        </div>
-                        {tut.duration && (
-                          <span className="flex items-center gap-1 text-xs text-gray-400 flex-shrink-0">
-                            <Clock className="w-3 h-3" /> {tut.duration}
-                          </span>
-                        )}
-                        <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
-                      </a>
+                      <TutorialRow key={tut.id} tut={tut} />
                     ))}
                   </div>
                 )}
@@ -116,7 +231,8 @@ export default function JobTreadSection() {
         </div>
       )}
 
-      <Card className="border-gray-200 bg-blue-50">
+      {/* Help link */}
+      <Card className="border-blue-200 bg-blue-50/60">
         <CardContent className="p-4 flex items-center justify-between">
           <p className="text-sm text-blue-800">{t('jobtreadMoreHelp')}</p>
           <a
@@ -130,5 +246,34 @@ export default function JobTreadSection() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+function TutorialRow({ tut, showCategory }) {
+  return (
+    <a
+      href={tut.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors group"
+    >
+      <div className="flex-1 min-w-0">
+        <p className="text-sm text-gray-800 group-hover:text-blue-700 font-medium truncate">{tut.title}</p>
+        <div className="flex items-center gap-2 mt-0.5">
+          {showCategory && tut.category && (
+            <Badge variant="outline" className="text-[10px] font-normal">{tut.category}</Badge>
+          )}
+          {tut.description && !showCategory && (
+            <p className="text-xs text-gray-400 truncate">{tut.description}</p>
+          )}
+        </div>
+      </div>
+      {tut.duration && (
+        <span className="flex items-center gap-1 text-xs text-gray-400 flex-shrink-0">
+          <Clock className="w-3 h-3" /> {tut.duration}
+        </span>
+      )}
+      <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
+    </a>
   );
 }
