@@ -118,7 +118,6 @@ export default function JobTreadSection({ user }) {
   const progressPct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const toggleComplete = async (tutorialId) => {
-    if (!user?.email) return;
     const existing = progress.find(p => p.tutorialId === tutorialId);
     if (existing) {
       await base44.entities.TutorialProgress.update(existing.id, {
@@ -313,8 +312,7 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
     <div className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group">
       <button
         onClick={(e) => { e.stopPropagation(); onToggle(); }}
-        onTouchEnd={(e) => { e.stopPropagation(); onToggle(); }}
-        className="flex-shrink-0 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded active:scale-90 transition-transform cursor-pointer select-none touch-manipulation"
+        className="flex-shrink-0 p-1 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded active:scale-90 transition-transform"
         title={isCompleted ? 'Mark as not done' : 'Mark as done'}
       >
         {isCompleted ? (
