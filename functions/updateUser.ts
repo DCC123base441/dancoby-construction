@@ -15,12 +15,27 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'userId is required' }, { status: 400 });
     }
 
+    const url = `${Deno.env.get('BASE44_API_URL') || 'https://api.base44.com'}/apps/${Deno.env.get('BASE44_APP_ID')}/entities/User/${userId}`;
+    
     const updateData = {};
     if (full_name !== undefined) updateData.full_name = full_name;
     if (role !== undefined) updateData.role = role;
 
-    const updated = await base44.asServiceRole.entities.User.update(userId, updateData);
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${req.headers.get('authorization')?.split(' ')[1] || ''}`
+      },
+      body: JSON.stringify(updateData)
+    });
 
+    if (!response.ok) {
+      const error = await response.json();
+      return Response.json({ error: error.detail || 'Failed to update user' }, { status: response.status });
+    }
+
+    const updated = await response.json();
     return Response.json({ success: true, user: updated });
   } catch (error) {
     console.error('Error updating user:', error);
