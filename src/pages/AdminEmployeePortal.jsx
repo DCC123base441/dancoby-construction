@@ -97,6 +97,17 @@ export default function AdminEmployeePortal() {
             <History className="w-4 h-4 mr-2" />
             {showHistory ? 'Hide' : 'View'} Invite History
           </Button>
+          <Button
+            variant="outline"
+            onClick={async () => {
+              const res = await base44.functions.invoke('backfillUserDisplayNames', {});
+              const updated = res?.data?.updated ?? 0;
+              const total = res?.data?.total ?? 0;
+              alert(`Backfill complete: ${updated} updated out of ${total}`);
+            }}
+          >
+            Backfill Display Names
+          </Button>
           <Link to={createPageUrl('EmployeePortal')}>
              <Button variant="outline" className="gap-2">
                Open Portal <ExternalLink className="w-4 h-4" />
