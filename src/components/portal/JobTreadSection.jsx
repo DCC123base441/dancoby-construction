@@ -311,7 +311,9 @@ export default function JobTreadSection({ user }) {
 function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   const [toggling, setToggling] = useState(false);
 
-  const handleToggle = async () => {
+  const handleToggle = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (toggling) return;
     setToggling(true);
     try {
@@ -324,28 +326,29 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   };
 
   return (
-    <div className="flex items-center gap-0 px-1 py-1 hover:bg-blue-50/50 transition-colors group">
-      <button
-        type="button"
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleToggle(); }}
-        disabled={toggling}
-        className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg active:bg-gray-200 touch-manipulation select-none cursor-pointer"
-        style={{ WebkitTapHighlightColor: 'rgba(0,0,0,0.1)', minWidth: 48, minHeight: 48 }}
+    <div className="flex items-center hover:bg-blue-50/50 transition-colors group">
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleToggle}
+        onTouchEnd={handleToggle}
+        className="flex-shrink-0 w-14 h-14 flex items-center justify-center cursor-pointer select-none touch-manipulation"
+        style={{ WebkitTapHighlightColor: 'rgba(0,0,0,0.05)' }}
         aria-label={isCompleted ? 'Mark incomplete' : 'Mark complete'}
       >
         {toggling ? (
-          <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+          <Loader2 className="w-6 h-6 animate-spin text-gray-400 pointer-events-none" />
         ) : isCompleted ? (
-          <CheckCircle2 className="w-7 h-7 text-green-500" />
+          <CheckCircle2 className="w-7 h-7 text-green-500 pointer-events-none" />
         ) : (
-          <Circle className="w-7 h-7 text-gray-300" />
+          <Circle className="w-7 h-7 text-gray-300 pointer-events-none" />
         )}
-      </button>
+      </div>
       <a
         href={tut.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-1 min-w-0 flex items-center gap-3 px-2 py-2"
+        className="flex-1 min-w-0 flex items-center gap-3 px-2 py-3"
       >
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
