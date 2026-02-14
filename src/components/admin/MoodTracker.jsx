@@ -65,7 +65,13 @@ export default function MoodTracker() {
 
   const profileMap = useMemo(() => {
     const map = {};
-    profiles.forEach(p => { map[p.userEmail] = p; });
+    profiles.forEach(p => {
+      const email = p.userEmail;
+      // Prefer profiles that have firstName/lastName over ones that don't
+      if (!map[email] || (p.firstName || p.lastName)) {
+        map[email] = p;
+      }
+    });
     return map;
   }, [profiles]);
 
