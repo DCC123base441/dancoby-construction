@@ -118,14 +118,6 @@ export default function AdminLayout({ children, title, actions }) {
             </nav>
 
             <div className="p-4 border-t border-slate-800 space-y-2">
-                <a 
-                    href="/" 
-                    target="_blank"
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                >
-                    <ExternalLink className="w-5 h-5" />
-                    <span className="font-medium">View Live Site</span>
-                </a>
                 <button 
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors text-left"
