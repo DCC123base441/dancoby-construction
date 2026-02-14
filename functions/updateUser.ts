@@ -15,10 +15,11 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'userId is required' }, { status: 400 });
     }
 
-    const updated = await base44.asServiceRole.entities.User.update(userId, {
-      full_name,
-      role
-    });
+    const updateData = {};
+    if (full_name !== undefined) updateData.full_name = full_name;
+    if (role !== undefined) updateData.role = role;
+
+    const updated = await base44.asServiceRole.entities.User.update(userId, updateData);
 
     return Response.json({ success: true, user: updated });
   } catch (error) {
