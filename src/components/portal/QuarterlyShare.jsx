@@ -22,7 +22,7 @@ export default function QuarterlyShare() {
     confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
     confetti({ particleCount: 80, spread: 100, origin: { y: 0.7 }, startVelocity: 25 });
     if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-    try { new Audio('https://cdn.freesound.org/previews/397/397354_4284968-lq.mp3').play(); } catch (e) {}
+    try { const a = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-win-1928.mp3'); a.volume = 0.9; a.play(); } catch (e) {}
   }, []);
 
   const handleSliderChange = useCallback((val) => {
