@@ -307,31 +307,46 @@ export default function JobTreadSection({ user }) {
   );
 }
 
-function TutorialRow({ tut, showCategory }) {
+function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   return (
-    <a
-      href={tut.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors group"
-    >
-      <div className="flex-1 min-w-0">
-        <p className="text-sm text-gray-800 group-hover:text-blue-700 font-medium truncate">{tut.title}</p>
-        <div className="flex items-center gap-2 mt-0.5">
-          {showCategory && tut.category && (
-            <Badge variant="outline" className="text-[10px] font-normal">{tut.category}</Badge>
-          )}
-          {tut.description && !showCategory && (
-            <p className="text-xs text-gray-400 truncate">{tut.description}</p>
-          )}
+    <div className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group">
+      <button
+        onClick={(e) => { e.preventDefault(); onToggle(); }}
+        className="flex-shrink-0 focus:outline-none"
+        title={isCompleted ? 'Mark as not done' : 'Mark as done'}
+      >
+        {isCompleted ? (
+          <CheckCircle2 className="w-5 h-5 text-green-500" />
+        ) : (
+          <Circle className="w-5 h-5 text-gray-300 hover:text-blue-400 transition-colors" />
+        )}
+      </button>
+      <a
+        href={tut.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1 min-w-0 flex items-center gap-3"
+      >
+        <div className="flex-1 min-w-0">
+          <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
+            {tut.title}
+          </p>
+          <div className="flex items-center gap-2 mt-0.5">
+            {showCategory && tut.category && (
+              <Badge variant="outline" className="text-[10px] font-normal">{tut.category}</Badge>
+            )}
+            {tut.description && !showCategory && (
+              <p className="text-xs text-gray-400 truncate">{tut.description}</p>
+            )}
+          </div>
         </div>
-      </div>
-      {tut.duration && (
-        <span className="flex items-center gap-1 text-xs text-gray-400 flex-shrink-0">
-          <Clock className="w-3 h-3" /> {tut.duration}
-        </span>
-      )}
-      <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
-    </a>
+        {tut.duration && (
+          <span className="flex items-center gap-1 text-xs text-gray-400 flex-shrink-0">
+            <Clock className="w-3 h-3" /> {tut.duration}
+          </span>
+        )}
+        <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
+      </a>
+    </div>
   );
 }
