@@ -28,7 +28,9 @@ export default function AdminUserManagement() {
     onSuccess: () => {
       setEditingUser(null);
       setFormData({});
-      refetch();
+      // Invalidate all queries to ensure changes reflect everywhere
+      queryClient.invalidateQueries();
+      setTimeout(() => refetch(), 100);
       alert('User updated successfully!');
     },
     onError: (error) => {
