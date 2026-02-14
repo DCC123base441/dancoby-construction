@@ -218,9 +218,6 @@ export default function AdminStandards() {
                     {(provided, snapshot) => (
                       <div ref={provided.innerRef} {...provided.draggableProps} style={provided.draggableProps.style}>
                         <Card className={`overflow-hidden group relative ${snapshot.isDragging ? 'shadow-xl ring-2 ring-red-300' : ''}`}>
-                          <div {...provided.dragHandleProps} className="absolute top-3 right-12 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 rounded p-1 cursor-grab">
-                            <GripVertical className="w-4 h-4 text-slate-500" />
-                          </div>
                           <div className="relative">
                             {replacingImageId === item.id ? (
                               <div className="w-full h-52 flex items-center justify-center bg-slate-100">
@@ -234,7 +231,10 @@ export default function AdminStandards() {
                             }`}>
                               {item.note === 'This' ? '✅' : '❌'} {item.note}
                             </div>
-                            <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute top-3 right-3 flex gap-1 z-10">
+                              <div {...provided.dragHandleProps} className="h-8 w-8 flex items-center justify-center bg-white/90 hover:bg-white rounded-md cursor-grab shadow">
+                                <GripVertical className="w-4 h-4 text-slate-500" />
+                              </div>
                               <label className="h-8 w-8 flex items-center justify-center bg-white/90 hover:bg-white rounded-md cursor-pointer shadow">
                                 <ImagePlus className="w-4 h-4 text-slate-600" />
                                 <input type="file" accept="image/*" className="hidden" onChange={(e) => handleReplaceImage(item.id, e)} />
@@ -249,7 +249,7 @@ export default function AdminStandards() {
                               </Button>
                             </div>
                           </div>
-                          <CardContent className="p-3">
+                          <CardContent className="p-3 space-y-2">
                             {editingId === item.id ? (
                               <div className="flex items-center gap-1">
                                 <Input
@@ -272,30 +272,30 @@ export default function AdminStandards() {
                             ) : (
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{item.category || 'No category'}</span>
-                                <Button size="icon" variant="ghost" className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => { setEditingId(item.id); setEditCategory(item.category || ''); }}>
+                                <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => { setEditingId(item.id); setEditCategory(item.category || ''); }}>
                                   <Pencil className="w-3 h-3 text-slate-400" />
                                 </Button>
                               </div>
                             )}
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant={item.note === 'This' ? 'default' : 'outline'}
+                                className="flex-1 text-xs"
+                                onClick={() => updateMutation.mutate({ id: item.id, data: { note: 'This' } })}
+                              >
+                                ✅ This
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant={item.note === 'Not This' ? 'destructive' : 'outline'}
+                                className="flex-1 text-xs"
+                                onClick={() => updateMutation.mutate({ id: item.id, data: { note: 'Not This' } })}
+                              >
+                                ❌ Not This
+                              </Button>
+                            </div>
                           </CardContent>
-                          <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm p-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button
-                              size="sm"
-                              variant={item.note === 'This' ? 'default' : 'outline'}
-                              className="flex-1 text-xs"
-                              onClick={() => updateMutation.mutate({ id: item.id, data: { note: 'This' } })}
-                            >
-                              ✅ This
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant={item.note === 'Not This' ? 'destructive' : 'outline'}
-                              className="flex-1 text-xs"
-                              onClick={() => updateMutation.mutate({ id: item.id, data: { note: 'Not This' } })}
-                            >
-                              ❌ Not This
-                            </Button>
-                          </div>
                         </Card>
                       </div>
                     )}
