@@ -222,26 +222,62 @@ export default function AdminStandards() {
                             <GripVertical className="w-4 h-4 text-slate-500" />
                           </div>
                           <div className="relative">
-                            <img src={item.imageUrl} alt={item.note} className="w-full h-52 object-cover" />
+                            {replacingImageId === item.id ? (
+                              <div className="w-full h-52 flex items-center justify-center bg-slate-100">
+                                <Loader2 className="w-8 h-8 animate-spin text-slate-400" />
+                              </div>
+                            ) : (
+                              <img src={item.imageUrl} alt={item.note} className="w-full h-52 object-cover" />
+                            )}
                             <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-bold shadow-lg ${
                               item.note === 'This' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
                             }`}>
                               {item.note === 'This' ? '✅' : '❌'} {item.note}
                             </div>
-                            <Button
-                              size="icon"
-                              variant="destructive"
-                              className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-                              onClick={() => deleteMutation.mutate(item.id)}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
+                            <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <label className="h-8 w-8 flex items-center justify-center bg-white/90 hover:bg-white rounded-md cursor-pointer shadow">
+                                <ImagePlus className="w-4 h-4 text-slate-600" />
+                                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleReplaceImage(item.id, e)} />
+                              </label>
+                              <Button
+                                size="icon"
+                                variant="destructive"
+                                className="h-8 w-8"
+                                onClick={() => deleteMutation.mutate(item.id)}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
                           </div>
-                          {item.category && (
-                            <CardContent className="p-3">
-                              <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{item.category}</span>
-                            </CardContent>
-                          )}
+                          <CardContent className="p-3">
+                            {editingId === item.id ? (
+                              <div className="flex items-center gap-1">
+                                <Input
+                                  value={editCategory}
+                                  onChange={(e) => setEditCategory(e.target.value)}
+                                  placeholder="Category"
+                                  className="h-7 text-xs"
+                                  autoFocus
+                                />
+                                <Button size="icon" variant="ghost" className="h-7 w-7 shrink-0" onClick={() => {
+                                  updateMutation.mutate({ id: item.id, data: { category: editCategory } });
+                                  setEditingId(null);
+                                }}>
+                                  <Check className="w-3 h-3 text-green-600" />
+                                </Button>
+                                <Button size="icon" variant="ghost" className="h-7 w-7 shrink-0" onClick={() => setEditingId(null)}>
+                                  <X className="w-3 h-3 text-slate-400" />
+                                </Button>
+                              </div>
+                            ) : (
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{item.category || 'No category'}</span>
+                                <Button size="icon" variant="ghost" className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => { setEditingId(item.id); setEditCategory(item.category || ''); }}>
+                                  <Pencil className="w-3 h-3 text-slate-400" />
+                                </Button>
+                              </div>
+                            )}
+                          </CardContent>
                           <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm p-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <Button
                               size="sm"
