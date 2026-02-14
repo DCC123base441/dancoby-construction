@@ -206,10 +206,6 @@ export default function AdminJobTread() {
       actions={
         !showForm && (
           <div className="flex gap-2">
-            <Button variant="outline" onClick={handleSyncRevenue} disabled={isSyncing} className="border-amber-200 hover:bg-amber-50 text-amber-700">
-              <RefreshCw className={`w-3.5 h-3.5 mr-2 ${isSyncing ? 'animate-spin' : ''}`} /> 
-              {isSyncing ? 'Syncing...' : 'Sync Revenue'}
-            </Button>
             <Button onClick={() => setShowForm(true)} className="bg-blue-600 hover:bg-blue-700">
               <Plus className="w-4 h-4 mr-2" /> Add Tutorial
             </Button>
