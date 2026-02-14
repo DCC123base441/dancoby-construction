@@ -242,7 +242,7 @@ export default function JobTreadSection({ user }) {
         /* Flat results when searching */
         <Card className="border-gray-200 overflow-hidden divide-y divide-gray-50">
           {filtered.map(tut => (
-            <TutorialRow key={tut.id} tut={tut} showCategory isCompleted={completedSet.has(tut.id)} onToggle={() => toggleComplete(tut.id)} />
+            <TutorialRow key={tut.id} tut={tut} showCategory isCompleted={completedSet.has(tut.id)} onToggle={() => toggleMutation.mutateAsync(tut.id)} />
           ))}
         </Card>
       ) : selectedCategory ? (
