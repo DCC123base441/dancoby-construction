@@ -119,7 +119,6 @@ export default function JobTreadSection({ user }) {
 
   const toggleComplete = async (tutorialId) => {
     const existing = progress.find(p => p.tutorialId === tutorialId);
-    console.log('toggleComplete called', { tutorialId, existing: !!existing, userEmail: user?.email });
     if (existing) {
       await base44.entities.TutorialProgress.update(existing.id, {
         completed: !existing.completed,
@@ -133,7 +132,7 @@ export default function JobTreadSection({ user }) {
         completedDate: new Date().toISOString().split('T')[0],
       });
     }
-    await queryClient.invalidateQueries({ queryKey: ['tutorial-progress', user?.email] });
+    queryClient.invalidateQueries({ queryKey: ['tutorial-progress', user?.email] });
   };
 
   return (
@@ -309,46 +308,24 @@ export default function JobTreadSection({ user }) {
 }
 
 function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
-  const [toggling, setToggling] = useState(false);
-
-  const handleToggle = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (toggling) return;
-    setToggling(true);
-    try {
-      await onToggle();
-    } catch (err) {
-      console.error('Toggle failed:', err);
-    } finally {
-      setToggling(false);
-    }
-  };
-
   return (
-    <div className="flex items-center hover:bg-blue-50/50 transition-colors group">
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={handleToggle}
-        onTouchEnd={handleToggle}
-        className="flex-shrink-0 w-14 h-14 flex items-center justify-center cursor-pointer select-none touch-manipulation"
-        style={{ WebkitTapHighlightColor: 'rgba(0,0,0,0.05)' }}
-        aria-label={isCompleted ? 'Mark incomplete' : 'Mark complete'}
+    <div className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group">
+      <button
+        onClick={(e) => { e.preventDefault(); onToggle(); }}
+        className="flex-shrink-0 focus:outline-none"
+        title={isCompleted ? 'Mark as not done' : 'Mark as done'}
       >
-        {toggling ? (
-          <Loader2 className="w-6 h-6 animate-spin text-gray-400 pointer-events-none" />
-        ) : isCompleted ? (
-          <CheckCircle2 className="w-7 h-7 text-green-500 pointer-events-none" />
+        {isCompleted ? (
+          <CheckCircle2 className="w-5 h-5 text-green-500" />
         ) : (
-          <Circle className="w-7 h-7 text-gray-300 pointer-events-none" />
+          <Circle className="w-5 h-5 text-gray-300 hover:text-blue-400 transition-colors" />
         )}
-      </div>
+      </button>
       <a
         href={tut.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-1 min-w-0 flex items-center gap-3 px-2 py-3"
+        className="flex-1 min-w-0 flex items-center gap-3"
       >
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
