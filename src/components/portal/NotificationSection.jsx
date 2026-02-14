@@ -106,7 +106,12 @@ export default function NotificationSection({ user }) {
                             ? 'bg-blue-50/40 border-blue-100 shadow-sm' 
                             : 'bg-white border-gray-100'
                     }`}
-                    onClick={() => handleNotificationClick(n)}
+                    onClick={(e) => {
+                        // Only mark as read if clicking the card itself, not buttons inside
+                        if (e.target === e.currentTarget || !e.target.closest('button')) {
+                            handleNotificationClick(n);
+                        }
+                    }}
                 >
                     <div className="flex gap-4">
                         <div className={`mt-1.5 w-2.5 h-2.5 rounded-full flex-shrink-0 ${!n.read ? 'bg-blue-500' : 'bg-gray-200'}`} />
