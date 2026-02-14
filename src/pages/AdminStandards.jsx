@@ -75,6 +75,19 @@ export default function AdminStandards() {
     createMutation.mutate(newItem);
   };
 
+  const handleDragEnd = async (result) => {
+    if (!result.destination) return;
+    const items = Array.from(filtered);
+    const [moved] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, moved);
+    // Update order for all reordered items
+    const updates = items.map((item, idx) =>
+      base44.entities.Standard.update(item.id, { order: idx })
+    );
+    await Promise.all(updates);
+    queryClient.invalidateQueries({ queryKey: ['standards'] });
+  };
+
   const categories = [...new Set(standards.map(s => s.category).filter(Boolean))];
   const filtered = filterCategory === 'all' ? standards : standards.filter(s => s.category === filterCategory);
 
