@@ -8,7 +8,6 @@ import {
   MonitorPlay, ExternalLink, Loader2, ChevronDown, ChevronRight, 
   Clock, BookOpen, Search, FolderOpen, X, CheckCircle2, Circle
 } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useLanguage } from './LanguageContext';
 
 const CATEGORY_ORDER = [
@@ -119,25 +118,21 @@ export default function JobTreadSection({ user }) {
   const progressPct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const toggleComplete = async (tutorialId) => {
-    try {
-      const existing = progress.find(p => p.tutorialId === tutorialId);
-      if (existing) {
-        await base44.entities.TutorialProgress.update(existing.id, {
-          completed: !existing.completed,
-          completedDate: !existing.completed ? new Date().toISOString().split('T')[0] : null,
-        });
-      } else {
-        await base44.entities.TutorialProgress.create({
-          userEmail: user.email,
-          tutorialId,
-          completed: true,
-          completedDate: new Date().toISOString().split('T')[0],
-        });
-      }
-      await queryClient.invalidateQueries({ queryKey: ['tutorial-progress', user?.email] });
-    } catch (err) {
-      console.error('Failed to toggle tutorial:', err);
+    const existing = progress.find(p => p.tutorialId === tutorialId);
+    if (existing) {
+      await base44.entities.TutorialProgress.update(existing.id, {
+        completed: !existing.completed,
+        completedDate: !existing.completed ? new Date().toISOString().split('T')[0] : null,
+      });
+    } else {
+      await base44.entities.TutorialProgress.create({
+        userEmail: user.email,
+        tutorialId,
+        completed: true,
+        completedDate: new Date().toISOString().split('T')[0],
+      });
     }
+    queryClient.invalidateQueries({ queryKey: ['tutorial-progress', user?.email] });
   };
 
   return (
@@ -314,14 +309,19 @@ export default function JobTreadSection({ user }) {
 
 function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
   return (
-    <div 
-      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group"
-    >
-      <Checkbox
-        checked={isCompleted}
-        onCheckedChange={onToggle}
-        className="flex-shrink-0"
-      />
+    <div className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors group">
+      <button
+        onClick={(e) => { e.stopPropagation(); onToggle(); }}
+        onTouchEnd={(e) => { e.stopPropagation(); onToggle(); }}
+        className="flex-shrink-0 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded active:scale-90 transition-transform cursor-pointer select-none touch-manipulation"
+        title={isCompleted ? 'Mark as not done' : 'Mark as done'}
+      >
+        {isCompleted ? (
+          <CheckCircle2 className="w-5 h-5 text-green-500" />
+        ) : (
+          <Circle className="w-5 h-5 text-gray-300 hover:text-blue-400 active:text-blue-500 transition-colors" />
+        )}
+      </button>
       <a
         href={tut.url}
         target="_blank"
