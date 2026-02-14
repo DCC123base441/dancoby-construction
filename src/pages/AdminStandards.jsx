@@ -78,6 +78,16 @@ export default function AdminStandards() {
     createMutation.mutate(newItem);
   };
 
+  const handleReplaceImage = async (id, e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setReplacingImageId(id);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    await base44.entities.Standard.update(id, { imageUrl: file_url });
+    queryClient.invalidateQueries({ queryKey: ['standards'] });
+    setReplacingImageId(null);
+  };
+
   const handleDragEnd = async (result) => {
     if (!result.destination) return;
     const items = Array.from(filtered);
