@@ -392,6 +392,35 @@ function RaiseTab({ userEmail }) {
     );
 }
 
+const toTitleCase = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().split(/[\s._-]+/).filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+};
+
+const getDisplayName = (user, profile) => {
+    if (profile?.firstName || profile?.lastName) {
+        return toTitleCase([profile.firstName, profile.lastName].filter(Boolean).join(' '));
+    }
+    const n = user?.full_name || '';
+    if (n && n.includes('@')) return toTitleCase(n.split('@')[0]);
+    if (n && n.includes(',')) {
+        const [last, first] = n.split(',').map(s => s.trim());
+        return toTitleCase(`${first} ${last}`);
+    }
+    if (n) return toTitleCase(n);
+    return toTitleCase(user?.email?.split('@')[0] || '');
+};
+
+const getInitials = (user, profile) => {
+    if (profile?.firstName && profile?.lastName) {
+        return `${profile.firstName.charAt(0)}${profile.lastName.charAt(0)}`.toUpperCase();
+    }
+    const name = getDisplayName(user, profile);
+    const parts = name.split(' ').filter(Boolean);
+    if (parts.length >= 2) return `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase();
+    return name.substring(0, 2).toUpperCase();
+};
+
 export default function EmployeeDetail({ user, profile, onDeleted }) {
     const [deleting, setDeleting] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
