@@ -133,7 +133,31 @@ export default function AdminTrainingResourceList({ courseId }) {
                         <span className="capitalize">{resource.type}</span>
                         {resource.duration && <span>· {resource.duration}</span>}
                         {resource.quizQuestions?.length > 0 && <span>· {resource.quizQuestions.length} quiz Q</span>}
-                        {resource.url && <span className="truncate max-w-[150px]">· {resource.url}</span>}
+                        {editingUrl === resource.id ? (
+                          <div className="flex items-center gap-1 ml-1" onClick={e => e.stopPropagation()}>
+                            <Input
+                              value={editUrlValue}
+                              onChange={e => setEditUrlValue(e.target.value)}
+                              className="h-5 text-[10px] w-48"
+                              placeholder="https://..."
+                              autoFocus
+                            />
+                            <button onClick={() => updateMutation.mutate({ id: resource.id, data: { url: editUrlValue } })} className="text-green-500 hover:text-green-700">
+                              <Check className="w-3 h-3" />
+                            </button>
+                            <button onClick={() => setEditingUrl(null)} className="text-slate-400 hover:text-slate-600">
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ) : resource.url ? (
+                          <span className="truncate max-w-[150px] cursor-pointer hover:text-amber-600 flex items-center gap-0.5" onClick={() => { setEditingUrl(resource.id); setEditUrlValue(resource.url); }}>
+                            · {resource.url} <Pencil className="w-2.5 h-2.5 inline" />
+                          </span>
+                        ) : (
+                          <span className="cursor-pointer hover:text-amber-600 flex items-center gap-0.5" onClick={() => { setEditingUrl(resource.id); setEditUrlValue(''); }}>
+                            · <Pencil className="w-2.5 h-2.5" /> add url
+                          </span>
+                        )}
                       </div>
                     </div>
                     <Button
