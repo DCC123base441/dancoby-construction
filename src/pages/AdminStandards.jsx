@@ -17,6 +17,9 @@ export default function AdminStandards() {
   const [uploading, setUploading] = useState(false);
   const [newItem, setNewItem] = useState({ imageUrl: '', note: 'This', category: '' });
   const [filterCategory, setFilterCategory] = useState('all');
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [generatingAi, setGeneratingAi] = useState(false);
+  const [useAi, setUseAi] = useState(false);
 
   const { data: standards = [], isLoading } = useQuery({
     queryKey: ['standards'],
