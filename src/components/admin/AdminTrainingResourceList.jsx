@@ -22,6 +22,17 @@ export default function AdminTrainingResourceList({ courseId }) {
   const [showAdd, setShowAdd] = useState(false);
   const [newResource, setNewResource] = useState({ title: '', title_es: '', type: 'video', url: '', duration: '', order: 0 });
   const [expandedQuiz, setExpandedQuiz] = useState(null);
+  const [editingUrl, setEditingUrl] = useState(null);
+  const [editUrlValue, setEditUrlValue] = useState('');
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.TrainingResource.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['adminTrainingResources', courseId] });
+      setEditingUrl(null);
+      toast.success('Resource updated');
+    },
+  });
 
   const { data: resources = [], isLoading } = useQuery({
     queryKey: ['adminTrainingResources', courseId],
