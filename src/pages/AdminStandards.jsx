@@ -86,20 +86,46 @@ export default function AdminStandards() {
               {newItem.imageUrl ? (
                 <div className="relative">
                   <img src={newItem.imageUrl} alt="Preview" className="w-full h-48 object-cover rounded-lg" />
-                  <Button size="sm" variant="destructive" className="absolute top-2 right-2" onClick={() => setNewItem(prev => ({ ...prev, imageUrl: '' }))}>
+                  <Button size="sm" variant="destructive" className="absolute top-2 right-2" onClick={() => { setNewItem(prev => ({ ...prev, imageUrl: '' })); setUseAi(false); setAiPrompt(''); }}>
                     <Trash2 className="w-3 h-3" />
                   </Button>
                 </div>
               ) : (
-                <label className="flex flex-col items-center justify-center h-48 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-red-400 transition-colors">
-                  {uploading ? <Loader2 className="w-8 h-8 animate-spin text-slate-400" /> : (
-                    <>
-                      <Upload className="w-8 h-8 text-slate-400 mb-2" />
-                      <span className="text-sm text-slate-500">Click to upload image</span>
-                    </>
+                <div className="space-y-3">
+                  <div className="flex gap-2">
+                    <Button type="button" size="sm" variant={!useAi ? 'default' : 'outline'} onClick={() => setUseAi(false)}>
+                      <Upload className="w-3 h-3 mr-1" /> Upload
+                    </Button>
+                    <Button type="button" size="sm" variant={useAi ? 'default' : 'outline'} onClick={() => setUseAi(true)}>
+                      <Sparkles className="w-3 h-3 mr-1" /> AI Generate
+                    </Button>
+                  </div>
+
+                  {useAi ? (
+                    <div className="space-y-2">
+                      <Textarea
+                        placeholder="Describe the standard image you want to generate, e.g. 'A properly framed interior wall with correct stud spacing and blocking'"
+                        value={aiPrompt}
+                        onChange={(e) => setAiPrompt(e.target.value)}
+                        className="h-28"
+                      />
+                      <Button type="button" className="w-full" onClick={handleAiGenerate} disabled={generatingAi || !aiPrompt.trim()}>
+                        {generatingAi ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Sparkles className="w-4 h-4 mr-2" />}
+                        {generatingAi ? 'Generating...' : 'Generate Image'}
+                      </Button>
+                    </div>
+                  ) : (
+                    <label className="flex flex-col items-center justify-center h-40 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-red-400 transition-colors">
+                      {uploading ? <Loader2 className="w-8 h-8 animate-spin text-slate-400" /> : (
+                        <>
+                          <Upload className="w-8 h-8 text-slate-400 mb-2" />
+                          <span className="text-sm text-slate-500">Click to upload image</span>
+                        </>
+                      )}
+                      <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+                    </label>
                   )}
-                  <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
-                </label>
+                </div>
               )}
 
               <div>
