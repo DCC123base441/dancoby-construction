@@ -70,7 +70,7 @@ export default function TenureBadge({ startDate }) {
       initial={{ opacity: 0, scale: 0.8, y: 10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 15 }}
-      className="mt-3 relative"
+      className="mt-3 relative z-50"
     >
       <button onClick={() => setShowChart(!showChart)} className="focus:outline-none">
         <div className={`inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-full pl-1.5 pr-3 py-1 border border-white/20 hover:bg-white/25 transition-colors cursor-pointer`}>
