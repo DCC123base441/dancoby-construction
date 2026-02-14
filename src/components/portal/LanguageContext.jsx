@@ -222,6 +222,8 @@ const translations = {
     standardsDesc: 'Reference images showing the right and wrong way to do things.',
     noStandards: 'No standards have been added yet.',
     allFilter: 'All',
+    standardThis: 'This',
+    standardNotThis: 'Not This',
 
     // Profile Setup
     profileSettings: 'Profile Settings',
@@ -523,6 +525,8 @@ const translations = {
     standardsDesc: 'Imágenes de referencia que muestran la forma correcta e incorrecta de hacer las cosas.',
     noStandards: 'Aún no se han agregado estándares.',
     allFilter: 'Todos',
+    standardThis: 'Así sí',
+    standardNotThis: 'Así no',
 
     // Profile Setup
     profileSettings: 'Configuración del Perfil',

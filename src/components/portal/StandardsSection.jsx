@@ -64,7 +64,7 @@ export default function StandardsSection() {
               <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-bold shadow-lg ${
                 item.note === 'This' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
               }`}>
-                {item.note === 'This' ? '✅' : '❌'} {item.note}
+                {item.note === 'This' ? '✅' : '❌'} {item.note === 'This' ? t('standardThis') : t('standardNotThis')}
               </div>
             </div>
             {item.category && (
@@ -87,7 +87,7 @@ export default function StandardsSection() {
             <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-bold shadow-lg ${
               expandedImage.note === 'This' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
             }`}>
-              {expandedImage.note === 'This' ? '✅' : '❌'} {expandedImage.note}
+              {expandedImage.note === 'This' ? '✅' : '❌'} {expandedImage.note === 'This' ? t('standardThis') : t('standardNotThis')}
             </div>
           </div>
         </div>
