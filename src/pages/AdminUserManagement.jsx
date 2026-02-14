@@ -20,11 +20,16 @@ export default function AdminUserManagement() {
   });
 
   const updateUserMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.User.update(id, data),
+    mutationFn: ({ id, data }) => base44.asServiceRole.entities.User.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-users'] });
       setEditingUser(null);
       setFormData({});
+      alert('User updated successfully!');
+    },
+    onError: (error) => {
+      alert('Error updating user: ' + (error.message || 'Unknown error'));
+      console.error('Update error:', error);
     },
   });
 
