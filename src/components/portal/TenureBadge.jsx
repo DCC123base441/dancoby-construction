@@ -95,8 +95,8 @@ export default function TenureBadge({ startDate }) {
             <span className="text-white/90 text-xs font-semibold">
               {info.display}
             </span>
-            <span className="text-[10px] text-white/60">•</span>
-            <span className="text-[10px] text-amber-200 font-medium">
+            <span className="text-xs text-white/60">•</span>
+            <span className="text-xs text-amber-200 font-semibold">
               {info.label}
             </span>
           </div>
