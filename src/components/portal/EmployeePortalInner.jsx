@@ -105,7 +105,7 @@ export default function EmployeePortalInner({ user }) {
         <div className="flex-1 min-w-0 overflow-y-auto lg:pb-0"> {/* Adjusted for scrolling behavior */}
           <div className="max-w-4xl mx-auto"> {/* Removed redundant px-4 sm:px-6 py-6 from here as it's on parent */}
             {/* Welcome banner */}
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 p-5 sm:p-6 mb-6 text-white">
+            <div className="relative rounded-2xl bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 p-5 sm:p-6 mb-6 text-white overflow-visible">
               <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/4" />
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
               <div className="relative z-10 flex items-center justify-between">
