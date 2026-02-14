@@ -68,11 +68,11 @@ export default function EmployeeList({ users, profiles, invites = [], onSelect, 
                             <div className="flex items-center gap-3">
                                 <Avatar className="h-10 w-10 border border-slate-200">
                                     <AvatarFallback className={`text-sm font-semibold ${isPending ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}`}>
-                                        {(user.full_name || user.email)?.substring(0, 2).toUpperCase()}
+                                        {getInitials(user)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1 min-w-0">
-                                    <p className="font-semibold text-slate-900 truncate">{user.full_name ? user.full_name.split(' ').filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ') : 'No Name'}</p>
+                                    <p className="font-semibold text-slate-900 truncate">{getDisplayName(user)}</p>
                                     <p className="text-xs text-slate-500 truncate select-text">{user.email}</p>
                                 </div>
                                 {isPending ? (
