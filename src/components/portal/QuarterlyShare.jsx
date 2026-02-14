@@ -18,47 +18,96 @@ export default function QuarterlyShare() {
   const [sliderValue, setSliderValue] = useState(null);
   const hasFiredConfetti = useRef(false);
 
-  // Simple "jackpot" sound via Web Audio API (works on iOS/Android/desktop)
+  // Rich "jackpot" sound via Web Audio API (~2.4s): fanfare + sweep + coin cascade + shimmer
   const playJackpot = useCallback(() => {
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       const ctx = new AudioCtx();
       const now = ctx.currentTime;
+      const endAt = now + 2.4;
 
       const master = ctx.createGain();
       master.gain.setValueAtTime(0.0001, now);
-      master.gain.exponentialRampToValueAtTime(0.35, now + 0.02);
-      master.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
+      master.gain.exponentialRampToValueAtTime(0.6, now + 0.05);
+      master.gain.exponentialRampToValueAtTime(0.0001, endAt);
       master.connect(ctx.destination);
 
-      const arpeggio = [880, 1174.66, 1567.98]; // A5, D6, G6
-      arpeggio.forEach((freq, i) => {
+      // 1) Fanfare arpeggio (C major color), slight stereo pan
+      const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5]; // C5, E5, G5, C6, E6
+      notes.forEach((freq, i) => {
         const osc = ctx.createOscillator();
         const g = ctx.createGain();
+        const p = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, now + i * 0.12);
         g.gain.setValueAtTime(0.0001, now + i * 0.12);
-        g.gain.exponentialRampToValueAtTime(0.25, now + i * 0.13);
-        g.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.28);
-        osc.connect(g);
-        g.connect(master);
+        g.gain.exponentialRampToValueAtTime(0.35, now + i * 0.14);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.34);
+        if (p) {
+          p.pan.setValueAtTime(i % 2 === 0 ? -0.3 : 0.3, now + i * 0.12);
+          osc.connect(g); g.connect(p); p.connect(master);
+        } else {
+          osc.connect(g); g.connect(master);
+        }
         osc.start(now + i * 0.12);
-        osc.stop(now + i * 0.3);
+        osc.stop(now + i * 0.36);
       });
 
-      // Quick upward sweep for a "winning" feel
+      // 2) Rising sweep for "win" lift
       const sweep = ctx.createOscillator();
       const sweepGain = ctx.createGain();
       sweep.type = 'sawtooth';
-      sweep.frequency.setValueAtTime(420, now + 0.45);
-      sweep.frequency.exponentialRampToValueAtTime(1600, now + 0.85);
-      sweepGain.gain.setValueAtTime(0.0001, now + 0.45);
-      sweepGain.gain.exponentialRampToValueAtTime(0.18, now + 0.5);
-      sweepGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+      sweep.frequency.setValueAtTime(300, now + 0.5);
+      sweep.frequency.exponentialRampToValueAtTime(1800, now + 1.2);
+      sweepGain.gain.setValueAtTime(0.0001, now + 0.5);
+      sweepGain.gain.exponentialRampToValueAtTime(0.25, now + 0.55);
+      sweepGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.25);
       sweep.connect(sweepGain);
       sweepGain.connect(master);
-      sweep.start(now + 0.45);
-      sweep.stop(now + 0.9);
+      sweep.start(now + 0.5);
+      sweep.stop(now + 1.3);
+
+      // 3) Metallic coin cascade (randomized short pings through bandpass)
+      const makePing = (t, baseFreq) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        const bp = ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = baseFreq;
+        bp.Q.value = 12;
+        o.type = 'sine';
+        o.frequency.setValueAtTime(baseFreq, t);
+        o.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, t + 0.08);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.2, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
+        o.connect(bp); bp.connect(g); g.connect(master);
+        o.start(t);
+        o.stop(t + 0.22);
+      };
+      for (let i = 0; i < 12; i++) {
+        const t = now + 0.85 + Math.random() * 1.2;
+        const f = 1800 + Math.random() * 800;
+        makePing(t, f);
+      }
+
+      // 4) Shimmering noise tail
+      const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 0.5, ctx.sampleRate);
+      const data = noiseBuf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuf;
+      const ng = ctx.createGain();
+      const hp = ctx.createBiquadFilter();
+      hp.type = 'highpass'; hp.frequency.value = 1000;
+      ng.gain.setValueAtTime(0.0001, now + 0.9);
+      ng.gain.exponentialRampToValueAtTime(0.15, now + 0.95);
+      ng.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+      noise.connect(hp); hp.connect(ng); ng.connect(master);
+      noise.start(now + 0.9);
+      noise.stop(now + 1.7);
     } catch (e) {
       // Silently ignore audio errors
     }
