@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLanguage } from './LanguageContext';
-import { Languages } from 'lucide-react';
 
 export default function LanguageSwitcher() {
   const { lang, setLang } = useLanguage();
