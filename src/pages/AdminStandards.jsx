@@ -16,13 +16,14 @@ export default function AdminStandards() {
   const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [newItem, setNewItem] = useState({ imageUrl: '', note: 'This', category: '' });
+  const [newItem, setNewItem] = useState({ imageUrl: '', note: 'This', category: '', categoryEs: '' });
   const [filterCategory, setFilterCategory] = useState('all');
   const [aiPrompt, setAiPrompt] = useState('');
   const [generatingAi, setGeneratingAi] = useState(false);
   const [useAi, setUseAi] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editCategory, setEditCategory] = useState('');
+  const [editCategoryEs, setEditCategoryEs] = useState('');
   const [replacingImageId, setReplacingImageId] = useState(null);
 
   const { data: standards = [], isLoading } = useQuery({
@@ -35,7 +36,7 @@ export default function AdminStandards() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['standards'] });
       setDialogOpen(false);
-      setNewItem({ imageUrl: '', note: 'This', category: '' });
+      setNewItem({ imageUrl: '', note: 'This', category: '', categoryEs: '' });
     },
   });
 
@@ -175,11 +176,19 @@ export default function AdminStandards() {
               </div>
 
               <div>
-                <Label>Category (optional)</Label>
+                <Label>Category — English (optional)</Label>
                 <Input
                   placeholder="e.g. Framing, Tiling, Drywall"
                   value={newItem.category}
                   onChange={(e) => setNewItem(prev => ({ ...prev, category: e.target.value }))}
+                />
+              </div>
+              <div>
+                <Label>Category — Español (optional)</Label>
+                <Input
+                  placeholder="e.g. Enmarcado, Azulejo, Yeso"
+                  value={newItem.categoryEs}
+                  onChange={(e) => setNewItem(prev => ({ ...prev, categoryEs: e.target.value }))}
                 />
               </div>
 
@@ -251,28 +260,36 @@ export default function AdminStandards() {
                           </div>
                           <CardContent className="p-3 space-y-2">
                             {editingId === item.id ? (
-                              <div className="flex items-center gap-1">
-                                <Input
-                                  value={editCategory}
-                                  onChange={(e) => setEditCategory(e.target.value)}
-                                  placeholder="Category"
-                                  className="h-7 text-xs"
-                                  autoFocus
-                                />
-                                <Button size="icon" variant="ghost" className="h-7 w-7 shrink-0" onClick={() => {
-                                  updateMutation.mutate({ id: item.id, data: { category: editCategory } });
-                                  setEditingId(null);
-                                }}>
-                                  <Check className="w-3 h-3 text-green-600" />
-                                </Button>
-                                <Button size="icon" variant="ghost" className="h-7 w-7 shrink-0" onClick={() => setEditingId(null)}>
-                                  <X className="w-3 h-3 text-slate-400" />
-                                </Button>
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-1">
+                                  <Input
+                                    value={editCategory}
+                                    onChange={(e) => setEditCategory(e.target.value)}
+                                    placeholder="Category (EN)"
+                                    className="h-7 text-xs"
+                                    autoFocus
+                                  />
+                                  <Input
+                                    value={editCategoryEs}
+                                    onChange={(e) => setEditCategoryEs(e.target.value)}
+                                    placeholder="Categoría (ES)"
+                                    className="h-7 text-xs"
+                                  />
+                                  <Button size="icon" variant="ghost" className="h-7 w-7 shrink-0" onClick={() => {
+                                    updateMutation.mutate({ id: item.id, data: { category: editCategory, categoryEs: editCategoryEs } });
+                                    setEditingId(null);
+                                  }}>
+                                    <Check className="w-3 h-3 text-green-600" />
+                                  </Button>
+                                  <Button size="icon" variant="ghost" className="h-7 w-7 shrink-0" onClick={() => setEditingId(null)}>
+                                    <X className="w-3 h-3 text-slate-400" />
+                                  </Button>
+                                </div>
                               </div>
                             ) : (
                               <div className="flex items-center justify-between">
                                 <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{item.category || 'No category'}</span>
-                                <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => { setEditingId(item.id); setEditCategory(item.category || ''); }}>
+                                <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => { setEditingId(item.id); setEditCategory(item.category || ''); setEditCategoryEs(item.categoryEs || ''); }}>
                                   <Pencil className="w-3 h-3 text-slate-400" />
                                 </Button>
                               </div>
