@@ -50,9 +50,11 @@ export default function StandardsSection() {
       {categories.length > 0 && (
         <div className="flex gap-2 mb-4 flex-wrap">
           <Button size="sm" variant={filterCategory === 'all' ? 'default' : 'outline'} onClick={() => setFilterCategory('all')}>{t('allFilter')}</Button>
-          {categories.map(cat => (
-            <Button key={cat} size="sm" variant={filterCategory === cat ? 'default' : 'outline'} onClick={() => setFilterCategory(cat)}>{cat}</Button>
-          ))}
+          {categories.map(cat => {
+            const std = standards.find(s => s.category === cat);
+            const displayCat = lang === 'es' && std?.categoryEs ? std.categoryEs : cat;
+            return <Button key={cat} size="sm" variant={filterCategory === cat ? 'default' : 'outline'} onClick={() => setFilterCategory(cat)}>{displayCat}</Button>;
+          })}
         </div>
       )}
 
