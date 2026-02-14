@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from './LanguageContext';
 
 export default function StandardsSection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [filterCategory, setFilterCategory] = useState('all');
   const [expandedImage, setExpandedImage] = useState(null);
   const queryClient = useQueryClient();
@@ -69,7 +69,7 @@ export default function StandardsSection() {
             </div>
             {item.category && (
               <div className="px-3 py-2 border-t border-gray-100">
-                <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">{item.category}</span>
+                <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">{lang === 'es' && item.categoryEs ? item.categoryEs : item.category}</span>
               </div>
             )}
           </div>
