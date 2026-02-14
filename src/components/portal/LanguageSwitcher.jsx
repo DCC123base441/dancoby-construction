@@ -12,7 +12,7 @@ export default function LanguageSwitcher() {
       title={lang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
     >
       <Languages className="w-4 h-4" />
-      <span className="uppercase font-semibold">{lang === 'en' ? 'ES' : 'EN'}</span>
+      <span className="uppercase font-semibold">ES</span>
     </button>
   );
 }
