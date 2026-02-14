@@ -54,11 +54,18 @@ export default function AdminStandards() {
     setUploading(false);
   };
 
+  const [aiError, setAiError] = useState('');
+
   const handleAiGenerate = async () => {
     if (!aiPrompt.trim()) return;
     setGeneratingAi(true);
-    const { url } = await base44.integrations.Core.GenerateImage({ prompt: aiPrompt });
-    setNewItem(prev => ({ ...prev, imageUrl: url }));
+    setAiError('');
+    try {
+      const { url } = await base44.integrations.Core.GenerateImage({ prompt: aiPrompt });
+      setNewItem(prev => ({ ...prev, imageUrl: url }));
+    } catch (err) {
+      setAiError('Image generation failed. Try rephrasing your description.');
+    }
     setGeneratingAi(false);
   };
 
