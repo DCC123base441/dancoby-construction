@@ -263,7 +263,12 @@ export default function JobTreadSection({ user }) {
                   <div className="flex items-center gap-3">
                     <span className="text-base">{CATEGORY_ICONS[cat] || '📖'}</span>
                     <span className="font-semibold text-sm text-gray-900">{cat}</span>
-                    <Badge variant="outline" className="text-xs font-normal">{items.length}</Badge>
+                    <Badge variant="outline" className="text-xs font-normal">
+                      {items.filter(i => completedSet.has(i.id)).length}/{items.length}
+                    </Badge>
+                    {items.every(i => completedSet.has(i.id)) && (
+                      <CheckCircle2 className="w-4 h-4 text-green-500" />
+                    )}
                   </div>
                   {isExpanded ? (
                     <ChevronDown className="w-4 h-4 text-gray-400" />
