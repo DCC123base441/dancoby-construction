@@ -97,7 +97,7 @@ export default function EmployeePortalInner({ user }) {
       case 'timeoff': return <TimeOffSection user={user} />;
       case 'raise': return <RaiseRequestSection user={user} profile={profile} />;
       case 'gear': return <GearShopSection />;
-      case 'jobtread': return <JobTreadSection />;
+      case 'jobtread': return <JobTreadSection user={user} />;
       case 'notifications': return <NotificationSection user={user} onNavigate={setActiveTab} />;
       case 'standards': return <StandardsSection />;
       case 'training': return <TrainingSection user={user} />;
