@@ -26,9 +26,9 @@ export default function AdminUserManagement() {
       role: data.role
     }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
       setEditingUser(null);
       setFormData({});
+      refetch();
       alert('User updated successfully!');
     },
     onError: (error) => {
