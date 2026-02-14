@@ -15,28 +15,30 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'userId is required' }, { status: 400 });
     }
 
-    const url = `${Deno.env.get('BASE44_API_URL') || 'https://api.base44.com'}/apps/${Deno.env.get('BASE44_APP_ID')}/entities/User/${userId}`;
-    
     const updateData = {};
     if (full_name !== undefined) updateData.full_name = full_name;
     if (role !== undefined) updateData.role = role;
 
-    const response = await fetch(url, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${req.headers.get('authorization')?.split(' ')[1] || ''}`
-      },
-      body: JSON.stringify(updateData)
-    });
+    // Use the admin's token to make the update
+    const response = await fetch(
+      `https://api.base44.com/apps/${Deno.env.get('BASE44_APP_ID')}/entities/User/${userId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': req.headers.get('authorization') || ''
+        },
+        body: JSON.stringify(updateData)
+      }
+    );
 
+    const data = await response.json();
+    
     if (!response.ok) {
-      const error = await response.json();
-      return Response.json({ error: error.detail || 'Failed to update user' }, { status: response.status });
+      return Response.json({ error: data.detail || 'Failed to update user' }, { status: response.status });
     }
 
-    const updated = await response.json();
-    return Response.json({ success: true, user: updated });
+    return Response.json({ success: true, user: data });
   } catch (error) {
     console.error('Error updating user:', error);
     return Response.json({ error: error.message }, { status: 500 });
