@@ -95,7 +95,7 @@ export default function AdminLayout({ children, title, actions }) {
                 </div>
             </div>
             
-            <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+            <nav className="flex-1 p-4 space-y-1">
                 {navigation.map((item) => {
                     // Check if current page matches the link
                     // Simple check: if pathname contains the href
