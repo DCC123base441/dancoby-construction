@@ -18,12 +18,58 @@ export default function QuarterlyShare() {
   const [sliderValue, setSliderValue] = useState(null);
   const hasFiredConfetti = useRef(false);
 
+  // Simple "jackpot" sound via Web Audio API (works on iOS/Android/desktop)
+  const playJackpot = useCallback(() => {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(0.35, now + 0.02);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
+      master.connect(ctx.destination);
+
+      const arpeggio = [880, 1174.66, 1567.98]; // A5, D6, G6
+      arpeggio.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + i * 0.12);
+        g.gain.setValueAtTime(0.0001, now + i * 0.12);
+        g.gain.exponentialRampToValueAtTime(0.25, now + i * 0.13);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.28);
+        osc.connect(g);
+        g.connect(master);
+        osc.start(now + i * 0.12);
+        osc.stop(now + i * 0.3);
+      });
+
+      // Quick upward sweep for a "winning" feel
+      const sweep = ctx.createOscillator();
+      const sweepGain = ctx.createGain();
+      sweep.type = 'sawtooth';
+      sweep.frequency.setValueAtTime(420, now + 0.45);
+      sweep.frequency.exponentialRampToValueAtTime(1600, now + 0.85);
+      sweepGain.gain.setValueAtTime(0.0001, now + 0.45);
+      sweepGain.gain.exponentialRampToValueAtTime(0.18, now + 0.5);
+      sweepGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+      sweep.connect(sweepGain);
+      sweepGain.connect(master);
+      sweep.start(now + 0.45);
+      sweep.stop(now + 0.9);
+    } catch (e) {
+      // Silently ignore audio errors
+    }
+  }, []);
+
   const fireConfetti = useCallback(() => {
     confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
     confetti({ particleCount: 80, spread: 100, origin: { y: 0.7 }, startVelocity: 25 });
     if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-    try { const a = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-win-1928.mp3'); a.volume = 0.9; a.play().catch(() => {}); } catch (e) {}
-  }, []);
+    playJackpot();
+  }, [playJackpot]);
 
   const handleSliderChange = useCallback((val) => {
     setSliderValue(val[0]);
