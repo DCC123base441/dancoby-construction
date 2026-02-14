@@ -321,9 +321,14 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
           <Circle className="w-5 h-5 text-gray-300 hover:text-blue-400 transition-colors" />
         )}
       </button>
-      <div className="flex-1 min-w-0 flex items-center gap-3">
+      <a
+        href={tut.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1 min-w-0 flex items-center gap-3"
+      >
         <div className="flex-1 min-w-0">
-          <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
+          <p className={`text-sm font-medium truncate ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800 group-hover:text-blue-700'}`}>
             {tut.title}
           </p>
           <div className="flex items-center gap-2 mt-0.5">
@@ -340,7 +345,8 @@ function TutorialRow({ tut, showCategory, isCompleted, onToggle }) {
             <Clock className="w-3 h-3" /> {tut.duration}
           </span>
         )}
-      </div>
+        <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
+      </a>
     </div>
   );
 }
