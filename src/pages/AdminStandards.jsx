@@ -196,52 +196,67 @@ export default function AdminStandards() {
           <p className="text-sm mt-1">Click "Add Standard" to upload your first image</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filtered.map((item) => (
-            <Card key={item.id} className="overflow-hidden group relative">
-              <div className="relative">
-                <img src={item.imageUrl} alt={item.note} className="w-full h-52 object-cover" />
-                <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-bold shadow-lg ${
-                  item.note === 'This' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-                }`}>
-                  {item.note === 'This' ? '✅' : '❌'} {item.note}
-                </div>
-                <Button
-                  size="icon"
-                  variant="destructive"
-                  className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-                  onClick={() => deleteMutation.mutate(item.id)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="standards" direction="horizontal">
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {filtered.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div ref={provided.innerRef} {...provided.draggableProps} style={provided.draggableProps.style}>
+                        <Card className={`overflow-hidden group relative ${snapshot.isDragging ? 'shadow-xl ring-2 ring-red-300' : ''}`}>
+                          <div {...provided.dragHandleProps} className="absolute top-3 right-12 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 rounded p-1 cursor-grab">
+                            <GripVertical className="w-4 h-4 text-slate-500" />
+                          </div>
+                          <div className="relative">
+                            <img src={item.imageUrl} alt={item.note} className="w-full h-52 object-cover" />
+                            <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-bold shadow-lg ${
+                              item.note === 'This' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                            }`}>
+                              {item.note === 'This' ? '✅' : '❌'} {item.note}
+                            </div>
+                            <Button
+                              size="icon"
+                              variant="destructive"
+                              className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
+                              onClick={() => deleteMutation.mutate(item.id)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                          {item.category && (
+                            <CardContent className="p-3">
+                              <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{item.category}</span>
+                            </CardContent>
+                          )}
+                          <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm p-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                              size="sm"
+                              variant={item.note === 'This' ? 'default' : 'outline'}
+                              className="flex-1 text-xs"
+                              onClick={() => updateMutation.mutate({ id: item.id, data: { note: 'This' } })}
+                            >
+                              ✅ This
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant={item.note === 'Not This' ? 'destructive' : 'outline'}
+                              className="flex-1 text-xs"
+                              onClick={() => updateMutation.mutate({ id: item.id, data: { note: 'Not This' } })}
+                            >
+                              ❌ Not This
+                            </Button>
+                          </div>
+                        </Card>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
               </div>
-              {item.category && (
-                <CardContent className="p-3">
-                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{item.category}</span>
-                </CardContent>
-              )}
-              {/* Inline note toggle */}
-              <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm p-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button
-                  size="sm"
-                  variant={item.note === 'This' ? 'default' : 'outline'}
-                  className="flex-1 text-xs"
-                  onClick={() => updateMutation.mutate({ id: item.id, data: { note: 'This' } })}
-                >
-                  ✅ This
-                </Button>
-                <Button
-                  size="sm"
-                  variant={item.note === 'Not This' ? 'destructive' : 'outline'}
-                  className="flex-1 text-xs"
-                  onClick={() => updateMutation.mutate({ id: item.id, data: { note: 'Not This' } })}
-                >
-                  ❌ Not This
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       )}
     </AdminLayout>
   );
