@@ -202,7 +202,7 @@ export default function TrainingCourseDetail({ course, resources, progress, user
                   )}
                 </div>
 
-                {/* Inline quiz */}
+                {/* Quiz inline */}
                 {openQuizId === resource.id && resource.quizQuestions?.length > 0 && (
                   <div className="ml-9">
                     <ResourceQuiz
