@@ -239,14 +239,14 @@ export default function JobTreadSection({ user }) {
         /* Flat results when searching */
         <Card className="border-gray-200 overflow-hidden divide-y divide-gray-50">
           {filtered.map(tut => (
-            <TutorialRow key={tut.id} tut={tut} showCategory isCompleted={completedSet.has(tut.id)} onToggle={() => toggleMutation.mutateAsync(tut.id)} />
+            <TutorialRow key={tut.id} tut={tut} showCategory isCompleted={completedSet.has(tut.id)} onToggle={() => toggleComplete(tut.id)} />
           ))}
         </Card>
       ) : selectedCategory ? (
         /* Single category selected - show flat */
         <Card className="border-gray-200 overflow-hidden divide-y divide-gray-50">
           {filtered.map(tut => (
-            <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleMutation.mutateAsync(tut.id)} />
+            <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleComplete(tut.id)} />
           ))}
         </Card>
       ) : (
@@ -280,7 +280,7 @@ export default function JobTreadSection({ user }) {
                 {isExpanded && (
                   <div className="border-t border-gray-100 divide-y divide-gray-50">
                     {items.map((tut) => (
-                      <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleMutation.mutateAsync(tut.id)} />
+                      <TutorialRow key={tut.id} tut={tut} isCompleted={completedSet.has(tut.id)} onToggle={() => toggleComplete(tut.id)} />
                     ))}
                   </div>
                 )}
