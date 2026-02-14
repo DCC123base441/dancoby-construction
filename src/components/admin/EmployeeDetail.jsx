@@ -491,7 +491,7 @@ export default function EmployeeDetail({ user, profile, onDeleted }) {
                         </div>
                     )}
                     <div className="min-w-0">
-                        <h2 className="text-lg sm:text-xl font-bold text-slate-900 truncate">{user.full_name || 'No Name'}</h2>
+                        <h2 className="text-lg sm:text-xl font-bold text-slate-900 truncate">{getDisplayName(user, profile)}</h2>
                         <p className="text-xs sm:text-sm text-slate-500 flex items-center gap-1 truncate"><Mail className="w-3.5 h-3.5 flex-shrink-0" /> <span className="select-text truncate">{profile?.email || user.email}</span></p>
                         
                         <div className="flex items-center gap-2 mt-2">
