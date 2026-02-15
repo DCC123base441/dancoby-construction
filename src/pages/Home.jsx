@@ -148,23 +148,25 @@ export default function Home() {
             </motion.div>
 
             {/* Images */}
-            <motion.div {...fadeIn} className="relative">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="aspect-[3/4] overflow-hidden">
+            <motion.div {...fadeIn} className="relative h-full">
+              <div className="grid grid-cols-2 gap-6 h-full">
+                <div className="h-full">
                   <img
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
                     alt="Living Room"
                     className="w-full h-full shadow-xl object-cover"
                     loading="lazy"
                     decoding="async" />
+
                 </div>
-                <div className="aspect-[3/4] overflow-hidden mt-8">
+                <div className="h-full">
                   <img
                     src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
                     alt="Kitchen"
                     className="w-full h-full shadow-xl object-cover"
                     loading="lazy"
                     decoding="async" />
+
                 </div>
               </div>
             </motion.div>
@@ -267,15 +269,14 @@ export default function Home() {
                   </motion.div>
 
                   {/* Image */}
-                  <motion.div {...fadeIn} className="relative mt-8 lg:mt-0">
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img
-                  src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
-                  alt="Modern Kitchen"
-                  className="w-full h-full object-cover shadow-2xl"
-                  loading="lazy"
-                  decoding="async" />
-                    </div>
+                  <motion.div {...fadeIn} className="relative mt-8 lg:mt-0 h-full">
+                    <img
+                src="https://static.wixstatic.com/media/c1b522_38c04d6b49cb48ab8c1755d93f712bb4~mv2.jpeg/v1/fill/w_635,h_496,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dancoby_Penthouse%20Finished_Shot%2013.jpeg"
+                alt="Modern Kitchen"
+                className="w-full h-full object-cover shadow-2xl rounded-sm"
+                loading="lazy"
+                decoding="async" />
+
                   </motion.div>
                 </div>
               </div>
@@ -304,7 +305,7 @@ export default function Home() {
       {/* Featured Projects Grid */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
             { id: "697c5e88074fc8d96b14a823", title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
             { id: "697cede5ec09b851f1e8fe80", title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
@@ -316,29 +317,39 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="group">
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="group flex flex-col h-full">
 
-                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden bg-stone-100 aspect-[3/4] mb-4">
+                    <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="block relative overflow-hidden mb-6 bg-gray-200">
                       <img
                   src={project.image}
                   alt={project.logo}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.2s] ease-out"
+                  className="w-full h-96 object-cover group-hover:scale-[1.1] transition-transform duration-700"
                   loading="lazy"
                   decoding="async" />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-700 z-10" />
-                      <div className="absolute top-3 left-3 z-20">
-                        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/90 bg-black/40 backdrop-blur-sm px-3 py-1.5">
-                          {project.logo}
-                        </span>
-                      </div>
+
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
                     </Link>
 
-                    <h3 className="text-sm font-medium text-gray-900 leading-snug group-hover:text-stone-600 transition-colors line-clamp-2">
-                      <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-                        {project.title}
-                      </Link>
-                    </h3>
+                    <div className="flex flex-col flex-1">
+                      <div className="h-12 flex items-center">
+                        <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                          {project.logo}
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-medium text-gray-900 leading-tight mb-4">
+                        <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`} className="hover:text-red-600 transition-colors">
+                          {project.title}
+                        </Link>
+                      </h3>
+                      <div className="mt-auto">
+                        <Button asChild className="bg-red-600 hover:bg-red-700 text-white h-auto py-2 px-4 text-sm">
+                          <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
+                            View Project
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
                   </motion.div>
             )}
               </div>
