@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Trash2, Edit2, MessageSquare, Sparkles, MapPin } from 'lucide-react';
+import { Plus, Trash2, Edit2, MessageSquare, Sparkles, MapPin, Wand2, Loader2 } from 'lucide-react';
 import { toast } from "sonner";
 import {
   Dialog,
@@ -95,6 +95,25 @@ export default function AdminChatBot() {
             });
         }
     }, [editingMessage, isDialogOpen]);
+
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    const handleGenerate = async () => {
+        setIsGenerating(true);
+        try {
+            const pageContext = formData.targetPage === 'all' ? 'any page' : formData.targetPage === '/' ? 'the Home page' : `the ${formData.targetPage.replace('/', '')} page`;
+            const typeContext = formData.isPageWelcome ? 'a welcome greeting' : 'a casual engagement bubble';
+            
+            const result = await base44.integrations.Core.InvokeLLM({
+                prompt: `You are a copywriter for Dancoby, a premium home renovation and construction company in New York. Generate ${typeContext} message for a website chatbot that appears on ${pageContext}. The message should be friendly, concise (under 120 characters), and encourage the visitor to start a conversation or learn more. Don't use emojis. Return just the message text, nothing else.`,
+            });
+            setFormData(prev => ({ ...prev, content: result.trim() }));
+        } catch (error) {
+            toast.error("Failed to generate message");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -201,7 +220,20 @@ export default function AdminChatBot() {
                         </DialogHeader>
                         <form onSubmit={handleSubmit} className="space-y-6 py-4">
                             <div className="space-y-2">
-                                <Label>Message Content</Label>
+                                <div className="flex items-center justify-between">
+                                    <Label>Message Content</Label>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={handleGenerate}
+                                        disabled={isGenerating}
+                                        className="text-xs gap-1.5"
+                                    >
+                                        {isGenerating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
+                                        {isGenerating ? "Generating..." : "AI Generate"}
+                                    </Button>
+                                </div>
                                 <Textarea 
                                     value={formData.content}
                                     onChange={(e) => setFormData({...formData, content: e.target.value})}
