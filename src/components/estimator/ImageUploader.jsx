@@ -40,33 +40,30 @@ export default function ImageUploader({ onImageUpload, initialImage }) {
       <div
         onDrop={handleDragDrop}
         onDragOver={(e) => e.preventDefault()}
+        onClick={() => !isLoading && fileInputRef.current?.click()}
         className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center hover:border-red-600 transition-colors cursor-pointer"
       >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={(e) => { handleFileSelect(e.target.files[0]); e.target.value = ''; }}
+          className="hidden"
+        />
         <div className="flex flex-col items-center gap-4">
-          <Upload className="w-12 h-12 text-gray-400" />
+          {isLoading ? (
+            <Loader className="w-12 h-12 text-red-600 animate-spin" />
+          ) : (
+            <Upload className="w-12 h-12 text-gray-400" />
+          )}
           <div>
             <p className="font-semibold text-gray-900">
-              Drop your photo here or click to browse
+              {isLoading ? 'Uploading...' : 'Drop your photo here or click to browse'}
             </p>
             <p className="text-sm text-gray-600 mt-1">
               PNG, JPG up to 10MB
             </p>
           </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleFileSelect(e.target.files[0])}
-            className="hidden"
-          />
-          <Button
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isLoading}
-            className="bg-red-600 hover:bg-red-700 text-white"
-          >
-            {isLoading ? <Loader className="w-4 h-4 animate-spin mr-2" /> : null}
-            {isLoading ? 'Uploading...' : 'Select Image'}
-          </Button>
         </div>
       </div>
 
