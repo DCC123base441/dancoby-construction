@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { createPageUrl } from '../utils';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
@@ -26,7 +26,7 @@ export default function ProjectDetail() {
   if (isLoading || !project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <p className="text-gray-600">Loading project...</p>
+        <div className="w-6 h-6 border-2 border-stone-300 border-t-stone-900 rounded-full animate-spin" />
       </div>
     );
   }
@@ -35,41 +35,78 @@ export default function ProjectDetail() {
     <div className="min-h-screen bg-white">
       <SEOHead 
         title={`${project.title} | Dancoby Construction Project`}
-        description={project.description?.slice(0, 160) || `View the ${project.title} renovation project by Dancoby Construction. Expert craftsmanship in Brooklyn & Long Island.`}
-        keywords={`${project.title}, ${project.category} renovation, Dancoby Construction project, ${project.location || 'Brooklyn Long Island'} renovation, general contractor portfolio`}
+        description={project.description?.slice(0, 160) || `View the ${project.title} renovation project by Dancoby Construction.`}
+        keywords={`${project.title}, ${project.category} renovation, Dancoby Construction`}
         ogImage={project.mainImage}
       />
 
+      {/* Immersive Hero */}
+      <section className="relative h-[70vh] md:h-[85vh] overflow-hidden">
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="absolute inset-0"
+        >
+          <img
+            src={project.mainImage}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+        
+        {/* Back button */}
+        <div className="absolute top-6 left-6 z-20">
+          <Link 
+            to={createPageUrl('Projects')} 
+            className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm font-light tracking-wide bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            All Projects
+          </Link>
+        </div>
 
-      {/* Project Details */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-8">
-            <Link to={createPageUrl('Projects')} className="inline-flex items-center gap-2 text-gray-500 hover:text-red-600 transition-colors font-medium">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Projects
-            </Link>
+        {/* Hero text overlay */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-12 md:pb-20">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <p className="text-white/40 text-[10px] md:text-[11px] uppercase tracking-[0.4em] mb-3">
+                {project.logoText || project.category}
+              </p>
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-extralight text-white tracking-tight leading-[1.1] mb-3">
+                {project.title}
+              </h1>
+              {project.location && (
+                <p className="text-white/40 text-sm tracking-wider">{project.location}</p>
+              )}
+            </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Content */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-16"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-20"
           >
-            {/* Title & Description */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">
-                {project.logoText || project.category}
-              </p>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                {project.title}
-              </h1>
-              <p className="text-lg text-gray-700 leading-relaxed max-w-3xl">
+            {/* Description */}
+            <div className="max-w-3xl">
+              <div className="h-px w-16 bg-red-500 mb-8" />
+              <p className="text-lg md:text-xl text-stone-600 leading-relaxed font-light">
                 {project.description}
               </p>
             </div>
 
-            {/* Stats & Materials */}
+            {/* Stats */}
             {(project.budget || project.timeline || project.materials) && (
               <ProjectStats 
                 budget={project.budget}
@@ -81,13 +118,24 @@ export default function ProjectDetail() {
             {/* Highlights */}
             {project.highlights && project.highlights.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-8">Project Highlights</h2>
-                <div className="grid md:grid-cols-2 gap-6">
+                <p className="text-[11px] uppercase tracking-[0.3em] text-stone-400 font-medium mb-8">
+                  Project Highlights
+                </p>
+                <div className="grid md:grid-cols-2 gap-x-12 gap-y-5">
                   {project.highlights.map((highlight, idx) => (
-                    <div key={idx} className="flex items-start gap-4">
-                      <div className="w-2 h-2 rounded-full bg-red-600 mt-3 flex-shrink-0" />
-                      <span className="text-gray-700 text-lg">{highlight}</span>
-                    </div>
+                    <motion.div 
+                      key={idx} 
+                      className="flex items-start gap-4 py-3 border-b border-stone-100"
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.05 }}
+                    >
+                      <span className="text-red-500 text-sm font-light mt-0.5">
+                        {String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="text-stone-700 text-base font-light">{highlight}</span>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -101,7 +149,9 @@ export default function ProjectDetail() {
             {/* Testimonials */}
             {project.testimonials && project.testimonials.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-8">Client Testimonials</h2>
+                <p className="text-[11px] uppercase tracking-[0.3em] text-stone-400 font-medium mb-8">
+                  Client Testimonials
+                </p>
                 <div className="grid md:grid-cols-2 gap-8">
                   {project.testimonials.map((testimonial, idx) => (
                     <TestimonialCard key={idx} testimonial={testimonial} index={idx} />
@@ -111,25 +161,31 @@ export default function ProjectDetail() {
             )}
 
             {/* CTA */}
-            <div className="pt-8 border-t border-gray-300">
-              <div className="flex flex-wrap gap-4">
-                <Button 
-                  asChild 
-                  className="bg-gray-900 hover:bg-gray-800 text-white px-8 h-12 text-sm uppercase tracking-wider"
-                >
-                  <Link to={createPageUrl('Contact')}>
-                    Start Your Project
-                  </Link>
-                </Button>
-                <Button 
-                  asChild 
-                  variant="outline"
-                  className="border-gray-400 text-gray-900 hover:bg-gray-100 px-8 h-12 text-sm uppercase tracking-wider"
-                >
-                  <Link to={createPageUrl('Projects')}>
-                    View All Projects
-                  </Link>
-                </Button>
+            <div className="pt-12 border-t border-stone-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div>
+                  <p className="text-stone-900 font-medium text-lg mb-1">Inspired by this project?</p>
+                  <p className="text-stone-400 text-sm font-light">Let's talk about bringing your vision to life.</p>
+                </div>
+                <div className="flex gap-3">
+                  <Button 
+                    asChild 
+                    className="bg-stone-900 hover:bg-stone-800 text-white px-8 h-11 text-xs uppercase tracking-[0.2em] rounded-none"
+                  >
+                    <Link to={createPageUrl('Contact')}>
+                      Start Your Project
+                    </Link>
+                  </Button>
+                  <Button 
+                    asChild 
+                    variant="outline"
+                    className="border-stone-300 text-stone-700 hover:bg-stone-50 px-6 h-11 text-xs uppercase tracking-[0.2em] rounded-none"
+                  >
+                    <Link to={createPageUrl('Projects')}>
+                      More Projects <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </motion.div>

@@ -1,57 +1,61 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import OptimizedImage from './OptimizedImage';
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, index = 0 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="group flex flex-col h-full"
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay: index * 0.08 }}
     >
-      <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5] rounded-lg shadow-md group-hover:shadow-xl transition-shadow duration-700">
-        <OptimizedImage 
-          src={project.mainImage}
-          alt={project.title}
-          className="w-full h-full object-cover group-hover:scale-[1.1] transition-transform duration-700"
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-        />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700 z-20" />
-      </div>
+      <Link 
+        to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}
+        className="group block"
+      >
+        {/* Image */}
+        <div className="relative overflow-hidden bg-stone-100 aspect-[3/4] mb-5">
+          <OptimizedImage 
+            src={project.mainImage}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+          {/* Overlay on hover */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-700" />
+          
+          {/* View label */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <span className="flex items-center gap-2 text-white text-xs font-medium uppercase tracking-[0.25em] bg-black/50 backdrop-blur-sm px-5 py-2.5">
+              View Project <ArrowUpRight className="w-3.5 h-3.5" />
+            </span>
+          </div>
 
-      <div className="flex flex-col flex-1">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
-            {project.category}
-          </span>
-          <span className="text-xs font-medium text-gray-500">{project.location}</span>
+          {/* Category tag */}
+          <div className="absolute top-4 left-4">
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/90 bg-black/40 backdrop-blur-sm px-3 py-1.5">
+              {project.category}
+            </span>
+          </div>
         </div>
-        
-        <h3 className="text-lg font-medium text-gray-900 leading-tight group-hover:text-gray-700 transition-colors mb-3">
-          {project.title}
-        </h3>
-        
-        <p className="text-sm text-gray-600 line-clamp-2 mb-4">
-          {project.description}
-        </p>
 
-        <div className="mt-auto">
-          <Button 
-            asChild 
-            className="bg-gray-900 hover:bg-gray-800 text-white h-auto py-2 px-4 text-xs uppercase tracking-wider group-hover:gap-2"
-          >
-            <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-              View Project <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </Link>
-          </Button>
+        {/* Info */}
+        <div className="space-y-2">
+          <div className="flex items-baseline justify-between gap-4">
+            <h3 className="text-lg font-medium text-stone-900 group-hover:text-stone-600 transition-colors duration-300 leading-tight">
+              {project.title}
+            </h3>
+            <ArrowUpRight className="w-4 h-4 text-stone-300 group-hover:text-red-500 transition-colors duration-300 flex-shrink-0 mt-1" />
+          </div>
+          {project.location && (
+            <p className="text-xs text-stone-400 uppercase tracking-wider">{project.location}</p>
+          )}
         </div>
-      </div>
+      </Link>
     </motion.div>
   );
 }
