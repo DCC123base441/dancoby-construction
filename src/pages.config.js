@@ -65,7 +65,6 @@ import AdminJobTread from './pages/AdminJobTread';
 import AdminLeads from './pages/AdminLeads';
 import AdminLogin from './pages/AdminLogin';
 import AdminNews from './pages/AdminNews';
-import AdminPortalPreview from './pages/AdminPortalPreview';
 import AdminProjects from './pages/AdminProjects';
 import AdminShop from './pages/AdminShop';
 import AdminStandards from './pages/AdminStandards';
@@ -116,7 +115,6 @@ export const PAGES = {
     "AdminLeads": AdminLeads,
     "AdminLogin": AdminLogin,
     "AdminNews": AdminNews,
-    "AdminPortalPreview": AdminPortalPreview,
     "AdminProjects": AdminProjects,
     "AdminShop": AdminShop,
     "AdminStandards": AdminStandards,
