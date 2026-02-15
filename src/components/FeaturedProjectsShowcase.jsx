@@ -17,8 +17,7 @@ export default function FeaturedProjectsShowcase({ title = "Featured Projects", 
 
   if (projects.length === 0) return null;
 
-  // Layout: first project large, rest in a grid
-  const [hero, ...rest] = projects;
+  // Uniform grid layout for all projects
 
   return (
     <section className="py-20 md:py-28 bg-stone-50">
