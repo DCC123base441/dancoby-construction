@@ -109,7 +109,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}>
 
-                          Dancoby Construction Company
+                          {getSection('hero')?.subtitle || 'Dancoby Construction Company'}
                         </motion.p>
                         <motion.h1
                   className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-white leading-[1.15] mb-8"
@@ -117,7 +117,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.7 }}>
 
-                          Sophisticated,<br /><em className="italic font-light text-white/90">Customer-Centric</em><br />Transformations
+                          {getSection('hero')?.heading || 'Sophisticated,'}<br /><em className="italic font-light text-white/90">{getSection('hero')?.headingItalic || 'Customer-Centric'}</em><br />{getSection('hero')?.headingEnd || 'Transformations'}
                         </motion.h1>
                         <motion.div
                   initial={{ opacity: 0, y: 15 }}
@@ -140,16 +140,18 @@ export default function Home() {
             <motion.div {...fadeIn} className="flex flex-col justify-end h-full">
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-sm font-bold uppercase tracking-widest text-red-600 mb-3">Who We Are</h2>
+                  <h2 className="text-sm font-bold uppercase tracking-widest text-red-600 mb-3">{getSection('whoWeAre')?.label || 'Who We Are'}</h2>
                   <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                    Home is where the heart is.
+                    {getSection('whoWeAre')?.heading || 'Home is where the heart is.'}
                   </h3>
                 </div>
                 
                 <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
-                  <p>With over twenty years of experience and a true dedication to customer satisfaction, we partner with you—your budget, your style, your vision—to turn renovation dreams into reality.</p>
-                  <p>Your space should feel cozy, relaxing, and distinctly yours, reflecting your unique personality and taste.</p>
-                  <p>That's why our professional team delivers a fully collaborative, customer-first experience, working closely with you to transform your ideas into elegant, high-quality results.</p>
+                  {(getSection('whoWeAre')?.paragraphs || [
+                    'With over twenty years of experience and a true dedication to customer satisfaction, we partner with you—your budget, your style, your vision—to turn renovation dreams into reality.',
+                    'Your space should feel cozy, relaxing, and distinctly yours, reflecting your unique personality and taste.',
+                    "That's why our professional team delivers a fully collaborative, customer-first experience, working closely with you to transform your ideas into elegant, high-quality results."
+                  ]).map((p, i) => <p key={i}>{p}</p>)}
                 </div>
               </div>
             </motion.div>
@@ -159,21 +161,19 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-6 h-full">
                 <div className="h-full">
                   <img
-                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg"
+                    src={getSection('whoWeAre')?.image1 || 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg'}
                     alt="Living Room"
                     className="w-full h-full shadow-xl object-cover"
                     loading="lazy"
                     decoding="async" />
-
                 </div>
                 <div className="h-full">
                   <img
-                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg"
+                    src={getSection('whoWeAre')?.image2 || 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg'}
                     alt="Kitchen"
                     className="w-full h-full shadow-xl object-cover"
                     loading="lazy"
                     decoding="async" />
-
                 </div>
               </div>
             </motion.div>
@@ -185,15 +185,15 @@ export default function Home() {
             <section className="bg-slate-50 py-16 md:py-24">
               <div className="max-w-7xl mx-auto px-6">
                 <motion.div {...fadeIn} className="text-center mb-20 mx-auto">
-                  <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Our Services</h2>
-                  <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">Full-Service Rejuvenation For Any Space</h3>
+                  <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">{getSection('services')?.label || 'Our Services'}</h2>
+                  <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">{getSection('services')?.heading || 'Full-Service Rejuvenation For Any Space'}</h3>
                   <Button asChild variant="link" className="text-gray-900 hover:text-red-600">
                     <Link to={createPageUrl('Services')}>Learn More</Link>
                   </Button>
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                  {[
+                  {(getSection('services')?.items || [
             {
               title: "Interior Renovations",
               description: "Complete transformation of living spaces for form and function.",
@@ -217,7 +217,7 @@ export default function Home() {
               description: "Expert craftsmanship for high-end residences.",
               image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/1daef989a_villier_living2.jpg",
               page: "ServiceTownhouses"
-            }].
+            }]).
             map((service, idx) =>
             <motion.div
               key={idx}
@@ -254,17 +254,17 @@ export default function Home() {
                   {/* Text Content */}
                   <motion.div {...fadeIn} className="space-y-12">
                     <div className="space-y-6">
-                      <h2 className="text-sm uppercase tracking-widest text-red-600 font-bold">About Us</h2>
+                      <h2 className="text-sm uppercase tracking-widest text-red-600 font-bold">{getSection('aboutUs')?.label || 'About Us'}</h2>
                       <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                        Working hand-in-hand with your goals, budget, timeline, and lifestyle, we build the enviable space you'll love calling home.
+                        {getSection('aboutUs')?.heading || "Working hand-in-hand with your goals, budget, timeline, and lifestyle, we build the enviable space you'll love calling home."}
                       </h3>
                     </div>
 
                     <div className="space-y-6 border-t border-gray-100 pt-8">
-                      <h4 className="text-2xl font-bold text-gray-900">Commitment to Perfection</h4>
+                      <h4 className="text-2xl font-bold text-gray-900">{getSection('aboutUs')?.subheading || 'Commitment to Perfection'}</h4>
                       <div className="space-y-4 text-gray-600 leading-relaxed text-lg">
                         <p>
-                          We don't just strive for excellence… we pursue perfection on every project, every time. Our passion shines through in every detail—from our friendly smiles to our meticulous attention to detail. Our contractors are fully licensed and insured, so you're always protected. Our dedication to you, the customer, means we prioritize open, honest communication throughout the collaborative process.
+                          {getSection('aboutUs')?.paragraph || "We don't just strive for excellence… we pursue perfection on every project, every time. Our passion shines through in every detail—from our friendly smiles to our meticulous attention to detail. Our contractors are fully licensed and insured, so you're always protected. Our dedication to you, the customer, means we prioritize open, honest communication throughout the collaborative process."}
                         </p>
                       </div>
                       <Button asChild variant="link" className="text-gray-900 hover:text-red-600 p-0 h-auto font-semibold text-lg group">
@@ -278,7 +278,7 @@ export default function Home() {
                   {/* Image */}
                   <motion.div {...fadeIn} className="relative mt-8 lg:mt-0 h-full">
                     <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69912a21cbe13c5df0d16972/d47566ce8_Dancoby_PenthouseFinished_Shot13.jpg"
+                src={getSection('aboutUs')?.image || "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69912a21cbe13c5df0d16972/d47566ce8_Dancoby_PenthouseFinished_Shot13.jpg"}
                 alt="Modern Kitchen"
                 className="w-full h-full object-cover shadow-2xl rounded-sm"
                 loading="lazy"
@@ -303,7 +303,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <motion.div {...fadeIn} className="text-center">
             <h3 className="text-4xl md:text-5xl font-bold text-stone-50">
-              3-Year Warranty on All Projects
+              {getSection('banner')?.text || '3-Year Warranty on All Projects'}
             </h3>
           </motion.div>
         </div>
@@ -313,11 +313,11 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {[
+                {(getSection('featuredProjects')?.items || [
             { id: "697c5e88074fc8d96b14a823", title: "Custom banquette seating with warm oak slat wall and integrated planter details", logo: "Custom Millwork", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/3ffe813be_VAN_SARKI_STUDIO_8_PARK_SLOPE_22691.jpg" },
             { id: "697cede5ec09b851f1e8fe80", title: "Spa-inspired shower with handmade zellige tile and brass fixtures", logo: "Seamless Custom Tile Design", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/7606e7773_Dancoby_PenthouseFinished_Shot20-V2.jpg" },
             { id: "697d0e3c6291ff1c55121181", title: "Modern hotel spa inspired suite with marble flooring and walnut accent paneling", logo: "Hotel Inspired Suite", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/484896910_Dancoby_849Central_15.jpg" },
-            { id: "697cede5ec09b851f1e8fe80", title: "Elegant Kitchen Renovation with Custom Cabinetry", logo: "Kitchen Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }].
+            { id: "697cede5ec09b851f1e8fe80", title: "Elegant Kitchen Renovation with Custom Cabinetry", logo: "Kitchen Remodel", image: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/ee675d31e_Dancoby_PenthouseFinished_Shot16.jpg" }]).
             map((project, idx) =>
             <motion.div
               key={idx}
@@ -591,10 +591,10 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <motion.div {...fadeIn}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
-              Transform Your Space Into Something Extraordinary
+              {getSection('cta')?.heading || 'Transform Your Space Into Something Extraordinary'}
             </h2>
             <p className="text-xl text-gray-300 mb-12">
-              Let's create your perfect home with sophisticated design and expert craftsmanship
+              {getSection('cta')?.subtext || "Let's create your perfect home with sophisticated design and expert craftsmanship"}
             </p>
             <EstimatorButton size="large" />
           </motion.div>
