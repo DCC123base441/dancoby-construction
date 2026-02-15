@@ -27,7 +27,6 @@ import {
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell, CartesianGrid } from "recharts";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { Link as RouterLink } from 'react-router-dom';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
