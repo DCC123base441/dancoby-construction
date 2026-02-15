@@ -76,7 +76,6 @@ import Architects from './pages/Architects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
-import EmployeePortal from './pages/EmployeePortal';
 import Estimator from './pages/Estimator';
 import FAQ from './pages/FAQ';
 import Hiring from './pages/Hiring';
@@ -128,7 +127,6 @@ export const PAGES = {
     "Blog": Blog,
     "BlogPost": BlogPost,
     "Contact": Contact,
-    "EmployeePortal": EmployeePortal,
     "Estimator": Estimator,
     "FAQ": FAQ,
     "Hiring": Hiring,
