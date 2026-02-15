@@ -47,7 +47,6 @@ import DashboardWelcome from '../components/admin/DashboardWelcome';
 import DashboardStatCards from '../components/admin/DashboardStatCards';
 import DashboardActionItems from '../components/admin/DashboardActionItems';
 import DashboardContentLinks from '../components/admin/DashboardContentLinks';
-import DashboardPortalCards from '../components/admin/DashboardPortalCards';
 
 export default function AdminDashboard() {
     const [isResetting, setIsResetting] = React.useState(false);
