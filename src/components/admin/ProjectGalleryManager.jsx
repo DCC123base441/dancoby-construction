@@ -129,93 +129,93 @@ export default function ProjectGalleryManager({ images = [], onChange }) {
             </div>
 
             <DragDropContext onDragEnd={handleOnDragEnd}>
-                <Droppable droppableId="project-images" direction="horizontal">
+                <Droppable droppableId="project-images">
                     {(provided) => (
                         <div 
                             {...provided.droppableProps}
                             ref={provided.innerRef}
-                            className="flex flex-wrap gap-4 min-h-[100px]"
+                            className="space-y-2 min-h-[60px]"
                         >
                             {images.map((url, index) => (
-                                <Draggable key={`${url}-${index}`} draggableId={`${url}-${index}`} index={index}>
+                                <Draggable key={`img-${index}`} draggableId={`img-${index}`} index={index}>
                                     {(provided, snapshot) => (
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
                                             className={cn(
-                                                "relative group w-[calc(25%-12px)] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-12px)] aspect-square bg-slate-100 rounded-lg overflow-hidden border border-slate-200 shadow-sm",
+                                                "flex items-center gap-3 bg-white rounded-lg border border-slate-200 p-2 transition-shadow",
                                                 snapshot.isDragging && "shadow-xl ring-2 ring-indigo-500 z-50"
                                             )}
                                         >
-                                            <img src={url} alt={`Project ${index}`} className="w-full h-full object-cover" />
-                                            
-                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-
-                                            {/* Badges */}
-                                            {index === 0 && (
-                                                <div className="absolute top-2 left-2 bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm flex items-center gap-1 z-10">
-                                                    <Star className="w-3 h-3 fill-current" /> MAIN
-                                                </div>
-                                            )}
-
-                                            {/* Controls */}
-                                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-1 z-10">
-                                                <Button
-                                                    type="button"
-                                                    variant="destructive"
-                                                    size="icon"
-                                                    className="h-7 w-7"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // Prevent drag start
-                                                        handleDelete(index);
-                                                    }}
-                                                >
-                                                    <X className="w-3 h-3" />
-                                                </Button>
+                                            <div
+                                                {...provided.dragHandleProps}
+                                                className="flex-shrink-0 cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600"
+                                            >
+                                                <GripVertical className="w-5 h-5" />
                                             </div>
-                                            
-                                            {index !== 0 && (
-                                                <div className="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+
+                                            <div className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden bg-slate-100">
+                                                <img src={url} alt={`Project ${index}`} className="w-full h-full object-cover" />
+                                            </div>
+
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center gap-2">
+                                                    {index === 0 ? (
+                                                        <span className="inline-flex items-center gap-1 bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                                                            <Star className="w-3 h-3 fill-current" /> MAIN
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-xs text-slate-400">#{index + 1}</span>
+                                                    )}
+                                                </div>
+                                                <p className="text-[11px] text-slate-400 truncate mt-0.5">{url.split('/').pop()}</p>
+                                            </div>
+
+                                            <div className="flex items-center gap-1 flex-shrink-0">
+                                                {index !== 0 && (
                                                     <Button
                                                         type="button"
-                                                        variant="secondary"
+                                                        variant="ghost"
                                                         size="sm"
-                                                        className="h-7 text-xs px-2 bg-white/90 hover:bg-white"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setMain(index);
-                                                        }}
+                                                        className="h-7 text-xs text-slate-500 hover:text-indigo-600"
+                                                        onClick={() => setMain(index)}
                                                     >
                                                         Make Main
                                                     </Button>
-                                                </div>
-                                            )}
+                                                )}
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-7 w-7 text-slate-400 hover:text-red-600"
+                                                    onClick={() => handleDelete(index)}
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </Button>
+                                            </div>
                                         </div>
                                     )}
                                 </Draggable>
                             ))}
                             {provided.placeholder}
-                            
-                            {/* Drop Zone */}
-                            <div className="relative w-[calc(25%-12px)] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-12px)] border-2 border-dashed border-slate-200 rounded-lg flex flex-col items-center justify-center p-4 hover:bg-slate-50 hover:border-indigo-300 transition-all aspect-square text-slate-400 cursor-pointer group">
-                                <input
-                                    type="file"
-                                    multiple
-                                    accept="image/*"
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                    onChange={handleUpload}
-                                    disabled={isUploading}
-                                />
-                                <div className="p-3 bg-slate-50 rounded-full mb-2 group-hover:scale-110 transition-transform">
-                                    <Upload className="w-5 h-5 text-slate-400 group-hover:text-indigo-500" />
-                                </div>
-                                <span className="text-xs font-medium group-hover:text-indigo-600">Add Images</span>
-                            </div>
                         </div>
                     )}
                 </Droppable>
             </DragDropContext>
+
+            {/* Upload zone */}
+            <div className="relative border-2 border-dashed border-slate-200 rounded-lg flex items-center justify-center p-6 hover:bg-slate-50 hover:border-indigo-300 transition-all text-slate-400 cursor-pointer group">
+                <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                    onChange={handleUpload}
+                    disabled={isUploading}
+                />
+                <Upload className="w-5 h-5 mr-2 text-slate-400 group-hover:text-indigo-500" />
+                <span className="text-sm font-medium group-hover:text-indigo-600">Add Images</span>
+            </div>
             
             <p className="text-xs text-slate-500">
                 Drag images to reorder. The first image will be used as the main cover image.
