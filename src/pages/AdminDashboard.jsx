@@ -45,7 +45,7 @@ import {
 } from "@/components/ui/select";
 import DashboardQuickActions from '../components/admin/DashboardQuickActions';
 import DashboardStatCards from '../components/admin/DashboardStatCards';
-import DashboardPortalCards from '../components/admin/DashboardPortalCards.jsx';
+
 
 
 export default function AdminDashboard() {
@@ -401,9 +401,6 @@ export default function AdminDashboard() {
                     </Card>
                 </div>
 
-
-                {/* Portal Cards */}
-                <DashboardPortalCards />
             </div>
         </AdminLayout>
     );
