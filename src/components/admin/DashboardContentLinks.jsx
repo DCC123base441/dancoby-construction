@@ -92,6 +92,15 @@ const CONTENT_LINKS = [
 export default function DashboardContentLinks() {
     const [openPanel, setOpenPanel] = useState(null);
 
+    const { data: pendingWaitlist = [] } = useQuery({
+        queryKey: ['waitlist-pending'],
+        queryFn: () => base44.entities.MerchandiseWaitlist.filter({ status: 'pending' }),
+    });
+
+    const badgeCounts = {
+        AdminShop: pendingWaitlist.length,
+    };
+
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
