@@ -56,6 +56,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Estimates', href: 'AdminEstimates', icon: Calculator },
         { name: 'Projects', href: 'AdminProjects', icon: FolderKanban },
         { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
+        { name: 'Home Page', href: 'AdminHomePage', icon: Home },
         { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
 
     ];
