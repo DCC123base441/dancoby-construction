@@ -53,7 +53,6 @@ import AdminAnalytics from './pages/AdminAnalytics';
 import AdminArchitectsImages from './pages/AdminArchitectsImages';
 import AdminBlog from './pages/AdminBlog';
 import AdminBrandPartners from './pages/AdminBrandPartners';
-import AdminCalendar from './pages/AdminCalendar';
 import AdminChat from './pages/AdminChat';
 import AdminChatBot from './pages/AdminChatBot';
 import AdminCurrentProjects from './pages/AdminCurrentProjects';
@@ -110,7 +109,6 @@ export const PAGES = {
     "AdminArchitectsImages": AdminArchitectsImages,
     "AdminBlog": AdminBlog,
     "AdminBrandPartners": AdminBrandPartners,
-    "AdminCalendar": AdminCalendar,
     "AdminChat": AdminChat,
     "AdminChatBot": AdminChatBot,
     "AdminCurrentProjects": AdminCurrentProjects,
