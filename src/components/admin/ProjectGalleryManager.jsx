@@ -198,7 +198,7 @@ export default function ProjectGalleryManager({ images = [], onChange }) {
                             {provided.placeholder}
                             
                             {/* Drop Zone */}
-                            <div className="relative border-2 border-dashed border-slate-200 rounded-lg flex flex-col items-center justify-center p-4 hover:bg-slate-50 hover:border-indigo-300 transition-all aspect-square text-slate-400 cursor-pointer group">
+                            <div className="relative w-[calc(25%-12px)] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-12px)] border-2 border-dashed border-slate-200 rounded-lg flex flex-col items-center justify-center p-4 hover:bg-slate-50 hover:border-indigo-300 transition-all aspect-square text-slate-400 cursor-pointer group">
                                 <input
                                     type="file"
                                     multiple
