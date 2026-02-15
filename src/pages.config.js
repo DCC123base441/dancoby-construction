@@ -100,7 +100,6 @@ import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import Shop from './pages/Shop';
 import Step from './pages/Step';
-import StepBuilder from './pages/StepBuilder';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
 import __Layout from './Layout.jsx';
@@ -160,7 +159,6 @@ export const PAGES = {
     "Services": Services,
     "Shop": Shop,
     "Step": Step,
-    "StepBuilder": StepBuilder,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
 }
