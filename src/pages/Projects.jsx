@@ -121,6 +121,10 @@ export default function Projects() {
       {/* Projects Grid */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
+          <ProjectFilters 
+            onFilterChange={setCategory} 
+            onSortChange={setSort} 
+          />
 
           {isLoading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
