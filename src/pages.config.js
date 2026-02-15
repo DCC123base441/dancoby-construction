@@ -84,9 +84,12 @@ import Estimator from './pages/Estimator';
 import FAQ from './pages/FAQ';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
+import Home from './pages/Home';
 import PortalLogin from './pages/PortalLogin';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import ProjectDetail from './pages/ProjectDetail';
+import Projects from './pages/Projects';
 import ServiceBrownstone from './pages/ServiceBrownstone';
 import ServiceInteriorRenovations from './pages/ServiceInteriorRenovations';
 import ServiceKitchenBath from './pages/ServiceKitchenBath';
@@ -99,9 +102,6 @@ import StepDashboard from './pages/StepDashboard';
 import StepSuccess from './pages/StepSuccess';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import Home from './pages/Home';
-import ProjectDetail from './pages/ProjectDetail';
-import Projects from './pages/Projects';
 import __Layout from './Layout.jsx';
 
 
@@ -143,9 +143,12 @@ export const PAGES = {
     "FAQ": FAQ,
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
+    "Home": Home,
     "PortalLogin": PortalLogin,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
+    "ProjectDetail": ProjectDetail,
+    "Projects": Projects,
     "ServiceBrownstone": ServiceBrownstone,
     "ServiceInteriorRenovations": ServiceInteriorRenovations,
     "ServiceKitchenBath": ServiceKitchenBath,
@@ -158,9 +161,6 @@ export const PAGES = {
     "StepSuccess": StepSuccess,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "Home": Home,
-    "ProjectDetail": ProjectDetail,
-    "Projects": Projects,
 }
 
 export const pagesConfig = {
