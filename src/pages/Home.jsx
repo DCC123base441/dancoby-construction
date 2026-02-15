@@ -317,7 +317,7 @@ export default function Home() {
       {/* Featured Projects Grid */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className={`grid md:grid-cols-2 ${featuredProjects.length >= 4 ? 'lg:grid-cols-4' : featuredProjects.length === 3 ? 'lg:grid-cols-3 max-w-5xl mx-auto' : featuredProjects.length === 2 ? 'max-w-3xl mx-auto' : 'max-w-sm mx-auto'} gap-8`}>
                 {featuredProjects.map((project, idx) =>
             <motion.div
               key={project.id}
