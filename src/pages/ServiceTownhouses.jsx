@@ -3,10 +3,9 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
+import { CheckCircle2 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import FeaturedProjectsShowcase from '../components/FeaturedProjectsShowcase';
 
 export default function ServiceTownhouses() {
   const fadeIn = {
@@ -15,15 +14,6 @@ export default function ServiceTownhouses() {
     viewport: { once: true },
     transition: { duration: 0.6 }
   };
-
-  const { data: projects = [] } = useQuery({
-    queryKey: ['projects'],
-    queryFn: () => base44.entities.Project.list()
-  });
-
-  const serviceProjects = projects.filter(p => 
-    p.category === 'Commercial' || p.category === 'Residential'
-  ).slice(0, 3);
 
   return (
     <div className="min-h-screen bg-white">
@@ -144,53 +134,8 @@ export default function ServiceTownhouses() {
         </div>
       </section>
 
-      {/* Project Showcase */}
-      {serviceProjects.length > 0 && (
-        <section className="py-24 bg-white">
-          <div className="max-w-6xl mx-auto px-6">
-            <motion.h2 {...fadeIn} className="text-4xl font-bold text-gray-900 mb-16 text-center">
-              Featured Townhouse & Apartment Projects
-            </motion.h2>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {serviceProjects.map((project, idx) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="group flex flex-col h-full"
-                >
-                  <div className="relative overflow-hidden mb-6 bg-gray-200 aspect-[4/5]">
-                    <img 
-                      src={project.mainImage}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <div className="flex flex-col flex-1">
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">{project.title}</h3>
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">{project.description}</p>
-                    <div className="mt-auto">
-                      <Button 
-                        asChild 
-                        className="bg-gray-900 hover:bg-gray-800 text-white h-auto py-2 px-4 text-xs uppercase tracking-wider"
-                      >
-                        <Link to={`${createPageUrl('ProjectDetail')}?id=${project.id}`}>
-                          View Project <ArrowRight className="w-3 h-3 ml-2" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Featured Projects */}
+      <FeaturedProjectsShowcase title="Featured Townhouse & Apartment Projects" />
 
       {/* CTA Section */}
       <section className="py-32 bg-gray-900 text-white">
