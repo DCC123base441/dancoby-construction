@@ -3,28 +3,17 @@ import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
 import { base44 } from '@/api/base44Client';
 import { 
-    LayoutDashboard, 
-    FolderKanban, 
-    FileText, 
-    Users, 
-    BarChart3, 
-    Calculator,
-    Settings, 
-    LogOut,
-    Menu,
-    X,
-    ExternalLink,
-    MessageSquare,
-    MessagesSquare,
-    CalendarDays,
-    ShoppingBag,
-    HardHat,
-    MonitorPlay,
-    Newspaper,
-    Landmark,
-    ImageIcon,
-    GraduationCap
-} from 'lucide-react';
+        LayoutDashboard, 
+        FolderKanban, 
+        FileText, 
+        Users, 
+        BarChart3, 
+        Calculator,
+        LogOut,
+        Menu,
+        ExternalLink,
+        HardHat
+    } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
