@@ -74,7 +74,6 @@ import FAQ from './pages/FAQ';
 import Hiring from './pages/Hiring';
 import HiringApplication from './pages/HiringApplication';
 import Home from './pages/Home';
-import PortalLogin from './pages/PortalLogin';
 import Press from './pages/Press';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectDetail from './pages/ProjectDetail';
@@ -118,7 +117,6 @@ export const PAGES = {
     "Hiring": Hiring,
     "HiringApplication": HiringApplication,
     "Home": Home,
-    "PortalLogin": PortalLogin,
     "Press": Press,
     "PrivacyPolicy": PrivacyPolicy,
     "ProjectDetail": ProjectDetail,
