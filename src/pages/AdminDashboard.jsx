@@ -300,9 +300,6 @@ export default function AdminDashboard() {
                     </Card>
                 </div>
 
-                {/* Portals */}
-                <DashboardPortalCards />
-
                 {/* Content & Settings quick links */}
                 <DashboardContentLinks />
             </div>
