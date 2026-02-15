@@ -68,7 +68,7 @@ const CONTENT_LINKS = [
         label: 'Hero Sliders',
         description: 'Homepage hero images',
         icon: Image,
-        panel: 'hero',
+        page: 'AdminHeroSliders',
         color: 'text-cyan-600',
         bg: 'bg-cyan-50',
     },
@@ -76,15 +76,13 @@ const CONTENT_LINKS = [
         label: 'Brand Partners',
         description: 'Partner logos & links',
         icon: Handshake,
-        panel: 'brands',
+        page: 'AdminBrandPartners',
         color: 'text-slate-600',
         bg: 'bg-slate-100',
     },
 ];
 
 export default function DashboardContentLinks() {
-    const [openPanel, setOpenPanel] = useState(null);
-
     const { data: pendingWaitlist = [] } = useQuery({
         queryKey: ['waitlist-pending'],
         queryFn: () => base44.entities.MerchandiseWaitlist.filter({ status: 'pending' }),
@@ -101,69 +99,28 @@ export default function DashboardContentLinks() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {CONTENT_LINKS.map((item) => {
-                    const isPanel = !!item.panel;
-                    const isActive = openPanel === item.panel;
-
-                    if (isPanel) {
-                        return (
-                            <button
-                                key={item.panel}
-                                onClick={() => setOpenPanel(isActive ? null : item.panel)}
-                                className={`flex items-center gap-3 px-3.5 py-3 rounded-lg border text-left transition-all group
-                                    ${isActive 
-                                        ? 'border-slate-300 bg-slate-50 shadow-sm' 
-                                        : 'border-slate-100 bg-white hover:bg-slate-50 hover:border-slate-200'
-                                    }`}
-                            >
-                                <div className={`p-2 rounded-lg ${item.bg} transition-colors`}>
-                                    <item.icon className={`w-4 h-4 ${item.color}`} />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                    <p className="text-sm font-medium text-slate-800">{item.label}</p>
-                                    <p className="text-[11px] text-slate-400 truncate">{item.description}</p>
-                                </div>
-                                <ArrowRight className={`w-3.5 h-3.5 text-slate-300 transition-transform ${isActive ? 'rotate-90' : 'group-hover:translate-x-0.5'}`} />
-                            </button>
-                        );
-                    }
-
-                    return (
-                        <Link
-                            key={item.page}
-                            to={createPageUrl(item.page)}
-                            className="relative flex items-center gap-3 px-3.5 py-3 rounded-lg border border-slate-100 bg-white hover:bg-slate-50 hover:border-slate-200 transition-all group"
-                        >
-                            <div className={`relative p-2 rounded-lg ${item.bg}`}>
-                                <item.icon className={`w-4 h-4 ${item.color}`} />
-                                {badgeCounts[item.page] > 0 && (
-                                    <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full shadow-sm">
-                                        {badgeCounts[item.page]}
-                                    </span>
-                                )}
-                            </div>
-                            <div className="min-w-0 flex-1">
-                                <p className="text-sm font-medium text-slate-800">{item.label}</p>
-                                <p className="text-[11px] text-slate-400 truncate">{item.description}</p>
-                            </div>
-                            <ArrowRight className="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                        </Link>
-                    );
-                })}
-            </div>
-
-            {openPanel && (
-                <div className="border border-slate-200 rounded-xl bg-white p-5 relative animate-in fade-in slide-in-from-top-2 duration-200">
-                    <button
-                        onClick={() => setOpenPanel(null)}
-                        className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+                {CONTENT_LINKS.map((item) => (
+                    <Link
+                        key={item.page}
+                        to={createPageUrl(item.page)}
+                        className="relative flex items-center gap-3 px-3.5 py-3 rounded-lg border border-slate-100 bg-white hover:bg-slate-50 hover:border-slate-200 transition-all group"
                     >
-                        <X className="w-4 h-4" />
-                    </button>
-                    {openPanel === 'hero' && <HeroImageManager embedded />}
-                    {openPanel === 'brands' && <BrandPartnerManager embedded />}
-                </div>
-            )}
+                        <div className={`relative p-2 rounded-lg ${item.bg}`}>
+                            <item.icon className={`w-4 h-4 ${item.color}`} />
+                            {badgeCounts[item.page] > 0 && (
+                                <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full shadow-sm">
+                                    {badgeCounts[item.page]}
+                                </span>
+                            )}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-slate-800">{item.label}</p>
+                            <p className="text-[11px] text-slate-400 truncate">{item.description}</p>
+                        </div>
+                        <ArrowRight className="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                    </Link>
+                ))}
+            </div>
         </div>
     );
 }
