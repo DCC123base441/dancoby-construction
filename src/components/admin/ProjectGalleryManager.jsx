@@ -144,7 +144,7 @@ export default function ProjectGalleryManager({ images = [], onChange }) {
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
                                             className={cn(
-                                                "relative group aspect-square bg-slate-100 rounded-lg overflow-hidden border border-slate-200 shadow-sm",
+                                                "relative group w-[calc(25%-12px)] sm:w-[calc(33.333%-11px)] md:w-[calc(25%-12px)] aspect-square bg-slate-100 rounded-lg overflow-hidden border border-slate-200 shadow-sm",
                                                 snapshot.isDragging && "shadow-xl ring-2 ring-indigo-500 z-50"
                                             )}
                                         >
