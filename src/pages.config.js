@@ -58,7 +58,6 @@ import AdminCurrentProjects from './pages/AdminCurrentProjects';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminEstimates from './pages/AdminEstimates';
 import AdminHeroSliders from './pages/AdminHeroSliders';
-import AdminHolidays from './pages/AdminHolidays';
 import AdminHomePage from './pages/AdminHomePage';
 import AdminJobTread from './pages/AdminJobTread';
 import AdminLeads from './pages/AdminLeads';
@@ -104,7 +103,6 @@ export const PAGES = {
     "AdminDashboard": AdminDashboard,
     "AdminEstimates": AdminEstimates,
     "AdminHeroSliders": AdminHeroSliders,
-    "AdminHolidays": AdminHolidays,
     "AdminHomePage": AdminHomePage,
     "AdminJobTread": AdminJobTread,
     "AdminLeads": AdminLeads,
