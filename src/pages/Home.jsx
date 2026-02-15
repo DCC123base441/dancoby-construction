@@ -23,6 +23,13 @@ export default function Home() {
   const awardsRef = useRef(null);
   const ctaRef = useRef(null);
 
+  const { data: homeContent = [] } = useQuery({
+    queryKey: ['homePageContent'],
+    queryFn: () => base44.entities.HomePageContent.list(),
+  });
+
+  const getSection = (key) => homeContent.find(s => s.section === key)?.content;
+
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
