@@ -139,10 +139,15 @@ export default function DashboardContentLinks() {
                         <Link
                             key={item.page}
                             to={createPageUrl(item.page)}
-                            className="flex items-center gap-3 px-3.5 py-3 rounded-lg border border-slate-100 bg-white hover:bg-slate-50 hover:border-slate-200 transition-all group"
+                            className="relative flex items-center gap-3 px-3.5 py-3 rounded-lg border border-slate-100 bg-white hover:bg-slate-50 hover:border-slate-200 transition-all group"
                         >
-                            <div className={`p-2 rounded-lg ${item.bg}`}>
+                            <div className={`relative p-2 rounded-lg ${item.bg}`}>
                                 <item.icon className={`w-4 h-4 ${item.color}`} />
+                                {badgeCounts[item.page] > 0 && (
+                                    <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full shadow-sm">
+                                        {badgeCounts[item.page]}
+                                    </span>
+                                )}
                             </div>
                             <div className="min-w-0 flex-1">
                                 <p className="text-sm font-medium text-slate-800">{item.label}</p>
