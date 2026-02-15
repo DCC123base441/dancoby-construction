@@ -57,7 +57,6 @@ import AdminChatBot from './pages/AdminChatBot';
 import AdminCurrentProjects from './pages/AdminCurrentProjects';
 import AdminCustomers from './pages/AdminCustomers';
 import AdminDashboard from './pages/AdminDashboard';
-import AdminEmployeePortal from './pages/AdminEmployeePortal';
 import AdminEmployees from './pages/AdminEmployees';
 import AdminEstimates from './pages/AdminEstimates';
 import AdminHeroSliders from './pages/AdminHeroSliders';
@@ -111,7 +110,6 @@ export const PAGES = {
     "AdminCurrentProjects": AdminCurrentProjects,
     "AdminCustomers": AdminCustomers,
     "AdminDashboard": AdminDashboard,
-    "AdminEmployeePortal": AdminEmployeePortal,
     "AdminEmployees": AdminEmployees,
     "AdminEstimates": AdminEstimates,
     "AdminHeroSliders": AdminHeroSliders,
