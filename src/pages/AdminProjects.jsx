@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Pencil, Trash2, Image as ImageIcon, GripVertical, Save, MapPin, Clock, DollarSign, LayoutGrid, List, MoreVertical, UserPlus } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Image as ImageIcon, GripVertical, Save, MapPin, Clock, DollarSign, LayoutGrid, List, MoreVertical, UserPlus, Star } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import {
   DropdownMenu,
@@ -310,10 +310,15 @@ export default function AdminProjects() {
                                             <ImageIcon className="w-12 h-12" />
                                         </div>
                                     )}
-                                    <div className="absolute top-3 left-3">
+                                    <div className="absolute top-3 left-3 flex items-center gap-1.5">
                                         <Badge variant="outline" className={`text-xs font-medium backdrop-blur-sm ${categoryColors[project.category] || "bg-slate-50 text-slate-700 border-slate-200"}`}>
                                             {project.category}
                                         </Badge>
+                                        {project.featured && (
+                                            <Badge className="bg-yellow-400 text-yellow-900 border-yellow-500 text-xs font-medium">
+                                                <Star className="w-3 h-3 mr-0.5 fill-current" /> Featured
+                                            </Badge>
+                                        )}
                                     </div>
                                     {/* Quick Actions Overlay */}
                                     <div className="absolute top-3 right-3">
@@ -341,6 +346,12 @@ export default function AdminProjects() {
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onClick={() => setAssignProjectId(project.id)}>
                                                     <UserPlus className="w-4 h-4 mr-2" /> Assign People
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => {
+                                                    updateMutation.mutate({ id: project.id, data: { featured: !project.featured } });
+                                                }}>
+                                                    <Star className={`w-4 h-4 mr-2 ${project.featured ? 'fill-yellow-400 text-yellow-500' : ''}`} />
+                                                    {project.featured ? 'Remove Featured' : 'Mark as Featured'}
                                                 </DropdownMenuItem>
                                             <DropdownMenuItem className="text-red-600" onClick={() => {
                                                     if(confirm('Are you sure?')) deleteMutation.mutate(project.id);
@@ -422,6 +433,7 @@ export default function AdminProjects() {
                                                         <h3 className="font-semibold text-sm text-slate-900 truncate">{project.title}</h3>
                                                         <div className="flex items-center gap-3 mt-1">
                                                             <Badge variant="outline" className="text-[10px] px-1.5 py-0">{project.category}</Badge>
+                                                            {project.featured && <Badge className="bg-yellow-100 text-yellow-700 border-yellow-200 text-[10px] px-1.5 py-0"><Star className="w-2.5 h-2.5 mr-0.5 fill-current" />Featured</Badge>}
                                                             {project.location && <span className="text-xs text-slate-400 flex items-center gap-1"><MapPin className="w-3 h-3" />{project.location}</span>}
                                                         </div>
                                                     </div>
