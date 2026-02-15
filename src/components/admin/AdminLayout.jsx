@@ -57,7 +57,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Projects', href: 'AdminProjects', icon: FolderKanban },
         { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
         { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
-        { name: 'Employee Portal', href: 'AdminEmployeePortal', icon: HardHat },
+
     ];
 
     const handleLogout = async () => {
