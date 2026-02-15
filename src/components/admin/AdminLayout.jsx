@@ -75,7 +75,7 @@ export default function AdminLayout({ children, title, actions }) {
         { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
 
         { name: 'Architects Images', href: 'AdminArchitectsImages', icon: ImageIcon },
-        { name: 'JobTread Tutorials', href: 'AdminJobTread', icon: MonitorPlay },
+
 
 
     ];
