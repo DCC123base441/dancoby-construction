@@ -134,7 +134,7 @@ export default function ProjectGalleryManager({ images = [], onChange }) {
                         <div 
                             {...provided.droppableProps}
                             ref={provided.innerRef}
-                            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 min-h-[100px]"
+                            className="flex flex-wrap gap-4 min-h-[100px]"
                         >
                             {images.map((url, index) => (
                                 <Draggable key={`${url}-${index}`} draggableId={`${url}-${index}`} index={index}>
