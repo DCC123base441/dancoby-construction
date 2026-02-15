@@ -36,15 +36,11 @@ export default function ProjectCard({ project, index = 0 }) {
 
         {/* Info */}
         <div className="space-y-1.5">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-stone-400 font-medium">
-            {project.category}
-            {project.location && (
-              <>
-                <span className="mx-2 text-stone-300">·</span>
-                {project.location}
-              </>
-            )}
-          </p>
+          {project.location && (
+            <p className="text-[11px] uppercase tracking-[0.2em] text-stone-400 font-medium">
+              {project.location}
+            </p>
+          )}
           <h3 className="text-lg font-normal text-stone-900 group-hover:text-stone-600 transition-colors duration-300">
             {project.title}
           </h3>

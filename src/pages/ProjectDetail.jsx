@@ -70,12 +70,13 @@ export default function ProjectDetail() {
           >
             {/* Title & Description */}
             <div className="max-w-3xl">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-stone-400 font-medium mb-5">
-                {project.logoText || project.category}
-                {project.location && (
-                  <span className="ml-3 text-stone-300">·  {project.location}</span>
-                )}
-              </p>
+              {(project.logoText || project.location) && (
+                <p className="text-[11px] uppercase tracking-[0.25em] text-stone-400 font-medium mb-5">
+                  {project.logoText}
+                  {project.logoText && project.location && <span className="ml-3 text-stone-300">·</span>}
+                  {project.location && <span className={project.logoText ? "ml-3 text-stone-300" : ""}>{project.location}</span>}
+                </p>
+              )}
               <h1 className="text-3xl md:text-[2.75rem] font-light text-stone-900 leading-[1.2] mb-6 tracking-wide">
                 {project.title}
               </h1>
