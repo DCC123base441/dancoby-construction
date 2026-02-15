@@ -94,7 +94,7 @@ export default function ChatBot() {
         setShowBubble(true);
       }
       sessionStorage.setItem(sessionKey, 'true');
-    }, 5000);
+    }, 30000);
 
     return () => {
       if (welcomeTimerRef.current) {
