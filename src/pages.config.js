@@ -99,7 +99,6 @@ import ServiceKitchenBath from './pages/ServiceKitchenBath';
 import ServiceTownhouses from './pages/ServiceTownhouses';
 import Services from './pages/Services';
 import Shop from './pages/Shop';
-import Step from './pages/Step';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
 import __Layout from './Layout.jsx';
@@ -158,7 +157,6 @@ export const PAGES = {
     "ServiceTownhouses": ServiceTownhouses,
     "Services": Services,
     "Shop": Shop,
-    "Step": Step,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
 }
