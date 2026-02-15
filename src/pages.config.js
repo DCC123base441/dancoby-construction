@@ -52,6 +52,7 @@ import ActiveProjects from './pages/ActiveProjects';
 import AdminAnalytics from './pages/AdminAnalytics';
 import AdminArchitectsImages from './pages/AdminArchitectsImages';
 import AdminBlog from './pages/AdminBlog';
+import AdminBrandPartners from './pages/AdminBrandPartners';
 import AdminCalendar from './pages/AdminCalendar';
 import AdminChat from './pages/AdminChat';
 import AdminChatBot from './pages/AdminChatBot';
@@ -62,6 +63,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminEmployeePortal from './pages/AdminEmployeePortal';
 import AdminEmployees from './pages/AdminEmployees';
 import AdminEstimates from './pages/AdminEstimates';
+import AdminHeroSliders from './pages/AdminHeroSliders';
 import AdminHolidays from './pages/AdminHolidays';
 import AdminHomePage from './pages/AdminHomePage';
 import AdminJobTread from './pages/AdminJobTread';
@@ -100,11 +102,8 @@ import Shop from './pages/Shop';
 import Step from './pages/Step';
 import StepBuilder from './pages/StepBuilder';
 import StepDashboard from './pages/StepDashboard';
-import StepSuccess from './pages/StepSuccess';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
-import AdminHeroSliders from './pages/AdminHeroSliders';
-import AdminBrandPartners from './pages/AdminBrandPartners';
 import __Layout from './Layout.jsx';
 
 
@@ -114,6 +113,7 @@ export const PAGES = {
     "AdminAnalytics": AdminAnalytics,
     "AdminArchitectsImages": AdminArchitectsImages,
     "AdminBlog": AdminBlog,
+    "AdminBrandPartners": AdminBrandPartners,
     "AdminCalendar": AdminCalendar,
     "AdminChat": AdminChat,
     "AdminChatBot": AdminChatBot,
@@ -124,6 +124,7 @@ export const PAGES = {
     "AdminEmployeePortal": AdminEmployeePortal,
     "AdminEmployees": AdminEmployees,
     "AdminEstimates": AdminEstimates,
+    "AdminHeroSliders": AdminHeroSliders,
     "AdminHolidays": AdminHolidays,
     "AdminHomePage": AdminHomePage,
     "AdminJobTread": AdminJobTread,
@@ -162,11 +163,8 @@ export const PAGES = {
     "Step": Step,
     "StepBuilder": StepBuilder,
     "StepDashboard": StepDashboard,
-    "StepSuccess": StepSuccess,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
-    "AdminHeroSliders": AdminHeroSliders,
-    "AdminBrandPartners": AdminBrandPartners,
 }
 
 export const pagesConfig = {
