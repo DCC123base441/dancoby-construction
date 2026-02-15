@@ -81,7 +81,6 @@ import Architects from './pages/Architects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
-import CustomerPortal from './pages/CustomerPortal';
 import EmployeePortal from './pages/EmployeePortal';
 import Estimator from './pages/Estimator';
 import FAQ from './pages/FAQ';
@@ -139,7 +138,6 @@ export const PAGES = {
     "Blog": Blog,
     "BlogPost": BlogPost,
     "Contact": Contact,
-    "CustomerPortal": CustomerPortal,
     "EmployeePortal": EmployeePortal,
     "Estimator": Estimator,
     "FAQ": FAQ,
