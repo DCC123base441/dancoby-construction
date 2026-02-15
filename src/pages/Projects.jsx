@@ -64,106 +64,84 @@ export default function Projects() {
       {/* Hero Section */}
       <section 
         ref={heroRef}
-        className="relative h-[75vh] flex items-center overflow-hidden"
+        className="relative h-[60vh] md:h-[70vh] flex items-end overflow-hidden"
       >
         <motion.div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://static.wixstatic.com/media/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.77,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg)',
-            y: heroY,
-            scale: heroScale
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-          <div className="max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-            >
-              <motion.div 
-                className="h-px w-16 bg-gradient-to-r from-red-500 to-red-600 mb-6"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                style={{ transformOrigin: 'left' }}
-              />
-              <motion.p 
-                className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.3em] mb-4 font-light"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                Our Portfolio
-              </motion.p>
-              <motion.h1 
-                className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-white leading-[1.15] mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-              >
-                Crafted with<br /><em className="italic font-light text-white/90">Precision & Care</em>
-              </motion.h1>
-              <motion.p 
-                className="text-white/60 text-base md:text-lg leading-relaxed max-w-xl font-light"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.9 }}
-              >
-                Browse our portfolio of completed renovations across New York City and Long Island.
-              </motion.p>
-            </motion.div>
-          </div>
+          className="absolute inset-0"
+          style={{ y: heroY, scale: heroScale }}
+        >
+          <img
+            src="https://static.wixstatic.com/media/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg/v1/fill/w_1920,h_1080,fp_0.52_0.77,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/c1b522_b13b1f361627437baf0908a2f28923ee~mv2.jpeg"
+            alt="Portfolio hero"
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full pb-16 md:pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="max-w-xl"
+          >
+            <p className="text-white/50 text-[11px] uppercase tracking-[0.3em] mb-4 font-medium">
+              Portfolio
+            </p>
+            <h1 className="text-3xl md:text-5xl font-light tracking-wide text-white leading-[1.2] mb-4">
+              Crafted with<br /><em className="italic font-extralight text-white/90">Precision & Care</em>
+            </h1>
+            <p className="text-white/50 text-sm md:text-base leading-relaxed font-light">
+              A curated collection of our completed renovations across New York City and Long Island.
+            </p>
+          </motion.div>
         </div>
       </section>
 
       {/* Projects Grid */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="py-16 md:py-28 bg-white">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <ProjectFilters 
             onFilterChange={setCategory} 
             onSortChange={setSort} 
           />
 
           {isLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-14">
               {[...Array(6)].map((_, i) => (
                 <ProjectCardSkeleton key={i} />
               ))}
             </div>
           ) : filteredProjects.length === 0 ? (
-            <div className="flex items-center justify-center py-16">
-              <p className="text-gray-500">No projects found in this category.</p>
+            <div className="flex flex-col items-center justify-center py-20">
+              <p className="text-stone-400 text-sm tracking-wide">No projects found in this category.</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-14">
+              {filteredProjects.map((project, i) => (
+                <ProjectCard key={project.id} project={project} index={i} />
               ))}
             </div>
           )}
         </div>
       </section>
 
-
-
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="py-20 md:py-28 bg-stone-50">
+        <div className="max-w-3xl mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="space-y-6"
           >
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8 tracking-wide">
-              Start Your Own Project
+            <p className="text-[11px] uppercase tracking-[0.3em] text-stone-400 font-medium">Ready to Begin?</p>
+            <h2 className="text-3xl md:text-4xl font-light text-stone-900 tracking-wide">
+              Let's create something<br /><em className="italic">remarkable</em> together
             </h2>
-            <p className="text-xl text-gray-600 mb-12 font-light">
-              Let's create something amazing together
-            </p>
-            <EstimatorButton size="large" />
+            <div className="pt-4">
+              <EstimatorButton size="large" />
+            </div>
           </motion.div>
         </div>
       </section>

@@ -1,63 +1,50 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Filter } from 'lucide-react';
+
+const CATEGORIES = [
+  { value: 'all', label: 'All' },
+  { value: 'Residential', label: 'Residential' },
+  { value: 'Commercial', label: 'Commercial' },
+  { value: 'Renovation', label: 'Renovation' },
+  { value: 'Restoration', label: 'Restoration' },
+];
 
 export default function ProjectFilters({ onFilterChange, onSortChange }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedSort, setSelectedSort] = useState('curated');
 
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
     onFilterChange(value);
   };
 
-  const handleSortChange = (value) => {
-    setSelectedSort(value);
-    onSortChange(value);
-  };
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="mb-12 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="mb-14 flex items-center justify-center"
     >
-      <div className="flex items-center gap-4 flex-wrap">
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-gray-600" />
-          <span className="text-xs uppercase tracking-widest text-gray-600 font-medium">Category</span>
-        </div>
-        <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-          <SelectTrigger className="w-48 border-gray-300 text-xs uppercase tracking-wide">
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Projects</SelectItem>
-            <SelectItem value="Residential">Residential</SelectItem>
-            <SelectItem value="Commercial">Commercial</SelectItem>
-            <SelectItem value="Renovation">Renovation</SelectItem>
-            <SelectItem value="Restoration">Restoration</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <span className="text-xs uppercase tracking-widest text-gray-600 font-medium">Sort By</span>
-        <Select value={selectedSort} onValueChange={handleSortChange}>
-          <SelectTrigger className="w-48 border-gray-300 text-xs uppercase tracking-wide">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="curated">Curated</SelectItem>
-            <SelectItem value="recent">Most Recent</SelectItem>
-            <SelectItem value="oldest">Oldest First</SelectItem>
-            <SelectItem value="name-asc">Name (A-Z)</SelectItem>
-            <SelectItem value="name-desc">Name (Z-A)</SelectItem>
-          </SelectContent>
-        </Select>
+      <div className="flex items-center gap-1 border-b border-stone-200">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat.value}
+            onClick={() => handleCategoryChange(cat.value)}
+            className={`relative px-5 py-3 text-[12px] uppercase tracking-[0.2em] font-medium transition-colors duration-300
+              ${selectedCategory === cat.value
+                ? 'text-stone-900'
+                : 'text-stone-400 hover:text-stone-600'
+              }`}
+          >
+            {cat.label}
+            {selectedCategory === cat.value && (
+              <motion.div
+                layoutId="filter-underline"
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-stone-900"
+                transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
+              />
+            )}
+          </button>
+        ))}
       </div>
     </motion.div>
   );

@@ -41,30 +41,45 @@ export default function ProjectDetail() {
       />
 
 
+      {/* Hero Image */}
+      {project.mainImage && (
+        <section className="relative h-[50vh] md:h-[65vh] overflow-hidden">
+          <img
+            src={project.mainImage}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        </section>
+      )}
+
       {/* Project Details */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-8">
-            <Link to={createPageUrl('Projects')} className="inline-flex items-center gap-2 text-gray-500 hover:text-red-600 transition-colors font-medium">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Projects
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-6 md:px-10">
+          <div className="mb-10">
+            <Link to={createPageUrl('Projects')} className="inline-flex items-center gap-2 text-stone-400 hover:text-stone-900 transition-colors text-sm tracking-wide">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Back to Portfolio
             </Link>
           </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-16"
+            className="space-y-20"
           >
             {/* Title & Description */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">
+            <div className="max-w-3xl">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-stone-400 font-medium mb-5">
                 {project.logoText || project.category}
+                {project.location && (
+                  <span className="ml-3 text-stone-300">·  {project.location}</span>
+                )}
               </p>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              <h1 className="text-3xl md:text-[2.75rem] font-light text-stone-900 leading-[1.2] mb-6 tracking-wide">
                 {project.title}
               </h1>
-              <p className="text-lg text-gray-700 leading-relaxed max-w-3xl">
+              <p className="text-base md:text-lg text-stone-500 leading-relaxed font-light">
                 {project.description}
               </p>
             </div>
@@ -81,12 +96,16 @@ export default function ProjectDetail() {
             {/* Highlights */}
             {project.highlights && project.highlights.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-8">Project Highlights</h2>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-px flex-1 bg-stone-200" />
+                  <h2 className="text-[13px] uppercase tracking-[0.25em] text-stone-500 font-medium">Highlights</h2>
+                  <div className="h-px flex-1 bg-stone-200" />
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
                   {project.highlights.map((highlight, idx) => (
-                    <div key={idx} className="flex items-start gap-4">
-                      <div className="w-2 h-2 rounded-full bg-red-600 mt-3 flex-shrink-0" />
-                      <span className="text-gray-700 text-lg">{highlight}</span>
+                    <div key={idx} className="flex items-start gap-4 py-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-stone-900 mt-2 flex-shrink-0" />
+                      <span className="text-stone-600 leading-relaxed">{highlight}</span>
                     </div>
                   ))}
                 </div>
@@ -101,7 +120,11 @@ export default function ProjectDetail() {
             {/* Testimonials */}
             {project.testimonials && project.testimonials.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-8">Client Testimonials</h2>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-px flex-1 bg-stone-200" />
+                  <h2 className="text-[13px] uppercase tracking-[0.25em] text-stone-500 font-medium">Client Words</h2>
+                  <div className="h-px flex-1 bg-stone-200" />
+                </div>
                 <div className="grid md:grid-cols-2 gap-8">
                   {project.testimonials.map((testimonial, idx) => (
                     <TestimonialCard key={idx} testimonial={testimonial} index={idx} />
@@ -111,11 +134,11 @@ export default function ProjectDetail() {
             )}
 
             {/* CTA */}
-            <div className="pt-8 border-t border-gray-300">
+            <div className="pt-10 border-t border-stone-200">
               <div className="flex flex-wrap gap-4">
                 <Button 
                   asChild 
-                  className="bg-gray-900 hover:bg-gray-800 text-white px-8 h-12 text-sm uppercase tracking-wider"
+                  className="bg-stone-900 hover:bg-stone-800 text-white px-8 h-11 text-[11px] uppercase tracking-[0.2em]"
                 >
                   <Link to={createPageUrl('Contact')}>
                     Start Your Project
@@ -124,7 +147,7 @@ export default function ProjectDetail() {
                 <Button 
                   asChild 
                   variant="outline"
-                  className="border-gray-400 text-gray-900 hover:bg-gray-100 px-8 h-12 text-sm uppercase tracking-wider"
+                  className="border-stone-300 text-stone-700 hover:bg-stone-50 px-8 h-11 text-[11px] uppercase tracking-[0.2em]"
                 >
                   <Link to={createPageUrl('Projects')}>
                     View All Projects
