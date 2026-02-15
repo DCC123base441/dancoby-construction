@@ -103,6 +103,8 @@ import StepDashboard from './pages/StepDashboard';
 import StepSuccess from './pages/StepSuccess';
 import TermsOfService from './pages/TermsOfService';
 import VendorIntake from './pages/VendorIntake';
+import AdminHeroSliders from './pages/AdminHeroSliders';
+import AdminBrandPartners from './pages/AdminBrandPartners';
 import __Layout from './Layout.jsx';
 
 
@@ -163,6 +165,8 @@ export const PAGES = {
     "StepSuccess": StepSuccess,
     "TermsOfService": TermsOfService,
     "VendorIntake": VendorIntake,
+    "AdminHeroSliders": AdminHeroSliders,
+    "AdminBrandPartners": AdminBrandPartners,
 }
 
 export const pagesConfig = {

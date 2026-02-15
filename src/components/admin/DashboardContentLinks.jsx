@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../../utils';
 import { base44 } from '@/api/base44Client';
@@ -10,17 +10,10 @@ import {
     Image,
     Handshake,
     ArrowRight,
-    X,
     Sparkles,
-    GraduationCap,
-    Newspaper,
-    CalendarDays,
-    BookOpen,
     FolderKanban,
     Clock
 } from 'lucide-react';
-import HeroImageManager from './HeroImageManager';
-import BrandPartnerManager from './BrandPartnerManager';
 
 const CONTENT_LINKS = [
     {
