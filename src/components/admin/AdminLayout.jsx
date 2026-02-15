@@ -63,21 +63,13 @@ export default function AdminLayout({ children, title, actions }) {
     
     const navigation = [
         { name: 'Dashboard', href: 'AdminDashboard', icon: LayoutDashboard },
+        { name: 'Leads', href: 'AdminLeads', icon: Users },
         { name: 'Estimates', href: 'AdminEstimates', icon: Calculator },
         { name: 'Projects', href: 'AdminProjects', icon: FolderKanban },
         { name: 'Blog Posts', href: 'AdminBlog', icon: FileText },
-        { name: 'Leads', href: 'AdminLeads', icon: Users },
         { name: 'Analytics', href: 'AdminAnalytics', icon: BarChart3 },
-        { name: 'Testimonials', href: 'AdminTestimonials', icon: MessageSquare },
-        { name: 'Chat Bot', href: 'AdminChatBot', icon: MessageSquare },
         { name: 'Employee Portal', href: 'AdminEmployeePortal', icon: HardHat },
         { name: 'Customer Portal', href: 'AdminCustomerPortal', icon: Users },
-        { name: 'Shop', href: 'AdminShop', icon: ShoppingBag },
-
-        { name: 'Architects Images', href: 'AdminArchitectsImages', icon: ImageIcon },
-
-
-
     ];
 
     const handleLogout = async () => {
