@@ -13,12 +13,12 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { toast } from "sonner";
-import ImageUploader from '../components/estimator/ImageUploader';
+import ProjectGalleryManager from '../components/admin/ProjectGalleryManager';
 
 export default function AdminCurrentProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+    const [galleryImages, setGalleryImages] = useState([]);
     const [isFeatured, setIsFeatured] = useState(false);
     const queryClient = useQueryClient();
 
@@ -68,7 +68,8 @@ export default function AdminCurrentProjects() {
             location: formData.get('location'),
             description: formData.get('description'),
             status: parseInt(formData.get('status')),
-            image: formData.get('image'),
+            image: galleryImages[0] || '',
+            gallery: galleryImages.slice(1),
             featuredOnHome: isFeatured,
             order: editingProject ? editingProject.order : projects.length
         };
@@ -82,7 +83,7 @@ export default function AdminCurrentProjects() {
 
     const handleEdit = (project) => {
         setEditingProject(project);
-        setImageUrl(project.image);
+        setGalleryImages([project.image, ...(project.gallery || [])].filter(Boolean));
         setIsFeatured(project.featuredOnHome || false);
         setIsDialogOpen(true);
     };
@@ -99,7 +100,7 @@ export default function AdminCurrentProjects() {
             actions={
                 <Button onClick={() => { 
                     setEditingProject(null); 
-                    setImageUrl(null); 
+                    setGalleryImages([]); 
                     setIsFeatured(false);
                     setIsDialogOpen(true); 
                 }}>
@@ -155,7 +156,7 @@ export default function AdminCurrentProjects() {
                 setIsDialogOpen(open); 
                 if(!open) {
                     setEditingProject(null);
-                    setImageUrl(null);
+                    setGalleryImages([]);
                     setIsFeatured(false);
                 }
             }}>
@@ -164,14 +165,10 @@ export default function AdminCurrentProjects() {
                         <DialogTitle>{editingProject ? 'Edit Project' : 'Add New Project'}</DialogTitle>
                     </DialogHeader>
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Project Image</label>
-                            <ImageUploader 
-                                onImageUpload={setImageUrl}
-                                initialImage={editingProject?.image}
-                            />
-                            <input type="hidden" name="image" value={imageUrl || ''} />
-                        </div>
+                        <ProjectGalleryManager
+                            images={galleryImages}
+                            onChange={setGalleryImages}
+                        />
                         
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
