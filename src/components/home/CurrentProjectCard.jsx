@@ -58,5 +58,16 @@ export default function CurrentProjectCard({ project, idx, status, getColor, get
       <p className="text-xs font-bold tracking-wider uppercase text-red-600 mb-4">{project.location}</p>
       <p className="text-[#5b5854] leading-relaxed">{project.description}</p>
     </motion.div>
+
+    <AnimatePresence>
+      {galleryOpen && (
+        <CurrentProjectGallery
+          images={allImages}
+          initialIndex={0}
+          onClose={() => setGalleryOpen(false)}
+        />
+      )}
+    </AnimatePresence>
+    </>
   );
 }
