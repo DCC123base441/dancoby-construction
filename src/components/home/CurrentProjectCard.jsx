@@ -1,11 +1,16 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import CurrentProjectGallery from './CurrentProjectGallery';
 
 export default function CurrentProjectCard({ project, idx, status, getColor, getBgColor }) {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: true, amount: 0.4 });
+  const [galleryOpen, setGalleryOpen] = useState(false);
+
+  const allImages = [project.image, ...(project.gallery || [])].filter(Boolean);
 
   return (
+    <>
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, y: 30 }}
@@ -14,7 +19,10 @@ export default function CurrentProjectCard({ project, idx, status, getColor, get
       transition={{ duration: 0.6, delay: idx * 0.1 }}
       className="group"
     >
-      <div className="relative mb-6 overflow-hidden bg-[#d6cec3] aspect-[4/3]">
+      <div
+        className="relative mb-6 overflow-hidden bg-[#d6cec3] aspect-[4/3] cursor-pointer"
+        onClick={() => setGalleryOpen(true)}
+      >
         <img 
           src={project.image} 
           alt={project.title}
