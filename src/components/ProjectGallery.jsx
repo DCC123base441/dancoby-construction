@@ -41,8 +41,8 @@ export default function ProjectGallery({ images }) {
         <div className="h-px flex-1 bg-stone-200" />
       </div>
 
-      {/* Masonry-style grid with fixed aspect ratios */}
-      <div className="columns-2 md:columns-3 gap-3 space-y-3">
+      {/* Uniform grid — same size, no distortion */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {images.map((image, idx) => (
           <motion.div
             key={idx}
@@ -50,13 +50,13 @@ export default function ProjectGallery({ images }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: idx * 0.05 }}
-            className="group relative break-inside-avoid cursor-pointer overflow-hidden bg-stone-100"
+            className="group relative aspect-square cursor-pointer overflow-hidden bg-stone-100"
             onClick={() => setSelectedIndex(idx)}
           >
             <img
               src={image}
               alt={`Gallery image ${idx + 1}`}
-              className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.03]"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
