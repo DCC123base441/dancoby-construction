@@ -8,7 +8,6 @@ import {
     Users, 
     FileText, 
     TrendingUp, 
-    Plus,
     Clock,
     MoreHorizontal,
     MousePointerClick,
@@ -43,10 +42,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import DashboardQuickActions from '../components/admin/DashboardQuickActions';
+
+import DashboardWelcome from '../components/admin/DashboardWelcome';
 import DashboardStatCards from '../components/admin/DashboardStatCards';
-
-
+import DashboardActionItems from '../components/admin/DashboardActionItems';
+import DashboardContentLinks from '../components/admin/DashboardContentLinks';
+import DashboardPortalCards from '../components/admin/DashboardPortalCards';
 
 export default function AdminDashboard() {
     const [isResetting, setIsResetting] = React.useState(false);
@@ -89,7 +90,6 @@ export default function AdminDashboard() {
     const totalLeads = leads.length;
     const newLeads = leads.filter(l => l.status === 'new').length;
     
-    // Real traffic data
     const [timeRange, setTimeRange] = React.useState("week");
 
     const trafficData = useMemo(() => {
@@ -99,41 +99,19 @@ export default function AdminDashboard() {
         let dateFormat = 'weekday';
         let iterations = 7;
         
-        if (timeRange === 'day') {
-            dateFormat = 'hour';
-            iterations = 24;
-        } else if (timeRange === 'week') {
-            dateFormat = 'weekday';
-            iterations = 7;
-        } else if (timeRange === 'month') {
-            dateFormat = 'day';
-            iterations = 30;
-        } else if (timeRange === 'year') {
-            dateFormat = 'month';
-            iterations = 12;
-        }
+        if (timeRange === 'day') { dateFormat = 'hour'; iterations = 24; }
+        else if (timeRange === 'week') { dateFormat = 'weekday'; iterations = 7; }
+        else if (timeRange === 'month') { dateFormat = 'day'; iterations = 30; }
+        else if (timeRange === 'year') { dateFormat = 'month'; iterations = 12; }
 
         for (let i = iterations - 1; i >= 0; i--) {
             const d = new Date(now);
             let key, label, sortTime;
 
-            if (dateFormat === 'hour') {
-                d.setHours(d.getHours() - i);
-                key = d.toISOString().slice(0, 13);
-                label = d.toLocaleTimeString([], { hour: 'numeric' });
-            } else if (dateFormat === 'weekday') {
-                d.setDate(d.getDate() - i);
-                key = d.toDateString();
-                label = d.toLocaleDateString('en-US', { weekday: 'short' });
-            } else if (dateFormat === 'day') {
-                d.setDate(d.getDate() - i);
-                key = d.toDateString();
-                label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            } else if (dateFormat === 'month') {
-                d.setMonth(d.getMonth() - i);
-                key = `${d.getMonth()}-${d.getFullYear()}`;
-                label = d.toLocaleDateString('en-US', { month: 'short' });
-            }
+            if (dateFormat === 'hour') { d.setHours(d.getHours() - i); key = d.toISOString().slice(0, 13); label = d.toLocaleTimeString([], { hour: 'numeric' }); }
+            else if (dateFormat === 'weekday') { d.setDate(d.getDate() - i); key = d.toDateString(); label = d.toLocaleDateString('en-US', { weekday: 'short' }); }
+            else if (dateFormat === 'day') { d.setDate(d.getDate() - i); key = d.toDateString(); label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+            else if (dateFormat === 'month') { d.setMonth(d.getMonth() - i); key = `${d.getMonth()}-${d.getFullYear()}`; label = d.toLocaleDateString('en-US', { month: 'short' }); }
             
             sortTime = d.getTime();
             grouped[key] = { name: label, value: 0, sort: sortTime };
@@ -144,19 +122,11 @@ export default function AdminDashboard() {
         visits.forEach(visit => {
             const vDate = new Date(visit.created_date);
             if (vDate < cutoffDate) return;
-
             let key;
-            if (dateFormat === 'hour') {
-                key = vDate.toISOString().slice(0, 13);
-            } else if (dateFormat === 'weekday' || dateFormat === 'day') {
-                key = vDate.toDateString();
-            } else if (dateFormat === 'month') {
-                key = `${vDate.getMonth()}-${vDate.getFullYear()}`;
-            }
-
-            if (grouped[key]) {
-                grouped[key].value++;
-            }
+            if (dateFormat === 'hour') key = vDate.toISOString().slice(0, 13);
+            else if (dateFormat === 'weekday' || dateFormat === 'day') key = vDate.toDateString();
+            else if (dateFormat === 'month') key = `${vDate.getMonth()}-${vDate.getFullYear()}`;
+            if (grouped[key]) grouped[key].value++;
         });
 
         return Object.values(grouped).sort((a, b) => a.sort - b.sort);
@@ -167,53 +137,14 @@ export default function AdminDashboard() {
     const engagementRate = useMemo(() => {
         if (!visits.length) return { value: "0%", label: "No visits yet" };
         const rate = (leads.length / visits.length) * 100;
-        return { 
-            value: `${rate.toFixed(1)}%`, 
-            label: `${leads.length} leads / ${visits.length} visits` 
-        };
+        return { value: `${rate.toFixed(1)}%`, label: `${leads.length} leads / ${visits.length} visits` };
     }, [visits, leads]);
 
     const stats = [
-        {
-            title: "Site Visits",
-            value: visitsInRange,
-            change: "in selected period",
-            trend: "neutral",
-            icon: MousePointerClick,
-            color: "text-indigo-600",
-            bg: "bg-indigo-50",
-            gradient: "from-indigo-500 to-violet-500"
-        },
-        {
-            title: "Total Leads",
-            value: totalLeads,
-            change: `+${newLeads} new`,
-            trend: "up",
-            icon: Users,
-            color: "text-blue-600",
-            bg: "bg-blue-50",
-            gradient: "from-blue-500 to-cyan-500"
-        },
-        {
-            title: "Blog Posts",
-            value: blogs.length,
-            change: "Total published",
-            trend: "up",
-            icon: FileText,
-            color: "text-amber-600",
-            bg: "bg-amber-50",
-            gradient: "from-amber-500 to-orange-500"
-        },
-        {
-            title: "Engagement",
-            value: engagementRate.value,
-            change: engagementRate.label,
-            trend: "neutral",
-            icon: TrendingUp,
-            color: "text-emerald-600",
-            bg: "bg-emerald-50",
-            gradient: "from-emerald-500 to-teal-500"
-        }
+        { title: "Site Visits", value: visitsInRange, change: "in selected period", trend: "neutral", icon: MousePointerClick, color: "text-indigo-600", bg: "bg-indigo-50", gradient: "from-indigo-500 to-violet-500" },
+        { title: "Total Leads", value: totalLeads, change: `+${newLeads} new`, trend: "up", icon: Users, color: "text-blue-600", bg: "bg-blue-50", gradient: "from-blue-500 to-cyan-500" },
+        { title: "Blog Posts", value: blogs.length, change: "Total published", trend: "up", icon: FileText, color: "text-amber-600", bg: "bg-amber-50", gradient: "from-amber-500 to-orange-500" },
+        { title: "Engagement", value: engagementRate.value, change: engagementRate.label, trend: "neutral", icon: TrendingUp, color: "text-emerald-600", bg: "bg-emerald-50", gradient: "from-emerald-500 to-teal-500" },
     ];
 
     const getInitials = (name) => name?.substring(0, 2).toUpperCase() || '??';
@@ -222,46 +153,41 @@ export default function AdminDashboard() {
         <AdminLayout 
             title="Dashboard" 
             actions={
-                <div className="flex items-center gap-2">
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200">
-                                <Trash2 className="w-4 h-4 mr-1.5" />
-                                <span className="hidden sm:inline">Reset Data</span>
-                            </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Reset All Admin Data?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    This will permanently delete ALL data (visits, leads, projects, blog posts, estimates). This action cannot be undone.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
-                                    {isResetting ? "Resetting..." : "Yes, Delete Everything"}
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-
-                    <Button asChild size="sm" className="bg-slate-900 shadow-sm">
-                        <Link to={createPageUrl('AdminProjects')}>
-                            <Plus className="w-4 h-4 mr-1.5" /> New Project
-                        </Link>
-                    </Button>
-                </div>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200">
+                            <Trash2 className="w-4 h-4 mr-1.5" />
+                            <span className="hidden sm:inline">Reset Data</span>
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Reset All Admin Data?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This will permanently delete ALL data (visits, leads, projects, blog posts, estimates). This action cannot be undone.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleReset} className="bg-red-600 hover:bg-red-700">
+                                {isResetting ? "Resetting..." : "Yes, Delete Everything"}
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             }
         >
             <div className="space-y-8">
-                {/* Quick Actions - Moved to top for immediate access */}
-                <DashboardQuickActions />
+                {/* Welcome */}
+                <DashboardWelcome />
 
-                {/* Stats */}
+                {/* Stat Cards */}
                 <DashboardStatCards stats={stats} />
 
-                {/* Chart + Leads */}
+                {/* Action Items (employee requests) */}
+                <DashboardActionItems />
+
+                {/* Main Content: Chart + Leads side by side */}
                 <div className="grid gap-6 lg:grid-cols-5">
                     {/* Traffic Chart */}
                     <Card className="lg:col-span-3 border-slate-200/60 shadow-sm overflow-hidden">
@@ -287,39 +213,15 @@ export default function AdminDashboard() {
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={trafficData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                                        <XAxis 
-                                            dataKey="name" 
-                                            stroke="#94a3b8" 
-                                            fontSize={11} 
-                                            tickLine={false} 
-                                            axisLine={false}
-                                            dy={8}
-                                        />
-                                        <YAxis 
-                                            stroke="#94a3b8" 
-                                            fontSize={11} 
-                                            tickLine={false} 
-                                            axisLine={false} 
-                                            tickFormatter={(value) => `${value}`} 
-                                            dx={-5}
-                                        />
+                                        <XAxis dataKey="name" stroke="#94a3b8" fontSize={11} tickLine={false} axisLine={false} dy={8} />
+                                        <YAxis stroke="#94a3b8" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `${v}`} dx={-5} />
                                         <Tooltip 
                                             cursor={{ fill: 'rgba(99, 102, 241, 0.04)' }}
-                                            contentStyle={{ 
-                                                borderRadius: '10px', 
-                                                border: '1px solid #e2e8f0', 
-                                                boxShadow: '0 4px 12px rgb(0 0 0 / 0.08)',
-                                                padding: '8px 14px',
-                                                fontSize: '13px'
-                                            }}
+                                            contentStyle={{ borderRadius: '10px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgb(0 0 0 / 0.08)', padding: '8px 14px', fontSize: '13px' }}
                                         />
                                         <Bar dataKey="value" radius={[6, 6, 0, 0]} maxBarSize={40}>
                                             {trafficData.map((entry, index) => (
-                                                <Cell 
-                                                    key={`cell-${index}`} 
-                                                    fill={entry.value > 0 ? '#6366f1' : '#e2e8f0'} 
-                                                    fillOpacity={entry.value > 0 ? 0.85 : 0.5}
-                                                />
+                                                <Cell key={`cell-${index}`} fill={entry.value > 0 ? '#6366f1' : '#e2e8f0'} fillOpacity={entry.value > 0 ? 0.85 : 0.5} />
                                             ))}
                                         </Bar>
                                     </BarChart>
@@ -350,9 +252,7 @@ export default function AdminDashboard() {
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="min-w-0">
-                                                <p className="text-sm font-medium text-slate-900 truncate">
-                                                    {lead.name}
-                                                </p>
+                                                <p className="text-sm font-medium text-slate-900 truncate">{lead.name}</p>
                                                 <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
                                                     <span className="truncate">{lead.serviceType}</span>
                                                     <span>·</span>
@@ -401,6 +301,11 @@ export default function AdminDashboard() {
                     </Card>
                 </div>
 
+                {/* Portals */}
+                <DashboardPortalCards />
+
+                {/* Content & Settings quick links */}
+                <DashboardContentLinks />
             </div>
         </AdminLayout>
     );
