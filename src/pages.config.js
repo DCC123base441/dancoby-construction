@@ -69,7 +69,6 @@ import AdminProjects from './pages/AdminProjects';
 import AdminShop from './pages/AdminShop';
 import AdminStandards from './pages/AdminStandards';
 import AdminTestimonials from './pages/AdminTestimonials';
-import AdminTraining from './pages/AdminTraining';
 import AdminUserManagement from './pages/AdminUserManagement';
 import Architects from './pages/Architects';
 import Blog from './pages/Blog';
@@ -119,7 +118,6 @@ export const PAGES = {
     "AdminShop": AdminShop,
     "AdminStandards": AdminStandards,
     "AdminTestimonials": AdminTestimonials,
-    "AdminTraining": AdminTraining,
     "AdminUserManagement": AdminUserManagement,
     "Architects": Architects,
     "Blog": Blog,
