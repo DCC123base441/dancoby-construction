@@ -7,19 +7,22 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Pencil, Trash2, GripVertical, Image as ImageIcon } from 'lucide-react';
+import { Plus, Pencil, Trash2, GripVertical, Image as ImageIcon, Images } from 'lucide-react';
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { toast } from "sonner";
 import ProjectGalleryManager from '../components/admin/ProjectGalleryManager';
+import AdminGalleryViewer from '../components/admin/AdminGalleryViewer';
+import { AnimatePresence } from 'framer-motion';
 
 export default function AdminCurrentProjects() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
     const [galleryImages, setGalleryImages] = useState([]);
     const [isFeatured, setIsFeatured] = useState(false);
+    const [viewingGallery, setViewingGallery] = useState(null);
     const queryClient = useQueryClient();
 
     // Fetch projects
@@ -119,10 +122,13 @@ export default function AdminCurrentProjects() {
                                 className="object-cover"
                             />
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                                <Button size="icon" variant="secondary" onClick={() => handleEdit(project)}>
+                                <Button size="icon" variant="secondary" onClick={() => setViewingGallery(project)} title="View Gallery">
+                                    <Images className="w-4 h-4" />
+                                </Button>
+                                <Button size="icon" variant="secondary" onClick={() => handleEdit(project)} title="Edit">
                                     <Pencil className="w-4 h-4" />
                                 </Button>
-                                <Button size="icon" variant="destructive" onClick={() => handleDelete(project.id)}>
+                                <Button size="icon" variant="destructive" onClick={() => handleDelete(project.id)} title="Delete">
                                     <Trash2 className="w-4 h-4" />
                                 </Button>
                                 </div>
@@ -141,6 +147,9 @@ export default function AdminCurrentProjects() {
                             <h3 className="font-semibold text-lg mb-1">{project.title}</h3>
                             <p className="text-sm text-gray-500 mb-2">{project.location}</p>
                             <p className="text-sm text-gray-600 line-clamp-2">{project.description}</p>
+                            {(project.gallery?.length > 0) && (
+                                <p className="text-xs text-gray-400 mt-2">{1 + project.gallery.length} images</p>
+                            )}
                         </CardContent>
                     </Card>
                 ))}
@@ -226,6 +235,15 @@ export default function AdminCurrentProjects() {
                     </form>
                 </DialogContent>
             </Dialog>
+            <AnimatePresence>
+                {viewingGallery && (
+                    <AdminGalleryViewer
+                        images={[viewingGallery.image, ...(viewingGallery.gallery || [])].filter(Boolean)}
+                        projectTitle={viewingGallery.title}
+                        onClose={() => setViewingGallery(null)}
+                    />
+                )}
+            </AnimatePresence>
         </AdminLayout>
     );
 }
