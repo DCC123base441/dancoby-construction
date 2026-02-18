@@ -18,6 +18,11 @@ function normalizeTargetPage(input) {
   return p;
 }
 
+function pickRandom(arr) {
+  if (!arr || arr.length === 0) return null;
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 export default function ChatBot() {
   const location = useLocation();
 
@@ -73,13 +78,13 @@ export default function ChatBot() {
     }
     if (!currentPagePath || allChatMessages.length === 0) return;
 
-    const specificWelcome = allChatMessages.find(
+    const specificWelcomes = allChatMessages.filter(
       (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath
     );
-    const genericWelcome = allChatMessages.find(
+    const genericWelcomes = allChatMessages.filter(
       (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all'
     );
-    const welcomeMsg = specificWelcome || genericWelcome;
+    const welcomeMsg = pickRandom(specificWelcomes.length > 0 ? specificWelcomes : genericWelcomes);
     if (!welcomeMsg) return;
 
     const sessionKey = `cb_v3_welcome_${currentPagePath}`;
@@ -133,14 +138,23 @@ export default function ChatBot() {
     setShowBubble(false);
 
     if (messages.length === 0) {
-      const specificWelcome = allChatMessages.find(
+      // Pick a random engaging message for this page, or fall back to welcome
+      const pageEngaging = allChatMessages.filter(
+        (m) => !m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath
+      );
+      const globalEngaging = allChatMessages.filter(
+        (m) => !m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all'
+      );
+      const specificWelcomes = allChatMessages.filter(
         (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === currentPagePath
       );
-      const genericWelcome = allChatMessages.find(
+      const genericWelcomes = allChatMessages.filter(
         (m) => m.isPageWelcome && normalizeTargetPage(m.targetPage) === 'all'
       );
-      const welcomeMsg = specificWelcome || genericWelcome;
-      const initial = bubbleMessage || welcomeMsg?.content ||
+
+      const engagingMsg = pickRandom(pageEngaging.length > 0 ? pageEngaging : globalEngaging);
+      const welcomeMsg = pickRandom(specificWelcomes.length > 0 ? specificWelcomes : genericWelcomes);
+      const initial = bubbleMessage || engagingMsg?.content || welcomeMsg?.content ||
         "Hi! I'm Sarah, your Dancoby design assistant. How can I help you today?";
       setMessages([{ role: 'assistant', content: initial }]);
     }
