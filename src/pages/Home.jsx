@@ -140,37 +140,33 @@ export default function Home() {
       {/* Who We Are Section */}
       <section className="py-16 md:py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-stretch">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
             {/* Text Content */}
-            <motion.div {...fadeIn} className="flex flex-col justify-end h-full">
-              <div className="space-y-8">
-                <div>
-                  <h2 className="text-sm font-bold uppercase tracking-widest text-red-600 mb-3">{getSection('whoWeAre')?.label || 'Who We Are'}</h2>
-                  <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                    {getSection('whoWeAre')?.heading || 'Home is where the heart is.'}
-                  </h3>
-                </div>
-                
-                <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
-                  {(getSection('whoWeAre')?.paragraphs || [
-                    'With over twenty years of experience and a true dedication to customer satisfaction, we partner with you—your budget, your style, your vision—to turn renovation dreams into reality.',
-                    'Your space should feel cozy, relaxing, and distinctly yours, reflecting your unique personality and taste.',
-                    "That's why our professional team delivers a fully collaborative, customer-first experience, working closely with you to transform your ideas into elegant, high-quality results."
-                  ]).map((p, i) => <p key={i}>{p}</p>)}
-                </div>
+            <motion.div {...fadeIn} className="lg:w-1/2 space-y-8">
+              <div>
+                <h2 className="text-sm font-bold uppercase tracking-widest text-red-600 mb-3">{getSection('whoWeAre')?.label || 'Who We Are'}</h2>
+                <h3 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                  {getSection('whoWeAre')?.heading || 'Home is where the heart is.'}
+                </h3>
+              </div>
+              
+              <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
+                {(getSection('whoWeAre')?.paragraphs || [
+                  'With over twenty years of experience and a true dedication to customer satisfaction, we partner with you—your budget, your style, your vision—to turn renovation dreams into reality.',
+                  'Your space should feel cozy, relaxing, and distinctly yours, reflecting your unique personality and taste.',
+                  "That's why our professional team delivers a fully collaborative, customer-first experience, working closely with you to transform your ideas into elegant, high-quality results."
+                ]).map((p, i) => <p key={i}>{p}</p>)}
               </div>
             </motion.div>
 
-            {/* Images */}
-            <motion.div {...fadeIn} className="relative h-full">
-              <div className="h-full">
-                <img
-                  src={getSection('whoWeAre')?.image1 || 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg'}
-                  alt="Living Room"
-                  className="w-full h-full shadow-xl object-cover"
-                  loading="lazy"
-                  decoding="async" />
-              </div>
+            {/* Image */}
+            <motion.div {...fadeIn} className="lg:w-1/2">
+              <img
+                src={getSection('whoWeAre')?.image1 || 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg'}
+                alt="Living Room"
+                className="w-full shadow-xl object-cover rounded-sm"
+                loading="lazy"
+                decoding="async" />
             </motion.div>
           </div>
         </div>
