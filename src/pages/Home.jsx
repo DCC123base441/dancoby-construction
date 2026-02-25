@@ -163,23 +163,13 @@ export default function Home() {
 
             {/* Images */}
             <motion.div {...fadeIn} className="relative h-full">
-              <div className="grid grid-cols-2 gap-6 h-full">
-                <div className="h-full">
-                  <img
-                    src={getSection('whoWeAre')?.image1 || 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg'}
-                    alt="Living Room"
-                    className="w-full h-full shadow-xl object-cover"
-                    loading="lazy"
-                    decoding="async" />
-                </div>
-                <div className="h-full">
-                  <img
-                    src={getSection('whoWeAre')?.image2 || 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/01286028a_Dancoby_PenthouseFinished_Shot15.jpg'}
-                    alt="Kitchen"
-                    className="w-full h-full shadow-xl object-cover"
-                    loading="lazy"
-                    decoding="async" />
-                </div>
+              <div className="h-full">
+                <img
+                  src={getSection('whoWeAre')?.image1 || 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg'}
+                  alt="Living Room"
+                  className="w-full h-full shadow-xl object-cover"
+                  loading="lazy"
+                  decoding="async" />
               </div>
             </motion.div>
           </div>
