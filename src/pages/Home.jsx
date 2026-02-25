@@ -140,7 +140,7 @@ export default function Home() {
       {/* Who We Are Section */}
       <section className="py-16 md:py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
             {/* Text Content */}
             <motion.div {...fadeIn} className="lg:w-1/2 space-y-8">
               <div>
@@ -160,11 +160,11 @@ export default function Home() {
             </motion.div>
 
             {/* Image */}
-            <motion.div {...fadeIn} className="lg:w-1/2">
+            <motion.div {...fadeIn} className="lg:w-1/2 h-full">
               <img
                 src={getSection('whoWeAre')?.image1 || 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/697c18d2dbda3b3101bfe937/99a553c33_Dancoby_PenthouseFinished_Shot9.jpg'}
                 alt="Living Room"
-                className="w-full shadow-xl object-cover rounded-sm"
+                className="w-full h-full shadow-xl object-cover rounded-sm"
                 loading="lazy"
                 decoding="async" />
             </motion.div>
