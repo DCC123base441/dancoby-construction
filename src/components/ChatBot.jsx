@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 
 const ASSISTANT_IMAGE = "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200";
 
-const SYSTEM_PROMPT = `You are Sarah, the AI sales assistant for Dancoby Construction Company — a premier residential renovation firm serving Brooklyn, Queens, Manhattan, The Bronx, Staten Island, and Long Island (Five Towns, Nassau County).
+const SYSTEM_PROMPT = `You are Ember, the Digital Website Coordinator for Dancoby Construction Company — a premier residential renovation firm serving Brooklyn, Queens, Manhattan, The Bronx, Staten Island, and Long Island (Five Towns, Nassau County).
 
 Your #1 goal is to get the customer to call (516) 684-9766 or text (646) 423-8283 for a FREE estimate.
 
@@ -37,7 +37,8 @@ CRITICAL RULES — READ THESE CAREFULLY:
 - NEVER give specific pricing. Deflect with charm: "Honey, every dream home has its own price tag — call (516) 684-9766 and let's figure out yours!"
 - Always nudge toward calling or texting. Make it feel easy, not salesy.
 - Be enthusiastic about their ideas but keep it tight. No rambling.
-- If someone asks a vague question, ask a fun follow-up instead of writing a novel.`;
+- If someone asks a vague question, ask a fun follow-up instead of writing a novel.
+- Your name is Ember and your title is Digital Website Coordinator. If asked, introduce yourself as Ember.`;
 
 export default function ChatBot() {
   const location = useLocation();
@@ -97,7 +98,7 @@ export default function ChatBot() {
     if (messages.length === 0) {
       setMessages([{
         role: 'assistant',
-        content: "Hi! I'm Sarah from Dancoby Construction 👋 Whether you're dreaming of a new kitchen, a stunning bathroom, or a full home transformation — I'd love to help! What's on your mind?"
+        content: "Hi! I'm Ember from Dancoby Construction 👋 Whether you're dreaming of a new kitchen, a stunning bathroom, or a full home transformation — I'd love to help! What's on your mind?"
       }]);
     }
   };
@@ -114,11 +115,11 @@ export default function ChatBot() {
 
     // Build conversation history for context
     const historyText = updatedMessages
-      .map(m => `${m.role === 'user' ? 'Customer' : 'Sarah'}: ${m.content}`)
+      .map(m => `${m.role === 'user' ? 'Customer' : 'Ember'}: ${m.content}`)
       .join('\n');
 
     const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `${SYSTEM_PROMPT}\n\nConversation so far:\n${historyText}\n\nSarah:`,
+      prompt: `${SYSTEM_PROMPT}\n\nConversation so far:\n${historyText}\n\nEmber:`,
     });
 
     setMessages(prev => [...prev, { role: 'assistant', content: response }]);
@@ -200,10 +201,10 @@ export default function ChatBot() {
               {/* Header */}
               <div className="bg-red-600 text-white py-2 px-3 flex items-center justify-between md:rounded-t-xl flex-shrink-0">
                 <div className="flex items-center gap-2">
-                  <img src={ASSISTANT_IMAGE} alt="Sarah" className="w-8 h-8 rounded-full object-cover border-2 border-green-500" />
+                  <img src={ASSISTANT_IMAGE} alt="Ember" className="w-8 h-8 rounded-full object-cover border-2 border-green-500" />
                   <div>
-                    <h3 className="font-semibold text-sm">Sarah</h3>
-                    <p className="text-xs text-red-100">{isLoading ? 'Typing…' : 'Sales Assistant'}</p>
+                    <h3 className="font-semibold text-sm">Ember</h3>
+                    <p className="text-xs text-red-100">{isLoading ? 'Typing…' : 'Digital Website Coordinator'}</p>
                   </div>
                 </div>
                 <button onClick={() => setIsOpen(false)} className="text-white hover:bg-red-700 p-1.5 rounded-full">
@@ -216,7 +217,7 @@ export default function ChatBot() {
                 {messages.map((m, idx) => (
                   <div key={idx} className={`flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {m.role === 'assistant' && (
-                      <img src={ASSISTANT_IMAGE} alt="Sarah" className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0" />
+                      <img src={ASSISTANT_IMAGE} alt="Ember" className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0" />
                     )}
                     <div className={`max-w-[80%] px-3 py-1.5 rounded-xl ${
                       m.role === 'user'
@@ -242,7 +243,7 @@ export default function ChatBot() {
 
                 {isLoading && (
                   <div className="flex justify-start items-end gap-2">
-                    <img src={ASSISTANT_IMAGE} alt="Sarah" className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0" />
+                    <img src={ASSISTANT_IMAGE} alt="Ember" className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0" />
                     <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
                       <div className="flex gap-1">
                         <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
