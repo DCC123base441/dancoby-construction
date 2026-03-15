@@ -1,19 +1,35 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
-import { X, Send, Loader2 } from 'lucide-react';
+import { X, Send } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
-const AGENT_NAME = 'dancoby_sales';
 const ASSISTANT_IMAGE = "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200";
+
+const SYSTEM_PROMPT = `You are Sarah, the AI sales assistant for Dancoby Construction Company — a premier residential renovation firm serving Brooklyn, Queens, Manhattan, The Bronx, Staten Island, and Long Island (Five Towns, Nassau County).
+
+Your #1 goal is to get the customer to call (516) 684-9766 or text (646) 423-8283 for a FREE estimate.
+
+Company facts:
+- 20+ years experience, fully licensed & insured
+- 3-year warranty on all projects
+- Services: Interior Renovations, Kitchen & Bath Remodeling, Brownstone Restorations, Townhouses & Apartments, Basement Finishing, Flooring & Trim, Whole-Home Renovations
+- Powered by JobTread for real-time project transparency
+- Hours: Mon–Fri 8am–8pm, Email: info@dancoby.com
+- Google 5-star reviews
+
+Rules:
+- Keep responses to 2-4 sentences, warm and confident
+- NEVER give specific pricing. Say "Every project is unique — call (516) 684-9766 for a free, no-obligation estimate!"
+- Always end by encouraging them to call or text
+- Be enthusiastic about their ideas, mention the warranty and transparent process when relevant`;
 
 export default function ChatBot() {
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [conversation, setConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -21,10 +37,9 @@ export default function ChatBot() {
   const [viewportHeight, setViewportHeight] = useState('100dvh');
 
   const messagesEndRef = useRef(null);
-  const unsubscribeRef = useRef(null);
   const bubbleTimerRef = useRef(null);
 
-  // Show a teaser bubble after 30s on any page (once per session)
+  // Show teaser bubble after 30s (once per session per page)
   useEffect(() => {
     if (isOpen) return;
     const sessionKey = `cb_bubble_${location.pathname}`;
@@ -38,17 +53,14 @@ export default function ChatBot() {
     return () => clearTimeout(bubbleTimerRef.current);
   }, [location.pathname, isOpen]);
 
-  // Hide bubble on page change
   useEffect(() => {
     setShowBubble(false);
   }, [location.pathname]);
 
-  // Scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Lock body scroll & handle keyboard resize when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -66,57 +78,39 @@ export default function ChatBot() {
     }
   }, [isOpen]);
 
-  // Subscribe to conversation updates
-  const subscribeToConvo = useCallback((convoId) => {
-    if (unsubscribeRef.current) unsubscribeRef.current();
-    unsubscribeRef.current = base44.agents.subscribeToConversation(convoId, (data) => {
-      if (data.messages) {
-        setMessages(data.messages.filter(m => m.role === 'user' || m.role === 'assistant'));
-        // Check if assistant is still streaming
-        const lastMsg = data.messages[data.messages.length - 1];
-        if (lastMsg?.role === 'assistant') {
-          setIsLoading(false);
-        }
-      }
-    });
-  }, []);
-
-  // Cleanup subscription on unmount
-  useEffect(() => {
-    return () => {
-      if (unsubscribeRef.current) unsubscribeRef.current();
-    };
-  }, []);
-
-  const handleOpenChat = async () => {
+  const handleOpenChat = () => {
     setIsOpen(true);
     setShowBubble(false);
-
-    if (!conversation) {
-      const convo = await base44.agents.createConversation({
-        agent_name: AGENT_NAME,
-        metadata: { name: 'Website Chat', page: location.pathname }
-      });
-      setConversation(convo);
-      subscribeToConvo(convo.id);
+    if (messages.length === 0) {
+      setMessages([{
+        role: 'assistant',
+        content: "Hi! I'm Sarah from Dancoby Construction 👋 Whether you're dreaming of a new kitchen, a stunning bathroom, or a full home transformation — I'd love to help! What's on your mind?"
+      }]);
     }
   };
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!inputValue.trim() || !conversation || isLoading) return;
+    if (!inputValue.trim() || isLoading) return;
 
-    const text = inputValue.trim();
+    const userMessage = inputValue.trim();
+    const updatedMessages = [...messages, { role: 'user', content: userMessage }];
+    setMessages(updatedMessages);
     setInputValue('');
     setIsLoading(true);
 
-    await base44.agents.addMessage(conversation, {
-      role: 'user',
-      content: text
-    });
-  };
+    // Build conversation history for context
+    const historyText = updatedMessages
+      .map(m => `${m.role === 'user' ? 'Customer' : 'Sarah'}: ${m.content}`)
+      .join('\n');
 
-  const displayMessages = messages.filter(m => m.content && m.content.trim());
+    const response = await base44.integrations.Core.InvokeLLM({
+      prompt: `${SYSTEM_PROMPT}\n\nConversation so far:\n${historyText}\n\nSarah:`,
+    });
+
+    setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+    setIsLoading(false);
+  };
 
   return (
     <>
@@ -206,18 +200,7 @@ export default function ChatBot() {
 
               {/* Messages */}
               <div className="flex-1 overflow-y-auto px-2 py-2 space-y-2 bg-gray-50">
-                {displayMessages.length === 0 && !isLoading && (
-                  <div className="flex items-end gap-2 justify-start">
-                    <img src={ASSISTANT_IMAGE} alt="Sarah" className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0" />
-                    <div className="max-w-[80%] px-3 py-1.5 rounded-xl bg-white text-gray-900 rounded-bl-sm shadow-sm border border-gray-100">
-                      <p className="text-sm leading-relaxed">
-                        Hi! I'm Sarah from Dancoby Construction. 👋 Whether you're dreaming of a new kitchen, a stunning bathroom, or a full home transformation — I'd love to help! What's on your mind?
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {displayMessages.map((m, idx) => (
+                {messages.map((m, idx) => (
                   <div key={idx} className={`flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {m.role === 'assistant' && (
                       <img src={ASSISTANT_IMAGE} alt="Sarah" className="w-7 h-7 rounded-full object-cover mb-1 flex-shrink-0" />
