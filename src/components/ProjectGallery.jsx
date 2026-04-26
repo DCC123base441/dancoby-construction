@@ -6,17 +6,17 @@ import OptimizedImage from "@/components/OptimizedImage";
 export default function ProjectGallery({ images }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  if (!images || images.length === 0) return null;
+  const safeImages = images || [];
 
   const handlePrevious = useCallback((e) => {
     e?.stopPropagation();
-    setSelectedIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  }, [images.length]);
+    setSelectedIndex((prev) => (prev === 0 ? safeImages.length - 1 : prev - 1));
+  }, [safeImages.length]);
 
   const handleNext = useCallback((e) => {
     e?.stopPropagation();
-    setSelectedIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  }, [images.length]);
+    setSelectedIndex((prev) => (prev === safeImages.length - 1 ? 0 : prev + 1));
+  }, [safeImages.length]);
 
   useEffect(() => {
     if (selectedIndex === null) return;
@@ -33,6 +33,8 @@ export default function ProjectGallery({ images }) {
     };
   }, [selectedIndex, handlePrevious, handleNext]);
 
+  if (safeImages.length === 0) return null;
+
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-4">
@@ -43,7 +45,7 @@ export default function ProjectGallery({ images }) {
 
       {/* Uniform grid — same size, no distortion */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        {images.map((image, idx) => (
+        {safeImages.map((image, idx) => (
           <motion.div
             key={idx}
             initial={{ opacity: 0, y: 20 }}
@@ -85,7 +87,7 @@ export default function ProjectGallery({ images }) {
 
             {/* Counter */}
             <div className="absolute top-6 left-6 text-white/50 text-sm font-light tracking-wider">
-              {selectedIndex + 1} / {images.length}
+              {selectedIndex + 1} / {safeImages.length}
             </div>
 
             {/* Nav */}
@@ -113,7 +115,7 @@ export default function ProjectGallery({ images }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                src={images[selectedIndex]}
+                src={safeImages[selectedIndex]}
                 alt="Gallery preview"
                 draggable={false}
                 className="max-h-[85vh] max-w-full object-contain select-none mx-auto"

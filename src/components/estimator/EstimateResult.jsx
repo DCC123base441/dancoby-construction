@@ -9,6 +9,7 @@ import { createPageUrl } from '../../utils';
 import { Download, Mail, ChevronDown, ChevronUp } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { base44 } from '@/api/base44Client';
 
 export default function EstimateResult({ estimateData, onReset }) {
   const [showBreakdown, setShowBreakdown] = useState(false);
