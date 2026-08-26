@@ -1,0 +1,27 @@
+{
+  "name": "HeroImage",
+  "type": "object",
+  "properties": {
+    "imageUrl": {
+      "type": "string",
+      "description": "URL of the hero image"
+    },
+    "label": {
+      "type": "string",
+      "description": "Short label for easy identification"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this image is shown in the hero slideshow"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order"
+    }
+  },
+  "required": [
+    "imageUrl"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Product name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Product description"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price in USD"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Product images"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Apparel",
+        "Accessories",
+        "Other"
+      ],
+      "default": "Apparel"
+    },
+    "sizes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Available sizes"
+    },
+    "inStock": {
+      "type": "boolean",
+      "default": true
+    },
+    "views": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of views"
+    },
+    "sales": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of sales (fake)"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Sort order"
+    }
+  },
+  "required": [
+    "name",
+    "price",
+    "images"
+  ]
+}

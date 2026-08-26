@@ -1,0 +1,28 @@
+{
+  "name": "TutorialProgress",
+  "type": "object",
+  "properties": {
+    "userEmail": {
+      "type": "string",
+      "description": "Email of the employee"
+    },
+    "tutorialId": {
+      "type": "string",
+      "description": "ID of the JobTread tutorial"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the tutorial is completed"
+    },
+    "completedDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when marked as completed"
+    }
+  },
+  "required": [
+    "userEmail",
+    "tutorialId"
+  ]
+}

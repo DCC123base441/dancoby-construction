@@ -1,0 +1,47 @@
+{
+  "name": "Notification",
+  "type": "object",
+  "properties": {
+    "userEmail": {
+      "type": "string",
+      "description": "Email of the recipient user"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "time_off",
+        "raise",
+        "news",
+        "general"
+      ],
+      "description": "Type of notification"
+    },
+    "title": {
+      "type": "string",
+      "description": "Notification title"
+    },
+    "message": {
+      "type": "string",
+      "description": "Notification message body"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the notification has been read"
+    },
+    "link": {
+      "type": "string",
+      "description": "Optional link to redirect to"
+    },
+    "relatedId": {
+      "type": "string",
+      "description": "ID of the related entity (e.g. time off request id)"
+    }
+  },
+  "required": [
+    "userEmail",
+    "type",
+    "title",
+    "message"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "BrandPartner",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Brand name"
+    },
+    "logoUrl": {
+      "type": "string",
+      "description": "URL of the brand logo image"
+    },
+    "websiteUrl": {
+      "type": "string",
+      "description": "Brand website URL (optional)"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show this brand on the site"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order"
+    }
+  },
+  "required": [
+    "name",
+    "logoUrl"
+  ]
+}

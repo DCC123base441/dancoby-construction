@@ -1,0 +1,35 @@
+{
+  "name": "DailyCheckIn",
+  "type": "object",
+  "properties": {
+    "userEmail": {
+      "type": "string",
+      "description": "Email of the employee"
+    },
+    "mood": {
+      "type": "string",
+      "enum": [
+        "great",
+        "good",
+        "okay",
+        "not_great",
+        "bad"
+      ],
+      "description": "How the employee is feeling"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note about how they're feeling"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date of the check-in"
+    }
+  },
+  "required": [
+    "userEmail",
+    "mood",
+    "date"
+  ]
+}

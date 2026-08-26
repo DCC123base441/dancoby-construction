@@ -1,0 +1,48 @@
+{
+  "name": "ProjectUpdate",
+  "type": "object",
+  "properties": {
+    "projectId": {
+      "type": "string",
+      "description": "Related project ID"
+    },
+    "title": {
+      "type": "string",
+      "description": "Update title"
+    },
+    "content": {
+      "type": "string",
+      "description": "Update content/details"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Attached images"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "customer",
+        "employee",
+        "all"
+      ],
+      "default": "all",
+      "description": "Who can see this update"
+    },
+    "authorName": {
+      "type": "string",
+      "description": "Name of the person who posted"
+    },
+    "authorEmail": {
+      "type": "string",
+      "description": "Email of the person who posted"
+    }
+  },
+  "required": [
+    "projectId",
+    "title",
+    "content"
+  ]
+}

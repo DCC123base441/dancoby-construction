@@ -1,0 +1,33 @@
+{
+  "name": "SiteVisit",
+  "type": "object",
+  "properties": {
+    "page": {
+      "type": "string",
+      "description": "The page path visited"
+    },
+    "userAgent": {
+      "type": "string",
+      "description": "User agent string"
+    },
+    "referrer": {
+      "type": "string",
+      "description": "Referrer URL"
+    },
+    "city": {
+      "type": "string",
+      "description": "Visitor city"
+    },
+    "state": {
+      "type": "string",
+      "description": "Visitor state/region"
+    },
+    "country": {
+      "type": "string",
+      "description": "Visitor country"
+    }
+  },
+  "required": [
+    "page"
+  ]
+}

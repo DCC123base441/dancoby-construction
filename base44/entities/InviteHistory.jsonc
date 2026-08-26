@@ -1,0 +1,36 @@
+{
+  "name": "InviteHistory",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Email of the invited person"
+    },
+    "portalRole": {
+      "type": "string",
+      "enum": [
+        "employee",
+        "customer"
+      ],
+      "default": "employee",
+      "description": "Role assigned to the invite"
+    },
+    "invitedBy": {
+      "type": "string",
+      "description": "Email of the admin who sent the invite"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "accepted"
+      ],
+      "default": "pending",
+      "description": "Whether the user has accepted the invite"
+    }
+  },
+  "required": [
+    "email",
+    "portalRole"
+  ]
+}

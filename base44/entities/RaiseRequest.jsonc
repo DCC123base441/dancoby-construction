@@ -1,0 +1,50 @@
+{
+  "name": "RaiseRequest",
+  "type": "object",
+  "properties": {
+    "userEmail": {
+      "type": "string",
+      "description": "Email of the requesting employee"
+    },
+    "requestType": {
+      "type": "string",
+      "enum": [
+        "raise",
+        "review"
+      ],
+      "description": "Type of request"
+    },
+    "currentRate": {
+      "type": "number",
+      "description": "Current hourly rate"
+    },
+    "requestedRate": {
+      "type": "number",
+      "description": "Requested hourly rate (for raise requests)"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the request"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "denied",
+        "scheduled"
+      ],
+      "default": "pending",
+      "description": "Status of the request"
+    },
+    "adminNotes": {
+      "type": "string",
+      "description": "Notes from admin/management"
+    }
+  },
+  "required": [
+    "userEmail",
+    "requestType",
+    "reason"
+  ]
+}

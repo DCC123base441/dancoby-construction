@@ -1,0 +1,67 @@
+{
+  "name": "TrainingCourse",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Course title"
+    },
+    "title_es": {
+      "type": "string",
+      "description": "Course title in Spanish"
+    },
+    "description": {
+      "type": "string",
+      "description": "Course description"
+    },
+    "description_es": {
+      "type": "string",
+      "description": "Course description in Spanish"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "safety",
+        "skills",
+        "leadership",
+        "compliance",
+        "tools",
+        "other"
+      ],
+      "default": "skills",
+      "description": "Course category"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "default": "beginner",
+      "description": "Difficulty level"
+    },
+    "imageUrl": {
+      "type": "string",
+      "description": "Course cover image URL"
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this course is mandatory for all employees"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the course is published and visible"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

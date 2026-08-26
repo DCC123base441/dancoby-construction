@@ -1,0 +1,37 @@
+{
+  "name": "MerchandiseWaitlist",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Customer name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Customer email"
+    },
+    "productName": {
+      "type": "string",
+      "description": "Product name they are waiting for"
+    },
+    "productSize": {
+      "type": "string",
+      "description": "Size they are waiting for"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "notified",
+        "fulfilled"
+      ],
+      "default": "pending",
+      "description": "Status of the request"
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "productName"
+  ]
+}

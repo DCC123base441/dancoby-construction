@@ -1,0 +1,37 @@
+{
+  "name": "CustomerProfile",
+  "type": "object",
+  "properties": {
+    "userEmail": {
+      "type": "string",
+      "description": "Email of the user this profile belongs to"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "Customer first name"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Customer last name"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "address": {
+      "type": "string",
+      "description": "Home/Billing address"
+    },
+    "profilePicture": {
+      "type": "string",
+      "description": "URL of the profile picture"
+    },
+    "bio": {
+      "type": "string",
+      "description": "Short bio or notes"
+    }
+  },
+  "required": [
+    "userEmail"
+  ]
+}

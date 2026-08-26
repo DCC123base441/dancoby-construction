@@ -1,0 +1,83 @@
+{
+  "name": "TrainingResource",
+  "type": "object",
+  "properties": {
+    "courseId": {
+      "type": "string",
+      "description": "ID of the parent training course"
+    },
+    "title": {
+      "type": "string",
+      "description": "Resource title"
+    },
+    "title_es": {
+      "type": "string",
+      "description": "Resource title in Spanish"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "video",
+        "document",
+        "link",
+        "quiz"
+      ],
+      "default": "video",
+      "description": "Type of resource"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL of the resource (video link, document URL, etc.)"
+    },
+    "duration": {
+      "type": "string",
+      "description": "Estimated duration (e.g. '15 min', '1 hour')"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order within the course"
+    },
+    "quizQuestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "question_es": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "options_es": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "correctIndex": {
+            "type": "number"
+          },
+          "correctIndices": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "description": "Multiple choice quiz questions attached to this resource"
+    }
+  },
+  "required": [
+    "courseId",
+    "title",
+    "type"
+  ]
+}

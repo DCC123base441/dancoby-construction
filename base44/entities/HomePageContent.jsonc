@@ -1,0 +1,27 @@
+{
+  "name": "HomePageContent",
+  "type": "object",
+  "properties": {
+    "section": {
+      "type": "string",
+      "enum": [
+        "hero",
+        "whoWeAre",
+        "services",
+        "aboutUs",
+        "banner",
+        "featuredProjects",
+        "cta"
+      ],
+      "description": "Which section of the home page this content belongs to"
+    },
+    "content": {
+      "type": "object",
+      "description": "JSON content for this section"
+    }
+  },
+  "required": [
+    "section",
+    "content"
+  ]
+}

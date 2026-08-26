@@ -1,0 +1,59 @@
+{
+  "name": "CompanyGoal",
+  "type": "object",
+  "properties": {
+    "year": {
+      "type": "number",
+      "description": "The fiscal year for this goal"
+    },
+    "currentRevenue": {
+      "type": "number",
+      "default": 0,
+      "description": "Total revenue accumulated so far this year"
+    },
+    "targetRevenue": {
+      "type": "number",
+      "default": 2500000,
+      "description": "Revenue goal for the year"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the revenue was last synced"
+    },
+    "quarterlyBreakdown": {
+      "type": "object",
+      "properties": {
+        "q1": {
+          "type": "number",
+          "default": 0
+        },
+        "q2": {
+          "type": "number",
+          "default": 0
+        },
+        "q3": {
+          "type": "number",
+          "default": 0
+        },
+        "q4": {
+          "type": "number",
+          "default": 0
+        }
+      },
+      "description": "Revenue breakdown by quarter"
+    },
+    "bonusSharePercent": {
+      "type": "number",
+      "default": 4,
+      "description": "Percentage of YTD revenue shared with employees (e.g. 4 means 4%)"
+    },
+    "headcountOverride": {
+      "type": "number",
+      "description": "Manual headcount override for bonus calculation. If not set, uses active employee count."
+    }
+  },
+  "required": [
+    "year"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "EmberAlert",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "engaged_visitor"
+      ],
+      "default": "engaged_visitor",
+      "description": "Type of alert"
+    },
+    "message": {
+      "type": "string",
+      "description": "Ember's alert message"
+    },
+    "visitorPage": {
+      "type": "string",
+      "description": "Page the visitor was on"
+    },
+    "minutesOnSite": {
+      "type": "number",
+      "description": "Minutes spent on site"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the alert has been read"
+    }
+  },
+  "required": [
+    "message"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "name": "EmployeeProfile",
+  "type": "object",
+  "properties": {
+    "userEmail": {
+      "type": "string",
+      "description": "Email of the user this profile belongs to"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "Employee first name for display"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Employee last name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Employee contact email"
+    },
+    "profilePicture": {
+      "type": "string",
+      "description": "URL of the employee's profile picture"
+    },
+    "position": {
+      "type": "string",
+      "description": "Job title/position"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Employment start date"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "emergencyContactName": {
+      "type": "string",
+      "description": "Emergency contact name"
+    },
+    "emergencyContactPhone": {
+      "type": "string",
+      "description": "Emergency contact phone"
+    },
+    "hourlySalary": {
+      "type": "number",
+      "description": "Current hourly wage in USD"
+    },
+    "bio": {
+      "type": "string",
+      "description": "Short bio"
+    },
+    "jobTreadId": {
+      "type": "string",
+      "description": "ID of the employee in JobTread"
+    },
+    "isJobTreadConnected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the employee is connected to JobTread"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "inactive"
+      ],
+      "default": "pending",
+      "description": "Employee status - set to active when invite is accepted"
+    }
+  },
+  "required": [
+    "userEmail",
+    "position"
+  ]
+}

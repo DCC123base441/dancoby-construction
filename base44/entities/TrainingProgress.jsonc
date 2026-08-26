@@ -1,0 +1,38 @@
+{
+  "name": "TrainingProgress",
+  "type": "object",
+  "properties": {
+    "userEmail": {
+      "type": "string",
+      "description": "Email of the employee"
+    },
+    "courseId": {
+      "type": "string",
+      "description": "ID of the training course"
+    },
+    "resourceId": {
+      "type": "string",
+      "description": "ID of the training resource completed"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "in_progress",
+        "completed"
+      ],
+      "default": "not_started",
+      "description": "Progress status"
+    },
+    "completedDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when marked as completed"
+    }
+  },
+  "required": [
+    "userEmail",
+    "courseId",
+    "resourceId"
+  ]
+}

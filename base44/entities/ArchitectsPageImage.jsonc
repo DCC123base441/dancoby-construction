@@ -1,0 +1,31 @@
+{
+  "name": "ArchitectsPageImage",
+  "type": "object",
+  "properties": {
+    "section": {
+      "type": "string",
+      "enum": [
+        "hero",
+        "intro",
+        "commitment",
+        "process_01",
+        "process_02",
+        "process_03",
+        "process_04"
+      ],
+      "description": "Which section of the Architects page this image belongs to"
+    },
+    "imageUrl": {
+      "type": "string",
+      "description": "URL of the image"
+    },
+    "label": {
+      "type": "string",
+      "description": "Friendly label for this image slot"
+    }
+  },
+  "required": [
+    "section",
+    "imageUrl"
+  ]
+}

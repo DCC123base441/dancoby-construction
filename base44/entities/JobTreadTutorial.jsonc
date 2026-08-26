@@ -1,0 +1,41 @@
+{
+  "name": "JobTreadTutorial",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Tutorial title"
+    },
+    "category": {
+      "type": "string",
+      "description": "Tutorial category (e.g. Your Account, CRM, etc.)"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL to the tutorial page on JobTread help desk"
+    },
+    "duration": {
+      "type": "string",
+      "description": "Estimated duration (e.g. '5 min')"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of what the tutorial covers"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order within category"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this tutorial is visible to employees"
+    }
+  },
+  "required": [
+    "title",
+    "category",
+    "url"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "ChatMessage",
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "type": "string",
+      "description": "JobTread job ID this message belongs to"
+    },
+    "jobName": {
+      "type": "string",
+      "description": "Job name for display (cached)"
+    },
+    "senderEmail": {
+      "type": "string",
+      "description": "Email of the message sender"
+    },
+    "senderName": {
+      "type": "string",
+      "description": "Display name of the sender"
+    },
+    "content": {
+      "type": "string",
+      "description": "Message text content"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Attached file URLs"
+    }
+  },
+  "required": [
+    "jobId",
+    "senderEmail",
+    "content"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "PortalNavConfig",
+  "type": "object",
+  "properties": {
+    "configKey": {
+      "type": "string",
+      "description": "Unique config key, e.g. 'employee_mobile_nav'"
+    },
+    "bottomNavOrder": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ordered list of tab IDs for the bottom nav (max 4, 'more' is always last)"
+    },
+    "moreSheetOrder": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ordered list of tab IDs for the 'More' sheet"
+    }
+  },
+  "required": [
+    "configKey"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "portalRole": {
+      "type": "string",
+      "enum": [
+        "customer",
+        "employee",
+        "none"
+      ],
+      "default": "none",
+      "description": "Portal role: customer or employee"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "assignedProjects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of project IDs assigned to this user"
+    },
+    "profileImage": {
+      "type": "string",
+      "description": "Profile image URL"
+    }
+  },
+  "required": [
+    "phone",
+    "assignedProjects",
+    "profileImage"
+  ]
+}

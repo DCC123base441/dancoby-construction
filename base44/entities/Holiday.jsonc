@@ -1,0 +1,53 @@
+{
+  "name": "Holiday",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Holiday name"
+    },
+    "date": {
+      "type": "string",
+      "description": "Display date (e.g. 'Mar 13\u201314', 'Jul 4')"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Actual start date (YYYY-MM-DD) for accurate year tracking"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Actual end date (YYYY-MM-DD), same as startDate for single-day holidays"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "federal",
+        "jewish"
+      ],
+      "default": "federal",
+      "description": "Holiday category"
+    },
+    "tag": {
+      "type": "string",
+      "enum": [
+        "off",
+        "paid",
+        "working"
+      ],
+      "default": "off",
+      "description": "Work status for this holiday"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order (by date)"
+    }
+  },
+  "required": [
+    "name",
+    "tag",
+    "startDate"
+  ]
+}

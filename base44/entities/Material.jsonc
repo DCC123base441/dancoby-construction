@@ -1,0 +1,68 @@
+{
+  "name": "Material",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Material name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Countertops",
+        "Flooring",
+        "Paint",
+        "Fixtures",
+        "Cabinetry",
+        "Backsplash",
+        "Tile",
+        "Hardware"
+      ],
+      "description": "Material category"
+    },
+    "roomType": {
+      "type": "string",
+      "enum": [
+        "Kitchen",
+        "Bathroom",
+        "Bedroom",
+        "Living Room",
+        "Full House"
+      ],
+      "description": "Applicable room type"
+    },
+    "style": {
+      "type": "string",
+      "enum": [
+        "Modern",
+        "Classic",
+        "Contemporary",
+        "Rustic",
+        "Eco-Friendly"
+      ],
+      "description": "Design style"
+    },
+    "costPerUnit": {
+      "type": "number",
+      "description": "Cost per unit (per sqft, per piece, etc)"
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit of measurement (sqft, piece, etc)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Material description"
+    },
+    "imageUrl": {
+      "type": "string",
+      "description": "Swatch or product image URL"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "roomType",
+    "costPerUnit"
+  ]
+}

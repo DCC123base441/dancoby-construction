@@ -1,0 +1,37 @@
+{
+  "name": "ChatBotMessage",
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "The message content"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "engaging",
+        "welcome"
+      ],
+      "default": "engaging",
+      "description": "Legacy category field - mostly used as 'engaging' now"
+    },
+    "targetPage": {
+      "type": "string",
+      "default": "all",
+      "description": "The page path this message should appear on (e.g., 'all', '/', '/Contact')"
+    },
+    "isPageWelcome": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, this message appears 5s after entering the page (once per session)"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this message is currently in use"
+    }
+  },
+  "required": [
+    "content"
+  ]
+}

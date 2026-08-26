@@ -1,0 +1,50 @@
+{
+  "name": "CurrentProject",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Project title (e.g. 'Entire Home')"
+    },
+    "location": {
+      "type": "string",
+      "description": "Project location (e.g. 'Brooklyn, NY')"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the project"
+    },
+    "status": {
+      "type": "number",
+      "description": "Completion percentage (0-100)",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "image": {
+      "type": "string",
+      "description": "Main image URL"
+    },
+    "gallery": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional gallery image URLs"
+    },
+    "featuredOnHome": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show this project on the home page"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Sort order"
+    }
+  },
+  "required": [
+    "title",
+    "status",
+    "image"
+  ]
+}

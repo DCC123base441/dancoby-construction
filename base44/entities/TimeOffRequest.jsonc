@@ -1,0 +1,60 @@
+{
+  "name": "TimeOffRequest",
+  "type": "object",
+  "properties": {
+    "userEmail": {
+      "type": "string",
+      "description": "Email of the requesting employee"
+    },
+    "userName": {
+      "type": "string",
+      "description": "Name of the requesting employee"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "First day off"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Last day off"
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "vacation",
+        "personal",
+        "sick",
+        "family",
+        "other"
+      ],
+      "default": "vacation",
+      "description": "Reason for time off"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "denied"
+      ],
+      "default": "pending",
+      "description": "Request status"
+    },
+    "adminNotes": {
+      "type": "string",
+      "description": "Notes from admin/manager"
+    }
+  },
+  "required": [
+    "userEmail",
+    "startDate",
+    "endDate",
+    "reason"
+  ]
+}

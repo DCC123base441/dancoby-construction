@@ -1,0 +1,76 @@
+{
+  "name": "Estimate",
+  "type": "object",
+  "properties": {
+    "roomType": {
+      "type": "string",
+      "enum": [
+        "Kitchen",
+        "Bathroom",
+        "Bedroom",
+        "Living Room",
+        "Full House"
+      ],
+      "description": "Type of room being renovated"
+    },
+    "userEmail": {
+      "type": "string",
+      "description": "User's email for estimate delivery"
+    },
+    "userName": {
+      "type": "string",
+      "description": "User's name"
+    },
+    "originalImageUrl": {
+      "type": "string",
+      "description": "URL of uploaded original space photo"
+    },
+    "visualizedImageUrl": {
+      "type": "string",
+      "description": "URL of AI-generated after renovation visualization"
+    },
+    "selectedFinishes": {
+      "type": "object",
+      "description": "Selected finishes and materials (JSON object with category keys)"
+    },
+    "estimatedCost": {
+      "type": "object",
+      "properties": {
+        "min": {
+          "type": "number",
+          "description": "Minimum estimated cost"
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum estimated cost"
+        },
+        "breakdown": {
+          "type": "object",
+          "description": "Cost breakdown by category"
+        }
+      }
+    },
+    "squareFootageEstimate": {
+      "type": "number",
+      "description": "AI-estimated square footage from photo"
+    },
+    "generationPrompt": {
+      "type": "string",
+      "description": "AI prompt used for visualization generation"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "completed",
+        "sent"
+      ],
+      "default": "draft",
+      "description": "Estimate status"
+    }
+  },
+  "required": [
+    "roomType",
+    "selectedFinishes"
+  ]
+}

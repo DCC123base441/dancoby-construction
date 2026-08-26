@@ -1,0 +1,57 @@
+{
+  "name": "CompanyNews",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "News headline (English)"
+    },
+    "title_es": {
+      "type": "string",
+      "description": "News headline in Spanish"
+    },
+    "content": {
+      "type": "string",
+      "description": "Full news content in English (supports markdown)"
+    },
+    "content_es": {
+      "type": "string",
+      "description": "Full news content in Spanish (supports markdown)"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "announcement",
+        "update",
+        "milestone",
+        "event",
+        "safety",
+        "other"
+      ],
+      "default": "announcement",
+      "description": "News category"
+    },
+    "pinned": {
+      "type": "boolean",
+      "default": false,
+      "description": "Pin to top of feed"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this news item is visible"
+    },
+    "authorName": {
+      "type": "string",
+      "description": "Who posted this"
+    },
+    "authorEmail": {
+      "type": "string",
+      "description": "Email of the author"
+    }
+  },
+  "required": [
+    "title",
+    "content"
+  ]
+}
